@@ -3,7 +3,6 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
-        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,40 +16,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TXu-Oe-CdC">
-                                <rect key="frame" x="28" y="109" width="54" height="136"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain">
-                                    <imageReference key="image" image="chevron.backward" catalog="system" symbolScale="large"/>
-                                </buttonConfiguration>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5jv-y7-RFA">
-                                <rect key="frame" x="47" y="274" width="144" height="64"/>
+                                <rect key="frame" x="47" y="274" width="144" height="56"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="39"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" restorationIdentifier="CustomTextField1" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Cdy-VQ-kEt" customClass="CustomTextField" customModule="Shopify" customModuleProvider="target">
-                                <rect key="frame" x="47" y="388" width="320" height="74.5"/>
+                                <rect key="frame" x="47" y="380" width="320" height="65"/>
                                 <color key="backgroundColor" systemColor="secondarySystemGroupedBackgroundColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" restorationIdentifier="CustomTextField2" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yi8-RZ-ayL" customClass="CustomTextField" customModule="Shopify" customModuleProvider="target">
-                                <rect key="frame" x="47" y="479.5" width="320" height="74.5"/>
+                                <rect key="frame" x="47" y="462" width="320" height="65"/>
                                 <color key="backgroundColor" systemColor="secondarySystemGroupedBackgroundColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" restorationIdentifier="CustomTextField3" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PvZ-G9-Gt1" customClass="CustomTextField" customModule="Shopify" customModuleProvider="target">
-                                <rect key="frame" x="47" y="570.5" width="320" height="74.5"/>
+                                <rect key="frame" x="47" y="543.5" width="320" height="65"/>
                                 <color key="backgroundColor" systemColor="secondarySystemGroupedBackgroundColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="paG-na-NiF">
-                                <rect key="frame" x="138" y="659" width="229" height="26"/>
+                                <rect key="frame" x="138" y="622.5" width="229" height="22.5"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Already have an account ? " image="arrow.right" catalog="system">
@@ -58,7 +49,7 @@
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vb8-Nc-J6O">
-                                <rect key="frame" x="47" y="708.5" width="320" height="54"/>
+                                <rect key="frame" x="47" y="672" width="320" height="47"/>
                                 <color key="tintColor" red="1" green="0.085469850700000002" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="SIGN UP">
@@ -70,7 +61,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vhx-Bk-ZsW">
-                                <rect key="frame" x="79" y="928.5" width="254" height="35.5"/>
+                                <rect key="frame" x="79" y="803" width="254" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Continue As a Guest">
                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
@@ -82,8 +73,6 @@
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
                             <constraint firstItem="vb8-Nc-J6O" firstAttribute="trailing" secondItem="PvZ-G9-Gt1" secondAttribute="trailing" id="0Dc-A5-SRq"/>
-                            <constraint firstItem="TXu-Oe-CdC" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.0558036" id="3Af-4g-pd4"/>
-                            <constraint firstItem="5jv-y7-RFA" firstAttribute="top" secondItem="TXu-Oe-CdC" secondAttribute="bottom" constant="29" id="3Ic-Hd-uRp"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="5jv-y7-RFA" secondAttribute="trailing" constant="223" id="5Dv-sf-Mup"/>
                             <constraint firstItem="vhx-Bk-ZsW" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.613527" id="6LF-YZ-j8U"/>
                             <constraint firstItem="paG-na-NiF" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.55314" id="91o-ug-PhS"/>
@@ -93,23 +82,19 @@
                             <constraint firstItem="Cdy-VQ-kEt" firstAttribute="top" secondItem="5jv-y7-RFA" secondAttribute="bottom" constant="50" id="9oQ-XB-8T3"/>
                             <constraint firstItem="Yi8-RZ-ayL" firstAttribute="trailing" secondItem="Cdy-VQ-kEt" secondAttribute="trailing" id="Aca-eV-tFv"/>
                             <constraint firstItem="PvZ-G9-Gt1" firstAttribute="trailing" secondItem="Yi8-RZ-ayL" secondAttribute="trailing" id="Cyf-Pf-mcT"/>
-                            <constraint firstItem="TXu-Oe-CdC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="28" id="D98-al-NMU"/>
                             <constraint firstItem="vhx-Bk-ZsW" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.0345982" id="E4K-ly-RPB"/>
                             <constraint firstItem="paG-na-NiF" firstAttribute="trailing" secondItem="PvZ-G9-Gt1" secondAttribute="trailing" id="E6V-1g-FUK"/>
                             <constraint firstItem="paG-na-NiF" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.0251116" id="EYX-yh-Eda"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="vhx-Bk-ZsW" secondAttribute="bottom" constant="28" id="Edw-s0-RDw"/>
                             <constraint firstItem="PvZ-G9-Gt1" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.0725446" id="Jly-JP-H6V"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="TXu-Oe-CdC" secondAttribute="bottom" constant="747" id="KVe-u7-S11"/>
+                            <constraint firstItem="5jv-y7-RFA" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="186" id="Mal-Km-171"/>
                             <constraint firstItem="PvZ-G9-Gt1" firstAttribute="top" secondItem="Yi8-RZ-ayL" secondAttribute="bottom" constant="16.5" id="PPF-8e-NFG"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="vhx-Bk-ZsW" secondAttribute="trailing" constant="81" id="Qv7-jM-m7j"/>
                             <constraint firstItem="5jv-y7-RFA" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.0625" id="R1K-gF-eyg"/>
                             <constraint firstItem="Yi8-RZ-ayL" firstAttribute="top" secondItem="Cdy-VQ-kEt" secondAttribute="bottom" constant="17" id="RNn-s3-1Cw"/>
-                            <constraint firstItem="TXu-Oe-CdC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="21" id="Ssx-Bn-xez"/>
                             <constraint firstItem="PvZ-G9-Gt1" firstAttribute="leading" secondItem="Yi8-RZ-ayL" secondAttribute="leading" id="VJa-jc-mA8"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="TXu-Oe-CdC" secondAttribute="trailing" constant="332" id="bxe-oj-WbG"/>
                             <constraint firstItem="vb8-Nc-J6O" firstAttribute="leading" secondItem="PvZ-G9-Gt1" secondAttribute="leading" id="cbS-Tg-2r1"/>
                             <constraint firstItem="Cdy-VQ-kEt" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.772947" id="dIy-3H-Olx"/>
-                            <constraint firstItem="TXu-Oe-CdC" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.130435" id="dSI-gg-5W0"/>
                             <constraint firstItem="vb8-Nc-J6O" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.772947" id="eMa-Ut-rN3"/>
                             <constraint firstItem="Yi8-RZ-ayL" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.0725446" id="edA-4r-C6x"/>
                             <constraint firstItem="vb8-Nc-J6O" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.0524554" id="g9e-Lz-JHh"/>
@@ -143,33 +128,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UG0-lU-ozU">
-                                <rect key="frame" x="28" y="109" width="54" height="50"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="chevron.backward" catalog="system">
-                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ark-6o-nyR">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Log in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ark-6o-nyR">
                                 <rect key="frame" x="46" y="187" width="144" height="56"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="39"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" restorationIdentifier="CustomTextField" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OPE-rW-ysb" customClass="CustomTextField" customModule="Shopify" customModuleProvider="target">
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" restorationIdentifier="CustomTextField" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OPE-rW-ysb" customClass="CustomTextField" customModule="Shopify" customModuleProvider="target">
                                 <rect key="frame" x="46" y="294" width="320" height="65"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" restorationIdentifier="CustomTextField5" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Alf-15-BzH" customClass="CustomTextField" customModule="Shopify" customModuleProvider="target">
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" restorationIdentifier="CustomTextField5" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Alf-15-BzH" customClass="CustomTextField" customModule="Shopify" customModuleProvider="target">
                                 <rect key="frame" x="46" y="376" width="320" height="65"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fiC-Ab-fo6">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fiC-Ab-fo6">
                                 <rect key="frame" x="46" y="513" width="320" height="47"/>
                                 <color key="tintColor" red="1" green="0.085469850700000002" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
@@ -188,12 +165,7 @@
                         <constraints>
                             <constraint firstItem="Alf-15-BzH" firstAttribute="width" secondItem="O0r-5h-P89" secondAttribute="width" multiplier="0.772947" id="4WN-Re-EAP"/>
                             <constraint firstItem="ark-6o-nyR" firstAttribute="height" secondItem="O0r-5h-P89" secondAttribute="height" multiplier="0.0625" id="4dS-TK-v1C"/>
-                            <constraint firstItem="UG0-lU-ozU" firstAttribute="height" secondItem="O0r-5h-P89" secondAttribute="height" multiplier="0.0558036" id="56I-1i-7tL"/>
-                            <constraint firstItem="UG0-lU-ozU" firstAttribute="leading" secondItem="N8S-AN-0hm" secondAttribute="leading" constant="28" id="Bjc-ev-gsG"/>
-                            <constraint firstItem="UG0-lU-ozU" firstAttribute="top" secondItem="N8S-AN-0hm" secondAttribute="top" constant="21" id="C2U-fL-Hle"/>
-                            <constraint firstItem="UG0-lU-ozU" firstAttribute="width" secondItem="O0r-5h-P89" secondAttribute="width" multiplier="0.130435" id="Dwz-va-kLW"/>
                             <constraint firstItem="Alf-15-BzH" firstAttribute="leading" secondItem="OPE-rW-ysb" secondAttribute="leading" id="Iva-EB-kyS"/>
-                            <constraint firstItem="ark-6o-nyR" firstAttribute="top" secondItem="UG0-lU-ozU" secondAttribute="bottom" constant="28" id="Jok-o2-MQw"/>
                             <constraint firstItem="Alf-15-BzH" firstAttribute="top" secondItem="OPE-rW-ysb" secondAttribute="bottom" constant="17" id="NlF-Ek-Dvb"/>
                             <constraint firstItem="fiC-Ab-fo6" firstAttribute="height" secondItem="O0r-5h-P89" secondAttribute="height" multiplier="0.0524554" id="Nxd-E4-7X9"/>
                             <constraint firstItem="ark-6o-nyR" firstAttribute="leading" secondItem="N8S-AN-0hm" secondAttribute="leading" constant="46" id="OOX-JJ-nea"/>
@@ -201,7 +173,6 @@
                             <constraint firstItem="OPE-rW-ysb" firstAttribute="height" secondItem="O0r-5h-P89" secondAttribute="height" multiplier="0.0725446" id="Vlh-X6-Ud2"/>
                             <constraint firstItem="ark-6o-nyR" firstAttribute="width" secondItem="O0r-5h-P89" secondAttribute="width" multiplier="0.347826" id="Xkh-Zc-d9z"/>
                             <constraint firstItem="fiC-Ab-fo6" firstAttribute="trailing" secondItem="Alf-15-BzH" secondAttribute="trailing" id="YsF-CE-z7r"/>
-                            <constraint firstItem="N8S-AN-0hm" firstAttribute="trailing" secondItem="UG0-lU-ozU" secondAttribute="trailing" constant="332" id="dE1-dF-eIk"/>
                             <constraint firstItem="fiC-Ab-fo6" firstAttribute="leading" secondItem="Alf-15-BzH" secondAttribute="leading" id="dUz-2o-Z8f"/>
                             <constraint firstItem="Alf-15-BzH" firstAttribute="trailing" secondItem="OPE-rW-ysb" secondAttribute="trailing" id="lhS-XA-dyF"/>
                             <constraint firstItem="OPE-rW-ysb" firstAttribute="leading" secondItem="ark-6o-nyR" secondAttribute="leading" id="o9G-eR-iXQ"/>
@@ -275,7 +246,6 @@
     </scenes>
     <resources>
         <image name="arrow.right" catalog="system" width="128" height="98"/>
-        <image name="chevron.backward" catalog="system" width="96" height="128"/>
         <systemColor name="secondarySystemGroupedBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
