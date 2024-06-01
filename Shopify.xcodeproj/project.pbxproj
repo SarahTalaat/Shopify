@@ -49,6 +49,8 @@
 		B69FA1852C09F050009D43B7 /* ShopifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69FA1842C09F050009D43B7 /* ShopifyTests.swift */; };
 		B69FA18F2C09F050009D43B7 /* ShopifyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69FA18E2C09F050009D43B7 /* ShopifyUITests.swift */; };
 		B69FA1912C09F050009D43B7 /* ShopifyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69FA1902C09F050009D43B7 /* ShopifyUITestsLaunchTests.swift */; };
+		B6EBA8D62C0B5CB700EE66B9 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EBA8D52C0B5CB700EE66B9 /* CustomTextField.swift */; };
+		B6EBA8D82C0B5CF600EE66B9 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EBA8D72C0B5CF600EE66B9 /* SignUpVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +119,8 @@
 		B69FA18A2C09F050009D43B7 /* ShopifyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShopifyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B69FA18E2C09F050009D43B7 /* ShopifyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopifyUITests.swift; sourceTree = "<group>"; };
 		B69FA1902C09F050009D43B7 /* ShopifyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopifyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B6EBA8D52C0B5CB700EE66B9 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		B6EBA8D72C0B5CF600EE66B9 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		C1D1F1718A162EA11F816EAB /* Pods-Shopify-ShopifyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shopify-ShopifyUITests.debug.xcconfig"; path = "Target Support Files/Pods-Shopify-ShopifyUITests/Pods-Shopify-ShopifyUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E6C4EF6C66AE81BA1EA5C677 /* Pods-ShopifyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopifyTests.release.xcconfig"; path = "Target Support Files/Pods-ShopifyTests/Pods-ShopifyTests.release.xcconfig"; sourceTree = "<group>"; };
 		EAE25E0A39138D2E1D41FD74 /* Pods-Shopify.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shopify.release.xcconfig"; path = "Target Support Files/Pods-Shopify/Pods-Shopify.release.xcconfig"; sourceTree = "<group>"; };
@@ -177,6 +181,7 @@
 		B6365B7B2C0A181200277D31 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				B6EBA8D22C0B5C8800EE66B9 /* SignUp */,
 				B6365B9B2C0A1B6300277D31 /* Product */,
 				B6365B9A2C0A1B2600277D31 /* Authentication */,
 				B6365B992C0A1B1B00277D31 /* Favourite */,
@@ -577,6 +582,31 @@
 			path = ShopifyUITests;
 			sourceTree = "<group>";
 		};
+		B6EBA8D22C0B5C8800EE66B9 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				B6EBA8D42C0B5C9A00EE66B9 /* ViewModel */,
+				B6EBA8D32C0B5C9400EE66B9 /* View */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		B6EBA8D32C0B5C9400EE66B9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B6EBA8D52C0B5CB700EE66B9 /* CustomTextField.swift */,
+				B6EBA8D72C0B5CF600EE66B9 /* SignUpVC.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B6EBA8D42C0B5C9A00EE66B9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -840,8 +870,10 @@
 				B6365BDD2C0A1D2500277D31 /* test22.swift in Sources */,
 				B6365BCF2C0A1CD500277D31 /* test15.swift in Sources */,
 				B6365BC72C0A1C9C00277D31 /* test11.swift in Sources */,
+				B6EBA8D62C0B5CB700EE66B9 /* CustomTextField.swift in Sources */,
 				B6365BCD2C0A1CCA00277D31 /* test14.swift in Sources */,
 				B6365B892C0A198F00277D31 /* test23.swift in Sources */,
+				B6EBA8D82C0B5CF600EE66B9 /* SignUpVC.swift in Sources */,
 				B6365BC32C0A1C7800277D31 /* test9.swift in Sources */,
 				B6365BB52C0A1C3B00277D31 /* test1.swift in Sources */,
 				B6365BBF2C0A1C6800277D31 /* test7.swift in Sources */,
