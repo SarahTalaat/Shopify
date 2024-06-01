@@ -41,7 +41,7 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         let cell = favouriteTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! FavouritesCustomCell
         
         cell.productPrice.text = "32 $"
-        cell.productSize.text = "L"
+        cell.productSize.text = "Medium"
         cell.productType.text = "Shirt"
         
 
