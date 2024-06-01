@@ -31,15 +31,15 @@ class SignUpVC: UIViewController {
         super.viewDidLayoutSubviews()
         
         // Ensure the button's corners are rounded
-        CustomTextField.buttonRoundedCorner(button: signUpButton)
+        CustomButton.buttonRoundedCorner(button: signUpButton)
     }
     
     func setUpSignUpScreenUI(){
         CustomTextField.customTextFieldUI(customTextField: nameCustomTextField, label: "Name : ")
         CustomTextField.customTextFieldUI(customTextField: emailCustomTextField, label: "Email : ")
         CustomTextField.customTextFieldUI(customTextField: passwordCustomTextField, label: "Password : ")
-        CustomTextField.buttonImageColor(button: alreadySignedInCustomButton)
-        CustomTextField.buttonShadow(button: signUpButton)
+        CustomButton.buttonImageColor(button: alreadySignedInCustomButton)
+        CustomButton.buttonShadow(button: signUpButton)
     }
     
     

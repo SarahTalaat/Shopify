@@ -30,7 +30,7 @@ class SignInVC: UIViewController {
         super.viewDidLayoutSubviews()
         
         // Ensure the button's corners are rounded
-        CustomTextField.buttonRoundedCorner(button: signInButton)
+        CustomButton.buttonRoundedCorner(button: signInButton)
     }
 
     /*
