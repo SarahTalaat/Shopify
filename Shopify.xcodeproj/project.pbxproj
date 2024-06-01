@@ -39,6 +39,7 @@
 		B6365BD92C0A1D0700277D31 /* test20.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6365BD82C0A1D0700277D31 /* test20.swift */; };
 		B6365BDB2C0A1D1C00277D31 /* test21.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6365BDA2C0A1D1C00277D31 /* test21.swift */; };
 		B6365BDD2C0A1D2500277D31 /* test22.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6365BDC2C0A1D2500277D31 /* test22.swift */; };
+		B637B74F2C0B7DA2005EFA7D /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B637B74E2C0B7DA2005EFA7D /* SignInVC.swift */; };
 		B69FA16B2C09F04D009D43B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69FA16A2C09F04D009D43B7 /* AppDelegate.swift */; };
 		B69FA16D2C09F04D009D43B7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69FA16C2C09F04D009D43B7 /* SceneDelegate.swift */; };
 		B69FA16F2C09F04D009D43B7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69FA16E2C09F04D009D43B7 /* ViewController.swift */; };
@@ -105,6 +106,7 @@
 		B6365BD82C0A1D0700277D31 /* test20.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test20.swift; sourceTree = "<group>"; };
 		B6365BDA2C0A1D1C00277D31 /* test21.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test21.swift; sourceTree = "<group>"; };
 		B6365BDC2C0A1D2500277D31 /* test22.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test22.swift; sourceTree = "<group>"; };
+		B637B74E2C0B7DA2005EFA7D /* SignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; };
 		B69FA1672C09F04D009D43B7 /* Shopify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shopify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B69FA16A2C09F04D009D43B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B69FA16C2C09F04D009D43B7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -181,6 +183,8 @@
 		B6365B7B2C0A181200277D31 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				B637B7502C0B8435005EFA7D /* SharedFiles */,
+				B637B74B2C0B7D67005EFA7D /* SignIn */,
 				B6EBA8D22C0B5C8800EE66B9 /* SignUp */,
 				B6365B9B2C0A1B6300277D31 /* Product */,
 				B6365B9A2C0A1B2600277D31 /* Authentication */,
@@ -525,6 +529,38 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		B637B74B2C0B7D67005EFA7D /* SignIn */ = {
+			isa = PBXGroup;
+			children = (
+				B637B74C2C0B7D70005EFA7D /* ViewModel */,
+				B637B74D2C0B7D78005EFA7D /* View */,
+			);
+			path = SignIn;
+			sourceTree = "<group>";
+		};
+		B637B74C2C0B7D70005EFA7D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B637B74D2C0B7D78005EFA7D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B637B74E2C0B7DA2005EFA7D /* SignInVC.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B637B7502C0B8435005EFA7D /* SharedFiles */ = {
+			isa = PBXGroup;
+			children = (
+				B6EBA8D52C0B5CB700EE66B9 /* CustomTextField.swift */,
+			);
+			path = SharedFiles;
+			sourceTree = "<group>";
+		};
 		B69FA15E2C09F04D009D43B7 = {
 			isa = PBXGroup;
 			children = (
@@ -594,7 +630,6 @@
 		B6EBA8D32C0B5C9400EE66B9 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B6EBA8D52C0B5CB700EE66B9 /* CustomTextField.swift */,
 				B6EBA8D72C0B5CF600EE66B9 /* SignUpVC.swift */,
 			);
 			path = View;
@@ -852,6 +887,7 @@
 				B6365BB72C0A1C4300277D31 /* test3.swift in Sources */,
 				B69FA16B2C09F04D009D43B7 /* AppDelegate.swift in Sources */,
 				B6365BD32C0A1CE600277D31 /* test17.swift in Sources */,
+				B637B74F2C0B7DA2005EFA7D /* SignInVC.swift in Sources */,
 				B6365BD52C0A1CF000277D31 /* test18.swift in Sources */,
 				B6365B832C0A18BD00277D31 /* DatabaseManager.swift in Sources */,
 				B6365BB32C0A1C1C00277D31 /* test26.swift in Sources */,

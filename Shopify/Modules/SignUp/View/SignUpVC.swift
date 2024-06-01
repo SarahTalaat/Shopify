@@ -31,48 +31,19 @@ class SignUpVC: UIViewController {
         super.viewDidLayoutSubviews()
         
         // Ensure the button's corners are rounded
-        buttonRoundedCorner(button: signUpButton)
+        CustomTextField.buttonRoundedCorner(button: signUpButton)
     }
     
     func setUpSignUpScreenUI(){
-        customTextFieldUI(customTextField: nameCustomTextField, label: "Name : ")
-        customTextFieldUI(customTextField: emailCustomTextField, label: "Email : ")
-        customTextFieldUI(customTextField: passwordCustomTextField, label: "Password : ")
-        buttonImageColor(button: alreadySignedInCustomButton)
-        buttonShadow(button: signUpButton)
+        CustomTextField.customTextFieldUI(customTextField: nameCustomTextField, label: "Name : ")
+        CustomTextField.customTextFieldUI(customTextField: emailCustomTextField, label: "Email : ")
+        CustomTextField.customTextFieldUI(customTextField: passwordCustomTextField, label: "Password : ")
+        CustomTextField.buttonImageColor(button: alreadySignedInCustomButton)
+        CustomTextField.buttonShadow(button: signUpButton)
     }
     
     
-    func buttonRoundedCorner(button:UIButton){
-        // Make sure the button's corners are rounded
-        button.layer.cornerRadius = 20
-        button.clipsToBounds = true
-    }
-    
-    func buttonShadow(button: UIButton){
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.5
-        button.layer.shadowOffset = CGSize(width: 0, height: 2)
-        button.layer.shadowRadius = 4
-        button.layer.masksToBounds = false
-    }
-    
-    
-    func customTextFieldUI (customTextField : CustomTextField , label: String) {
-        // Set the placeholder text
-        customTextField.placeholder = label
-        // Set the vertical offset for the placeholder
-        customTextField.placeholderVerticalOffset = 5 // Adjust this value as needed
-        customTextField.leftPadding = 5
-        customTextField.layer.cornerRadius = 5
-        customTextField.clipsToBounds = true
-    }
-    
-    func buttonImageColor(button: UIButton){
-        // Set the image rendering mode to alwaysTemplate to use tintColor
-        button.setImage(UIImage(systemName: "arrow.right"), for: .normal)
-        button.tintColor = .red
-    }
+
 
     /*
     // MARK: - Navigation
