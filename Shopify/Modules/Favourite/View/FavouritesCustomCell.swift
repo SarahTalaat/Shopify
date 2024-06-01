@@ -9,9 +9,15 @@ import UIKit
 
 class FavouritesCustomCell: UITableViewCell {
 
+    @IBOutlet var productSize: UILabel!
+    @IBOutlet var productPrice: UILabel!
+    @IBOutlet var productType: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 8
+    
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -19,5 +25,8 @@ class FavouritesCustomCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+
+       
     
 }
