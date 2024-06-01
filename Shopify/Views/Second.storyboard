@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Item-->
+        <!--Category-->
         <scene sceneID="AQO-Qz-iEo">
             <objects>
                 <viewController id="565-VT-EkS" sceneMemberID="viewController">
@@ -20,7 +20,7 @@
                         <viewLayoutGuide key="safeArea" id="O8Z-01-BPo"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="1cD-79-FmJ"/>
+                    <tabBarItem key="tabBarItem" title="Category" image="square.grid.3x3.fill" catalog="system" id="1cD-79-FmJ"/>
                     <navigationItem key="navigationItem" id="SkG-dI-Pwk"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7sC-eg-Aoj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -30,7 +30,7 @@
         <!--Product-->
         <scene sceneID="AeC-Ct-LPA">
             <objects>
-                <viewController id="d8i-wE-fM1" sceneMemberID="viewController">
+                <viewController id="d8i-wE-fM1" customClass="ProductViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="w7G-Z4-eaJ">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -60,6 +60,10 @@
                                         <size key="customSize" width="167" height="167"/>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="d8i-wE-fM1" id="sGC-vR-SfS"/>
+                                    <outlet property="delegate" destination="d8i-wE-fM1" id="E2F-SL-Ymh"/>
+                                </connections>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price: 300" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jfm-yW-50B">
                                 <rect key="frame" x="36" y="126" width="79" height="21"/>
@@ -104,6 +108,9 @@
                             </button>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="nUL-X5-jn8" id="Sxa-vj-9UN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pfG-ys-UUS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -268,7 +275,7 @@
             </objects>
             <point key="canvasLocation" x="1663.3587786259541" y="-27.464788732394368"/>
         </scene>
-        <!--Item-->
+        <!--title-->
         <scene sceneID="O1H-6y-OQO">
             <objects>
                 <viewController id="JgX-LP-WUR" sceneMemberID="viewController">
@@ -278,7 +285,7 @@
                         <viewLayoutGuide key="safeArea" id="a8W-x6-kQ0"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="D43-A3-Id1"/>
+                    <tabBarItem key="tabBarItem" title="title" id="D43-A3-Id1"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G93-SO-RDm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -356,6 +363,7 @@
         <image name="house" catalog="system" width="128" height="104"/>
         <image name="line.3.horizontal.decrease.circle" catalog="system" width="128" height="123"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
+        <image name="square.grid.3x3.fill" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

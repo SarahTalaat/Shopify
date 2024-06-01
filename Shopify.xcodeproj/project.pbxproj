@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		227854402C0A4B6500974093 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2278543F2C0A4B6500974093 /* HomeViewController.swift */; };
+		2294A8792C0B87CB00FAACF8 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2294A8782C0B87CB00FAACF8 /* ProductViewController.swift */; };
+		2294A87C2C0B888300FAACF8 /* ProductsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2294A87A2C0B888300FAACF8 /* ProductsCollectionViewCell.xib */; };
+		2294A87D2C0B888300FAACF8 /* ProductsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2294A87B2C0B888300FAACF8 /* ProductsCollectionViewCell.swift */; };
 		229B39C02C0B426700C81497 /* AdsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229B39BF2C0B426700C81497 /* AdsCollectionViewCell.swift */; };
 		229B39C22C0B42C100C81497 /* BrandsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229B39C12C0B42C100C81497 /* BrandsCollectionViewCell.swift */; };
 		299440442A1E0C33463A3563 /* Pods_Shopify_ShopifyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6253E62D3D89364DD7D571A3 /* Pods_Shopify_ShopifyUITests.framework */; };
@@ -73,6 +76,9 @@
 
 /* Begin PBXFileReference section */
 		2278543F2C0A4B6500974093 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		2294A8782C0B87CB00FAACF8 /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProductViewController.swift; path = Shopify/Views/ProductViewController.swift; sourceTree = SOURCE_ROOT; };
+		2294A87A2C0B888300FAACF8 /* ProductsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ProductsCollectionViewCell.xib; path = Shopify/Views/ProductsCollectionViewCell.xib; sourceTree = SOURCE_ROOT; };
+		2294A87B2C0B888300FAACF8 /* ProductsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProductsCollectionViewCell.swift; path = Shopify/Views/ProductsCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
 		229B39BF2C0B426700C81497 /* AdsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsCollectionViewCell.swift; sourceTree = "<group>"; };
 		229B39C12C0B42C100C81497 /* BrandsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandsCollectionViewCell.swift; sourceTree = "<group>"; };
 		36A9B08B0F994C3A5BCC6481 /* Pods_Shopify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Shopify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -354,6 +360,9 @@
 			isa = PBXGroup;
 			children = (
 				B6365BB42C0A1C3B00277D31 /* test1.swift */,
+				2294A8782C0B87CB00FAACF8 /* ProductViewController.swift */,
+				2294A87A2C0B888300FAACF8 /* ProductsCollectionViewCell.xib */,
+				2294A87B2C0B888300FAACF8 /* ProductsCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -695,6 +704,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2294A87C2C0B888300FAACF8 /* ProductsCollectionViewCell.xib in Resources */,
 				B69FA17A2C09F04F009D43B7 /* LaunchScreen.storyboard in Resources */,
 				B69FA1772C09F04F009D43B7 /* Assets.xcassets in Resources */,
 				B6365B902C0A19F900277D31 /* Third.storyboard in Resources */,
@@ -830,6 +840,7 @@
 				B69FA16F2C09F04D009D43B7 /* ViewController.swift in Sources */,
 				B6365BB72C0A1C4300277D31 /* test3.swift in Sources */,
 				B69FA16B2C09F04D009D43B7 /* AppDelegate.swift in Sources */,
+				2294A8792C0B87CB00FAACF8 /* ProductViewController.swift in Sources */,
 				B6365BD32C0A1CE600277D31 /* test17.swift in Sources */,
 				B6365BD52C0A1CF000277D31 /* test18.swift in Sources */,
 				B6365B832C0A18BD00277D31 /* DatabaseManager.swift in Sources */,
@@ -838,6 +849,7 @@
 				B69FA1752C09F04E009D43B7 /* Shopify.xcdatamodeld in Sources */,
 				B6365B8C2C0A19C000277D31 /* test25.swift in Sources */,
 				229B39C22C0B42C100C81497 /* BrandsCollectionViewCell.swift in Sources */,
+				2294A87D2C0B888300FAACF8 /* ProductsCollectionViewCell.swift in Sources */,
 				B6365BC12C0A1C7100277D31 /* test8.swift in Sources */,
 				B6365BBD2C0A1C6000277D31 /* test6.swift in Sources */,
 				B6365BBB2C0A1C5700277D31 /* test5.swift in Sources */,
