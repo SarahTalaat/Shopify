@@ -139,39 +139,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UG0-lU-ozU">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UG0-lU-ozU">
                                 <rect key="frame" x="28" y="65" width="54" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="chevron.backward" catalog="system">
                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Log in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ark-6o-nyR">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ark-6o-nyR">
                                 <rect key="frame" x="46" y="143" width="144" height="56"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="39"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="CustomTextField" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OPE-rW-ysb" customClass="CustomTextField" customModule="Shopify" customModuleProvider="target">
-                                <rect key="frame" x="47" y="250" width="320" height="65"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" contentMode="scaleToFill" restorationIdentifier="CustomTextField" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OPE-rW-ysb" customClass="CustomTextField" customModule="Shopify" customModuleProvider="target">
+                                <rect key="frame" x="46" y="250" width="320" height="65"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="CustomTextField5" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Alf-15-BzH" customClass="CustomTextField" customModule="Shopify" customModuleProvider="target">
-                                <rect key="frame" x="47" y="332" width="320" height="65"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" contentMode="scaleToFill" restorationIdentifier="CustomTextField5" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Alf-15-BzH" customClass="CustomTextField" customModule="Shopify" customModuleProvider="target">
+                                <rect key="frame" x="46" y="332" width="320" height="65"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fiC-Ab-fo6">
-                                <rect key="frame" x="47" y="506" width="320" height="47"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fiC-Ab-fo6">
+                                <rect key="frame" x="46" y="469" width="320" height="47"/>
                                 <color key="tintColor" red="1" green="0.085469850700000002" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="LOGIN">
@@ -185,6 +180,31 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="N8S-AN-0hm"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
+                        <constraints>
+                            <constraint firstItem="Alf-15-BzH" firstAttribute="width" secondItem="O0r-5h-P89" secondAttribute="width" multiplier="0.772947" id="4WN-Re-EAP"/>
+                            <constraint firstItem="ark-6o-nyR" firstAttribute="height" secondItem="O0r-5h-P89" secondAttribute="height" multiplier="0.0625" id="4dS-TK-v1C"/>
+                            <constraint firstItem="UG0-lU-ozU" firstAttribute="height" secondItem="O0r-5h-P89" secondAttribute="height" multiplier="0.0558036" id="56I-1i-7tL"/>
+                            <constraint firstItem="UG0-lU-ozU" firstAttribute="leading" secondItem="N8S-AN-0hm" secondAttribute="leading" constant="28" id="Bjc-ev-gsG"/>
+                            <constraint firstItem="UG0-lU-ozU" firstAttribute="top" secondItem="N8S-AN-0hm" secondAttribute="top" constant="21" id="C2U-fL-Hle"/>
+                            <constraint firstItem="UG0-lU-ozU" firstAttribute="width" secondItem="O0r-5h-P89" secondAttribute="width" multiplier="0.130435" id="Dwz-va-kLW"/>
+                            <constraint firstItem="Alf-15-BzH" firstAttribute="leading" secondItem="OPE-rW-ysb" secondAttribute="leading" id="Iva-EB-kyS"/>
+                            <constraint firstItem="ark-6o-nyR" firstAttribute="top" secondItem="UG0-lU-ozU" secondAttribute="bottom" constant="28" id="Jok-o2-MQw"/>
+                            <constraint firstItem="Alf-15-BzH" firstAttribute="top" secondItem="OPE-rW-ysb" secondAttribute="bottom" constant="17" id="NlF-Ek-Dvb"/>
+                            <constraint firstItem="fiC-Ab-fo6" firstAttribute="height" secondItem="O0r-5h-P89" secondAttribute="height" multiplier="0.0524554" id="Nxd-E4-7X9"/>
+                            <constraint firstItem="ark-6o-nyR" firstAttribute="leading" secondItem="N8S-AN-0hm" secondAttribute="leading" constant="46" id="OOX-JJ-nea"/>
+                            <constraint firstItem="OPE-rW-ysb" firstAttribute="top" secondItem="ark-6o-nyR" secondAttribute="bottom" constant="51" id="Q2I-UR-MYW"/>
+                            <constraint firstItem="OPE-rW-ysb" firstAttribute="height" secondItem="O0r-5h-P89" secondAttribute="height" multiplier="0.0725446" id="Vlh-X6-Ud2"/>
+                            <constraint firstItem="ark-6o-nyR" firstAttribute="width" secondItem="O0r-5h-P89" secondAttribute="width" multiplier="0.347826" id="Xkh-Zc-d9z"/>
+                            <constraint firstItem="fiC-Ab-fo6" firstAttribute="trailing" secondItem="Alf-15-BzH" secondAttribute="trailing" id="YsF-CE-z7r"/>
+                            <constraint firstItem="N8S-AN-0hm" firstAttribute="trailing" secondItem="UG0-lU-ozU" secondAttribute="trailing" constant="332" id="dE1-dF-eIk"/>
+                            <constraint firstItem="fiC-Ab-fo6" firstAttribute="leading" secondItem="Alf-15-BzH" secondAttribute="leading" id="dUz-2o-Z8f"/>
+                            <constraint firstItem="Alf-15-BzH" firstAttribute="trailing" secondItem="OPE-rW-ysb" secondAttribute="trailing" id="lhS-XA-dyF"/>
+                            <constraint firstItem="OPE-rW-ysb" firstAttribute="leading" secondItem="ark-6o-nyR" secondAttribute="leading" id="o9G-eR-iXQ"/>
+                            <constraint firstItem="Alf-15-BzH" firstAttribute="height" secondItem="O0r-5h-P89" secondAttribute="height" multiplier="0.0725446" id="piU-Lq-SBQ"/>
+                            <constraint firstItem="OPE-rW-ysb" firstAttribute="width" secondItem="O0r-5h-P89" secondAttribute="width" multiplier="0.772947" id="uh0-88-bBm"/>
+                            <constraint firstItem="fiC-Ab-fo6" firstAttribute="width" secondItem="O0r-5h-P89" secondAttribute="width" multiplier="0.772947" id="vnj-3q-4dS"/>
+                            <constraint firstItem="fiC-Ab-fo6" firstAttribute="top" secondItem="Alf-15-BzH" secondAttribute="bottom" constant="72" id="ycG-jn-2WV"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="emailCustomTextField" destination="OPE-rW-ysb" id="xAb-4r-oKj"/>
