@@ -31,6 +31,14 @@ class CustomButton: UIButton {
         button.tintColor = .red
     }
     
+    static func setupButton(_ button: UIButton) {
+        guard let titleLabel = button.titleLabel else { return }
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.minimumScaleFactor = 0.5
+        titleLabel.numberOfLines = 1
+        titleLabel.lineBreakMode = .byClipping // Avoids truncating the text with dots
+    }
+    
 
 
 }

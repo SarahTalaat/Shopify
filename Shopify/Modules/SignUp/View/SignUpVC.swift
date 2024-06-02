@@ -40,8 +40,10 @@ class SignUpVC: UIViewController {
         CustomTextField.customTextFieldUI(customTextField: passwordCustomTextField, label: "Password : ")
         CustomButton.buttonImageColor(button: alreadySignedInCustomButton)
         CustomButton.buttonShadow(button: signUpButton)
+        CustomButton.setupButton(alreadySignedInCustomButton)
     }
     
+
     
 
 
