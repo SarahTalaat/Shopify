@@ -10,14 +10,44 @@ import UIKit
 class CustomButton: UIButton {
 
 
-
-    static func buttonRoundedCorner(button:UIButton){
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupButton()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupButton()
+    }
+//    static func buttonRoundedCorner(button:UIButton){
+//        // Make sure the button's corners are rounded
+//        button.layer.cornerRadius = 20
+//        button.clipsToBounds = true
+//
+//    }
+//
+//    static func buttonShadow(button: UIButton){
+//        button.layer.shadowColor = UIColor.black.cgColor
+//        button.layer.shadowOpacity = 0.5
+//        button.layer.shadowOffset = CGSize(width: 0, height: 2)
+//        button.layer.shadowRadius = 4
+//        button.layer.masksToBounds = false
+//    }
+    
+    
+    func setupButton(){
+        CustomButton.buttonRoundedCorner(button: self)
+        CustomButton.buttonShadow(button: self)
+    }
+    
+    static func buttonRoundedCorner(button: UIButton) {
         // Make sure the button's corners are rounded
-        button.layer.cornerRadius = 20
+        let cornerRadius: CGFloat = min(button.bounds.height, button.bounds.width) / 10
+        button.layer.cornerRadius = cornerRadius
         button.clipsToBounds = true
     }
     
-    static func buttonShadow(button: UIButton){
+    static func buttonShadow(button: UIButton) {
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowOpacity = 0.5
         button.layer.shadowOffset = CGSize(width: 0, height: 2)
@@ -31,7 +61,7 @@ class CustomButton: UIButton {
         button.tintColor = .red
     }
     
-    static func setupButton(_ button: UIButton) {
+    static func setupButtonTitle(_ button: UIButton) {
         guard let titleLabel = button.titleLabel else { return }
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.minimumScaleFactor = 0.5
