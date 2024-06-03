@@ -13,15 +13,15 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var brandsCollectionView: UICollectionView!
     
     @IBAction func favBtn(_ sender: UIBarButtonItem) {
-//        let storyboard = UIStoryboard(name: "Second", bundle: nil)
-//                 let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductViewController") as! ProductViewController
-//                 navigationController?.pushViewController(brandsViewController, animated: true)
+        //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        //                 let brandsViewController = storyboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
+        //                 navigationController?.pushViewController(brandsViewController, animated: true)
     }
     
     
     @IBAction func cartBtn(_ sender: UIBarButtonItem) {
-//        let storyboard = UIStoryboard(name: "Second", bundle: nil)
-//                 let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductViewController") as! ProductViewController
+//        let storyboard = UIStoryboard(name: "Third", bundle: nil)
+//                 let brandsViewController = storyboard.instantiateViewController(withIdentifier: "CartViewController") as! CartViewController
 //                 navigationController?.pushViewController(brandsViewController, animated: true)
     }
     

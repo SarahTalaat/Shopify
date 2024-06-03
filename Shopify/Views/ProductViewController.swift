@@ -113,6 +113,11 @@ extension ProductViewController : UICollectionViewDelegate,UICollectionViewDataS
         cell.productNameLabel.text = "Black Dress"
         return cell
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                     let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsViewController") as! ProductDetailsViewController
+//                     navigationController?.pushViewController(brandsViewController, animated: true)
+      }
     
     
     

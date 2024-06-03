@@ -11,6 +11,8 @@ class OrderDetailsCell: UICollectionViewCell {
     
     @IBOutlet weak var orderImage: UIImageView!
     
+    @IBOutlet weak var productName: UILabel!
+    
     @IBOutlet weak var orderBrand: UILabel!
     
     @IBOutlet weak var numOfUnit: UILabel!

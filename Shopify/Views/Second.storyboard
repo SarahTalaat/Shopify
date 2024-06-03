@@ -13,7 +13,7 @@
         <!--Category-->
         <scene sceneID="AQO-Qz-iEo">
             <objects>
-                <viewController id="565-VT-EkS" customClass="CategoryViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CategoryViewController" id="565-VT-EkS" customClass="CategoryViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xDM-Ho-4DP">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -28,21 +28,33 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="87.666666666666671" height="34.333333333333336"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Women"/>
+                                                <connections>
+                                                    <action selector="womenBtn:" destination="565-VT-EkS" eventType="touchUpInside" id="UlX-Hs-XsD"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VQM-Gu-Tya">
                                                 <rect key="frame" x="90.666666666666657" y="0.0" width="87.666666666666657" height="34.333333333333336"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Men"/>
+                                                <connections>
+                                                    <action selector="MenBtn:" destination="565-VT-EkS" eventType="touchUpInside" id="q7L-CO-lRk"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n13-BD-SVM">
                                                 <rect key="frame" x="181.33333333333334" y="0.0" width="87.666666666666657" height="34.333333333333336"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Children"/>
+                                                <connections>
+                                                    <action selector="childrenBtn:" destination="565-VT-EkS" eventType="touchUpInside" id="DTE-OL-XmW"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hbq-aU-CnG">
                                                 <rect key="frame" x="272" y="0.0" width="87.666666666666686" height="34.333333333333336"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Sale"/>
+                                                <connections>
+                                                    <action selector="saleBtn:" destination="565-VT-EkS" eventType="touchUpInside" id="N05-Zb-NMs"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -248,6 +260,9 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="magnifyingglass" catalog="system"/>
                             </button>
+                            <connections>
+                                <action selector="searchBtn:" destination="565-VT-EkS" id="JB1-NK-79r"/>
+                            </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem style="plain" id="qyY-IA-WMZ">
@@ -258,6 +273,9 @@
                                     <state key="normal" title="Button"/>
                                     <buttonConfiguration key="configuration" style="plain" image="heart.fill" catalog="system"/>
                                 </button>
+                                <connections>
+                                    <action selector="favBtn:" destination="565-VT-EkS" id="ebK-m0-MAI"/>
+                                </connections>
                             </barButtonItem>
                             <barButtonItem style="plain" id="QvP-e4-IsR">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="zgb-lX-5Xa">
@@ -267,6 +285,9 @@
                                     <state key="normal" title="Button"/>
                                     <buttonConfiguration key="configuration" style="plain" image="cart.fill" catalog="system"/>
                                 </button>
+                                <connections>
+                                    <action selector="cartBtn:" destination="565-VT-EkS" id="NWa-zH-1iu"/>
+                                </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
@@ -593,7 +614,7 @@
         <!--Profile-->
         <scene sceneID="O1H-6y-OQO">
             <objects>
-                <viewController id="JgX-LP-WUR" customClass="ProfileViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileViewController" id="JgX-LP-WUR" customClass="ProfileViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="C0Y-cD-FXV">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -870,9 +891,13 @@
                     </navigationItem>
                     <connections>
                         <outlet property="gmailLabel" destination="dYr-VO-HoT" id="ZtH-ZO-dGs"/>
+                        <outlet property="login" destination="LLN-Js-QQf" id="SsF-mN-OxX"/>
+                        <outlet property="ordersCollectionView" destination="shB-cC-cmm" id="Ck6-DA-zZb"/>
                         <outlet property="ordersLabel" destination="XfV-aU-1NN" id="6jY-Wk-GcL"/>
+                        <outlet property="register" destination="xEC-Pu-Vul" id="1PP-Bm-Xtt"/>
                         <outlet property="usernameLabel" destination="ZAO-1a-ZGq" id="tZV-za-Qnk"/>
                         <outlet property="welcomeLabel" destination="aZS-9J-q3O" id="apP-Gh-31B"/>
+                        <outlet property="wishlistCollectionView" destination="5EK-z3-4w8" id="UGn-nJ-Bdf"/>
                         <outlet property="wishlistLabel" destination="wLf-Cg-uLX" id="ny3-5y-8Aw"/>
                     </connections>
                 </viewController>
@@ -880,22 +905,22 @@
             </objects>
             <point key="canvasLocation" x="1663.3587786259541" y="682.3943661971831"/>
         </scene>
-        <!--Orders View Controller-->
+        <!--Orders-->
         <scene sceneID="Mq4-Eq-t0B">
             <objects>
-                <viewController id="1ot-dG-ZP6" customClass="OrdersViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OrdersViewController" id="1ot-dG-ZP6" customClass="OrdersViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="AxF-1g-h3O">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Orders" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dbn-di-dDD">
-                                <rect key="frame" x="16" y="115" width="160" height="41"/>
+                                <rect key="frame" x="16" y="119" width="160" height="41"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="34"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xrv-03-3Sl">
-                                <rect key="frame" x="16" y="176" width="361" height="590"/>
+                                <rect key="frame" x="16" y="180" width="361" height="586"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="yFq-nI-j2e">
                                     <size key="itemSize" width="361" height="86"/>
@@ -947,7 +972,7 @@
                         <viewLayoutGuide key="safeArea" id="rUf-Kv-jes"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Dbn-di-dDD" firstAttribute="top" secondItem="rUf-Kv-jes" secondAttribute="top" constant="56" id="02q-bp-o3T"/>
+                            <constraint firstItem="Dbn-di-dDD" firstAttribute="top" secondItem="rUf-Kv-jes" secondAttribute="top" constant="16" id="02q-bp-o3T"/>
                             <constraint firstItem="xrv-03-3Sl" firstAttribute="top" secondItem="Dbn-di-dDD" secondAttribute="bottom" constant="20" id="1RR-Q7-yQK"/>
                             <constraint firstItem="rUf-Kv-jes" firstAttribute="bottom" secondItem="xrv-03-3Sl" secondAttribute="bottom" constant="52" id="EZv-Jb-EUs"/>
                             <constraint firstItem="xrv-03-3Sl" firstAttribute="leading" secondItem="rUf-Kv-jes" secondAttribute="leading" constant="16" id="RsO-au-Wtb"/>
@@ -955,15 +980,19 @@
                             <constraint firstItem="Dbn-di-dDD" firstAttribute="leading" secondItem="rUf-Kv-jes" secondAttribute="leading" constant="16" id="osx-0m-nDJ"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Orders" id="XDL-EF-NuE"/>
+                    <connections>
+                        <outlet property="ordersCollectionView" destination="xrv-03-3Sl" id="eXl-rm-Gge"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eHq-lt-yd6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2324.4274809160306" y="682.3943661971831"/>
+            <point key="canvasLocation" x="3251.1450381679388" y="682.3943661971831"/>
         </scene>
         <!--Order Details View Controller-->
         <scene sceneID="U9Y-CE-Kez">
             <objects>
-                <viewController id="Vc4-vy-4bn" customClass="OrderDetailsViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OrderDetailsViewController" id="Vc4-vy-4bn" customClass="OrderDetailsViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bnT-Im-cKh">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1052,6 +1081,7 @@
                                             <outlet property="numOfUnit" destination="DM3-e3-sxR" id="3YD-au-L8u"/>
                                             <outlet property="orderBrand" destination="Zmg-I3-Kvv" id="Ag1-dh-myv"/>
                                             <outlet property="orderImage" destination="pmU-GD-O3X" id="Rc0-JM-YYG"/>
+                                            <outlet property="productName" destination="Val-uL-AwV" id="6uz-9f-HJ7"/>
                                             <outlet property="unitColor" destination="fsY-AI-TsU" id="5or-cv-as4"/>
                                             <outlet property="unitPrice" destination="AHx-sR-r8j" id="7XH-vS-TGF"/>
                                             <outlet property="unitSize" destination="UeP-0I-aMb" id="MJr-o6-Zov"/>
@@ -1073,10 +1103,13 @@
                             <constraint firstItem="4bF-cq-9R3" firstAttribute="bottom" secondItem="A4G-n3-jNE" secondAttribute="bottom" constant="32" id="rAT-KV-oE7"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="collectionView" destination="A4G-n3-jNE" id="gbq-cX-rh6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aQG-R7-1B3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2983.969465648855" y="681.69014084507046"/>
+            <point key="canvasLocation" x="3910.6870229007632" y="681.69014084507046"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="3Db-Nz-mzg">
@@ -1177,6 +1210,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4q2-xT-gGQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="736.64122137404581" y="682.3943661971831"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="RF0-Ca-e5h">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dgv-CW-MGU" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="EiL-gs-gyI">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="1ot-dG-ZP6" kind="relationship" relationship="rootViewController" id="miJ-8y-PvG"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fNH-3r-jI9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2324.4274809160306" y="682.3943661971831"/>
         </scene>
     </scenes>
     <resources>

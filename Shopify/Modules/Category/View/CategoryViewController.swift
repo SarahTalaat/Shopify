@@ -10,14 +10,42 @@ import UIKit
 class CategoryViewController: UIViewController {
 
     @IBOutlet weak var shoesBtn: UIButton!
-    
     @IBOutlet weak var bagsBtn: UIButton!
-    
     @IBOutlet weak var clothBtn: UIButton!
     @IBOutlet weak var allBtn: UIButton!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var search: UITextField!
+    @IBAction func cartBtn(_ sender: UIBarButtonItem) {
+        //        let storyboard = UIStoryboard(name: "Second", bundle: nil)
+        //                 let brandsViewController = storyboard.instantiateViewController(withIdentifier: "CartViewController") as! CartViewController
+        //                 navigationController?.pushViewController(brandsViewController, animated: true)
+    }
     
     
+    @IBAction func favBtn(_ sender: UIBarButtonItem) {
+        //        let storyboard = UIStoryboard(name: "Second", bundle: nil)
+        //                 let brandsViewController = storyboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
+        //                 navigationController?.pushViewController(brandsViewController, animated: true)
+    }
+    
+    @IBAction func searchBtn(_ sender: UIBarButtonItem) {
+
+    }
+    
+    @IBAction func womenBtn(_ sender: UIButton) {
+    }
+    
+    @IBAction func MenBtn(_ sender: UIButton) {
+    }
+    
+    @IBAction func childrenBtn(_ sender: UIButton) {
+    }
+    
+    @IBAction func saleBtn(_ sender: UIButton) {
+    }
+    
+    @IBAction func searchTextField(_ sender: UITextField) {
+    }
     var shoesButtonCenter: CGPoint!
     var bagsButtonCenter: CGPoint!
     var clothButtonCenter: CGPoint!
@@ -45,6 +73,7 @@ class CategoryViewController: UIViewController {
     }
     
 
+    //Setting FAB Button
     @IBAction func didClickMoreButton(_ sender: UIButton) {
         if isButtonMenuOpen {UIView.animate(withDuration: 0.3) {
             self.shoesBtn.center = self.allBtn.center
@@ -90,6 +119,12 @@ extension CategoryViewController : UICollectionViewDelegate,UICollectionViewData
         cell.productName.text = "Black Dress"
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                     let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsViewController") as! ProductDetailsViewController
+//                     navigationController?.pushViewController(brandsViewController, animated: true)
+      }
 }
     
 
