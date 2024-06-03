@@ -23,6 +23,7 @@ class CurrencyViewController: UIViewController {
         EGPView.layer.shadowColor = UIColor.black.cgColor
         EGPView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
         EGPView.layer.shadowOpacity = 0.5
+        print("gfjhds")
     }
     
     @IBOutlet weak var USDView: UIView!
