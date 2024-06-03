@@ -9,6 +9,34 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
+    @IBOutlet weak var welcomeLabel: UILabel!
+    
+    @IBOutlet weak var usernameLabel: UILabel!
+    
+    @IBOutlet weak var gmailLabel: UILabel!
+    @IBOutlet weak var ordersLabel: UILabel!
+    
+    @IBOutlet weak var wishlistLabel: UILabel!
+    
+    @IBAction func ordersBtn(_ sender: UIButton) {
+    }
+    
+    
+    @IBAction func wishlistBtn(_ sender: Any) {
+    }
+    
+    @IBAction func loginBtn(_ sender: UIButton) {
+    }
+    
+    @IBAction func registerBtn(_ sender: UIButton) {
+    }
+    
+    @IBAction func settingsBtn(_ sender: UIButton) {
+    }
+    
+    @IBAction func cartBtn(_ sender: UIButton) {
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

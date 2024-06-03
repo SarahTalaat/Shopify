@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		220FFA6D2C0D5D70001606AF /* OrderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220FFA6C2C0D5D70001606AF /* OrderCollectionViewCell.swift */; };
+		220FFA6F2C0D5DD3001606AF /* WishlistCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220FFA6E2C0D5DD3001606AF /* WishlistCollectionViewCell.swift */; };
 		227854402C0A4B6500974093 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2278543F2C0A4B6500974093 /* HomeViewController.swift */; };
 		22934A182C0C278B001B79E4 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22934A172C0C278B001B79E4 /* CategoryViewController.swift */; };
 		22934A1A2C0C27FF001B79E4 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22934A192C0C27FF001B79E4 /* CategoryCollectionViewCell.swift */; };
@@ -78,6 +80,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		220FFA6C2C0D5D70001606AF /* OrderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCollectionViewCell.swift; sourceTree = "<group>"; };
+		220FFA6E2C0D5DD3001606AF /* WishlistCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistCollectionViewCell.swift; sourceTree = "<group>"; };
 		2278543F2C0A4B6500974093 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		22934A172C0C278B001B79E4 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		22934A192C0C27FF001B79E4 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -208,6 +212,8 @@
 				B6365B912C0A1A7800277D31 /* Home */,
 				B6365B882C0A198F00277D31 /* test23.swift */,
 				22934A1B2C0C30AD001B79E4 /* ProfileViewController.swift */,
+				220FFA6C2C0D5D70001606AF /* OrderCollectionViewCell.swift */,
+				220FFA6E2C0D5DD3001606AF /* WishlistCollectionViewCell.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -857,11 +863,13 @@
 				B6365BC52C0A1C8D00277D31 /* test10.swift in Sources */,
 				B69FA1752C09F04E009D43B7 /* Shopify.xcdatamodeld in Sources */,
 				22934A1A2C0C27FF001B79E4 /* CategoryCollectionViewCell.swift in Sources */,
+				220FFA6D2C0D5D70001606AF /* OrderCollectionViewCell.swift in Sources */,
 				B6365B8C2C0A19C000277D31 /* test25.swift in Sources */,
 				229B39C22C0B42C100C81497 /* BrandsCollectionViewCell.swift in Sources */,
 				2294A87D2C0B888300FAACF8 /* ProductsCollectionViewCell.swift in Sources */,
 				B6365BC12C0A1C7100277D31 /* test8.swift in Sources */,
 				B6365BBD2C0A1C6000277D31 /* test6.swift in Sources */,
+				220FFA6F2C0D5DD3001606AF /* WishlistCollectionViewCell.swift in Sources */,
 				B6365BBB2C0A1C5700277D31 /* test5.swift in Sources */,
 				B6365BDB2C0A1D1C00277D31 /* test21.swift in Sources */,
 				B6365BD92C0A1D0700277D31 /* test20.swift in Sources */,
