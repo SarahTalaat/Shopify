@@ -114,9 +114,9 @@ extension ProductViewController : UICollectionViewDelegate,UICollectionViewDataS
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//                     let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsViewController") as! ProductDetailsViewController
-//                     navigationController?.pushViewController(brandsViewController, animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
+        navigationController?.pushViewController(brandsViewController, animated: true)
       }
     
     
