@@ -8,13 +8,22 @@
 import UIKit
 import CoreData
 
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Customize the back button globally
+        let backButtonAppearance = UIBarButtonItem.appearance()
+        backButtonAppearance.setTitleTextAttributes([.foregroundColor: UIColor.clear], for: .normal)
+        backButtonAppearance.setTitleTextAttributes([.foregroundColor: UIColor.clear], for: .highlighted)
+
+        // Set the back button arrow color globally
+        UINavigationBar.appearance().tintColor = .black
         return true
     }
 
