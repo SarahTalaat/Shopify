@@ -8,14 +8,83 @@
 import UIKit
 
 class ProductViewController: UIViewController {
+    
 
     @IBOutlet weak var collectionView: UICollectionView!
+    
+    @IBAction func backBtn(_ sender: UIButton) {
+//        let storyboard = UIStoryboard(name: "Second", bundle: nil)
+//        let homeScreen = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+//        navigationController?.pushViewController(homeScreen, animated: true)
+    }
+    
+    @IBAction func filterBtn(_ sender: UIBarButtonItem) {
+    }
+    
+    
+    @IBOutlet weak var searchTextField: UITextField!
+    
+    @IBOutlet weak var priceLabel: UILabel!
+    
+    @IBAction func priceBar(_ sender: Any) {
+    }
+    
+
+    @IBOutlet weak var sizeMenu: UIButton!
+    
+    @IBOutlet weak var colorMenu: UIButton!
+    
+    let colorList = ["Black", "White", "Red", "Blue", "Green", "Brown"]
+    let sizeList = ["XS", "S", "M", "L", "XL"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let nibCell = UINib(nibName: "ProductsCollectionViewCell", bundle: nil)
         collectionView.register(nibCell, forCellWithReuseIdentifier: "ProductsCollectionViewCell")
+        
+        collectionView.collectionViewLayout = brandsCollectionViewLayout()
+        
+        
+        let actionClosure = { (action: UIAction) in
+            print(action.title)
+        }
+
+        //Color Menu
+        var menuColors: [UIMenuElement] = []
+        for fruit in colorList {
+            menuColors.append(UIAction(title: fruit, handler: actionClosure))
+        }
+        colorMenu.menu = UIMenu(options: .displayInline, children: menuColors)
+        colorMenu.showsMenuAsPrimaryAction = true
+        colorMenu.changesSelectionAsPrimaryAction = true
+        
+        //Size Menu
+        var menusizes: [UIMenuElement] = []
+        for fruit in sizeList {
+            menusizes.append(UIAction(title: fruit, handler: actionClosure))
+        }
+        sizeMenu.menu = UIMenu(options: .displayInline, children: menusizes)
+        sizeMenu.showsMenuAsPrimaryAction = true
+        sizeMenu.changesSelectionAsPrimaryAction = true
+
     }
     
+    
+    func brandsCollectionViewLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                                  heightDimension: .fractionalHeight(1.0))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                   heightDimension: .absolute(200))
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+            let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = 10
+            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+            return section
+        }
+    }
+
 
     /*
     // MARK: - Navigation
@@ -44,6 +113,8 @@ extension ProductViewController : UICollectionViewDelegate,UICollectionViewDataS
         cell.productNameLabel.text = "Black Dress"
         return cell
     }
+    
+    
     
     
 }
