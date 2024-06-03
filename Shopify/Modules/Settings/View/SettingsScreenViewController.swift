@@ -21,7 +21,7 @@ class SettingsScreenViewController: UIViewController {
     }
     
     @IBAction func currencyBtn(_ sender: UIButton) {
-        let currencyVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "currencyViewController") as! AddressViewController
+        let currencyVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "currencyViewController") as! CurrencyViewController
      
         navigationController?.pushViewController(currencyVC, animated: true)
     }
@@ -30,12 +30,12 @@ class SettingsScreenViewController: UIViewController {
    
     
     @IBAction func contacBtn(_ sender: UIButton) {
-        let contactUsVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "contactViewController") as! AddressViewController
+        let contactUsVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "contactViewController") as! ContactUsViewController
 
         navigationController?.pushViewController(contactUsVC, animated: true)
     }
     @IBAction func aboutBtn(_ sender: UIButton) {
-        let aboutUsVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "aboutUsViewController") as! AddressViewController
+        let aboutUsVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "aboutUsViewController") as! AboutUsViewController
      
         navigationController?.pushViewController(aboutUsVC, animated: true)
     }
