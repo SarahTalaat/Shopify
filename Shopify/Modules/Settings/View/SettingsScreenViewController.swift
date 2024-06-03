@@ -12,42 +12,42 @@ class SettingsScreenViewController: UIViewController {
     @IBOutlet weak var addressView: UIView!
     @IBOutlet weak var currentAddress: UILabel!
 
-    
+  //  var sharedMethods: SharedMethods?
    
     @IBAction func addressBtn(_ sender: UIButton) {
-         let addressVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "addressViewController") as? AddressViewController
+         let addressVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "addressViewController") as! AddressViewController
       
-        addressVC!.modalPresentationStyle = .fullScreen
-        present(addressVC!, animated: true, completion: nil)
+        navigationController?.pushViewController(addressVC, animated: true)
     }
     
     @IBAction func currencyBtn(_ sender: UIButton) {
-        let currencyVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "currencyViewController") as? AddressViewController
+        let currencyVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "currencyViewController") as! CurrencyViewController
      
-        currencyVC!.modalPresentationStyle = .fullScreen
-       present(currencyVC!, animated: true, completion: nil)
+        navigationController?.pushViewController(currencyVC, animated: true)
     }
     @IBOutlet weak var currencyView: UIView!
     @IBOutlet weak var currentCurrency: UILabel!
    
     
     @IBAction func contacBtn(_ sender: UIButton) {
-        let contactUsVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "contactViewController") as? AddressViewController
-     
-        contactUsVC!.modalPresentationStyle = .fullScreen
-       present(contactUsVC!, animated: true, completion: nil)
+        let contactUsVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "contactViewController") as! ContactUsViewController
+
+        navigationController?.pushViewController(contactUsVC, animated: true)
     }
     @IBAction func aboutBtn(_ sender: UIButton) {
-        let aboutUsVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "aboutUsViewController") as? AddressViewController
+        let aboutUsVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "aboutUsViewController") as! AboutUsViewController
      
-        aboutUsVC!.modalPresentationStyle = .fullScreen
-       present(aboutUsVC!, animated: true, completion: nil)
+        navigationController?.pushViewController(aboutUsVC, animated: true)
     }
     @IBOutlet weak var contactView: UIView!
     
     @IBOutlet weak var aboutView: UIView!
     
     @IBAction func logoutBtn(_ sender: UIButton) {
+        
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let signUpVC = sb.instantiateViewController(withIdentifier: "SignUpVC")
+        navigationController?.pushViewController(signUpVC, animated: true)
     }
    
     
@@ -81,6 +81,8 @@ class SettingsScreenViewController: UIViewController {
         
         print("test settings")
         print("test settings")
+        
+
     }
     
 

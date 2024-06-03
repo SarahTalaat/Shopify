@@ -27,6 +27,34 @@ class SignUpVC: UIViewController {
     }
     
     
+    @IBAction func alreadyHaveAnAccountButtonTapped(_ sender: UIButton) {
+        navToSignIn()
+        
+    }
+    @IBAction func signUpButton(_ sender: UIButton) {
+        
+        navToSignIn()
+        
+    }
+    @IBAction func continueAsAGuestButtonTapped(_ sender: UIButton) {
+        
+        navToHome()
+    }
+    
+    func navToHome(){
+        let storyboard = UIStoryboard(name: "Second", bundle: nil)
+        if let tabBarController = storyboard.instantiateViewController(withIdentifier: "tabbar") as? UITabBarController {
+            // If you want to set it as the root view controller
+            UIApplication.shared.windows.first?.rootViewController = tabBarController
+        }
+    }
+    
+    func navToSignIn(){
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let signInVC = sb.instantiateViewController(withIdentifier: "SignInVC") as! SignInVC
+        navigationController?.pushViewController(signInVC, animated: true)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         

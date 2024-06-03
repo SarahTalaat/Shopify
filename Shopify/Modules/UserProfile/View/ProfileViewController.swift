@@ -19,6 +19,8 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var login: UIButton!
     @IBOutlet weak var register: UIButton!
     
+    var sharedMethods: SharedMethods?
+    
     @IBAction func ordersBtn(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Second", bundle: nil)
                  let orders = storyboard.instantiateViewController(withIdentifier: "OrdersViewController") as! OrdersViewController
@@ -27,9 +29,9 @@ class ProfileViewController: UIViewController {
     
     
     @IBAction func wishlistBtn(_ sender: Any) {
-        //        let storyboard = UIStoryboard(name: "Second", bundle: nil)
-        //                 let brandsViewController = storyboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
-        //                 navigationController?.pushViewController(brandsViewController, animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let favouriteVC = storyboard.instantiateViewController(withIdentifier: "FavouriteVC") as! FavouriteVC
+        navigationController?.pushViewController(favouriteVC, animated: true)
     }
     
     @IBAction func loginBtn(_ sender: UIButton) {
@@ -55,7 +57,18 @@ class ProfileViewController: UIViewController {
         ordersCollectionView.collectionViewLayout = ordersCollectionViewLayout()
         wishlistCollectionView.collectionViewLayout = wishlistCollectionViewLayout()
         // Do any additional setup after loading the view.
+        sharedMethods = SharedMethods(viewController: self)
+        
+        let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
+        let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
+        
+        let thirdButton = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToSettings))
+
+        navigationItem.rightBarButtonItems = [firstButton, secondButton]
+        navigationItem.leftBarButtonItem = thirdButton
     }
+    
+    
     
     
     func ordersCollectionViewLayout() -> UICollectionViewCompositionalLayout {
@@ -138,9 +151,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                      let orders = storyboard.instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
                      navigationController?.pushViewController(orders, animated: true)
         } else {
-//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//                     let wishlist = storyboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
-//                     navigationController?.pushViewController(wishlist, animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let favouriteVC = storyboard.instantiateViewController(withIdentifier: "FavouriteVC") as! FavouriteVC
+        navigationController?.pushViewController(favouriteVC, animated: true)
                   }
         }
     }
