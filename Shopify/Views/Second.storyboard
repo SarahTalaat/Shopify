@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_12" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -15,17 +14,17 @@
             <objects>
                 <viewController storyboardIdentifier="CategoryViewController" id="565-VT-EkS" customClass="CategoryViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xDM-Ho-4DP">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q9M-tL-qRR">
-                                <rect key="frame" x="16" y="125" width="361" height="35"/>
+                                <rect key="frame" x="16" y="110" width="382" height="35"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="SNS-dI-QLt">
-                                        <rect key="frame" x="0.0" y="0.0" width="359.66666666666669" height="34.333333333333336"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="321" height="31"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M46-fC-VDr">
-                                                <rect key="frame" x="0.0" y="0.0" width="87.666666666666671" height="34.333333333333336"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="78" height="31"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Women"/>
                                                 <connections>
@@ -33,7 +32,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VQM-Gu-Tya">
-                                                <rect key="frame" x="90.666666666666657" y="0.0" width="87.666666666666657" height="34.333333333333336"/>
+                                                <rect key="frame" x="81" y="0.0" width="78" height="31"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Men"/>
                                                 <connections>
@@ -41,7 +40,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n13-BD-SVM">
-                                                <rect key="frame" x="181.33333333333334" y="0.0" width="87.666666666666657" height="34.333333333333336"/>
+                                                <rect key="frame" x="162" y="0.0" width="78" height="31"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Children"/>
                                                 <connections>
@@ -49,7 +48,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hbq-aU-CnG">
-                                                <rect key="frame" x="272" y="0.0" width="87.666666666666686" height="34.333333333333336"/>
+                                                <rect key="frame" x="243" y="0.0" width="78" height="31"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Sale"/>
                                                 <connections>
@@ -66,7 +65,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="COx-Yb-FcV">
-                                <rect key="frame" x="314" y="740" width="60" height="60"/>
+                                <rect key="frame" x="335" y="725" width="60" height="60"/>
                                 <color key="backgroundColor" red="1" green="0.32833661019999999" blue="0.2354005324" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="KtM-UK-IsT"/>
@@ -83,7 +82,7 @@
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kMk-7p-7KY">
-                                <rect key="frame" x="319" y="680" width="50" height="50"/>
+                                <rect key="frame" x="340" y="665" width="50" height="50"/>
                                 <color key="backgroundColor" red="1" green="0.32833661019999999" blue="0.2354005324" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="4u1-WN-Qr6"/>
@@ -100,7 +99,7 @@
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeA-Sf-b7D">
-                                <rect key="frame" x="319" y="620" width="50" height="50"/>
+                                <rect key="frame" x="340" y="605" width="50" height="50"/>
                                 <color key="backgroundColor" red="1" green="0.32833661019999999" blue="0.2354005324" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="7av-bZ-44O"/>
@@ -117,7 +116,7 @@
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BQe-Sf-F5M">
-                                <rect key="frame" x="319" y="560" width="50" height="50"/>
+                                <rect key="frame" x="340" y="545" width="50" height="50"/>
                                 <color key="backgroundColor" red="1" green="0.32833661019999999" blue="0.2354005324" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="WGt-5y-hlb"/>
@@ -134,12 +133,12 @@
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="search here" textAlignment="natural" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="Ukd-Qj-1BY">
-                                <rect key="frame" x="16" y="170" width="361" height="34"/>
+                                <rect key="frame" x="16" y="155" width="382" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lqh-cQ-E4P">
-                                <rect key="frame" x="16" y="214" width="361" height="477"/>
+                                <rect key="frame" x="16" y="199" width="382" height="536"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="EQW-1q-QCc">
                                     <size key="itemSize" width="361" height="110"/>
@@ -149,7 +148,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CategoryCollectionViewCell" id="rsB-oC-gED" customClass="CategoryCollectionViewCell" customModule="Shopify" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="361" height="110"/>
+                                        <rect key="frame" x="10.5" y="0.0" width="361" height="110"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="2DW-VG-crS">
                                             <rect key="frame" x="0.0" y="0.0" width="361" height="110"/>
@@ -159,19 +158,19 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="126" height="110"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="adidas" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wYA-zo-jMv">
-                                                    <rect key="frame" x="136" y="42.666666666666664" width="45.333333333333343" height="18"/>
+                                                    <rect key="frame" x="136" y="42.5" width="45.5" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.56884352299999996" green="0.570842976" blue="0.57684133510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shoes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GFR-BA-JaP">
-                                                    <rect key="frame" x="136" y="16" width="50" height="21.666666666666671"/>
+                                                    <rect key="frame" x="136" y="16" width="50" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13$" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PlN-rb-yn8">
-                                                    <rect key="frame" x="136" y="65.666666666666671" width="28" height="20.333333333333329"/>
+                                                    <rect key="frame" x="136" y="65.5" width="28" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -254,7 +253,7 @@
                     <navigationItem key="navigationItem" title="Category" id="SkG-dI-Pwk">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="Qnk-oR-8g3">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="rFq-La-WXG">
-                                <rect key="frame" x="16" y="4.6666666666666679" width="75" height="35"/>
+                                <rect key="frame" x="20" y="4.5" width="75" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
@@ -267,7 +266,7 @@
                         <rightBarButtonItems>
                             <barButtonItem style="plain" id="qyY-IA-WMZ">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="dbK-vm-GJp">
-                                    <rect key="frame" x="317" y="5" width="60" height="34.333333333333336"/>
+                                    <rect key="frame" x="334" y="5" width="60" height="34"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="Button"/>
@@ -279,7 +278,7 @@
                             </barButtonItem>
                             <barButtonItem style="plain" id="QvP-e4-IsR">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="zgb-lX-5Xa">
-                                    <rect key="frame" x="255.33333333333334" y="5" width="53.666666666666657" height="34.333333333333336"/>
+                                    <rect key="frame" x="272.5" y="5" width="53.5" height="34"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="Button"/>
@@ -308,11 +307,11 @@
             <objects>
                 <viewController storyboardIdentifier="ProductViewController" id="d8i-wE-fM1" customClass="ProductViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="w7G-Z4-eaJ">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="ahz-Qj-4a9">
-                                <rect key="frame" x="151" y="202" width="210" height="31"/>
+                                <rect key="frame" x="151" y="183" width="231" height="31"/>
                                 <color key="tintColor" red="1" green="0.32833661019999999" blue="0.2354005324" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <rect key="contentStretch" x="0.050000000000000003" y="0.14999999999999999" width="1" height="1"/>
                                 <connections>
@@ -320,18 +319,18 @@
                                 </connections>
                             </slider>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search here" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Of-eh-1ZD">
-                                <rect key="frame" x="16" y="113" width="361" height="34"/>
-                                <nil key="textColor"/>
+                                <rect key="frame" x="16" y="98" width="382" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price: 300" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jfm-yW-50B">
-                                <rect key="frame" x="44" y="207" width="79" height="21"/>
+                                <rect key="frame" x="44" y="188" width="79" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZdZ-06-PXJ">
-                                <rect key="frame" x="30" y="157" width="155" height="35"/>
+                                <rect key="frame" x="30" y="142" width="155" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="155" id="w34-fg-uZJ"/>
                                 </constraints>
@@ -340,7 +339,7 @@
                                 <buttonConfiguration key="configuration" style="filled" title="Colors"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hhD-Na-s06">
-                                <rect key="frame" x="208" y="157" width="155" height="35"/>
+                                <rect key="frame" x="229" y="142" width="155" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="155" id="ggr-PE-NIF"/>
                                 </constraints>
@@ -349,7 +348,7 @@
                                 <buttonConfiguration key="configuration" style="tinted" title="Sizes"/>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nUL-X5-jn8">
-                                <rect key="frame" x="16" y="240" width="361" height="499"/>
+                                <rect key="frame" x="16" y="221" width="382" height="562"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="frn-41-hHt">
                                     <size key="itemSize" width="167" height="167"/>
@@ -399,7 +398,7 @@
                     <navigationItem key="navigationItem" title="Product" id="1jF-db-rzw">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="aM1-cf-aUF">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="0Qt-85-Gwk">
-                                <rect key="frame" x="16" y="5" width="87" height="34.333333333333336"/>
+                                <rect key="frame" x="20" y="5" width="87" height="34.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
@@ -411,7 +410,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="kjQ-Cs-TFQ">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="2N3-SH-Hs5">
-                                <rect key="frame" x="289.33333333333331" y="5" width="87.666666666666686" height="34.333333333333336"/>
+                                <rect key="frame" x="306" y="5" width="88" height="34.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
@@ -439,11 +438,11 @@
             <objects>
                 <viewController storyboardIdentifier="HomeViewController" id="Y6W-OH-hqX" customClass="HomeViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="U3L-yf-aPp">
-                                <rect key="frame" x="16" y="127.00000000000001" width="361" height="170.33333333333337"/>
+                                <rect key="frame" x="16" y="112" width="382" height="179"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jDY-wC-5rf">
                                     <size key="itemSize" width="360" height="157"/>
@@ -453,7 +452,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AdsCollectionViewCell" id="udV-a1-rVx" customClass="AdsCollectionViewCell" customModule="Shopify" customModuleProvider="target">
-                                        <rect key="frame" x="0.66666666666666663" y="0.0" width="360" height="157"/>
+                                        <rect key="frame" x="11" y="0.0" width="360" height="157"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="mRU-Xa-jtK">
                                             <rect key="frame" x="0.0" y="0.0" width="360" height="157"/>
@@ -483,19 +482,19 @@
                                 </connections>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brands" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QM9-Cu-KgZ">
-                                <rect key="frame" x="16" y="317.33333333333331" width="109" height="41"/>
+                                <rect key="frame" x="16" y="311" width="109" height="41"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="34"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="click to see all products!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8I0-Lz-YAc">
-                                <rect key="frame" x="16" y="363.33333333333331" width="184" height="21"/>
+                                <rect key="frame" x="16" y="357" width="184" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.56884352299999996" green="0.570842976" blue="0.57684133510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="e8w-lD-4E1">
-                                <rect key="frame" x="16" y="405" width="361" height="330"/>
+                                <rect key="frame" x="16" y="449" width="382" height="330"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="330" id="07L-oQ-wOM"/>
@@ -518,7 +517,7 @@
                                                     <rect key="frame" x="13" y="8" width="149" height="116"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ADIDAS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QTr-tl-Atf">
-                                                    <rect key="frame" x="26.333333333333336" y="134" width="122.33333333333331" height="20.333333333333343"/>
+                                                    <rect key="frame" x="26.5" y="134" width="122.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -567,7 +566,7 @@
                     <navigationItem key="navigationItem" title="Home" id="HUQ-Fm-DDw">
                         <barButtonItem key="leftBarButtonItem" title="Item" style="plain" id="MSf-rb-Nhf">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="FRd-He-mYO">
-                                <rect key="frame" x="16" y="5" width="87" height="34.333333333333336"/>
+                                <rect key="frame" x="20" y="5" width="87" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" systemColor="labelColor"/>
                                 <state key="normal" title="Button"/>
@@ -578,7 +577,7 @@
                             <barButtonItem style="plain" id="fbe-0w-SsI">
                                 <inset key="imageInsets" minX="2" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="tAJ-vO-Wqa">
-                                    <rect key="frame" x="317" y="5" width="60" height="34.333333333333336"/>
+                                    <rect key="frame" x="334" y="5" width="60" height="34"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="tintColor" systemColor="labelColor"/>
                                     <state key="normal" title="Button"/>
@@ -590,14 +589,14 @@
                             </barButtonItem>
                             <barButtonItem style="plain" id="RY4-C2-6ui">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="gfA-1F-Yxw">
-                                    <rect key="frame" x="255.33333333333334" y="5" width="53.666666666666657" height="34.333333333333336"/>
+                                    <rect key="frame" x="272.5" y="5" width="53.5" height="34"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="tintColor" systemColor="labelColor"/>
                                     <state key="normal" title="Button"/>
                                     <buttonConfiguration key="configuration" style="plain" image="cart.fill" catalog="system"/>
                                 </button>
                                 <connections>
-                                    <action selector="cartBtn:" destination="Y6W-OH-hqX" id="PyB-yK-RwG"/>
+                                    <action selector="cartBtn:" destination="Y6W-OH-hqX" id="7NS-eF-wuQ"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -616,29 +615,29 @@
             <objects>
                 <viewController storyboardIdentifier="ProfileViewController" id="JgX-LP-WUR" customClass="ProfileViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="C0Y-cD-FXV">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome Haneen!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aZS-9J-q3O">
-                                <rect key="frame" x="16" y="112" width="264" height="39"/>
+                                <rect key="frame" x="16" y="97" width="264" height="39"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="32"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Haneen Medhat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZAO-1a-ZGq">
-                                <rect key="frame" x="16" y="166" width="140" height="24"/>
+                                <rect key="frame" x="16" y="151" width="140" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="haneenmedhat26@gmail.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dYr-VO-HoT">
-                                <rect key="frame" x="16" y="192" width="156" height="14"/>
+                                <rect key="frame" x="16" y="177" width="156" height="14"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vQQ-Nq-Nxk">
-                                <rect key="frame" x="16" y="235" width="361" height="53"/>
+                                <rect key="frame" x="16" y="220" width="382" height="53"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My orders" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vCs-UU-k4c">
                                         <rect key="frame" x="8" y="8" width="91" height="24"/>
@@ -653,7 +652,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gs8-66-z9k">
-                                        <rect key="frame" x="315.33333333333331" y="9.3333333333333428" width="39.666666666666686" height="34.333333333333336"/>
+                                        <rect key="frame" x="339" y="11" width="37" height="31"/>
                                         <color key="tintColor" red="0.56884352299999996" green="0.570842976" blue="0.57684133510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="chevron.forward" catalog="system"/>
@@ -674,7 +673,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VKp-2E-rID">
-                                <rect key="frame" x="16" y="483" width="361" height="55"/>
+                                <rect key="frame" x="16" y="468" width="382" height="55"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wish List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rqO-dW-YQH">
                                         <rect key="frame" x="8" y="8" width="83" height="24"/>
@@ -689,7 +688,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K1N-RU-WZc">
-                                        <rect key="frame" x="315.33333333333331" y="10.333333333333314" width="39.666666666666686" height="34.333333333333336"/>
+                                        <rect key="frame" x="339" y="12" width="37" height="31"/>
                                         <color key="tintColor" red="0.56884352299999996" green="0.570842976" blue="0.57684133510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="chevron.forward" catalog="system"/>
@@ -710,7 +709,7 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5EK-z3-4w8">
-                                <rect key="frame" x="16" y="538" width="361" height="260"/>
+                                <rect key="frame" x="16" y="523" width="382" height="260"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="260" id="alI-Cf-hr6"/>
@@ -723,7 +722,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="WishlistCollectionViewCell" id="CSS-p8-7HH" customClass="WishlistCollectionViewCell" customModule="Shopify" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="361" height="59"/>
+                                        <rect key="frame" x="10.5" y="0.0" width="361" height="59"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="fhN-gr-KPj">
                                             <rect key="frame" x="0.0" y="0.0" width="361" height="59"/>
@@ -750,7 +749,7 @@
                                 </connections>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xEC-Pu-Vul">
-                                <rect key="frame" x="200" y="749" width="177" height="44"/>
+                                <rect key="frame" x="211.5" y="793" width="186.5" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Txf-0i-FHN"/>
                                 </constraints>
@@ -762,7 +761,7 @@
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="shB-cC-cmm">
-                                <rect key="frame" x="16" y="288" width="361" height="180"/>
+                                <rect key="frame" x="16" y="273" width="382" height="180"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="180" id="ew0-B2-1kq"/>
@@ -775,7 +774,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OrderCollectionViewCell" id="yY3-6t-rkc" customClass="OrderCollectionViewCell" customModule="Shopify" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="361" height="78"/>
+                                        <rect key="frame" x="10.5" y="0.0" width="361" height="78"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="fhB-33-Sp5">
                                             <rect key="frame" x="0.0" y="0.0" width="361" height="78"/>
@@ -814,7 +813,7 @@
                                 </connections>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LLN-Js-QQf">
-                                <rect key="frame" x="16" y="749" width="177" height="44"/>
+                                <rect key="frame" x="16" y="793" width="186.5" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="UOF-tl-wXW"/>
                                 </constraints>
@@ -865,7 +864,7 @@
                         <rightBarButtonItems>
                             <barButtonItem style="plain" id="0mY-oC-Ib1">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="Ij6-j7-yxY">
-                                    <rect key="frame" x="317" y="5" width="60" height="34.333333333333336"/>
+                                    <rect key="frame" x="334" y="5" width="60" height="34"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="Button"/>
@@ -877,7 +876,7 @@
                             </barButtonItem>
                             <barButtonItem style="plain" id="woo-Kf-rpD">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="Us9-HK-rvN">
-                                    <rect key="frame" x="255.33333333333334" y="5" width="53.666666666666657" height="34.333333333333336"/>
+                                    <rect key="frame" x="272.5" y="5" width="53.5" height="34"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="Button"/>
@@ -910,17 +909,17 @@
             <objects>
                 <viewController storyboardIdentifier="OrdersViewController" id="1ot-dG-ZP6" customClass="OrdersViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="AxF-1g-h3O">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Orders" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dbn-di-dDD">
-                                <rect key="frame" x="16" y="119" width="160" height="41"/>
+                                <rect key="frame" x="16" y="104" width="160" height="41"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="34"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xrv-03-3Sl">
-                                <rect key="frame" x="16" y="180" width="361" height="586"/>
+                                <rect key="frame" x="16" y="165" width="382" height="645"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="yFq-nI-j2e">
                                     <size key="itemSize" width="361" height="86"/>
@@ -930,7 +929,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AllOrdersCollectionViewCell" id="aPp-ZB-rwT" customClass="AllOrdersCollectionViewCell" customModule="Shopify" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="361" height="86"/>
+                                        <rect key="frame" x="10.5" y="0.0" width="361" height="86"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="8NI-dg-nof">
                                             <rect key="frame" x="0.0" y="0.0" width="361" height="86"/>
@@ -943,7 +942,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Created At: 2024-6-22" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PsR-7i-H2Y">
-                                                    <rect key="frame" x="8" y="48" width="195.33333333333334" height="23"/>
+                                                    <rect key="frame" x="8" y="48" width="195.5" height="23"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -994,11 +993,11 @@
             <objects>
                 <viewController storyboardIdentifier="OrderDetailsViewController" id="Vc4-vy-4bn" customClass="OrderDetailsViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bnT-Im-cKh">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="A4G-n3-jNE">
-                                <rect key="frame" x="16" y="153" width="361" height="633"/>
+                                <rect key="frame" x="16" y="138" width="382" height="692"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Qky-5x-BfL">
                                     <size key="itemSize" width="361" height="128"/>
@@ -1008,7 +1007,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OrderDetailsCell" id="WAi-n9-MO6" customClass="OrderDetailsCell" customModule="Shopify" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="361" height="128"/>
+                                        <rect key="frame" x="10.5" y="0.0" width="361" height="128"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Ll4-wV-n9P">
                                             <rect key="frame" x="0.0" y="0.0" width="361" height="128"/>
@@ -1114,7 +1113,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="3Db-Nz-mzg">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="s6W-7S-P6m" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="tabbar" automaticallyAdjustsScrollViewInsets="NO" id="s6W-7S-P6m" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="JeT-MO-43H">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -1139,7 +1138,7 @@
                     <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" id="1gi-df-YJC"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="aKF-lf-A13">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="0.32833661018413929" blue="0.23540053240830949" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -1161,7 +1160,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="CXQ-3j-Ijh" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sYs-NF-wkH">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1180,7 +1179,7 @@
                     <tabBarItem key="tabBarItem" title="Category" image="square.grid.3x3.fill" catalog="system" id="1cD-79-FmJ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kkM-xa-pMj">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1199,7 +1198,7 @@
                     <tabBarItem key="tabBarItem" title="Profile" image="person.crop.circle.fill" catalog="system" id="D43-A3-Id1"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="52f-ql-y1F">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1217,7 +1216,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dgv-CW-MGU" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="EiL-gs-gyI">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1234,21 +1233,21 @@
         <image name="Sale" width="1200" height="675"/>
         <image name="adidas-logo-design-template-416e301e26d296a75536e1f323a013e0_screen" width="690" height="690"/>
         <image name="cart.fill" catalog="system" width="128" height="102"/>
-        <image name="chevron.backward" catalog="system" width="97" height="128"/>
-        <image name="chevron.forward" catalog="system" width="97" height="128"/>
-        <image name="gearshape" catalog="system" width="128" height="123"/>
+        <image name="chevron.backward" catalog="system" width="96" height="128"/>
+        <image name="chevron.forward" catalog="system" width="96" height="128"/>
+        <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="handbag.fill" catalog="system" width="128" height="116"/>
         <image name="hanger" catalog="system" width="128" height="99"/>
-        <image name="heart" catalog="system" width="128" height="107"/>
-        <image name="heart.fill" catalog="system" width="128" height="107"/>
-        <image name="house" catalog="system" width="128" height="104"/>
+        <image name="heart" catalog="system" width="128" height="109"/>
+        <image name="heart.fill" catalog="system" width="128" height="109"/>
+        <image name="house" catalog="system" width="128" height="106"/>
         <image name="jan22sale" width="1400" height="600"/>
-        <image name="line.3.horizontal.decrease.circle" catalog="system" width="128" height="123"/>
-        <image name="magnifyingglass" catalog="system" width="128" height="117"/>
-        <image name="person.crop.circle.fill" catalog="system" width="128" height="123"/>
+        <image name="line.3.horizontal.decrease.circle" catalog="system" width="128" height="121"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="person.crop.circle.fill" catalog="system" width="128" height="121"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="shoe.2.fill" catalog="system" width="128" height="69"/>
-        <image name="square.grid.3x3.fill" catalog="system" width="128" height="113"/>
+        <image name="square.grid.3x3.fill" catalog="system" width="128" height="112"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

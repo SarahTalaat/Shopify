@@ -253,6 +253,8 @@
 		B6365B7B2C0A181200277D31 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				B68E73522C0E595300BC2D90 /* UserProfile */,
+				B68E734F2C0E593600BC2D90 /* OrderDetail */,
 				B637B7552C0B8A23005EFA7D /* ProductDetails */,
 				B637B7502C0B8435005EFA7D /* SharedFiles */,
 				B637B74B2C0B7D67005EFA7D /* SignIn */,
@@ -269,11 +271,6 @@
 				B6365B922C0A1A8600277D31 /* SplashScreen */,
 				B6365B912C0A1A7800277D31 /* Home */,
 				B6365B882C0A198F00277D31 /* test23.swift */,
-				22934A1B2C0C30AD001B79E4 /* ProfileViewController.swift */,
-				220FFA6C2C0D5D70001606AF /* OrderCollectionViewCell.swift */,
-				220FFA6E2C0D5DD3001606AF /* WishlistCollectionViewCell.swift */,
-				220FFA742C0D6488001606AF /* OrderDetailsViewController.swift */,
-				220FFA762C0D9817001606AF /* OrderDetailsCell.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -684,6 +681,57 @@
 			sourceTree = "<group>";
 		};
 		B637B7572C0B8A3A005EFA7D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B68E734F2C0E593600BC2D90 /* OrderDetail */ = {
+			isa = PBXGroup;
+			children = (
+				B68E73512C0E594B00BC2D90 /* ViewModel */,
+				B68E73502C0E594500BC2D90 /* View */,
+			);
+			path = OrderDetail;
+			sourceTree = "<group>";
+		};
+		B68E73502C0E594500BC2D90 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				220FFA742C0D6488001606AF /* OrderDetailsViewController.swift */,
+				220FFA6C2C0D5D70001606AF /* OrderCollectionViewCell.swift */,
+				220FFA762C0D9817001606AF /* OrderDetailsCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B68E73512C0E594B00BC2D90 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B68E73522C0E595300BC2D90 /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				B68E73542C0E596F00BC2D90 /* ViewModel */,
+				B68E73532C0E596700BC2D90 /* View */,
+			);
+			path = UserProfile;
+			sourceTree = "<group>";
+		};
+		B68E73532C0E596700BC2D90 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				22934A1B2C0C30AD001B79E4 /* ProfileViewController.swift */,
+				220FFA6E2C0D5DD3001606AF /* WishlistCollectionViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B68E73542C0E596F00BC2D90 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 			);

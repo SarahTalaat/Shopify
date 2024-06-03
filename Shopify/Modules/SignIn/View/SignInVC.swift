@@ -19,6 +19,22 @@ class SignInVC: UIViewController {
         setUpSignInScreenUI()
     }
     
+    @IBAction func signInButton(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Second", bundle: nil)
+        if let tabBarController = storyboard.instantiateViewController(withIdentifier: "tabbar") as? UITabBarController {
+            // If you want to set it as the root view controller
+            UIApplication.shared.windows.first?.rootViewController = tabBarController
+        }
+    }
+    
+    
+    func navToHome(){
+        let sb = UIStoryboard(name: "Second", bundle: nil)
+        let homeVC = sb.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+        navigationController?.pushViewController(homeVC, animated: true)
+    }
+    
+    
     
     func setUpSignInScreenUI() {
 
@@ -44,3 +60,4 @@ class SignInVC: UIViewController {
     */
 
 }
+

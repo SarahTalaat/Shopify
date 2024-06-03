@@ -13,26 +13,62 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var brandsCollectionView: UICollectionView!
     
     @IBAction func favBtn(_ sender: UIBarButtonItem) {
-        //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        //                 let brandsViewController = storyboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
-        //                 navigationController?.pushViewController(brandsViewController, animated: true)
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                         let brandsViewController = storyboard.instantiateViewController(withIdentifier: "FavouriteVC") as! FavouriteVC
+                         navigationController?.pushViewController(brandsViewController, animated: true)
     }
     
     
     @IBAction func cartBtn(_ sender: UIBarButtonItem) {
-//        let storyboard = UIStoryboard(name: "Third", bundle: nil)
-//                 let brandsViewController = storyboard.instantiateViewController(withIdentifier: "CartViewController") as! CartViewController
-//                 navigationController?.pushViewController(brandsViewController, animated: true)
+
+        print("Cart ")
+
+        let storyboard = UIStoryboard(name: "Third", bundle: nil)
+        let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ShoppingCartVC") as! ShoppingCartViewController
+        navigationController?.pushViewController(brandsViewController, animated: true)
+
+
+
     }
+    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         adsCollectionView.collectionViewLayout = adsCollectionViewLayout()
         brandsCollectionView.collectionViewLayout = brandsCollectionViewLayout()
         // Do any additional setup after loading the view.
+        
+
+        let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: self, action: #selector(navToFav))
+        let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: self, action: #selector(navToCart))
+        
+        // Set both buttons to the right side of the navigation bar
+        navigationItem.rightBarButtonItems = [firstButton,secondButton]
+
+        
+    }
+    
+    @objc func navToCart(){
+        print("Cart ")
+
+        let storyboard = UIStoryboard(name: "Third", bundle: nil)
+        let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ShoppingCartVC") as! ShoppingCartViewController
+        navigationController?.pushViewController(brandsViewController, animated: true)
+
+    }
+    
+    @objc func navToFav(){
+        print("Favourite ")
+
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let favouriteVC = storyboard.instantiateViewController(withIdentifier: "FavouriteVC") as! FavouriteVC
+        navigationController?.pushViewController(favouriteVC, animated: true)
+
     }
     
     
+
     func adsCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
