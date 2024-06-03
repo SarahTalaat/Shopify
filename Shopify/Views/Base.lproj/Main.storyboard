@@ -225,88 +225,76 @@
             </objects>
             <point key="canvasLocation" x="2612" y="47"/>
         </scene>
-        <!--View Controller-->
+        <!--Product DetailsVC-->
         <scene sceneID="MNj-EM-CQg">
             <objects>
-                <viewController id="Zlb-F3-WcO" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductDetailsVC" id="Zlb-F3-WcO" customClass="ProductDetailsVC" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lSM-es-9Hn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HC5-8c-xM1">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HC5-8c-xM1">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yXo-Hg-Xzu">
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yXo-Hg-Xzu">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="1438"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="VhD-OC-Gly">
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" indicatorStyle="black" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="VhD-OC-Gly">
                                                 <rect key="frame" x="0.0" y="8" width="414" height="326"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="uTz-80-7tw">
-                                                    <size key="itemSize" width="385" height="322"/>
+                                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="uTz-80-7tw">
+                                                    <size key="itemSize" width="413" height="322"/>
                                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
                                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="qve-uA-JX1" customClass="CustomCollectionViewCell" customModule="Shopify" customModuleProvider="target">
-                                                        <rect key="frame" x="14.5" y="0.0" width="385" height="322"/>
+                                                        <rect key="frame" x="0.0" y="2" width="413" height="322"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="mtW-4B-ncP">
-                                                            <rect key="frame" x="0.0" y="0.0" width="385" height="322"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="413" height="322"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="30T-5G-41N">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="385" height="322"/>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kD0-Dp-RVn">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="413" height="322"/>
                                                                 </imageView>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="30T-5G-41N" firstAttribute="leading" secondItem="mtW-4B-ncP" secondAttribute="leading" id="3de-EP-OvF"/>
-                                                                <constraint firstAttribute="bottom" secondItem="30T-5G-41N" secondAttribute="bottom" id="ANW-aG-2iF"/>
-                                                                <constraint firstItem="30T-5G-41N" firstAttribute="height" secondItem="mtW-4B-ncP" secondAttribute="height" id="Acs-8d-oYT"/>
-                                                                <constraint firstAttribute="trailing" secondItem="30T-5G-41N" secondAttribute="trailing" id="I42-Hf-0tH"/>
-                                                                <constraint firstItem="30T-5G-41N" firstAttribute="width" secondItem="mtW-4B-ncP" secondAttribute="width" id="REk-zp-zbe"/>
-                                                                <constraint firstItem="30T-5G-41N" firstAttribute="top" secondItem="mtW-4B-ncP" secondAttribute="top" id="t5X-i5-M8i"/>
+                                                                <constraint firstAttribute="bottom" secondItem="kD0-Dp-RVn" secondAttribute="bottom" id="KSQ-8E-Au8"/>
+                                                                <constraint firstItem="kD0-Dp-RVn" firstAttribute="leading" secondItem="mtW-4B-ncP" secondAttribute="leading" id="KhX-40-SZj"/>
+                                                                <constraint firstItem="kD0-Dp-RVn" firstAttribute="top" secondItem="mtW-4B-ncP" secondAttribute="top" id="MiE-wE-2pE"/>
+                                                                <constraint firstAttribute="trailing" secondItem="kD0-Dp-RVn" secondAttribute="trailing" id="QOi-a3-cZc"/>
                                                             </constraints>
                                                         </collectionViewCellContentView>
-                                                        <size key="customSize" width="385" height="322"/>
+                                                        <size key="customSize" width="413" height="322"/>
                                                         <connections>
-                                                            <outlet property="productImage" destination="30T-5G-41N" id="XOB-ld-E3h"/>
+                                                            <outlet property="productImage" destination="kD0-Dp-RVn" id="pDz-Be-EWh"/>
                                                         </connections>
                                                     </collectionViewCell>
                                                 </cells>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="Zlb-F3-WcO" id="Jt3-UU-epl"/>
+                                                    <outlet property="delegate" destination="Zlb-F3-WcO" id="LR7-Vu-muP"/>
+                                                </connections>
                                             </collectionView>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstItem="VhD-OC-Gly" firstAttribute="leading" secondItem="yXo-Hg-Xzu" secondAttribute="leading" id="AcL-to-dfx"/>
-                                            <constraint firstItem="VhD-OC-Gly" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.226704" id="JYV-Iu-0Zy"/>
-                                            <constraint firstItem="VhD-OC-Gly" firstAttribute="top" secondItem="yXo-Hg-Xzu" secondAttribute="top" constant="8" id="MgF-eA-OFv"/>
-                                            <constraint firstAttribute="bottom" secondItem="VhD-OC-Gly" secondAttribute="bottom" constant="1104" id="Te7-lO-jZV"/>
-                                            <constraint firstItem="VhD-OC-Gly" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" id="rrT-o6-ipU"/>
-                                        </constraints>
                                     </view>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="yXo-Hg-Xzu" firstAttribute="leading" secondItem="HC5-8c-xM1" secondAttribute="leading" id="J4l-gH-INy"/>
-                                    <constraint firstItem="yXo-Hg-Xzu" firstAttribute="top" secondItem="HC5-8c-xM1" secondAttribute="top" id="JcG-sr-YAn"/>
-                                    <constraint firstItem="yXo-Hg-Xzu" firstAttribute="width" secondItem="HC5-8c-xM1" secondAttribute="width" id="YaL-Fw-NCk"/>
-                                    <constraint firstAttribute="trailing" secondItem="yXo-Hg-Xzu" secondAttribute="trailing" id="ru6-Qf-JNI"/>
-                                    <constraint firstAttribute="bottom" secondItem="yXo-Hg-Xzu" secondAttribute="bottom" id="ztn-GR-F9y"/>
-                                </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="oAn-lP-9Tl"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="B3m-I7-QTF"/>
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="cow-n9-GUP"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="HC5-8c-xM1" firstAttribute="bottom" secondItem="cow-n9-GUP" secondAttribute="bottom" id="IW1-ei-pGV"/>
-                            <constraint firstItem="HC5-8c-xM1" firstAttribute="trailing" secondItem="cow-n9-GUP" secondAttribute="trailing" id="hcx-at-rK9"/>
-                            <constraint firstItem="HC5-8c-xM1" firstAttribute="leading" secondItem="cow-n9-GUP" secondAttribute="leading" id="lf3-uM-l39"/>
-                            <constraint firstItem="HC5-8c-xM1" firstAttribute="top" secondItem="cow-n9-GUP" secondAttribute="top" id="v4F-bk-54L"/>
-                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="myCollectionView" destination="VhD-OC-Gly" id="YtC-xO-7pJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GQb-aC-gMF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
