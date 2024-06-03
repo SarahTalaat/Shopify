@@ -8,86 +8,125 @@
 import UIKit
 
 class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource{
-
     
     @IBOutlet var myCollectionView: UICollectionView!
     var imageArray: [String] = ["a.jpg","b.jpg","c.jpg","d.jpg","e.jpg"]
-    
-    
+    @IBOutlet var dropdownButton2: UIButton!
     @IBOutlet weak var dropdownButton: UIButton!
     @IBOutlet weak var dropDowntableView1: UITableView!
-    
+    @IBOutlet weak var dropDowntableView2: UITableView!
+    var cell: UITableViewCell!
     var dropdownItems: [String] = ["Option 1", "Option 2", "Option 3", "Option 4"]
+    var dropdownItems2: [String] = ["Item1","Item2","Item3","Item4","Item5"]
     var isDropdownVisible = false
+    var isDropdownVisible2 = false
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+//        settingUpCollectionView()
+//        settingUpDropdown()
+//        setupDropdownButton1()
+//        setupDropdownTableView1()
         settingUpCollectionView()
-        settingUpDropdown()
-        setupDropdownButton1()
-        setupDropdownTableView1()
+        settingUpDropdown(dropDowntableView: dropDowntableView1, cellIdentifier: "dropdownCell1")
+        settingUpDropdown(dropDowntableView: dropDowntableView2, cellIdentifier: "dropdownCell2")
+        setupDropdownButton1(dropdownButton: dropdownButton, buttonTitle: "Option", imageName: "chevron.down")
+        setupDropdownButton1(dropdownButton: dropdownButton2, buttonTitle: "Item", imageName: "chevron.down")
+        setupDropdownTableView1(dropDowntableView: dropDowntableView1)
+        setupDropdownTableView1(dropDowntableView: dropDowntableView2)
 
 
         // Do any additional setup after loading the view.
     }
     
     
-    func settingUpDropdown() {
-        dropDowntableView1.isHidden = true
-        dropDowntableView1.delegate = self
-        dropDowntableView1.dataSource = self
-        dropDowntableView1.register(UITableViewCell.self, forCellReuseIdentifier: "dropdownCell1")
-    }
     
-    func setupDropdownButton1() {
-//        dropdownButton.layer.borderWidth = 1.0
-//        dropdownButton.layer.borderColor = UIColor.gray.cgColor
-//        dropdownButton.layer.cornerRadius = 5.0
-        
+    
+    func settingUpDropdown(dropDowntableView: UITableView , cellIdentifier: String) {
+        dropDowntableView.isHidden = true
+        dropDowntableView.delegate = self
+        dropDowntableView.dataSource = self
+        dropDowntableView.register(UITableViewCell.self, forCellReuseIdentifier: "\(cellIdentifier)")
+    }
+    //chevron.down
+    
+    func setupDropdownButton1(dropdownButton: UIButton, buttonTitle: String , imageName: String) {
         dropdownButton.layer.borderWidth = 2.0
         dropdownButton.layer.borderColor = UIColor.orange.cgColor
         dropdownButton.layer.cornerRadius = 10
         dropdownButton.contentHorizontalAlignment = .left
-        dropdownButton.setTitle("  Size        ", for: .normal)
-        dropdownButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+        dropdownButton.setTitle("  \(buttonTitle)        ", for: .normal)
+        dropdownButton.setImage(UIImage(systemName: "\(imageName)"), for: .normal)
         dropdownButton.semanticContentAttribute = .forceRightToLeft
         dropdownButton.titleLabel?.adjustsFontForContentSizeCategory = true
 
- 
     }
     
-    func setupDropdownTableView1() {
-        dropDowntableView1.layer.borderWidth = 1.0
-        dropDowntableView1.layer.borderColor = UIColor.orange.cgColor
-        dropDowntableView1.layer.cornerRadius = 5.0
+    func setupDropdownTableView1(dropDowntableView: UITableView) {
+        dropDowntableView.layer.borderWidth = 1.0
+        dropDowntableView.layer.borderColor = UIColor.orange.cgColor
+        dropDowntableView.layer.cornerRadius = 5.0
     }
     
+    @IBAction func dropdownButtopTapped2(_ sender: UIButton) {
+        isDropdownVisible2.toggle()
+        dropDowntableView2.isHidden = !isDropdownVisible2
+    }
     
     @IBAction func dropdownButtonTapped(_ sender: UIButton) {
         isDropdownVisible.toggle()
         dropDowntableView1.isHidden = !isDropdownVisible
-    }
-    
-    
-    
-       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-           return dropdownItems.count
-       }
-
-       func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-           let cell = dropDowntableView1.dequeueReusableCell(withIdentifier: "dropdownCell1", for: indexPath)
-           cell.textLabel?.text = dropdownItems[indexPath.row]
-           return cell
-       }
-
        
-       func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-           dropdownButton.setTitle(dropdownItems[indexPath.row], for: .normal)
-           isDropdownVisible = false
-           dropDowntableView1.isHidden = true
-       }
+    }
+
+    
+    
+//       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//           return dropdownItems.count
+//       }
+//
+//       func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//           let cell = dropDowntableView1.dequeueReusableCell(withIdentifier: "dropdownCell1", for: indexPath)
+//           cell.textLabel?.text = dropdownItems[indexPath.row]
+//           return cell
+//       }
+//
+//
+//       func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//           dropdownButton.setTitle(dropdownItems[indexPath.row], for: .normal)
+//           isDropdownVisible = false
+//           dropDowntableView1.isHidden = true
+//       }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dropdownItems.count // or dropdownItems2.count depending on the tableView
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        if tableView == dropDowntableView1 {
+            cell = tableView.dequeueReusableCell(withIdentifier: "dropdownCell1", for: indexPath)
+            cell.textLabel?.text = dropdownItems[indexPath.row]
+        } else if tableView == dropDowntableView2 {
+            cell = tableView.dequeueReusableCell(withIdentifier: "dropdownCell2", for: indexPath)
+            cell.textLabel?.text = dropdownItems2[indexPath.row]
+        }
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView == dropDowntableView1 {
+            dropdownButton.setTitle(dropdownItems[indexPath.row], for: .normal)
+            isDropdownVisible = false
+            dropDowntableView1.isHidden = true
+        } else if tableView == dropDowntableView2 {
+            dropdownButton2.setTitle(dropdownItems2[indexPath.row], for: .normal)
+            isDropdownVisible2 = false
+            dropDowntableView2.isHidden = true
+        }
+    }
+
     
 
     func settingUpCollectionView(){

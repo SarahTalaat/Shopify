@@ -31,7 +31,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
         // Set fixed size for the productImage
         productImage.translatesAutoresizingMaskIntoConstraints = false
         productImage.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        productImage.heightAnchor.constraint(equalToConstant: 400).isActive = true
+        productImage.heightAnchor.constraint(equalToConstant: 300).isActive = true
    
     }
     
