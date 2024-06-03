@@ -242,37 +242,37 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" indicatorStyle="black" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="VhD-OC-Gly">
-                                                <rect key="frame" x="0.0" y="8" width="414" height="326"/>
+                                                <rect key="frame" x="0.0" y="8" width="414" height="456"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="uTz-80-7tw">
-                                                    <size key="itemSize" width="413" height="322"/>
+                                                    <size key="itemSize" width="415" height="407"/>
                                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
                                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="qve-uA-JX1" customClass="CustomCollectionViewCell" customModule="Shopify" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="2" width="413" height="322"/>
+                                                        <rect key="frame" x="0.0" y="24.5" width="415" height="407"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="mtW-4B-ncP">
-                                                            <rect key="frame" x="0.0" y="0.0" width="413" height="322"/>
+                                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="7ac-af-d14">
+                                                            <rect key="frame" x="0.0" y="0.0" width="415" height="407"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kD0-Dp-RVn">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="413" height="322"/>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kYq-fo-2eB">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="415" height="407"/>
                                                                 </imageView>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstAttribute="bottom" secondItem="kD0-Dp-RVn" secondAttribute="bottom" id="KSQ-8E-Au8"/>
-                                                                <constraint firstItem="kD0-Dp-RVn" firstAttribute="leading" secondItem="mtW-4B-ncP" secondAttribute="leading" id="KhX-40-SZj"/>
-                                                                <constraint firstItem="kD0-Dp-RVn" firstAttribute="top" secondItem="mtW-4B-ncP" secondAttribute="top" id="MiE-wE-2pE"/>
-                                                                <constraint firstAttribute="trailing" secondItem="kD0-Dp-RVn" secondAttribute="trailing" id="QOi-a3-cZc"/>
+                                                                <constraint firstAttribute="trailing" secondItem="kYq-fo-2eB" secondAttribute="trailing" id="9Tu-D7-Sse"/>
+                                                                <constraint firstItem="kYq-fo-2eB" firstAttribute="top" secondItem="7ac-af-d14" secondAttribute="top" id="UhM-At-THK"/>
+                                                                <constraint firstAttribute="bottom" secondItem="kYq-fo-2eB" secondAttribute="bottom" id="hW7-qi-46g"/>
+                                                                <constraint firstItem="kYq-fo-2eB" firstAttribute="leading" secondItem="7ac-af-d14" secondAttribute="leading" id="qYT-1i-eYA"/>
                                                             </constraints>
                                                         </collectionViewCellContentView>
-                                                        <size key="customSize" width="413" height="322"/>
+                                                        <size key="customSize" width="415" height="407"/>
                                                         <connections>
-                                                            <outlet property="productImage" destination="kD0-Dp-RVn" id="pDz-Be-EWh"/>
+                                                            <outlet property="productImage" destination="kYq-fo-2eB" id="l7I-nQ-zdZ"/>
                                                         </connections>
                                                     </collectionViewCell>
                                                 </cells>

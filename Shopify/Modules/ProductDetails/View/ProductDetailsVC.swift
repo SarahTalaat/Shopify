@@ -20,12 +20,13 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         
         
         myCollectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: "defaultCell")
-        myCollectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 50)
+        myCollectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
 
 
 
         // Do any additional setup after loading the view.
     }
+
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -37,10 +38,15 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         let cell = myCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCollectionViewCell
         
         cell.productImage.image = UIImage(named: imageArray[indexPath.row])
+    
      //   cell.productImage.layer.cornerRadius = 30
         
         return cell
     }
+    
+
+    }
+
 
 
     
@@ -57,4 +63,6 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     }
     */
 
-}
+
+
+
