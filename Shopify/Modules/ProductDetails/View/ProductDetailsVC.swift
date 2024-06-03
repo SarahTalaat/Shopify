@@ -9,6 +9,9 @@ import UIKit
 
 class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource{
     
+    // Define a boolean variable to track the state
+    var isFavourite = false
+    @IBOutlet weak var favouriteButton: UIButton!
     @IBOutlet var myCollectionView: UICollectionView!
     var imageArray: [String] = ["a.jpg","b.jpg","c.jpg","d.jpg","e.jpg"]
     @IBOutlet var dropdownButton2: UIButton!
@@ -25,25 +28,82 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        settingUpCollectionView()
-//        settingUpDropdown()
-//        setupDropdownButton1()
-//        setupDropdownTableView1()
         settingUpCollectionView()
+
         settingUpDropdown(dropDowntableView: dropDowntableView1, cellIdentifier: "dropdownCell1")
         settingUpDropdown(dropDowntableView: dropDowntableView2, cellIdentifier: "dropdownCell2")
-        setupDropdownButton1(dropdownButton: dropdownButton, buttonTitle: "Option", imageName: "chevron.down")
-        setupDropdownButton1(dropdownButton: dropdownButton2, buttonTitle: "Item", imageName: "chevron.down")
+        setupDropdownButton(dropdownButton: dropdownButton, buttonTitle: "Size", imageName: "chevron.down")
+        setupDropdownButton(dropdownButton: dropdownButton2, buttonTitle: "Colour", imageName: "chevron.down")
         setupDropdownTableView1(dropDowntableView: dropDowntableView1)
         setupDropdownTableView1(dropDowntableView: dropDowntableView2)
+        
+        setUpFavouriteButton()
 
-
-        // Do any additional setup after loading the view.
     }
     
+    @IBAction func favouriteButtonTapped(_ sender: UIButton) {
+        
+//        // Check the current state of the button
+//        let isFavourite = sender.isSelected
+//
+//        // Toggle the button state
+//        sender.isSelected = !isFavourite
+//
+//        // Set the button image based on the state
+//        if sender.isSelected {
+//            // Button is selected (filled heart)
+//            sender.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+//        } else {
+//            // Button is not selected (empty heart)
+//            sender.setImage(UIImage(systemName: "heart"), for: .normal)
+//        }
+        
+        // Toggle the state
+        isFavourite.toggle()
+        
+        // Set the image for the button based on the state
+        let imageName = isFavourite ? "heart.fill" : "heart"
+        let image = UIImage(systemName: imageName)
+        sender.setImage(image, for: .normal)
+        
+        // Disable the button's adjustment when highlighted to remove the blue shadow
+        sender.adjustsImageWhenHighlighted = false
+        
+    }
+    func setUpFavouriteButton(){
+        // Make the button circular
+        favouriteButton.layer.cornerRadius = favouriteButton.bounds.width / 2
+
+        // Set background color
+        favouriteButton.backgroundColor = .white // Change to your desired background color
+
+        // Apply shadow to the button
+        favouriteButton.layer.shadowColor = UIColor.gray.cgColor
+        favouriteButton.layer.shadowOffset = CGSize(width: 0, height: 2)
+        favouriteButton.layer.shadowOpacity = 0.5
+        favouriteButton.layer.shadowRadius = 4
+
+        // Ensure that shadow is not clipped
+        favouriteButton.layer.masksToBounds = false
+    }
     
+    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        // Check if dropdown table view 1 is visible, if yes, hide it
+        if isDropdownVisible {
+            isDropdownVisible = false
+            dropDowntableView1.isHidden = true
+        }
+        
+        // Check if dropdown table view 2 is visible, if yes, hide it
+        if isDropdownVisible2 {
+            isDropdownVisible2 = false
+            dropDowntableView2.isHidden = true
+        }
+    }
     
-    
+    // Your existing table view delegate methods
+
+
     func settingUpDropdown(dropDowntableView: UITableView , cellIdentifier: String) {
         dropDowntableView.isHidden = true
         dropDowntableView.delegate = self
@@ -52,17 +112,23 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     }
     //chevron.down
     
-    func setupDropdownButton1(dropdownButton: UIButton, buttonTitle: String , imageName: String) {
+    func setupDropdownButton(dropdownButton: UIButton, buttonTitle: String , imageName: String) {
         dropdownButton.layer.borderWidth = 2.0
         dropdownButton.layer.borderColor = UIColor.orange.cgColor
         dropdownButton.layer.cornerRadius = 10
         dropdownButton.contentHorizontalAlignment = .left
         dropdownButton.setTitle("  \(buttonTitle)        ", for: .normal)
+
         dropdownButton.setImage(UIImage(systemName: "\(imageName)"), for: .normal)
         dropdownButton.semanticContentAttribute = .forceRightToLeft
         dropdownButton.titleLabel?.adjustsFontForContentSizeCategory = true
 
     }
+
+
+    
+
+
     
     func setupDropdownTableView1(dropDowntableView: UITableView) {
         dropDowntableView.layer.borderWidth = 1.0
@@ -73,32 +139,17 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     @IBAction func dropdownButtopTapped2(_ sender: UIButton) {
         isDropdownVisible2.toggle()
         dropDowntableView2.isHidden = !isDropdownVisible2
+ 
     }
     
     @IBAction func dropdownButtonTapped(_ sender: UIButton) {
         isDropdownVisible.toggle()
         dropDowntableView1.isHidden = !isDropdownVisible
+
        
     }
 
     
-    
-//       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//           return dropdownItems.count
-//       }
-//
-//       func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//           let cell = dropDowntableView1.dequeueReusableCell(withIdentifier: "dropdownCell1", for: indexPath)
-//           cell.textLabel?.text = dropdownItems[indexPath.row]
-//           return cell
-//       }
-//
-//
-//       func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//           dropdownButton.setTitle(dropdownItems[indexPath.row], for: .normal)
-//           isDropdownVisible = false
-//           dropDowntableView1.isHidden = true
-//       }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dropdownItems.count // or dropdownItems2.count depending on the tableView
     }
@@ -116,6 +167,8 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        print("didSelectRowAt called")
         if tableView == dropDowntableView1 {
             dropdownButton.setTitle(dropdownItems[indexPath.row], for: .normal)
             isDropdownVisible = false
@@ -126,6 +179,8 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
             dropDowntableView2.isHidden = true
         }
     }
+
+
 
     
 
