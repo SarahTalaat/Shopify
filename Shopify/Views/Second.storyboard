@@ -396,18 +396,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Product" id="1jF-db-rzw">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="aM1-cf-aUF">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="0Qt-85-Gwk">
-                                <rect key="frame" x="20" y="5" width="87" height="34.5"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="chevron.backward" catalog="system" title="Home"/>
-                                <connections>
-                                    <action selector="backBtn:" destination="d8i-wE-fM1" eventType="touchUpInside" id="2yH-pV-JS7"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="kjQ-Cs-TFQ">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="2N3-SH-Hs5">
                                 <rect key="frame" x="306" y="5" width="88" height="34.5"/>
@@ -1233,7 +1221,6 @@
         <image name="Sale" width="1200" height="675"/>
         <image name="adidas-logo-design-template-416e301e26d296a75536e1f323a013e0_screen" width="690" height="690"/>
         <image name="cart.fill" catalog="system" width="128" height="102"/>
-        <image name="chevron.backward" catalog="system" width="96" height="128"/>
         <image name="chevron.forward" catalog="system" width="96" height="128"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="handbag.fill" catalog="system" width="128" height="116"/>

@@ -51,8 +51,13 @@ class CategoryViewController: UIViewController {
     var clothButtonCenter: CGPoint!
     var isButtonMenuOpen = false
     
+    var sharedMethods: SharedMethods?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        sharedMethods = SharedMethods(viewController: self)
+        
         shoesButtonCenter = shoesBtn.center
         bagsButtonCenter = bagsBtn.center
         clothButtonCenter = clothBtn.center
@@ -70,6 +75,14 @@ class CategoryViewController: UIViewController {
         bagsBtn.applyShadow()
         clothBtn.applyShadow()
         // Do any additional setup after loading the view.
+        
+        
+        let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
+        let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
+        
+        let thirdButton = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToSettings))
+
+        navigationItem.rightBarButtonItems = [firstButton, secondButton]
     }
     
 

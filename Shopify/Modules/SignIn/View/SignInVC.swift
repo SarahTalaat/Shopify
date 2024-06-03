@@ -28,6 +28,8 @@ class SignInVC: UIViewController {
     }
     
     
+    
+    
     func navToHome(){
         let sb = UIStoryboard(name: "Second", bundle: nil)
         let homeVC = sb.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController

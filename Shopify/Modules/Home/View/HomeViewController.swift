@@ -8,6 +8,9 @@
 import UIKit
 
 class HomeViewController: UIViewController {
+    
+    var sharedMethods: SharedMethods?
+    
     @IBOutlet weak var adsCollectionView: UICollectionView!
     
     @IBOutlet weak var brandsCollectionView: UICollectionView!
@@ -40,11 +43,12 @@ class HomeViewController: UIViewController {
         // Do any additional setup after loading the view.
         
 
-        let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: self, action: #selector(navToFav))
-        let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: self, action: #selector(navToCart))
-        
-        // Set both buttons to the right side of the navigation bar
-        navigationItem.rightBarButtonItems = [firstButton,secondButton]
+        sharedMethods = SharedMethods(viewController: self)
+
+        let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
+        let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
+
+        navigationItem.rightBarButtonItems = [firstButton, secondButton]
 
         
     }
