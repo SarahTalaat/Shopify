@@ -14,9 +14,20 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var window: UIWindow?
     let cellSpacingHeight: CGFloat = 30
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        settingUpFavouriteTableView()
+        
+        
+        
+        
+    }
+
+    
+    func settingUpFavouriteTableView(){
         // Register the custom cell
         let nib = UINib(nibName: "FavouritesCustomCell", bundle: nil)
         favouriteTableView.register(nib, forCellReuseIdentifier: "cell")

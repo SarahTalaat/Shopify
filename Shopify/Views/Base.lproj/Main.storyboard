@@ -233,15 +233,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HC5-8c-xM1">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HC5-8c-xM1">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yXo-Hg-Xzu">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1438"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yXo-Hg-Xzu">
+                                        <rect key="frame" x="0.0" y="0.0" width="517" height="1438"/>
                                         <subviews>
-                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" indicatorStyle="black" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="VhD-OC-Gly">
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="black" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="VhD-OC-Gly">
                                                 <rect key="frame" x="0.0" y="8" width="414" height="456"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -281,18 +279,69 @@
                                                     <outlet property="delegate" destination="Zlb-F3-WcO" id="LR7-Vu-muP"/>
                                                 </connections>
                                             </collectionView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="70L-FJ-uMv">
+                                                <rect key="frame" x="44" y="472" width="170" height="48"/>
+                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" image="arrowtriangle.down.fill" catalog="system" title="Size">
+                                                    <fontDescription key="titleFontDescription" type="system" pointSize="20"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="dropdownButtonTapped:" destination="Zlb-F3-WcO" eventType="touchUpInside" id="blH-oH-aWQ"/>
+                                                </connections>
+                                            </button>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="S75-xb-dGm">
+                                                <rect key="frame" x="44" y="511" width="170" height="154"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <prototypes>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="dropdownCell1" id="1HS-Xi-nI0">
+                                                        <rect key="frame" x="0.0" y="44.5" width="170" height="43.5"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1HS-Xi-nI0" id="B3q-0J-dkz">
+                                                            <rect key="frame" x="0.0" y="0.0" width="170" height="43.5"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </tableViewCellContentView>
+                                                    </tableViewCell>
+                                                </prototypes>
+                                            </tableView>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="70L-FJ-uMv" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" multiplier="0.328502" id="4y8-4K-q3C"/>
+                                            <constraint firstItem="70L-FJ-uMv" firstAttribute="leading" secondItem="yXo-Hg-Xzu" secondAttribute="leading" constant="44" id="CYL-0l-aYY"/>
+                                            <constraint firstItem="70L-FJ-uMv" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.0215577" constant="17" id="G4H-lz-MTx"/>
+                                            <constraint firstItem="70L-FJ-uMv" firstAttribute="top" secondItem="yXo-Hg-Xzu" secondAttribute="top" constant="472" id="Khy-I9-4j0"/>
+                                            <constraint firstAttribute="bottom" secondItem="70L-FJ-uMv" secondAttribute="bottom" constant="918" id="RJd-Yl-Ef3"/>
+                                            <constraint firstItem="S75-xb-dGm" firstAttribute="height" secondItem="70L-FJ-uMv" secondAttribute="height" multiplier="1.64516" constant="75.032258064516128" id="SXG-QO-iPg"/>
+                                            <constraint firstItem="S75-xb-dGm" firstAttribute="leading" secondItem="70L-FJ-uMv" secondAttribute="leading" id="SoF-fr-bQ4"/>
+                                            <constraint firstItem="S75-xb-dGm" firstAttribute="width" secondItem="70L-FJ-uMv" secondAttribute="width" multiplier="0.8" constant="34" id="a8h-ZI-lQB"/>
+                                            <constraint firstItem="S75-xb-dGm" firstAttribute="top" secondItem="70L-FJ-uMv" secondAttribute="bottom" constant="-9" id="mTu-6s-HGV"/>
+                                            <constraint firstAttribute="trailing" secondItem="70L-FJ-uMv" secondAttribute="trailing" constant="303" id="yKM-bb-lH9"/>
+                                        </constraints>
                                     </view>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="yXo-Hg-Xzu" firstAttribute="leading" secondItem="HC5-8c-xM1" secondAttribute="leading" id="FqB-4A-hez"/>
+                                    <constraint firstItem="yXo-Hg-Xzu" firstAttribute="top" secondItem="oAn-lP-9Tl" secondAttribute="top" id="WG8-U5-fCe"/>
+                                    <constraint firstAttribute="bottom" secondItem="yXo-Hg-Xzu" secondAttribute="bottom" constant="-617" id="gC9-eX-KXk"/>
+                                    <constraint firstAttribute="trailing" secondItem="yXo-Hg-Xzu" secondAttribute="trailing" id="jBN-LU-dF2"/>
+                                </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="oAn-lP-9Tl"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="B3m-I7-QTF"/>
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="cow-n9-GUP"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="HC5-8c-xM1" firstAttribute="leading" secondItem="lSM-es-9Hn" secondAttribute="leading" id="7nO-1S-C4w"/>
+                            <constraint firstItem="HC5-8c-xM1" firstAttribute="bottom" secondItem="cow-n9-GUP" secondAttribute="bottom" id="CSm-TU-1v9"/>
+                            <constraint firstItem="HC5-8c-xM1" firstAttribute="top" secondItem="cow-n9-GUP" secondAttribute="top" id="Llp-gM-mIP"/>
+                            <constraint firstAttribute="trailing" secondItem="HC5-8c-xM1" secondAttribute="trailing" id="PZd-ZC-gUv"/>
+                        </constraints>
                     </view>
                     <connections>
+                        <outlet property="dropDowntableView1" destination="S75-xb-dGm" id="eJv-eA-mBo"/>
+                        <outlet property="dropdownButton" destination="70L-FJ-uMv" id="9Sj-Bi-E7R"/>
                         <outlet property="myCollectionView" destination="VhD-OC-Gly" id="YtC-xO-7pJ"/>
                     </connections>
                 </viewController>
@@ -321,6 +370,7 @@
     </scenes>
     <resources>
         <image name="arrow.right" catalog="system" width="128" height="98"/>
+        <image name="arrowtriangle.down.fill" catalog="system" width="128" height="124"/>
         <systemColor name="secondarySystemGroupedBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
