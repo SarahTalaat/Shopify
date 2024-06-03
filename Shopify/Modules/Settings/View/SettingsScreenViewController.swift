@@ -44,6 +44,10 @@ class SettingsScreenViewController: UIViewController {
     @IBOutlet weak var aboutView: UIView!
     
     @IBAction func logoutBtn(_ sender: UIButton) {
+        
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let signUpVC = sb.instantiateViewController(withIdentifier: "SignUpVC")
+        navigationController?.pushViewController(signUpVC, animated: true)
     }
    
     
