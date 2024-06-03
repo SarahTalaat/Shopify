@@ -42,14 +42,25 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     }
     
     func setupDropdownButton1() {
-        dropdownButton.layer.borderWidth = 1.0
-        dropdownButton.layer.borderColor = UIColor.gray.cgColor
-        dropdownButton.layer.cornerRadius = 5.0
+//        dropdownButton.layer.borderWidth = 1.0
+//        dropdownButton.layer.borderColor = UIColor.gray.cgColor
+//        dropdownButton.layer.cornerRadius = 5.0
+        
+        dropdownButton.layer.borderWidth = 2.0
+        dropdownButton.layer.borderColor = UIColor.orange.cgColor
+        dropdownButton.layer.cornerRadius = 10
+        dropdownButton.contentHorizontalAlignment = .left
+        dropdownButton.setTitle("  Size        ", for: .normal)
+        dropdownButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+        dropdownButton.semanticContentAttribute = .forceRightToLeft
+        dropdownButton.titleLabel?.adjustsFontForContentSizeCategory = true
+
+ 
     }
     
     func setupDropdownTableView1() {
         dropDowntableView1.layer.borderWidth = 1.0
-        dropDowntableView1.layer.borderColor = UIColor.gray.cgColor
+        dropDowntableView1.layer.borderColor = UIColor.orange.cgColor
         dropDowntableView1.layer.cornerRadius = 5.0
     }
     
