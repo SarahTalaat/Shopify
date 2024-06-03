@@ -12,6 +12,8 @@ class SharedMethods{
     
     weak var viewController: UIViewController?
         
+    var sharedMethods: SharedMethods?
+    
     init(viewController: UIViewController) {
             self.viewController = viewController
     }

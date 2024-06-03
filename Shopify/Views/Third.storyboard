@@ -11,7 +11,7 @@
         <!--Settings Screen View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController storyboardIdentifier="SettingsVC" id="Y6W-OH-hqX" customClass="SettingsScreenViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsVC" id="Y6W-OH-hqX" customClass="SettingsScreenViewController" customModule="Shopify" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -528,7 +528,7 @@
         <!--Payment View Controller-->
         <scene sceneID="D9s-gH-ece">
             <objects>
-                <viewController storyboardIdentifier="PaymentViewController" id="E3M-Xh-X92" customClass="PaymentViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PaymentVC" id="E3M-Xh-X92" customClass="PaymentViewController" customModule="Shopify" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HY8-vj-dbv">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -628,6 +628,7 @@
                             <constraint firstItem="6An-EP-kwm" firstAttribute="centerX" secondItem="3tu-3a-ziq" secondAttribute="centerX" id="rXE-pm-eNP"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="5dX-mM-8ay"/>
                     <connections>
                         <outlet property="applePayView" destination="6An-EP-kwm" id="x4c-2c-x6c"/>
                         <outlet property="cashView" destination="3tu-3a-ziq" id="Mjr-5U-6sa"/>
@@ -635,7 +636,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Z9-58-btj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2612.9770992366412" y="626.76056338028172"/>
+            <point key="canvasLocation" x="4431.884057971015" y="626.11607142857144"/>
         </scene>
         <!--Coupon View Controller-->
         <scene sceneID="KiL-M8-Pwg">
@@ -760,7 +761,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e1z-pE-Cdj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3493.8931297709923" y="626.76056338028172"/>
+            <point key="canvasLocation" x="5313.04347826087" y="626.11607142857144"/>
         </scene>
         <!--Contact Us View Controller-->
         <scene sceneID="gMX-aU-0QK">
@@ -1032,7 +1033,7 @@ Sarah Talaat     </string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4S1-Hh-FqV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8036.2318840579719" y="626.11607142857144"/>
+            <point key="canvasLocation" x="9856.5217391304359" y="626.11607142857144"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="g2U-Pv-o9m">
@@ -1050,7 +1051,25 @@ Sarah Talaat     </string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uM7-fR-QqC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7126.0869565217399" y="626.11607142857144"/>
+            <point key="canvasLocation" x="8946.3768115942039" y="626.11607142857144"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="fOv-hu-APo">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eRd-64-C1j" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="GQz-vZ-O8M">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="E3M-Xh-X92" kind="relationship" relationship="rootViewController" id="3AA-TY-OAX"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vsf-Ni-x9F" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3521.739130434783" y="626.11607142857144"/>
         </scene>
     </scenes>
     <resources>

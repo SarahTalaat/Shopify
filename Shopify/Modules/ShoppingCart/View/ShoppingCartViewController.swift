@@ -28,11 +28,13 @@ class ShoppingCartViewController: UIViewController ,UITableViewDelegate, UITable
 
     
     @IBAction func processedToPaymentBtn(_ sender: UIButton) {
-        let paymentVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "PaymentViewController") as? PaymentViewController
+        
+        let sb = UIStoryboard(name: "Third", bundle: nil)
+        let paymentVC = sb.instantiateViewController(withIdentifier: "PaymentVC") as! PaymentViewController
+        navigationController?.pushViewController(paymentVC, animated: true)
      
-        paymentVC!.modalPresentationStyle = .fullScreen
-       present(paymentVC!, animated: true, completion: nil)
     }
+    
     @IBOutlet weak var totalAmount: UILabel!
     @IBOutlet weak var shoppingCartTableView: UITableView!
     
