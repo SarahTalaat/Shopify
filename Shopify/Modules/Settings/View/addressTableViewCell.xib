@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="138" id="KGk-i7-Jjw" customClass="addressTableViewCell" customModule="Shopify" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="138"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="138"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9gF-6I-mnc">
+                        <rect key="frame" x="36" y="25" width="94" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address Details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sd3-FA-pmx">
+                        <rect key="frame" x="36" y="70" width="205" height="53"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qv1-cu-NBo">
+                        <rect key="frame" x="256" y="18" width="48" height="35"/>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" image="checkmark" catalog="system">
+                            <color key="baseForegroundColor" systemColor="labelColor"/>
+                        </buttonConfiguration>
+                        <connections>
+                            <action selector="checkBtnAddress:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="RO6-jq-iJr"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="9gF-6I-mnc" secondAttribute="bottom" constant="92" id="0vu-Ka-z3w"/>
+                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="36" id="297-TZ-GMh"/>
+                    <constraint firstAttribute="bottom" secondItem="qv1-cu-NBo" secondAttribute="bottom" constant="85" id="3mR-Bg-mHQ"/>
+                    <constraint firstAttribute="trailing" secondItem="qv1-cu-NBo" secondAttribute="trailing" constant="16" id="IEH-Dc-E6u"/>
+                    <constraint firstAttribute="trailing" secondItem="9gF-6I-mnc" secondAttribute="trailing" constant="190" id="IWG-xE-5AG"/>
+                    <constraint firstItem="qv1-cu-NBo" firstAttribute="leading" secondItem="9gF-6I-mnc" secondAttribute="trailing" constant="126" id="TIC-kz-yHi"/>
+                    <constraint firstItem="qv1-cu-NBo" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="18" id="fO6-uv-thb"/>
+                    <constraint firstAttribute="bottom" secondItem="Sd3-FA-pmx" secondAttribute="bottom" constant="15" id="gLp-jf-L67"/>
+                    <constraint firstAttribute="trailing" secondItem="Sd3-FA-pmx" secondAttribute="trailing" constant="79" id="jPb-bE-NFx"/>
+                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="top" secondItem="9gF-6I-mnc" secondAttribute="bottom" constant="24" id="qsw-hM-zYn"/>
+                    <constraint firstItem="9gF-6I-mnc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="36" id="vx1-ix-Guc"/>
+                    <constraint firstItem="9gF-6I-mnc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="zA6-tZ-4bj"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="addressDetails" destination="Sd3-FA-pmx" id="gtj-tC-Uus"/>
+                <outlet property="userName" destination="9gF-6I-mnc" id="ek0-1Q-XwF"/>
+            </connections>
+            <point key="canvasLocation" x="129.7709923664122" y="21.83098591549296"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="checkmark" catalog="system" width="128" height="114"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
