@@ -10,6 +10,19 @@
 		299440442A1E0C33463A3563 /* Pods_Shopify_ShopifyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6253E62D3D89364DD7D571A3 /* Pods_Shopify_ShopifyUITests.framework */; };
 		31C433F6E1A65AEEFDAA62EC /* Pods_Shopify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A9B08B0F994C3A5BCC6481 /* Pods_Shopify.framework */; };
 		390ED1E9619A55E9A447D3D3 /* Pods_ShopifyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DDFF2CC4A09A57E31BFEE60 /* Pods_ShopifyTests.framework */; };
+		6C16C1C22C0D4C9E009F7EE5 /* CouponViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C16C1C12C0D4C9E009F7EE5 /* CouponViewController.swift */; };
+		6C204C112C0B4FBC00D2B0FC /* CurrencyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C204C102C0B4FBC00D2B0FC /* CurrencyViewController.swift */; };
+		6C204C132C0B4FFA00D2B0FC /* ContactUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C204C122C0B4FFA00D2B0FC /* ContactUsViewController.swift */; };
+		6C204C152C0B502B00D2B0FC /* AboutUsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C204C142C0B502B00D2B0FC /* AboutUsViewController.swift */; };
+		6C204C1B2C0B550900D2B0FC /* AddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C204C1A2C0B550900D2B0FC /* AddressViewController.swift */; };
+		6C204C1E2C0B555700D2B0FC /* addressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C204C1C2C0B555700D2B0FC /* addressTableViewCell.swift */; };
+		6C204C1F2C0B555700D2B0FC /* addressTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C204C1D2C0B555700D2B0FC /* addressTableViewCell.xib */; };
+		6C204C212C0B5A6400D2B0FC /* NewAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C204C202C0B5A6400D2B0FC /* NewAddressViewController.swift */; };
+		6C204C232C0B703200D2B0FC /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C204C222C0B703100D2B0FC /* PaymentViewController.swift */; };
+		6CABE9332C0BE4B30020E035 /* ShoppingCartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CABE9322C0BE4B30020E035 /* ShoppingCartViewController.swift */; };
+		6CABE9362C0BE6B50020E035 /* CartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CABE9342C0BE6B50020E035 /* CartTableViewCell.swift */; };
+		6CABE9372C0BE6B50020E035 /* CartTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CABE9352C0BE6B50020E035 /* CartTableViewCell.xib */; };
+		6CC90DC22C0B3E1B0064794D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC90DC12C0B3E1B0064794D /* SettingsViewController.swift */; };
 		B6365B832C0A18BD00277D31 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6365B822C0A18BD00277D31 /* DatabaseManager.swift */; };
 		B6365B852C0A18CD00277D31 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6365B842C0A18CD00277D31 /* NetworkService.swift */; };
 		B6365B872C0A18DE00277D31 /* test24.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6365B862C0A18DE00277D31 /* test24.swift */; };
@@ -72,6 +85,19 @@
 		36A9B08B0F994C3A5BCC6481 /* Pods_Shopify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Shopify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CA775E8FDF08C4CBA7142D6 /* Pods-Shopify.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shopify.debug.xcconfig"; path = "Target Support Files/Pods-Shopify/Pods-Shopify.debug.xcconfig"; sourceTree = "<group>"; };
 		6253E62D3D89364DD7D571A3 /* Pods_Shopify_ShopifyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Shopify_ShopifyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C16C1C12C0D4C9E009F7EE5 /* CouponViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponViewController.swift; sourceTree = "<group>"; };
+		6C204C102C0B4FBC00D2B0FC /* CurrencyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyViewController.swift; sourceTree = "<group>"; };
+		6C204C122C0B4FFA00D2B0FC /* ContactUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactUsViewController.swift; sourceTree = "<group>"; };
+		6C204C142C0B502B00D2B0FC /* AboutUsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsViewController.swift; sourceTree = "<group>"; };
+		6C204C1A2C0B550900D2B0FC /* AddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressViewController.swift; sourceTree = "<group>"; };
+		6C204C1C2C0B555700D2B0FC /* addressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addressTableViewCell.swift; sourceTree = "<group>"; };
+		6C204C1D2C0B555700D2B0FC /* addressTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = addressTableViewCell.xib; sourceTree = "<group>"; };
+		6C204C202C0B5A6400D2B0FC /* NewAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAddressViewController.swift; sourceTree = "<group>"; };
+		6C204C222C0B703100D2B0FC /* PaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
+		6CABE9322C0BE4B30020E035 /* ShoppingCartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCartViewController.swift; sourceTree = "<group>"; };
+		6CABE9342C0BE6B50020E035 /* CartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTableViewCell.swift; sourceTree = "<group>"; };
+		6CABE9352C0BE6B50020E035 /* CartTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CartTableViewCell.xib; sourceTree = "<group>"; };
+		6CC90DC12C0B3E1B0064794D /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = ../../../../../../../SettingsViewController.swift; sourceTree = "<group>"; };
 		8DDFF2CC4A09A57E31BFEE60 /* Pods_ShopifyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShopifyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABD16382AFA74B2F1FD6DE89 /* Pods-ShopifyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopifyTests.debug.xcconfig"; path = "Target Support Files/Pods-ShopifyTests/Pods-ShopifyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B6365B822C0A18BD00277D31 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -396,6 +422,14 @@
 			isa = PBXGroup;
 			children = (
 				B6365BC02C0A1C7100277D31 /* test8.swift */,
+				6CC90DC12C0B3E1B0064794D /* SettingsViewController.swift */,
+				6C204C102C0B4FBC00D2B0FC /* CurrencyViewController.swift */,
+				6C204C122C0B4FFA00D2B0FC /* ContactUsViewController.swift */,
+				6C204C142C0B502B00D2B0FC /* AboutUsViewController.swift */,
+				6C204C1A2C0B550900D2B0FC /* AddressViewController.swift */,
+				6C204C1C2C0B555700D2B0FC /* addressTableViewCell.swift */,
+				6C204C1D2C0B555700D2B0FC /* addressTableViewCell.xib */,
+				6C204C202C0B5A6400D2B0FC /* NewAddressViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -420,6 +454,8 @@
 			isa = PBXGroup;
 			children = (
 				B6365BC22C0A1C7800277D31 /* test9.swift */,
+				6C204C222C0B703100D2B0FC /* PaymentViewController.swift */,
+				6C16C1C12C0D4C9E009F7EE5 /* CouponViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -428,6 +464,9 @@
 			isa = PBXGroup;
 			children = (
 				B6365BC82C0A1CA800277D31 /* test12.swift */,
+				6CABE9322C0BE4B30020E035 /* ShoppingCartViewController.swift */,
+				6CABE9342C0BE6B50020E035 /* CartTableViewCell.swift */,
+				6CABE9352C0BE6B50020E035 /* CartTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -686,7 +725,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C204C1F2C0B555700D2B0FC /* addressTableViewCell.xib in Resources */,
 				B69FA17A2C09F04F009D43B7 /* LaunchScreen.storyboard in Resources */,
+				6CABE9372C0BE6B50020E035 /* CartTableViewCell.xib in Resources */,
 				B69FA1772C09F04F009D43B7 /* Assets.xcassets in Resources */,
 				B6365B902C0A19F900277D31 /* Third.storyboard in Resources */,
 				B69FA1722C09F04E009D43B7 /* Main.storyboard in Resources */,
@@ -819,17 +860,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				B69FA16F2C09F04D009D43B7 /* ViewController.swift in Sources */,
+				6C204C232C0B703200D2B0FC /* PaymentViewController.swift in Sources */,
 				B6365BB72C0A1C4300277D31 /* test3.swift in Sources */,
+				6C204C132C0B4FFA00D2B0FC /* ContactUsViewController.swift in Sources */,
 				B69FA16B2C09F04D009D43B7 /* AppDelegate.swift in Sources */,
 				B6365BD32C0A1CE600277D31 /* test17.swift in Sources */,
 				B6365BD52C0A1CF000277D31 /* test18.swift in Sources */,
 				B6365B832C0A18BD00277D31 /* DatabaseManager.swift in Sources */,
 				B6365BB32C0A1C1C00277D31 /* test26.swift in Sources */,
+				6CC90DC22C0B3E1B0064794D /* SettingsViewController.swift in Sources */,
 				B6365BC52C0A1C8D00277D31 /* test10.swift in Sources */,
 				B69FA1752C09F04E009D43B7 /* Shopify.xcdatamodeld in Sources */,
 				B6365B8C2C0A19C000277D31 /* test25.swift in Sources */,
 				B6365BC12C0A1C7100277D31 /* test8.swift in Sources */,
 				B6365BBD2C0A1C6000277D31 /* test6.swift in Sources */,
+				6C204C212C0B5A6400D2B0FC /* NewAddressViewController.swift in Sources */,
 				B6365BBB2C0A1C5700277D31 /* test5.swift in Sources */,
 				B6365BDB2C0A1D1C00277D31 /* test21.swift in Sources */,
 				B6365BD92C0A1D0700277D31 /* test20.swift in Sources */,
@@ -837,13 +882,20 @@
 				B6365B852C0A18CD00277D31 /* NetworkService.swift in Sources */,
 				B6365BD12C0A1CDE00277D31 /* test16.swift in Sources */,
 				B6365BB92C0A1C4E00277D31 /* test4.swift in Sources */,
+				6CABE9362C0BE6B50020E035 /* CartTableViewCell.swift in Sources */,
 				B6365BDD2C0A1D2500277D31 /* test22.swift in Sources */,
+				6CABE9332C0BE4B30020E035 /* ShoppingCartViewController.swift in Sources */,
+				6C16C1C22C0D4C9E009F7EE5 /* CouponViewController.swift in Sources */,
 				B6365BCF2C0A1CD500277D31 /* test15.swift in Sources */,
 				B6365BC72C0A1C9C00277D31 /* test11.swift in Sources */,
 				B6365BCD2C0A1CCA00277D31 /* test14.swift in Sources */,
 				B6365B892C0A198F00277D31 /* test23.swift in Sources */,
 				B6365BC32C0A1C7800277D31 /* test9.swift in Sources */,
+				6C204C1E2C0B555700D2B0FC /* addressTableViewCell.swift in Sources */,
+				6C204C1B2C0B550900D2B0FC /* AddressViewController.swift in Sources */,
 				B6365BB52C0A1C3B00277D31 /* test1.swift in Sources */,
+				6C204C152C0B502B00D2B0FC /* AboutUsViewController.swift in Sources */,
+				6C204C112C0B4FBC00D2B0FC /* CurrencyViewController.swift in Sources */,
 				B6365BBF2C0A1C6800277D31 /* test7.swift in Sources */,
 				B69FA16D2C09F04D009D43B7 /* SceneDelegate.swift in Sources */,
 				B6365B872C0A18DE00277D31 /* test24.swift in Sources */,
