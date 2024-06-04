@@ -55,7 +55,8 @@ class CategoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        collectionView.collectionViewLayout = productCollectionViewLayout()
+
         sharedMethods = SharedMethods(viewController: self)
         
         shoesButtonCenter = shoesBtn.center
@@ -74,7 +75,6 @@ class CategoryViewController: UIViewController {
         shoesBtn.applyShadow()
         bagsBtn.applyShadow()
         clothBtn.applyShadow()
-        // Do any additional setup after loading the view.
         
         
         let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
@@ -115,6 +115,24 @@ class CategoryViewController: UIViewController {
                 self.isButtonMenuOpen = true
             }
         }
+    
+    func productCollectionViewLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                  heightDimension: .fractionalHeight(1.0))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                   heightDimension: .absolute(130))
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = 10
+            section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 4, bottom: 5, trailing: 4)
+
+            return section
+        }
+    }
+    
     
 }
 

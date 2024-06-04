@@ -24,6 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Set the back button arrow color globally
         UINavigationBar.appearance().tintColor = .black
+         let customRed = UIColor(red: 219/255.0, green: 48/255.0, blue: 34/255.0, alpha: 1.0)
+        UITabBar.appearance().tintColor = customRed
+             UITabBar.appearance().unselectedItemTintColor = UIColor.gray
         return true
     }
 
