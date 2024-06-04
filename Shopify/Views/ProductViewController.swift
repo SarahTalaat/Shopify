@@ -11,19 +11,8 @@ class ProductViewController: UIViewController {
     
 
     @IBOutlet weak var collectionView: UICollectionView!
-    
-    @IBAction func backBtn(_ sender: UIButton) {
-//        let storyboard = UIStoryboard(name: "Second", bundle: nil)
-//        let homeScreen = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-//        navigationController?.pushViewController(homeScreen, animated: true)
-    }
-    
-    @IBAction func filterBtn(_ sender: UIBarButtonItem) {
-    }
-    
-    
+    @IBOutlet weak var price: UISlider!
     @IBOutlet weak var searchTextField: UITextField!
-    
     @IBOutlet weak var priceLabel: UILabel!
     
     @IBAction func priceBar(_ sender: Any) {
@@ -36,14 +25,18 @@ class ProductViewController: UIViewController {
     
     let colorList = ["Black", "White", "Red", "Blue", "Green", "Brown"]
     let sizeList = ["XS", "S", "M", "L", "XL"]
+    var isFilter = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let nibCell = UINib(nibName: "ProductsCollectionViewCell", bundle: nil)
         collectionView.register(nibCell, forCellWithReuseIdentifier: "ProductsCollectionViewCell")
-        
         collectionView.collectionViewLayout = brandsCollectionViewLayout()
         
+        priceLabel.isHidden = true
+        sizeMenu.isHidden = true
+        colorMenu.isHidden = true
+        price.isHidden = true
         
         let actionClosure = { (action: UIAction) in
             print(action.title)
@@ -66,22 +59,46 @@ class ProductViewController: UIViewController {
         sizeMenu.menu = UIMenu(options: .displayInline, children: menusizes)
         sizeMenu.showsMenuAsPrimaryAction = true
         sizeMenu.changesSelectionAsPrimaryAction = true
+        
+        let filterButton = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal.decrease.circle"), style: .plain, target: self, action: #selector(self.showFilter))
+        navigationItem.rightBarButtonItems = [filterButton]
 
+
+    }
+    
+    @objc func showFilter(){
+        
+        if isFilter{
+            priceLabel.isHidden = true
+            sizeMenu.isHidden = true
+            colorMenu.isHidden = true
+            price.isHidden = true
+            isFilter = false
+        } else{
+            priceLabel.isHidden = false
+            sizeMenu.isHidden = false
+            colorMenu.isHidden = false
+            price.isHidden = false
+            isFilter = true
+        }
     }
     
     
     func brandsCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-                                                  heightDimension: .fractionalHeight(1.0))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(200))
-            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-            let section = NSCollectionLayoutSection(group: group)
-            section.interGroupSpacing = 10
-            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-            return section
+                                                         heightDimension: .fractionalHeight(1.0))
+                   let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                   item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
+                   let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                          heightDimension: .absolute(260))
+                   let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                   
+                   let section = NSCollectionLayoutSection(group: group)
+                   section.interGroupSpacing = 10
+                   section.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4)
+                   
+                   return section
         }
     }
 
