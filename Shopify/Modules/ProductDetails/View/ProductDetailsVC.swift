@@ -8,6 +8,7 @@
 import UIKit
 
 class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource{
+    @IBOutlet weak var brandNameLabel: UILabel!
     
     // Define a boolean variable to track the state
     var isFavourite = false
@@ -38,6 +39,9 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         setupDropdownTableView1(dropDowntableView: dropDowntableView2)
         
         setUpFavouriteButton()
+        
+        
+   
 
     }
     
@@ -75,7 +79,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         favouriteButton.layer.cornerRadius = favouriteButton.bounds.width / 2
 
         // Set background color
-        favouriteButton.backgroundColor = .white // Change to your desired background color
+        favouriteButton.backgroundColor = .white
 
         // Apply shadow to the button
         favouriteButton.layer.shadowColor = UIColor.gray.cgColor
@@ -125,15 +129,13 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
     }
 
-
-    
-
-
     
     func setupDropdownTableView1(dropDowntableView: UITableView) {
         dropDowntableView.layer.borderWidth = 1.0
         dropDowntableView.layer.borderColor = UIColor.orange.cgColor
         dropDowntableView.layer.cornerRadius = 5.0
+        dropDowntableView.backgroundColor = .white
+        
     }
     
     @IBAction func dropdownButtopTapped2(_ sender: UIButton) {
@@ -203,6 +205,11 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         
         return cell
     }
+    
+    
+    
+
+    
     
 
     }
