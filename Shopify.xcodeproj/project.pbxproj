@@ -466,7 +466,6 @@
 		B6365BA02C0A1B8C00277D31 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B6365BBC2C0A1C6000277D31 /* test6.swift */,
 				B637B7582C0B8B21005EFA7D /* FavouriteVC.swift */,
 				B637B75C2C0B8F77005EFA7D /* FavouritesCustomCell.swift */,
 				B637B75D2C0B8F77005EFA7D /* FavouritesCustomCell.xib */,
@@ -479,6 +478,7 @@
 			isa = PBXGroup;
 			children = (
 				B6365BBA2C0A1C5700277D31 /* test5.swift */,
+				B6365BBC2C0A1C6000277D31 /* test6.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
