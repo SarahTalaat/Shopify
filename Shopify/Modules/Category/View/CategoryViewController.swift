@@ -15,7 +15,7 @@ class CategoryViewController: UIViewController {
     @IBOutlet weak var allBtn: UIButton!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var search: UITextField!
-    
+    @IBOutlet weak var women: UIButton!
     @IBAction func womenBtn(_ sender: UIButton) {
         updateButton(sender)
     }
@@ -75,8 +75,8 @@ class CategoryViewController: UIViewController {
         navigationItem.leftBarButtonItem = searchButton
         search.isHidden = true
         
-        sender.addBottomBorder(withColor: UIColor.red, andWidth: 2)
-        selectedButton = sender
+        women.addBottomBorder(withColor: UIColor.red, andWidth: 2)
+        selectedButton = women
     }
     
     @objc func showSearch(){

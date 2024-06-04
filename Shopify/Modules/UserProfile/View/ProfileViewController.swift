@@ -18,7 +18,6 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var wishlistLabel: UILabel!
     @IBOutlet weak var login: UIButton!
     @IBOutlet weak var register: UIButton!
-    
     var sharedMethods: SharedMethods?
     
     @IBAction func ordersBtn(_ sender: UIButton) {
@@ -56,6 +55,8 @@ class ProfileViewController: UIViewController {
         
         login.isHidden = true
         register.isHidden = true
+        
+       
     }
     
     
@@ -111,13 +112,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == ordersCollectionView {
             return 2
-        }
-        else{
-            return 4
-        }
-       
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -145,3 +140,30 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             }
         }
     }
+
+@IBDesignable extension UIView {
+    @IBInspectable var shadowRadius: CGFloat {
+        get { return layer.shadowRadius }
+        set { layer.shadowRadius = newValue }
+    }
+
+    @IBInspectable var shadowOpacity: CGFloat {
+        get { return CGFloat(layer.shadowOpacity) }
+        set { layer.shadowOpacity = Float(newValue) }
+    }
+
+    @IBInspectable var shadowOffset: CGSize {
+        get { return layer.shadowOffset }
+        set { layer.shadowOffset = newValue }
+    }
+
+    @IBInspectable var shadowColor: UIColor? {
+        get {
+            guard let cgColor = layer.shadowColor else {
+                return nil
+            }
+            return UIColor(cgColor: cgColor)
+        }
+        set { layer.shadowColor = newValue?.cgColor }
+    }
+}
