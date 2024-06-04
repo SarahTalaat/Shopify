@@ -74,6 +74,9 @@ class CategoryViewController: UIViewController {
         navigationItem.rightBarButtonItems = [firstButton, secondButton]
         navigationItem.leftBarButtonItem = searchButton
         search.isHidden = true
+        
+        sender.addBottomBorder(withColor: UIColor.red, andWidth: 2)
+        selectedButton = sender
     }
     
     @objc func showSearch(){
@@ -123,13 +126,8 @@ class CategoryViewController: UIViewController {
     
     
     func updateButton(_ sender: UIButton) {
-          // Remove bottom border from the previously selected button
           selectedButton?.removeBottomBorder()
-          
-          // Add bottom border to the clicked button
           sender.addBottomBorder(withColor: UIColor.red, andWidth: 2)
-          
-          // Update the selectedButton to the current button
           selectedButton = sender
       }
     func productCollectionViewLayout() -> UICollectionViewCompositionalLayout {

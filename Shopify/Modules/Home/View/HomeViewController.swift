@@ -14,20 +14,6 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var adsCollectionView: UICollectionView!
     
     @IBOutlet weak var brandsCollectionView: UICollectionView!
-    
-    @IBAction func favBtn(_ sender: UIBarButtonItem) {
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                         let brandsViewController = storyboard.instantiateViewController(withIdentifier: "FavouriteVC") as! FavouriteVC
-                         navigationController?.pushViewController(brandsViewController, animated: true)
-    }
-    
-    
-    @IBAction func cartBtn(_ sender: UIBarButtonItem) {
-        let storyboard = UIStoryboard(name: "Third", bundle: nil)
-        let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ShoppingCartVC") as! ShoppingCartViewController
-        navigationController?.pushViewController(brandsViewController, animated: true)
-    }
-    
 
     
     override func viewDidLoad() {
@@ -44,8 +30,10 @@ class HomeViewController: UIViewController {
 
         let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
         let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
+        let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchBtn))
 
         navigationItem.rightBarButtonItems = [firstButton, secondButton]
+        navigationItem.leftBarButtonItems = [searchButton]
 
         
     }
@@ -65,6 +53,13 @@ class HomeViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let favouriteVC = storyboard.instantiateViewController(withIdentifier: "FavouriteVC") as! FavouriteVC
         navigationController?.pushViewController(favouriteVC, animated: true)
+
+    }
+    
+    @objc func searchBtn(){
+        let storyboard = UIStoryboard(name: "Second", bundle: nil)
+        let brandsViewController = storyboard.instantiateViewController(withIdentifier: "AllProductsViewController") as! AllProductsViewController
+        navigationController?.pushViewController(brandsViewController, animated: true)
 
     }
     
@@ -112,17 +107,6 @@ class HomeViewController: UIViewController {
               return section
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {

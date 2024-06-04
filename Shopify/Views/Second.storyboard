@@ -413,7 +413,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pfG-ys-UUS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3304.5801526717555" y="-27.464788732394368"/>
+            <point key="canvasLocation" x="3251" y="-28"/>
         </scene>
         <!--Home-->
         <scene sceneID="s0d-6b-0kx">
@@ -565,9 +565,6 @@
                                     <state key="normal" title="Button"/>
                                     <buttonConfiguration key="configuration" style="plain" image="heart.fill" catalog="system"/>
                                 </button>
-                                <connections>
-                                    <action selector="favBtn:" destination="Y6W-OH-hqX" id="c1z-Fg-t3K"/>
-                                </connections>
                             </barButtonItem>
                             <barButtonItem style="plain" id="RY4-C2-6ui">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="gfA-1F-Yxw">
@@ -577,9 +574,6 @@
                                     <state key="normal" title="Button"/>
                                     <buttonConfiguration key="configuration" style="plain" image="cart.fill" catalog="system"/>
                                 </button>
-                                <connections>
-                                    <action selector="cartBtn:" destination="Y6W-OH-hqX" id="7NS-eF-wuQ"/>
-                                </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
@@ -1123,6 +1117,70 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9MK-FK-kp1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="736.64122137404581" y="-27.464788732394368"/>
+        </scene>
+        <!--All Products View Controller-->
+        <scene sceneID="cev-TW-EMm">
+            <objects>
+                <viewController storyboardIdentifier="AllProductsViewController" id="2j0-Kt-Zpp" customClass="AllProductsViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HD0-Uz-t7n">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="  Search here" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hhi-YE-M6s">
+                                <rect key="frame" x="20" y="104" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="searchTextFeild:" destination="2j0-Kt-Zpp" eventType="editingDidEnd" id="n6j-t4-3AR"/>
+                                </connections>
+                            </textField>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="OyK-21-oDn">
+                                <rect key="frame" x="20" y="168" width="374" height="569"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Xt8-wd-bpi">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Nl3-eG-Wpa">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="PUn-tv-Fef">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="2j0-Kt-Zpp" id="Zzm-6h-eCT"/>
+                                    <outlet property="delegate" destination="2j0-Kt-Zpp" id="sxK-J8-vtp"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="YNw-th-ckN"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="YNw-th-ckN" firstAttribute="trailing" secondItem="Hhi-YE-M6s" secondAttribute="trailing" constant="20" id="0Fx-93-38y"/>
+                            <constraint firstItem="Hhi-YE-M6s" firstAttribute="top" secondItem="YNw-th-ckN" secondAttribute="top" constant="56" id="5gT-zK-umu"/>
+                            <constraint firstItem="YNw-th-ckN" firstAttribute="bottom" secondItem="OyK-21-oDn" secondAttribute="bottom" constant="76" id="KPJ-kP-KsG"/>
+                            <constraint firstItem="OyK-21-oDn" firstAttribute="top" secondItem="Hhi-YE-M6s" secondAttribute="bottom" constant="30" id="N0d-di-Lp8"/>
+                            <constraint firstItem="YNw-th-ckN" firstAttribute="trailing" secondItem="OyK-21-oDn" secondAttribute="trailing" constant="20" id="RRB-tr-iFx"/>
+                            <constraint firstItem="Hhi-YE-M6s" firstAttribute="leading" secondItem="YNw-th-ckN" secondAttribute="leading" constant="20" id="wI6-hD-CGC"/>
+                            <constraint firstItem="OyK-21-oDn" firstAttribute="leading" secondItem="YNw-th-ckN" secondAttribute="leading" constant="20" id="ycV-Bc-F8d"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="collectionView" destination="OyK-21-oDn" id="7oB-6g-eAj"/>
+                        <outlet property="search" destination="Hhi-YE-M6s" id="nv5-Yn-ZwD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c6e-lC-lO0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4022" y="-28"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="y43-XA-RMZ">
