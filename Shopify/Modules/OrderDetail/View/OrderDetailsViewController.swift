@@ -59,7 +59,7 @@ extension OrderDetailsViewController: UICollectionViewDataSource, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OrderDetailsCell", for: indexPath) as! OrderDetailsCell
-        cell.orderImage.image = UIImage(named:"download.png")
+        cell.orderImage.image = UIImage(named:"jan22sale.jpg")
         cell.numOfUnit.text = "Unit:1"
         cell.orderBrand.text = "ZARA"
         cell.unitColor.text = "Color:Black"

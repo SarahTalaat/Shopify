@@ -806,12 +806,6 @@
                                     <action selector="loginBtn:" destination="JgX-LP-WUR" eventType="touchUpInside" id="RHm-v7-UUY"/>
                                 </connections>
                             </button>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hcp-d2-GBi">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <viewLayoutGuide key="contentLayoutGuide" id="ohG-bO-BLk"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="bQG-Ai-lQS"/>
-                            </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="a8W-x6-kQ0"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -851,9 +845,6 @@
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="Button"/>
                                     <buttonConfiguration key="configuration" style="plain" image="gearshape" catalog="system"/>
-                                    <connections>
-                                        <action selector="settingsBtn:" destination="JgX-LP-WUR" eventType="touchUpInside" id="iCb-GK-iLl"/>
-                                    </connections>
                                 </button>
                             </barButtonItem>
                             <barButtonItem style="plain" id="woo-Kf-rpD">
@@ -863,9 +854,6 @@
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="Button"/>
                                     <buttonConfiguration key="configuration" style="plain" image="cart.fill" catalog="system"/>
-                                    <connections>
-                                        <action selector="cartBtn:" destination="JgX-LP-WUR" eventType="touchUpInside" id="5et-GD-yiw"/>
-                                    </connections>
                                 </button>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -979,7 +967,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="A4G-n3-jNE">
-                                <rect key="frame" x="16" y="142" width="382" height="688"/>
+                                <rect key="frame" x="16" y="78" width="382" height="752"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Qky-5x-BfL">
                                     <size key="itemSize" width="361" height="128"/>
@@ -1080,7 +1068,7 @@
                         <constraints>
                             <constraint firstItem="A4G-n3-jNE" firstAttribute="leading" secondItem="4bF-cq-9R3" secondAttribute="leading" constant="16" id="6XN-Ty-4bT"/>
                             <constraint firstItem="4bF-cq-9R3" firstAttribute="trailing" secondItem="A4G-n3-jNE" secondAttribute="trailing" constant="16" id="Lnx-4v-NhW"/>
-                            <constraint firstItem="A4G-n3-jNE" firstAttribute="top" secondItem="4bF-cq-9R3" secondAttribute="top" constant="94" id="YWT-RJ-H9F"/>
+                            <constraint firstItem="A4G-n3-jNE" firstAttribute="top" secondItem="4bF-cq-9R3" secondAttribute="top" constant="30" id="YWT-RJ-H9F"/>
                             <constraint firstItem="4bF-cq-9R3" firstAttribute="bottom" secondItem="A4G-n3-jNE" secondAttribute="bottom" constant="32" id="rAT-KV-oE7"/>
                         </constraints>
                     </view>

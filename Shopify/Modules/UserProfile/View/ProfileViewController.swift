@@ -39,24 +39,11 @@ class ProfileViewController: UIViewController {
     
     @IBAction func registerBtn(_ sender: UIButton) {
     }
-    
-    @IBAction func settingsBtn(_ sender: UIButton) {
-        //        let storyboard = UIStoryboard(name: "Third", bundle: nil)
-        //                 let brandsViewController = storyboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
-        //                 navigationController?.pushViewController(brandsViewController, animated: true)
-    }
-    
-    @IBAction func cartBtn(_ sender: UIButton) {
-        //        let storyboard = UIStoryboard(name: "Third", bundle: nil)
-        //                 let brandsViewController = storyboard.instantiateViewController(withIdentifier: "CartViewController") as! CartViewController
-        //                 navigationController?.pushViewController(brandsViewController, animated: true)
-    }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         ordersCollectionView.collectionViewLayout = ordersCollectionViewLayout()
         wishlistCollectionView.collectionViewLayout = wishlistCollectionViewLayout()
-        // Do any additional setup after loading the view.
         sharedMethods = SharedMethods(viewController: self)
         
         let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
@@ -66,6 +53,9 @@ class ProfileViewController: UIViewController {
 
         navigationItem.rightBarButtonItems = [firstButton, secondButton]
         navigationItem.leftBarButtonItem = thirdButton
+        
+        login.isHidden = true
+        register.isHidden = true
     }
     
     
@@ -77,12 +67,11 @@ class ProfileViewController: UIViewController {
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(100))
+                                                   heightDimension: .absolute(60))
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
-            section.interGroupSpacing = 10
-            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 5, bottom: 10, trailing: 5)
 
             return section
         }
@@ -94,12 +83,11 @@ class ProfileViewController: UIViewController {
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(200))
+                                                   heightDimension: .absolute(60))
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
-            section.interGroupSpacing = 10
-            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 5, bottom: 4, trailing: 5)
             return section
         }
     }
@@ -154,6 +142,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let favouriteVC = storyboard.instantiateViewController(withIdentifier: "FavouriteVC") as! FavouriteVC
         navigationController?.pushViewController(favouriteVC, animated: true)
-                  }
+            }
         }
     }
