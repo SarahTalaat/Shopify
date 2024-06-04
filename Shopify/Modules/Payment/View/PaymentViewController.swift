@@ -23,6 +23,7 @@ class PaymentViewController: UIViewController {
         applePayView.layer.shadowColor = UIColor.black.cgColor
         applePayView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
         applePayView.layer.shadowOpacity = 0.5
+        self.title = "Payment"
     }
     
 

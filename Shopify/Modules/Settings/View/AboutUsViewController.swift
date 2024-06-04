@@ -17,6 +17,7 @@ class AboutUsViewController: UIViewController {
         aboutUs.layer.shadowColor = UIColor.black.cgColor
         aboutUs.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
         aboutUs.layer.shadowOpacity = 0.5
+        self.title = "About Us"
     }
     
 

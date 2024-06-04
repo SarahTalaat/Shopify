@@ -8,22 +8,38 @@
 import UIKit
 
 class ShoppingCartViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
-        
-        return cell
-    }
-    
-
     override func viewDidLoad() {
-        super.viewDidLoad()
+          super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-    }
+      
+          let nib = UINib(nibName: "CartTableViewCell", bundle: nil)
+          shoppingCartTableView.register(nib, forCellReuseIdentifier: "CartTableViewCell")
+
+      
+          shoppingCartTableView.delegate = self
+          shoppingCartTableView.dataSource = self
+
+          
+          shoppingCartTableView.reloadData()
+        self.title = "Shopping Cart"
+      }
+
+      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+          return 3
+      }
+      
+      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+          let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
+          
+          // Configure the cell
+          cell.productName.text = "Product \(indexPath.row + 1)"
+          cell.productPrice.text = "$\(10 * (indexPath.row + 1))"
+         
+        
+        
+          
+          return cell
+      }
     
 
     
