@@ -42,25 +42,11 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         
         setUpFavouriteButton()
         
-        settingUpReviewTableView()
    
 
     }
     
-    func settingUpReviewTableView(){
-        // Register the custom cell
-        let nib = UINib(nibName: "CustomReviewsTableViewCell", bundle: nil)
-        reviewTableView.register(nib, forCellReuseIdentifier: "cell")
 
-        reviewTableView.dataSource = self
-        reviewTableView.delegate = self
-        
-        // Set table view properties
-        reviewTableView.separatorStyle = .none // Remove default separators
-        reviewTableView.backgroundColor = UIColor.clear
-        
-        reviewTableView.reloadData()
-    }
     @IBAction func favouriteButtonTapped(_ sender: UIButton) {
 
         // Toggle the state
@@ -178,7 +164,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
             cell = tableView.dequeueReusableCell(withIdentifier: "dropdownCell2", for: indexPath)
             cell.textLabel?.text = dropdownItems2[indexPath.row]
         } else if tableView == reviewTableView {
-            cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomReviewsTableViewCell
+            reviewCell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomReviewsTableViewCell
             reviewCell.personNameLabel.text = dropdownItems2[indexPath.row]
             reviewCell.reviewTextView.text =
                 "article of manufacture Land is not an article of manufacture, and the difficulty is to getarticle of manufactureLand is not an article of manufacture, and the difficulty is to get it in order to distribute it amongst the people who stand in need of it.article of manufactureLand is not an article of manufacture, and the difficulty is to get it in order to distribute it amongst the people who stand in need of it. it in order to distribute it amongst the people who stand in need of itarticle of manufactureLand is not an article of manufacture, and the difficulty is to get it in order to distribute it amongst the people who stand in need of it."
