@@ -26,7 +26,7 @@ class SplashScreenVC: UIViewController {
     
     @objc func goToSignUpVC(){
         let sb = UIStoryboard.init(name: "Main", bundle: nil)
-        let signUpVC = sb.instantiateViewController(withIdentifier: "SignUpVC")
+        let signUpVC = sb.instantiateViewController(withIdentifier: "OnboardingContentViewController")
         navigationController?.pushViewController(signUpVC, animated: true)
     }
 

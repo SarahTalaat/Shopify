@@ -132,7 +132,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1828.985507246377" y="46.875"/>
+            <point key="canvasLocation" x="2884" y="35"/>
         </scene>
         <!--Sign InVC-->
         <scene sceneID="MeN-eU-ojW">
@@ -559,7 +559,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oL7-YE-7Z8" customClass="AnimationView" customModule="Lottie">
-                                <rect key="frame" x="20" y="127" width="374" height="642"/>
+                                <rect key="frame" x="20" y="171" width="374" height="598"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="animationName" value="shoppingLottie"/>
@@ -584,7 +584,36 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m2F-EZ-Sse" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="94.20289855072464" y="35.491071428571423"/>
+            <point key="canvasLocation" x="-1806" y="-125"/>
+        </scene>
+        <!--Onboarding Content View Controller-->
+        <scene sceneID="S4C-3J-HN8">
+            <objects>
+                <viewController storyboardIdentifier="OnboardingContentViewController" id="apH-kv-Yxk" customClass="OnboardingContentViewController" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="s01-Ah-3Yh">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="G6z-xd-091">
+                                <rect key="frame" x="84" y="697" width="246" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </pageControl>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="BbX-u8-EOB"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g0N-Ez-ZgI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-975.36231884057975" y="-125.22321428571428"/>
+        </scene>
+        <!--Page View Controller-->
+        <scene sceneID="U7L-BD-gwl">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="5Pe-UH-Le4" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Lp-fM-WZe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-152" y="-110"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="EL1-a2-NfK">
@@ -602,7 +631,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nUn-qE-yDY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-815.94202898550736" y="35.491071428571423"/>
+            <point key="canvasLocation" x="-2578" y="-125"/>
         </scene>
     </scenes>
     <resources>
