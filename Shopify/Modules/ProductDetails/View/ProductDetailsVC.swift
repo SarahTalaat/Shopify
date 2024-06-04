@@ -44,10 +44,27 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         
         setUpFavouriteButton()
         
-   
+        setupConstraints()
+
 
     }
     
+    
+    func setupConstraints() {
+        // Ensure contentView and scrollView are correctly set up
+        
+        // Constraint to set the bottom of contentView to reviewTextView2's bottom
+        reviewTextView2.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            // other constraints for contentView, scrollView, etc.
+            
+            // Bottom constraint to ensure the scroll view ends at reviewTextView2
+            reviewTextView2.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20) // Adjust the constant as needed
+        ])
+    }
+
+
 
     @IBAction func favouriteButtonTapped(_ sender: UIButton) {
 

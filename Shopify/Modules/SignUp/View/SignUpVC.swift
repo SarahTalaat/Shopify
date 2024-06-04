@@ -9,6 +9,7 @@ import UIKit
 
 class SignUpVC: UIViewController {
 
+    @IBOutlet weak var logoImage: UIImageView!
     @IBOutlet var passwordCustomTextField: CustomTextField!
     
     @IBOutlet var signUpButton: UIButton!
@@ -22,7 +23,7 @@ class SignUpVC: UIViewController {
 
         // Do any additional setup after loading the view.
         setUpSignUpScreenUI()
-
+        makeCircularImage()
 
     }
     
@@ -30,6 +31,11 @@ class SignUpVC: UIViewController {
     @IBAction func alreadyHaveAnAccountButtonTapped(_ sender: UIButton) {
         navToSignIn()
         
+    }
+    
+    func makeCircularImage() {
+        logoImage.layer.cornerRadius = logoImage.frame.size.width / 2
+        logoImage.clipsToBounds = true
     }
     @IBAction func signUpButton(_ sender: UIButton) {
         
