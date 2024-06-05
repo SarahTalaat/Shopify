@@ -22,6 +22,7 @@ class ContactUsViewController: UIViewController {
         emailView.layer.shadowColor = UIColor.black.cgColor
         emailView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
         emailView.layer.shadowOpacity = 0.5
+        self.title = "Contact Us"
     }
     
 

@@ -8,7 +8,11 @@
 import UIKit
 
 class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource{
+    @IBOutlet weak var brandNameLabel: UILabel!
     
+
+    @IBOutlet weak var reviewTextView2: UITextView!
+    @IBOutlet weak var reviewTextView1: UITextView!
     // Define a boolean variable to track the state
     var isFavourite = false
     @IBOutlet weak var favouriteButton: UIButton!
@@ -19,6 +23,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     @IBOutlet weak var dropDowntableView1: UITableView!
     @IBOutlet weak var dropDowntableView2: UITableView!
     var cell: UITableViewCell!
+    var reviewCell: CustomReviewsTableViewCell!
     var dropdownItems: [String] = ["Option 1", "Option 2", "Option 3", "Option 4"]
     var dropdownItems2: [String] = ["Item1","Item2","Item3","Item4","Item5"]
     var isDropdownVisible = false
@@ -38,26 +43,31 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         setupDropdownTableView1(dropDowntableView: dropDowntableView2)
         
         setUpFavouriteButton()
+        
+        setupConstraints()
+
 
     }
     
+    
+    func setupConstraints() {
+        // Ensure contentView and scrollView are correctly set up
+        
+        // Constraint to set the bottom of contentView to reviewTextView2's bottom
+        reviewTextView2.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            // other constraints for contentView, scrollView, etc.
+            
+            // Bottom constraint to ensure the scroll view ends at reviewTextView2
+            reviewTextView2.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20) // Adjust the constant as needed
+        ])
+    }
+
+
+
     @IBAction func favouriteButtonTapped(_ sender: UIButton) {
-        
-//        // Check the current state of the button
-//        let isFavourite = sender.isSelected
-//
-//        // Toggle the button state
-//        sender.isSelected = !isFavourite
-//
-//        // Set the button image based on the state
-//        if sender.isSelected {
-//            // Button is selected (filled heart)
-//            sender.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-//        } else {
-//            // Button is not selected (empty heart)
-//            sender.setImage(UIImage(systemName: "heart"), for: .normal)
-//        }
-        
+
         // Toggle the state
         isFavourite.toggle()
         
@@ -75,7 +85,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         favouriteButton.layer.cornerRadius = favouriteButton.bounds.width / 2
 
         // Set background color
-        favouriteButton.backgroundColor = .white // Change to your desired background color
+        favouriteButton.backgroundColor = .white
 
         // Apply shadow to the button
         favouriteButton.layer.shadowColor = UIColor.gray.cgColor
@@ -125,15 +135,13 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
     }
 
-
-    
-
-
     
     func setupDropdownTableView1(dropDowntableView: UITableView) {
         dropDowntableView.layer.borderWidth = 1.0
         dropDowntableView.layer.borderColor = UIColor.orange.cgColor
         dropDowntableView.layer.cornerRadius = 5.0
+        dropDowntableView.backgroundColor = .white
+        
     }
     
     @IBAction func dropdownButtopTapped2(_ sender: UIButton) {
@@ -151,7 +159,17 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dropdownItems.count // or dropdownItems2.count depending on the tableView
+        
+        switch(tableView){
+        case dropDowntableView1:
+            return dropdownItems.count
+        case dropDowntableView2:
+            return dropdownItems2.count
+        default:
+            return dropdownItems.count
+        }
+        
+  // or dropdownItems2.count depending on the tableView
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -203,6 +221,11 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         
         return cell
     }
+    
+    
+    
+
+    
     
 
     }
