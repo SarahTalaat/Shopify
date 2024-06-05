@@ -158,24 +158,24 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     }
 }
 
-class ShadowedCollectionView: UICollectionView {
-    
-    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(frame: frame, collectionViewLayout: layout)
-        setupShadow()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupShadow()
-    }
-    
-    private func setupShadow() {
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.25
-        layer.shadowOffset = CGSize(width: 0, height: 2)
-        layer.shadowRadius = 4
-        layer.masksToBounds = false
-        layer.cornerRadius = 10  // Optional: if you want rounded corners
-    }
-}
+//class ShadowedCollectionView: UICollectionView {
+//    
+//    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+//        super.init(frame: frame, collectionViewLayout: layout)
+//        setupShadow()
+//    }
+//    
+//    required init?(coder: NSCoder) {
+//        super.init(coder: coder)
+//        setupShadow()
+//    }
+//    
+//    private func setupShadow() {
+//        layer.shadowColor = UIColor.black.cgColor
+//        layer.shadowOpacity = 0.25
+//        layer.shadowOffset = CGSize(width: 0, height: 2)
+//        layer.shadowRadius = 4
+//        layer.masksToBounds = false
+//        layer.cornerRadius = 10  // Optional: if you want rounded corners
+//    }
+//}
