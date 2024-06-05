@@ -11,7 +11,15 @@ class addressTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        self.layer.borderColor = UIColor.lightGray.cgColor
+                self.layer.borderWidth = 1.0
+                self.layer.shadowColor = UIColor.black.cgColor
+                self.layer.shadowOpacity = 0.2
+                self.layer.shadowOffset = CGSize(width: 0, height: 1)
+                self.layer.shadowRadius = 4.0
+                self.layer.masksToBounds = false
+                self.layer.cornerRadius = 10.0
+                self.contentView.layer.masksToBounds = true
     }
 
     @IBAction func checkBtnAddress(_ sender: UIButton) {

@@ -55,6 +55,7 @@ class SettingsScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.title = "Settings"
         contactView.layer.shadowRadius = 4.0
         contactView.layer.cornerRadius = 10.0
         contactView.layer.shadowColor = UIColor.black.cgColor
