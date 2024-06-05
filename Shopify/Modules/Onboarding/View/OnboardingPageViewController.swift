@@ -29,5 +29,9 @@ class OnboardingPageViewController: UIViewController {
         myImage.image = UIImage(named: imageName ?? "")
         myTitle.text = titleText
         myDescription.text = descriptionText
+        
+        myImage.layer.cornerRadius = myImage.frame.width / 2
+        myImage.clipsToBounds = true
+        
     }
 }
