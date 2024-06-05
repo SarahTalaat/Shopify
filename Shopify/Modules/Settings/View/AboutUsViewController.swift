@@ -12,11 +12,6 @@ class AboutUsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        aboutUs.layer.shadowRadius = 4.0
-        aboutUs.layer.cornerRadius = 10.0
-        aboutUs.layer.shadowColor = UIColor.black.cgColor
-        aboutUs.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-        aboutUs.layer.shadowOpacity = 0.5
         self.title = "About Us"
     }
     

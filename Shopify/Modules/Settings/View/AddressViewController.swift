@@ -28,7 +28,7 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
             addressTableView.delegate = self
             addressTableView.dataSource = self
             addressTableView.separatorStyle = .none
-            
+            addressTableView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
             addressTableView.reloadData()
         }
 
@@ -45,9 +45,8 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
             return cell
         }
 
-        // Add space between cells using footer height
         func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-            return 20 // Adjust this value to set the space between cells
+            return 20
         }
         
         func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {

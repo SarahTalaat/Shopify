@@ -24,12 +24,6 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address Details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sd3-FA-pmx">
-                        <rect key="frame" x="22" y="101" width="205" height="20.333333333333329"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cc4-74-RRd">
                         <rect key="frame" x="189" y="18" width="125" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -46,21 +40,25 @@
                             <action selector="checkBtnAddress:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="RO6-jq-iJr"/>
                         </connections>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Address Details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sd3-FA-pmx">
+                        <rect key="frame" x="21" y="59.000000000000007" width="119" height="20.333333333333336"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="qv1-cu-NBo" firstAttribute="leading" secondItem="9gF-6I-mnc" secondAttribute="trailing" constant="39.670000000000002" id="2mK-mp-baI"/>
                     <constraint firstAttribute="trailing" secondItem="Cc4-74-RRd" secondAttribute="trailing" constant="6" id="5LN-zn-eos"/>
                     <constraint firstItem="Cc4-74-RRd" firstAttribute="leading" secondItem="9gF-6I-mnc" secondAttribute="trailing" constant="81.670000000000002" id="FWX-lW-b7o"/>
                     <constraint firstItem="9gF-6I-mnc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="17" id="FXF-SJ-5Ru"/>
-                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="top" secondItem="qv1-cu-NBo" secondAttribute="bottom" constant="55" id="L3o-1T-mfw"/>
-                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="top" secondItem="9gF-6I-mnc" secondAttribute="bottom" constant="63" id="MLF-gK-sTl"/>
-                    <constraint firstAttribute="bottom" secondItem="Sd3-FA-pmx" secondAttribute="bottom" constant="16.670000000000002" id="Pq3-hi-KOq"/>
                     <constraint firstItem="Cc4-74-RRd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="18" id="TF0-R5-ZAY"/>
                     <constraint firstAttribute="trailing" secondItem="qv1-cu-NBo" secondAttribute="trailing" constant="123" id="W9P-te-nOi"/>
                     <constraint firstItem="qv1-cu-NBo" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="Zg6-zh-kNJ"/>
-                    <constraint firstAttribute="trailing" secondItem="Sd3-FA-pmx" secondAttribute="trailing" constant="93" id="kiZ-NJ-wWi"/>
-                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="top" secondItem="Cc4-74-RRd" secondAttribute="bottom" constant="62" id="tRi-5N-gIV"/>
-                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="22" id="zEj-fF-eEC"/>
+                    <constraint firstAttribute="trailing" secondItem="Sd3-FA-pmx" secondAttribute="trailing" constant="180" id="d1v-ds-Egv"/>
+                    <constraint firstAttribute="bottom" secondItem="Sd3-FA-pmx" secondAttribute="bottom" constant="58.670000000000002" id="fqT-2v-jk0"/>
+                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="top" secondItem="9gF-6I-mnc" secondAttribute="bottom" constant="21" id="m3w-SQ-ehq"/>
+                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="21" id="qxr-7u-PDe"/>
                     <constraint firstItem="9gF-6I-mnc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="22" id="zak-il-NYM"/>
                 </constraints>
             </tableViewCellContentView>
