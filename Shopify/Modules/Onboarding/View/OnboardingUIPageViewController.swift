@@ -15,9 +15,9 @@ class OnboardingViewController: UIViewController, UIScrollViewDelegate {
     
     // Add your onboarding content here (images, titles, descriptions)
     private let onboardingContent = [
-        OnboardingContent(imageName: "onboarding1", title: "Welcome", description: "Welcome to our app!"),
-        OnboardingContent(imageName: "onboarding2", title: "Get Started", description: "Let's get started with the onboarding!"),
-        OnboardingContent(imageName: "onboarding3", title: "Enjoy", description: "Enjoy using our app!")
+        OnboardingContent(imageName: "salah", title: "Welcome", description: "Welcome to our app!"),
+        OnboardingContent(imageName: "girl", title: "Get Started", description: "Let's get started with the onboarding!"),
+        OnboardingContent(imageName: "logo", title: "Enjoy", description: "Enjoy using our app!")
     ]
     
     // MARK: - Lifecycle Methods
@@ -55,25 +55,18 @@ class OnboardingViewController: UIViewController, UIScrollViewDelegate {
     }
     
     private func addOnboardingContent() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
         for (index, content) in onboardingContent.enumerated() {
-            let imageView = UIImageView(image: UIImage(named: content.imageName))
-            imageView.frame = CGRect(x: CGFloat(index) * view.frame.width, y: 0, width: view.frame.width, height: view.frame.height)
-            imageView.contentMode = .scaleAspectFill
-            imageView.clipsToBounds = true
-            scrollView.addSubview(imageView)
-            
-            let titleLabel = UILabel(frame: CGRect(x: CGFloat(index) * view.frame.width + 20, y: 100, width: view.frame.width - 40, height: 40))
-            titleLabel.text = content.title
-            titleLabel.font = UIFont.boldSystemFont(ofSize: 24)
-            titleLabel.textAlignment = .center
-            scrollView.addSubview(titleLabel)
-            
-            let descriptionLabel = UILabel(frame: CGRect(x: CGFloat(index) * view.frame.width + 20, y: 150, width: view.frame.width - 40, height: 100))
-            descriptionLabel.text = content.description
-            descriptionLabel.font = UIFont.systemFont(ofSize: 16)
-            descriptionLabel.numberOfLines = 0
-            descriptionLabel.textAlignment = .center
-            scrollView.addSubview(descriptionLabel)
+            if let onboardingPageVC = storyboard.instantiateViewController(withIdentifier: "OnboardingPageViewController") as? OnboardingPageViewController {
+                onboardingPageVC.imageName = content.imageName
+                onboardingPageVC.titleText = content.title
+                onboardingPageVC.descriptionText = content.description
+                addChild(onboardingPageVC)
+                onboardingPageVC.view.frame = CGRect(x: CGFloat(index) * view.frame.width, y: 0, width: view.frame.width, height: view.frame.height)
+                scrollView.addSubview(onboardingPageVC.view)
+                onboardingPageVC.didMove(toParent: self)
+            }
         }
     }
     

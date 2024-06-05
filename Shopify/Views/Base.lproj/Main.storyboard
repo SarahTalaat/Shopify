@@ -601,13 +601,49 @@
                     <view key="view" contentMode="scaleToFill" id="xj2-gn-Uaa">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="etl-w7-Va3">
+                                <rect key="frame" x="101" y="136" width="213" height="59"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="YyM-hZ-MNo">
+                                <rect key="frame" x="56" y="221" width="306" height="66"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DSl-4L-APX">
+                                <rect key="frame" x="56" y="348" width="306" height="343"/>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="HtK-LV-NwK"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="DSl-4L-APX" firstAttribute="leading" secondItem="HtK-LV-NwK" secondAttribute="leading" constant="56" id="GQf-oW-6h2"/>
+                            <constraint firstItem="etl-w7-Va3" firstAttribute="height" secondItem="xj2-gn-Uaa" secondAttribute="height" multiplier="0.0658482" id="ITW-Uu-Lbr"/>
+                            <constraint firstItem="etl-w7-Va3" firstAttribute="leading" secondItem="HtK-LV-NwK" secondAttribute="leading" constant="101" id="Jse-wS-N1T"/>
+                            <constraint firstItem="YyM-hZ-MNo" firstAttribute="height" secondItem="etl-w7-Va3" secondAttribute="height" multiplier="1.11864" id="OLN-Up-Cws"/>
+                            <constraint firstItem="etl-w7-Va3" firstAttribute="top" secondItem="HtK-LV-NwK" secondAttribute="top" constant="92" id="Qly-uW-YVR"/>
+                            <constraint firstItem="etl-w7-Va3" firstAttribute="width" secondItem="xj2-gn-Uaa" secondAttribute="width" multiplier="0.514493" id="SMU-VE-Nd8"/>
+                            <constraint firstItem="YyM-hZ-MNo" firstAttribute="leading" secondItem="HtK-LV-NwK" secondAttribute="leading" constant="56" id="SUD-5f-xxr"/>
+                            <constraint firstItem="YyM-hZ-MNo" firstAttribute="width" secondItem="etl-w7-Va3" secondAttribute="width" multiplier="1.43662" id="ZF9-d7-yrF"/>
+                            <constraint firstItem="YyM-hZ-MNo" firstAttribute="top" secondItem="etl-w7-Va3" secondAttribute="bottom" constant="26" id="ahE-ia-9M5"/>
+                            <constraint firstItem="DSl-4L-APX" firstAttribute="width" secondItem="xj2-gn-Uaa" secondAttribute="width" multiplier="0.73913" id="gk0-v1-uzR"/>
+                            <constraint firstItem="DSl-4L-APX" firstAttribute="height" secondItem="xj2-gn-Uaa" secondAttribute="height" multiplier="0.382812" id="rez-dV-Vgv"/>
+                            <constraint firstItem="DSl-4L-APX" firstAttribute="top" secondItem="YyM-hZ-MNo" secondAttribute="bottom" constant="61" id="wzP-ON-Cm8"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="myDescription" destination="YyM-hZ-MNo" id="u5w-Gj-2bS"/>
+                        <outlet property="myImage" destination="DSl-4L-APX" id="1iV-rM-GTA"/>
+                        <outlet property="myTitle" destination="etl-w7-Va3" id="DYC-OU-gAw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pmW-CH-gLH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-159" y="-125"/>
+            <point key="canvasLocation" x="-159.42028985507247" y="-125.22321428571428"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="EL1-a2-NfK">
