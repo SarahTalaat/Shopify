@@ -18,4 +18,10 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     
     @IBAction func addToFav(_ sender: UIButton) {
     }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        categoryImage.layer.cornerRadius = 10
+        categoryImage.clipsToBounds = true
+    }
 }

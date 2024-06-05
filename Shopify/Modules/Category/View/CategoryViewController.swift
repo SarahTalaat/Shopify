@@ -15,33 +15,21 @@ class CategoryViewController: UIViewController {
     @IBOutlet weak var allBtn: UIButton!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var search: UITextField!
-    @IBAction func cartBtn(_ sender: UIBarButtonItem) {
-        //        let storyboard = UIStoryboard(name: "Second", bundle: nil)
-        //                 let brandsViewController = storyboard.instantiateViewController(withIdentifier: "CartViewController") as! CartViewController
-        //                 navigationController?.pushViewController(brandsViewController, animated: true)
-    }
-    
-    
-    @IBAction func favBtn(_ sender: UIBarButtonItem) {
-        //        let storyboard = UIStoryboard(name: "Second", bundle: nil)
-        //                 let brandsViewController = storyboard.instantiateViewController(withIdentifier: "FavoriteViewController") as! FavoriteViewController
-        //                 navigationController?.pushViewController(brandsViewController, animated: true)
-    }
-    
-    @IBAction func searchBtn(_ sender: UIBarButtonItem) {
-
-    }
-    
+    @IBOutlet weak var women: UIButton!
     @IBAction func womenBtn(_ sender: UIButton) {
+        updateButton(sender)
     }
     
     @IBAction func MenBtn(_ sender: UIButton) {
+        updateButton(sender)
     }
     
     @IBAction func childrenBtn(_ sender: UIButton) {
+        updateButton(sender)
     }
     
     @IBAction func saleBtn(_ sender: UIButton) {
+        updateButton(sender)
     }
     
     @IBAction func searchTextField(_ sender: UITextField) {
@@ -50,12 +38,14 @@ class CategoryViewController: UIViewController {
     var bagsButtonCenter: CGPoint!
     var clothButtonCenter: CGPoint!
     var isButtonMenuOpen = false
-    
     var sharedMethods: SharedMethods?
+    var selectedButton: UIButton?
+    var isSearch = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        collectionView.collectionViewLayout = productCollectionViewLayout()
+
         sharedMethods = SharedMethods(viewController: self)
         
         shoesButtonCenter = shoesBtn.center
@@ -74,15 +64,33 @@ class CategoryViewController: UIViewController {
         shoesBtn.applyShadow()
         bagsBtn.applyShadow()
         clothBtn.applyShadow()
-        // Do any additional setup after loading the view.
         
         
         let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
         let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
         
-        let thirdButton = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToSettings))
+        let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(self.showSearch))
 
         navigationItem.rightBarButtonItems = [firstButton, secondButton]
+        navigationItem.leftBarButtonItem = searchButton
+        search.isHidden = true
+        
+        women.addBottomBorder(withColor: UIColor.red, andWidth: 2)
+        selectedButton = women
+    }
+    
+    @objc func showSearch(){
+        
+        if isSearch{
+            search.isHidden = true
+            isSearch = false
+
+        }else{
+            search.isHidden = false
+            isSearch = true
+
+        }
+
     }
     
 
@@ -116,6 +124,30 @@ class CategoryViewController: UIViewController {
             }
         }
     
+    
+    func updateButton(_ sender: UIButton) {
+          selectedButton?.removeBottomBorder()
+          sender.addBottomBorder(withColor: UIColor.red, andWidth: 2)
+          selectedButton = sender
+      }
+    func productCollectionViewLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                  heightDimension: .fractionalHeight(1.0))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                   heightDimension: .absolute(130))
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = 10
+            section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 4, bottom: 5, trailing: 4)
+
+            return section
+        }
+    }
+    
+    
 }
 
 extension CategoryViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
@@ -143,6 +175,24 @@ extension CategoryViewController : UICollectionViewDelegate,UICollectionViewData
 
 extension UIButton {
     func applyShadow() {
-    layer.shadowOpacity = 0.6
- }
+        layer.shadowOpacity = 0.6
+    }
+    
+    func addBottomBorder(withColor color: UIColor, andWidth borderWidth: CGFloat) {
+        let border = CALayer()
+        border.backgroundColor = color.cgColor
+        border.frame = CGRect(x: 0, y: self.frame.size.height - borderWidth, width: self.frame.size.width, height: borderWidth)
+        border.name = "bottomBorder" // Tag the border layer
+        self.layer.addSublayer(border)
+    }
+    
+    func removeBottomBorder() {
+        if let sublayers = self.layer.sublayers {
+            for layer in sublayers {
+                if layer.name == "bottomBorder" {
+                    layer.removeFromSuperlayer()
+                }
+            }
+        }
+    }
 }

@@ -18,7 +18,6 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var wishlistLabel: UILabel!
     @IBOutlet weak var login: UIButton!
     @IBOutlet weak var register: UIButton!
-    
     var sharedMethods: SharedMethods?
     
     @IBAction func ordersBtn(_ sender: UIButton) {
@@ -39,24 +38,11 @@ class ProfileViewController: UIViewController {
     
     @IBAction func registerBtn(_ sender: UIButton) {
     }
-    
-    @IBAction func settingsBtn(_ sender: UIButton) {
-        //        let storyboard = UIStoryboard(name: "Third", bundle: nil)
-        //                 let brandsViewController = storyboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
-        //                 navigationController?.pushViewController(brandsViewController, animated: true)
-    }
-    
-    @IBAction func cartBtn(_ sender: UIButton) {
-        //        let storyboard = UIStoryboard(name: "Third", bundle: nil)
-        //                 let brandsViewController = storyboard.instantiateViewController(withIdentifier: "CartViewController") as! CartViewController
-        //                 navigationController?.pushViewController(brandsViewController, animated: true)
-    }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         ordersCollectionView.collectionViewLayout = ordersCollectionViewLayout()
         wishlistCollectionView.collectionViewLayout = wishlistCollectionViewLayout()
-        // Do any additional setup after loading the view.
         sharedMethods = SharedMethods(viewController: self)
         
         let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
@@ -66,6 +52,11 @@ class ProfileViewController: UIViewController {
 
         navigationItem.rightBarButtonItems = [firstButton, secondButton]
         navigationItem.leftBarButtonItem = thirdButton
+        
+        login.isHidden = true
+        register.isHidden = true
+        
+       
     }
     
     
@@ -77,12 +68,11 @@ class ProfileViewController: UIViewController {
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(100))
+                                                   heightDimension: .absolute(60))
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
-            section.interGroupSpacing = 10
-            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 5, bottom: 10, trailing: 5)
 
             return section
         }
@@ -94,26 +84,14 @@ class ProfileViewController: UIViewController {
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(200))
+                                                   heightDimension: .absolute(60))
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
-            section.interGroupSpacing = 10
-            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 5, bottom: 4, trailing: 5)
             return section
         }
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 
@@ -123,13 +101,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == ordersCollectionView {
             return 2
-        }
-        else{
-            return 4
-        }
-       
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -154,6 +126,56 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let favouriteVC = storyboard.instantiateViewController(withIdentifier: "FavouriteVC") as! FavouriteVC
         navigationController?.pushViewController(favouriteVC, animated: true)
-                  }
+            }
         }
     }
+
+@IBDesignable extension UIView
+{
+    @IBInspectable var shadowRadius: CGFloat {
+        get { return layer.shadowRadius }
+        set { layer.shadowRadius = newValue }
+    }
+
+    @IBInspectable var shadowOpacity: CGFloat {
+        get { return CGFloat(layer.shadowOpacity) }
+        set { layer.shadowOpacity = Float(newValue) }
+    }
+
+    @IBInspectable var shadowOffset: CGSize {
+        get { return layer.shadowOffset }
+        set { layer.shadowOffset = newValue }
+    }
+
+    @IBInspectable var shadowColor: UIColor? {
+        get {
+            guard let cgColor = layer.shadowColor else {
+                return nil
+            }
+            return UIColor(cgColor: cgColor)
+        }
+        set { layer.shadowColor = newValue?.cgColor }
+    }
+}
+
+class ShadowedCollectionView: UICollectionView {
+    
+    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(frame: frame, collectionViewLayout: layout)
+        setupShadow()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupShadow()
+    }
+    
+    private func setupShadow() {
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.25
+        layer.shadowOffset = CGSize(width: 0, height: 2)
+        layer.shadowRadius = 4
+        layer.masksToBounds = false
+        layer.cornerRadius = 10  // Optional: if you want rounded corners
+    }
+}

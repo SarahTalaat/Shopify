@@ -40,7 +40,6 @@ class SharedMethods{
         viewController.navigationController?.pushViewController(favouriteVC, animated: true)
     }
     @objc func navToSettings() {
-        print("Favourite ")
         guard let viewController = viewController else {
             return
         }
@@ -49,4 +48,6 @@ class SharedMethods{
         let settingsVC = storyboard.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsScreenViewController
         viewController.navigationController?.pushViewController(settingsVC, animated: true)
     }
+
+    
 }

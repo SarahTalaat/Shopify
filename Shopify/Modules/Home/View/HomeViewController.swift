@@ -14,41 +14,26 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var adsCollectionView: UICollectionView!
     
     @IBOutlet weak var brandsCollectionView: UICollectionView!
-    
-    @IBAction func favBtn(_ sender: UIBarButtonItem) {
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                         let brandsViewController = storyboard.instantiateViewController(withIdentifier: "FavouriteVC") as! FavouriteVC
-                         navigationController?.pushViewController(brandsViewController, animated: true)
-    }
-    
-    
-    @IBAction func cartBtn(_ sender: UIBarButtonItem) {
-
-        print("Cart ")
-
-        let storyboard = UIStoryboard(name: "Third", bundle: nil)
-        let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ShoppingCartVC") as! ShoppingCartViewController
-        navigationController?.pushViewController(brandsViewController, animated: true)
-
-
-
-    }
-    
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         adsCollectionView.collectionViewLayout = adsCollectionViewLayout()
         brandsCollectionView.collectionViewLayout = brandsCollectionViewLayout()
-        // Do any additional setup after loading the view.
         
+        brandsCollectionView.layer.cornerRadius = 10
+             brandsCollectionView.layer.borderWidth = 1.0
+             brandsCollectionView.layer.borderColor = UIColor.black.cgColor
+             brandsCollectionView.clipsToBounds = true
 
         sharedMethods = SharedMethods(viewController: self)
 
         let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
         let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
+        let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchBtn))
 
         navigationItem.rightBarButtonItems = [firstButton, secondButton]
+        navigationItem.leftBarButtonItems = [searchButton]
 
         
     }
@@ -71,6 +56,13 @@ class HomeViewController: UIViewController {
 
     }
     
+    @objc func searchBtn(){
+        let storyboard = UIStoryboard(name: "Second", bundle: nil)
+        let brandsViewController = storyboard.instantiateViewController(withIdentifier: "AllProductsViewController") as! AllProductsViewController
+        navigationController?.pushViewController(brandsViewController, animated: true)
+
+    }
+    
     
 
     func adsCollectionViewLayout() -> UICollectionViewCompositionalLayout {
@@ -79,12 +71,12 @@ class HomeViewController: UIViewController {
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(100))
+                                                   heightDimension: .absolute(150))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
             section.interGroupSpacing = 10
-            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 4, bottom: 5, trailing: 4)
             section.orthogonalScrollingBehavior = .continuous
 
             return section
@@ -93,29 +85,28 @@ class HomeViewController: UIViewController {
     
     func brandsCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
-                                                  heightDimension: .fractionalHeight(1.0))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(200))
-            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-            let section = NSCollectionLayoutSection(group: group)
-            section.interGroupSpacing = 10
-            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-            return section
+              let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                                    heightDimension: .fractionalHeight(1.0))
+              let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+              let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                     heightDimension: .absolute(180))
+              let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+              group.interItemSpacing = .fixed(10)
+
+              let nestedGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                           heightDimension: .absolute(410)) // Adjusted height for two rows
+              let nestedGroup = NSCollectionLayoutGroup.vertical(layoutSize: nestedGroupSize, subitems: [group, group])
+              nestedGroup.interItemSpacing = .fixed(10)
+
+              let section = NSCollectionLayoutSection(group: nestedGroup)
+              section.interGroupSpacing = 10
+              section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+              section.orthogonalScrollingBehavior = .continuous
+
+              return section
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -124,7 +115,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 6
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -134,7 +125,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrandsCollectionViewCell", for: indexPath) as! BrandsCollectionViewCell
-            cell.brandImage.image = UIImage(named: "download.png")
+            cell.brandImage.image = UIImage(named: "adidas-logo-design-template-416e301e26d296a75536e1f323a013e0_screen.jpg")
             cell.brandLabel.text = "ADIDAS"
             return cell
         }

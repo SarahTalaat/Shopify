@@ -28,6 +28,7 @@ class NewAddressViewController: UIViewController {
         cityTF.addPaddingToTextField()
         stateTF.addPaddingToTextField()
         zipCodeTF.addPaddingToTextField()
+        self.title = "New Address"
     }
     
 
