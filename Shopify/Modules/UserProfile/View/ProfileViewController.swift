@@ -93,17 +93,6 @@ class ProfileViewController: UIViewController {
         }
     }
 
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -141,7 +130,8 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         }
     }
 
-@IBDesignable extension UIView {
+@IBDesignable extension UIView
+{
     @IBInspectable var shadowRadius: CGFloat {
         get { return layer.shadowRadius }
         set { layer.shadowRadius = newValue }
@@ -165,5 +155,27 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return UIColor(cgColor: cgColor)
         }
         set { layer.shadowColor = newValue?.cgColor }
+    }
+}
+
+class ShadowedCollectionView: UICollectionView {
+    
+    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(frame: frame, collectionViewLayout: layout)
+        setupShadow()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupShadow()
+    }
+    
+    private func setupShadow() {
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.25
+        layer.shadowOffset = CGSize(width: 0, height: 2)
+        layer.shadowRadius = 4
+        layer.masksToBounds = false
+        layer.cornerRadius = 10  // Optional: if you want rounded corners
     }
 }

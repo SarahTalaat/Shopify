@@ -706,7 +706,6 @@
 			isa = PBXGroup;
 			children = (
 				220FFA742C0D6488001606AF /* OrderDetailsViewController.swift */,
-				220FFA6C2C0D5D70001606AF /* OrderCollectionViewCell.swift */,
 				220FFA762C0D9817001606AF /* OrderDetailsCell.swift */,
 			);
 			path = View;
@@ -733,6 +732,7 @@
 			children = (
 				22934A1B2C0C30AD001B79E4 /* ProfileViewController.swift */,
 				220FFA6E2C0D5DD3001606AF /* WishlistCollectionViewCell.swift */,
+				220FFA6C2C0D5D70001606AF /* OrderCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -918,6 +918,9 @@
 				Base,
 			);
 			mainGroup = B69FA15E2C09F04D009D43B7;
+			packageReferences = (
+				2260B6592C10E2A100261041 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = B69FA1682C09F04D009D43B7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1480,6 +1483,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2260B6592C10E2A100261041 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.27.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCVersionGroup section */
 		B69FA1732C09F04E009D43B7 /* Shopify.xcdatamodeld */ = {
