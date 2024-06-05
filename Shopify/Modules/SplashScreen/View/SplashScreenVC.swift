@@ -21,14 +21,25 @@ class SplashScreenVC: UIViewController {
         animationLottieView.play()
         
         
-        Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(goToSignUpVC), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(goToOnboardingScreen), userInfo: nil, repeats: false)
     }
     
-    @objc func goToSignUpVC(){
-        let sb = UIStoryboard.init(name: "Main", bundle: nil)
-        let signUpVC = sb.instantiateViewController(withIdentifier: "OnboardingContentViewController")
-        navigationController?.pushViewController(signUpVC, animated: true)
+//    @objc func goToSignUpVC(){
+//        let sb = UIStoryboard.init(name: "Main", bundle: nil)
+//        let signUpVC = sb.instantiateViewController(withIdentifier: "OnboardingContentViewController")
+//        navigationController?.pushViewController(signUpVC, animated: true)
+//    }
+    
+    @objc func goToOnboardingScreen(){
+//        let onboardingVC = OnboardingViewController()
+//        present(onboardingVC, animated: true, completion: nil)
+        
+            let sb = UIStoryboard.init(name: "Main", bundle: nil)
+            let onboardingVC = sb.instantiateViewController(withIdentifier: "OnboardingViewController")
+            navigationController?.pushViewController(onboardingVC, animated: true)
+        
     }
+
 
     /*
     // MARK: - Navigation
