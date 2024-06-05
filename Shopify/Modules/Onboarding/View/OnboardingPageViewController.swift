@@ -19,6 +19,16 @@ class OnboardingPageViewController: UIViewController {
     
     // MARK: - Lifecycle
     
+    @IBAction func getStartedButtonTapped(_ sender: UIButton) {
+
+        // Inside the view controller you want to dismiss from
+        dismiss(animated: true, completion: nil)
+        let sb = UIStoryboard.init(name: "Main", bundle: nil)
+        let signUpVC = sb.instantiateViewController(withIdentifier: "SignUpVC")
+        navigationController?.pushViewController(signUpVC, animated: true)
+
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,8 +40,18 @@ class OnboardingPageViewController: UIViewController {
         myTitle.text = titleText
         myDescription.text = descriptionText
         
-        myImage.layer.cornerRadius = myImage.frame.width / 2
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // Make the image view circular
+        myImage.contentMode = .scaleAspectFill
+        myImage.frame = CGRect(x: myImage.frame.origin.x, y: myImage.frame.origin.y, width: 306, height: 306)
+        myImage.layer.cornerRadius = myImage.frame.height / 2
         myImage.clipsToBounds = true
         
     }
+    
 }
