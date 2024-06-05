@@ -33,11 +33,11 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y6U-3D-Rwc">
-                        <rect key="frame" x="114" y="147" width="50" height="50"/>
+                        <rect key="frame" x="126" y="157" width="40" height="40"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="50" id="djw-UE-wOB"/>
-                            <constraint firstAttribute="width" constant="50" id="uNX-aR-zSp"/>
+                            <constraint firstAttribute="height" constant="40" id="djw-UE-wOB"/>
+                            <constraint firstAttribute="width" constant="40" id="uNX-aR-zSp"/>
                         </constraints>
                         <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <state key="normal" title="Button"/>
@@ -45,7 +45,7 @@
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBound" value="YES"/>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                <integer key="value" value="25"/>
+                                <integer key="value" value="20"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                         <connections>
@@ -64,7 +64,7 @@
             <constraints>
                 <constraint firstItem="smq-zg-MHl" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" multiplier="0.7" id="4eZ-K9-DhC"/>
                 <constraint firstItem="EwS-cr-UIH" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" constant="7" id="94e-4M-9jD"/>
-                <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="Y6U-3D-Rwc" secondAttribute="trailing" id="9G1-Jj-3Yq"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="Y6U-3D-Rwc" secondAttribute="trailing" constant="-2" id="9G1-Jj-3Yq"/>
                 <constraint firstItem="1ug-D0-QGj" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" constant="6" id="Dt0-r8-UW8"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="top" secondItem="smq-zg-MHl" secondAttribute="top" constant="59" id="EHh-jp-gKp"/>
                 <constraint firstItem="EwS-cr-UIH" firstAttribute="top" secondItem="smq-zg-MHl" secondAttribute="bottom" constant="10" id="N6J-iP-2T5"/>

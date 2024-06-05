@@ -24,6 +24,10 @@ class ProductsCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        favBtn.layer.shadowColor = UIColor.gray.cgColor
+        favBtn.layer.shadowOffset = CGSize(width: 0, height: 2)
+        favBtn.layer.shadowOpacity = 0.5
+        favBtn.layer.shadowRadius = 4
     }
 
 }

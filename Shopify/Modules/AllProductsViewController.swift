@@ -1,86 +1,24 @@
 //
-//  ProductViewController.swift
+//  AllProductsViewController.swift
 //  Shopify
 //
-//  Created by Haneen Medhat on 01/06/2024.
+//  Created by Haneen Medhat on 04/06/2024.
 //
 
 import UIKit
 
-class ProductViewController: UIViewController {
-    
+class AllProductsViewController: UIViewController {
 
+    @IBOutlet weak var search: UITextField!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var price: UISlider!
-    @IBOutlet weak var searchTextField: UITextField!
-    @IBOutlet weak var priceLabel: UILabel!
-    
-    @IBAction func priceBar(_ sender: Any) {
+    @IBAction func searchTextFeild(_ sender: UITextField) {
     }
-    
-
-    @IBOutlet weak var sizeMenu: UIButton!
-    
-    @IBOutlet weak var colorMenu: UIButton!
-    
-    let colorList = ["Black", "White", "Red", "Blue", "Green", "Brown"]
-    let sizeList = ["XS", "S", "M", "L", "XL"]
-    var isFilter = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let nibCell = UINib(nibName: "ProductsCollectionViewCell", bundle: nil)
         collectionView.register(nibCell, forCellWithReuseIdentifier: "ProductsCollectionViewCell")
         collectionView.collectionViewLayout = brandsCollectionViewLayout()
-        
-        priceLabel.isHidden = true
-        sizeMenu.isHidden = true
-        colorMenu.isHidden = true
-        price.isHidden = true
-        
-        let actionClosure = { (action: UIAction) in
-            print(action.title)
-        }
-
-        //Color Menu
-        var menuColors: [UIMenuElement] = []
-        for fruit in colorList {
-            menuColors.append(UIAction(title: fruit, handler: actionClosure))
-        }
-        colorMenu.menu = UIMenu(options: .displayInline, children: menuColors)
-        colorMenu.showsMenuAsPrimaryAction = true
-        colorMenu.changesSelectionAsPrimaryAction = true
-        
-        //Size Menu
-        var menusizes: [UIMenuElement] = []
-        for fruit in sizeList {
-            menusizes.append(UIAction(title: fruit, handler: actionClosure))
-        }
-        sizeMenu.menu = UIMenu(options: .displayInline, children: menusizes)
-        sizeMenu.showsMenuAsPrimaryAction = true
-        sizeMenu.changesSelectionAsPrimaryAction = true
-        
-        let filterButton = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal.decrease.circle"), style: .plain, target: self, action: #selector(self.showFilter))
-        navigationItem.rightBarButtonItems = [filterButton]
-
-
-    }
-    
-    @objc func showFilter(){
-        
-        if isFilter{
-            priceLabel.isHidden = true
-            sizeMenu.isHidden = true
-            colorMenu.isHidden = true
-            price.isHidden = true
-            isFilter = false
-        } else{
-            priceLabel.isHidden = false
-            sizeMenu.isHidden = false
-            colorMenu.isHidden = false
-            price.isHidden = false
-            isFilter = true
-        }
     }
     
     
@@ -101,8 +39,6 @@ class ProductViewController: UIViewController {
                    return section
         }
     }
-
-
     /*
     // MARK: - Navigation
 
@@ -114,9 +50,7 @@ class ProductViewController: UIViewController {
     */
 
 }
-
-
-extension ProductViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+extension AllProductsViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5
     }
