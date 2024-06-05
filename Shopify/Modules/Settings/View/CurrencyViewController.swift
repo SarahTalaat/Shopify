@@ -9,7 +9,7 @@ import UIKit
 
 class CurrencyViewController: UIViewController,UITableViewDelegate, UITableViewDataSource 
 {
-    let tableView = UITableView()
+    
     let currency = ["USD", "EGP", "USA"]
     @IBOutlet weak var currencyTableView: UITableView!
   
