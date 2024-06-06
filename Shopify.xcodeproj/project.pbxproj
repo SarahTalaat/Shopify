@@ -24,7 +24,7 @@
 		229B39C02C0B426700C81497 /* AdsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229B39BF2C0B426700C81497 /* AdsCollectionViewCell.swift */; };
 		229B39C22C0B42C100C81497 /* BrandsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229B39C12C0B42C100C81497 /* BrandsCollectionViewCell.swift */; };
 		299440442A1E0C33463A3563 /* Pods_Shopify_ShopifyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6253E62D3D89364DD7D571A3 /* Pods_Shopify_ShopifyUITests.framework */; };
-		31C433F6E1A65AEEFDAA62EC /* Pods_Shopify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A9B08B0F994C3A5BCC6481 /* Pods_Shopify.framework */; };
+		31C433F6E1A65AEEFDAA62EC /* Pods_Shopify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A9B08B0F994C3A5BCC6481 /* Pods_Shopify.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		390ED1E9619A55E9A447D3D3 /* Pods_ShopifyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DDFF2CC4A09A57E31BFEE60 /* Pods_ShopifyTests.framework */; };
 		6C159CFC2C0E4FF40077FB62 /* SettingsScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C159CFB2C0E4FF40077FB62 /* SettingsScreenViewController.swift */; };
 		6C16C1C22C0D4C9E009F7EE5 /* CouponViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C16C1C12C0D4C9E009F7EE5 /* CouponViewController.swift */; };
