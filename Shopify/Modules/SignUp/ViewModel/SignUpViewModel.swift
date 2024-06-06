@@ -9,8 +9,8 @@ import Foundation
 
 
 
-class SignUpViewModel {
-    private let authService: AuthServiceProtocol
+class SignUpViewModel : SignUpViewModelProtocol{
+    private let authServiceProtocol: AuthServiceProtocol
     
     var user: UserModel? {
         didSet {
@@ -27,12 +27,12 @@ class SignUpViewModel {
     var bindUserViewModelToController: (() -> ()) = {}
     var bindErrorViewModelToController: (() -> ()) = {}
     
-    init(authService: AuthServiceProtocol) {
-        self.authService = authService
+    init(authServiceProtocol: AuthServiceProtocol) {
+        self.authServiceProtocol = authServiceProtocol
     }
     
     func signUp(email: String, password: String) {
-        authService.signUp(email: email, password: password) { [weak self] result in
+        authServiceProtocol.signUp(email: email, password: password) { [weak self] result in
             switch result {
             case .success(let user):
                 self?.user = user
