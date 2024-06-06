@@ -35,13 +35,12 @@ class SignInVC: UIViewController {
         
         viewModel.bindErrorViewModelToController = { [weak self] in
             DispatchQueue.main.async {
-                if let errorMessage = self?.viewModel.errorMessage {
-                    if errorMessage == "Incorrect data" {
-                        self?.showSignInErrorAlert()
-                    }
+                if let errorMessage = self?.viewModel.errorMessage, errorMessage == "Incorrect data" {
+                    self?.showSignInErrorAlert()
                 }
             }
         }
+
     }
     
     private func showSignInErrorAlert() {
