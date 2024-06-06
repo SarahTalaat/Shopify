@@ -100,6 +100,7 @@
 		B6FB35042C12252A0030C595 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FB35032C12252A0030C595 /* Constants.swift */; };
 		B6FB35062C1225E80030C595 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FB35052C1225E80030C595 /* SignUpViewModel.swift */; };
 		B6FB35082C1225FE0030C595 /* SignUpViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FB35072C1225FE0030C595 /* SignUpViewModelProtocol.swift */; };
+		B6FB350A2C122C600030C595 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6FB35092C122C600030C595 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -219,6 +220,7 @@
 		B6FB35032C12252A0030C595 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B6FB35052C1225E80030C595 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		B6FB35072C1225FE0030C595 /* SignUpViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModelProtocol.swift; sourceTree = "<group>"; };
+		B6FB35092C122C600030C595 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C1D1F1718A162EA11F816EAB /* Pods-Shopify-ShopifyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shopify-ShopifyUITests.debug.xcconfig"; path = "Target Support Files/Pods-Shopify-ShopifyUITests/Pods-Shopify-ShopifyUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E6C4EF6C66AE81BA1EA5C677 /* Pods-ShopifyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopifyTests.release.xcconfig"; path = "Target Support Files/Pods-ShopifyTests/Pods-ShopifyTests.release.xcconfig"; sourceTree = "<group>"; };
 		EAE25E0A39138D2E1D41FD74 /* Pods-Shopify.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shopify.release.xcconfig"; path = "Target Support Files/Pods-Shopify/Pods-Shopify.release.xcconfig"; sourceTree = "<group>"; };
@@ -861,6 +863,7 @@
 		B6FB35022C1225120030C595 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				B6FB35092C122C600030C595 /* GoogleService-Info.plist */,
 				B6FB35032C12252A0030C595 /* Constants.swift */,
 			);
 			path = Utilities;
@@ -977,6 +980,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6FB350A2C122C600030C595 /* GoogleService-Info.plist in Resources */,
 				2294A87C2C0B888300FAACF8 /* ProductsCollectionViewCell.xib in Resources */,
 				6C204C1F2C0B555700D2B0FC /* addressTableViewCell.xib in Resources */,
 				B637B75F2C0B8F78005EFA7D /* FavouritesCustomCell.xib in Resources */,
