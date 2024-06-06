@@ -11,13 +11,12 @@ class SignUpVC: UIViewController {
 
     @IBOutlet weak var logoImage: UIImageView!
     @IBOutlet var passwordCustomTextField: CustomTextField!
-    
     @IBOutlet var signUpButton: UIButton!
-    
-
     @IBOutlet var alreadySignedInCustomButton: UIButton!
     @IBOutlet var emailCustomTextField: CustomTextField!
     @IBOutlet var nameCustomTextField: CustomTextField!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
