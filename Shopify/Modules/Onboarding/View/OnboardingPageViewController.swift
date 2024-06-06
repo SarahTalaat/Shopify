@@ -25,11 +25,11 @@ class OnboardingPageViewController: UIViewController {
     @IBAction func getStartedButtonTapped(_ sender: UIButton) {
 
         if buttonText == "Get Started" {
-              let sb = UIStoryboard(name: "Main", bundle: nil)
-              if let signUpVC = sb.instantiateViewController(withIdentifier: "SignUpVC") as? SignUpVC {
-                  //navigationController?.pushViewController(signUpVC, animated: true)
-                  signUpVC.modalPresentationStyle = .fullScreen
-                  present(signUpVC, animated: true, completion: nil)
+            let sb = UIStoryboard(name: "Main", bundle: nil)
+                  if let signUpVC = sb.instantiateViewController(withIdentifier: "SignUpVC") as? SignUpVC {
+                      let navController = UINavigationController(rootViewController: signUpVC)
+                      navController.modalPresentationStyle = .fullScreen
+                      present(navController, animated: true, completion: nil)
               }
           } else {
               if let scrollView = view.superview as? UIScrollView {
@@ -48,6 +48,7 @@ class OnboardingPageViewController: UIViewController {
         
         // Set the content for the views
         myImage.image = UIImage(named: imageName ?? "")
+       myImage.contentMode = .redraw
         myTitle.text = titleText
         myDescription.text = descriptionText
         actionButton.setTitle(buttonText, for: .normal)
