@@ -8,10 +8,7 @@ target 'Shopify' do
   pod 'lottie-ios'
   pod 'Kingfisher'
   pod 'Alamofire'
-  pod 'Firebase/Core'           
-  pod 'Firebase/Analytics'    
-  pod 'Firebase/Auth'                    
-  pod 'Firebase/Firestore'
+
 
   # Pods for Shopify
 
