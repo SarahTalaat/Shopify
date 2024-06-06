@@ -49,5 +49,6 @@ class SharedMethods{
         viewController.navigationController?.pushViewController(settingsVC, animated: true)
     }
 
+
     
 }

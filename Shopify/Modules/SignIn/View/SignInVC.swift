@@ -16,7 +16,7 @@ class SignInVC: UIViewController {
         bindViewModel()
     }
     
-    @IBAction func signInButtonTapped(_ sender: UIButton) {
+    @IBAction func signInButton(_ sender: UIButton) {
         guard let email = emailCustomTextField.text, let password = passwordCustomTextField.text else { return }
         viewModel.signIn(email: email, password: password)
     }
@@ -36,18 +36,18 @@ class SignInVC: UIViewController {
         viewModel.bindErrorViewModelToController = { [weak self] in
             DispatchQueue.main.async {
                 if let errorMessage = self?.viewModel.errorMessage, errorMessage == "Incorrect data" {
-                    self?.showSignInErrorAlert()
+                    self?.showSignInErrorAlert(title: "Error", message: "Incorrect email or password" , button1Title: "Cancel" ,button2Title: "Sign Up" )
                 }
             }
         }
 
     }
     
-    private func showSignInErrorAlert() {
-        let alert = UIAlertController(title: "Error", message: "Incorrect email or password", preferredStyle: .alert)
+    private func showSignInErrorAlert(title: String , message: String , button1Title:String , button2Title: String) {
+        let alert = UIAlertController(title: title , message: message, preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Sign Up", style: .default, handler: { [weak self] _ in
+        alert.addAction(UIAlertAction(title: button2Title, style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: button2Title, style: .default, handler: { [weak self] _ in
             self?.navigateToSignUp()
         }))
         
