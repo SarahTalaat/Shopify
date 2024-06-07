@@ -126,8 +126,15 @@ extension ProductViewController : UICollectionViewDelegate,UICollectionViewDataS
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsCollectionViewCell", for: indexPath) as! ProductsCollectionViewCell
         
         cell.brandLabel.text = item.vendor
-        cell.priceLabel.text = "\(item.variants.first?.price)$"
-        cell.productNameLabel.text = item.title
+        if let price = item.variants.first?.price {
+            cell.priceLabel.text = "\(price)$"
+
+        }
+        
+        if let range = item.title.range(of: "|") {
+            let truncatedString = String(item.title[range.upperBound...]).trimmingCharacters(in: .whitespaces)
+            cell.productNameLabel.text = truncatedString
+        }
         if let imageUrlString = item.images.first?.src, let imageURL = URL(string: imageUrlString) {
             cell.productImage.kf.setImage(with: imageURL)
         }
