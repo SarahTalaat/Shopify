@@ -130,11 +130,16 @@ extension ProductViewController : UICollectionViewDelegate,UICollectionViewDataS
             cell.priceLabel.text = "\(price)$"
 
         }
-        
         if let range = item.title.range(of: "|") {
-            let truncatedString = String(item.title[range.upperBound...]).trimmingCharacters(in: .whitespaces)
+            var truncatedString = String(item.title[range.upperBound...]).trimmingCharacters(in: .whitespaces)
+            
+            if let nextRange = truncatedString.range(of: "|") {
+                truncatedString = String(truncatedString[..<nextRange.lowerBound]).trimmingCharacters(in: .whitespaces)
+                cell.productNameLabel.text = truncatedString
+            }
             cell.productNameLabel.text = truncatedString
         }
+
         if let imageUrlString = item.images.first?.src, let imageURL = URL(string: imageUrlString) {
             cell.productImage.kf.setImage(with: imageURL)
         }
