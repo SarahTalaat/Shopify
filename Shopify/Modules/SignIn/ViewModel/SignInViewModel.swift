@@ -41,6 +41,7 @@ class SignInViewModel: SignInViewModelProtocol {
             switch result {
             case .success(let user):
                 self?.user = user
+                print("user idddd view model: \(self?.user?.uid)")
             case .failure(let error):
                 if let authError = error as? AuthErrorCode {
                     switch authError {

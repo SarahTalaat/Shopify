@@ -34,6 +34,7 @@ class FirebaseAuthService: AuthServiceProtocol {
             return
         }
         let userModel = UserModel(uid: user.uid, email: user.email ?? "")
+        print("The user iddd: \(userModel.uid)")
         completion(.success(userModel))
     }
 }
