@@ -15,6 +15,7 @@ class ProductViewController: UIViewController {
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var priceLabel: UILabel!
     
+    
     @IBAction func priceBar(_ sender: Any) {
     }
     

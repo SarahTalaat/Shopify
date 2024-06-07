@@ -12,9 +12,9 @@ class HomeViewController: UIViewController {
     
     var sharedMethods: SharedMethods?
     var viewModel  = HomeViewModel()
+    var vm = ProductViewModel()
     
     @IBOutlet weak var adsCollectionView: UICollectionView!
-    
     @IBOutlet weak var brandsCollectionView: UICollectionView!
     
     
@@ -23,6 +23,8 @@ class HomeViewController: UIViewController {
         adsCollectionView.collectionViewLayout = adsCollectionViewLayout()
         brandsCollectionView.collectionViewLayout = brandsCollectionViewLayout()
         
+        
+        //Brands View Borders
         brandsCollectionView.layer.cornerRadius = 10
         brandsCollectionView.layer.borderWidth = 1.0
         brandsCollectionView.layer.borderColor = UIColor.black.cgColor
@@ -50,7 +52,8 @@ class HomeViewController: UIViewController {
                 self.brandsCollectionView.reloadData()
             }
         }
-        
+       
+    // MARK: - Navigation Bar Items 
     
     @objc func navToCart(){
         print("Cart ")
@@ -78,6 +81,7 @@ class HomeViewController: UIViewController {
     }
     
     
+ // MARK: - Collection View Layout Drawing
     
     func adsCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
@@ -122,8 +126,11 @@ class HomeViewController: UIViewController {
         }
     }
 
-
 }
+
+
+
+// MARK: - UICollectionView Methods
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -164,13 +171,16 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == adsCollectionView {
-          printContent("Ads")
-        } else {
+        switch collectionView {
+            
+        case brandsCollectionView:
             let storyboard = UIStoryboard(name: "Second", bundle: nil)
-                     let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductViewController") as! ProductViewController
-                     navigationController?.pushViewController(brandsViewController, animated: true)
-                  }
+            let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductViewController") as! ProductViewController
+            vm.brandID = viewModel.brands[indexPath.row].id
+            navigationController?.pushViewController(brandsViewController, animated: true)
+         default:
+         printContent("Ads")
+            }
         }
     }
 
