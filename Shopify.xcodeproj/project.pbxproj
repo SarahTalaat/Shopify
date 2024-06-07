@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		220EB86C2C13369A00F2E269 /* NetworkUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220EB86B2C13369A00F2E269 /* NetworkUtilities.swift */; };
+		220EB86E2C133EB500F2E269 /* SmartCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220EB86D2C133EB500F2E269 /* SmartCollection.swift */; };
+		220EB8702C1340A600F2E269 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220EB86F2C1340A600F2E269 /* HomeViewModel.swift */; };
 		220FFA6D2C0D5D70001606AF /* OrderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220FFA6C2C0D5D70001606AF /* OrderCollectionViewCell.swift */; };
 		220FFA6F2C0D5DD3001606AF /* WishlistCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220FFA6E2C0D5DD3001606AF /* WishlistCollectionViewCell.swift */; };
 		220FFA712C0D5EAF001606AF /* OrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220FFA702C0D5EAF001606AF /* OrdersViewController.swift */; };
@@ -23,6 +26,8 @@
 		2294A87D2C0B888300FAACF8 /* ProductsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2294A87B2C0B888300FAACF8 /* ProductsCollectionViewCell.swift */; };
 		229B39C02C0B426700C81497 /* AdsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229B39BF2C0B426700C81497 /* AdsCollectionViewCell.swift */; };
 		229B39C22C0B42C100C81497 /* BrandsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229B39C12C0B42C100C81497 /* BrandsCollectionViewCell.swift */; };
+		22B047182C1375E800635975 /* ProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B047172C1375E800635975 /* ProductViewModel.swift */; };
+		22B0471A2C13806D00635975 /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B047192C13806D00635975 /* Products.swift */; };
 		299440442A1E0C33463A3563 /* Pods_Shopify_ShopifyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6253E62D3D89364DD7D571A3 /* Pods_Shopify_ShopifyUITests.framework */; };
 		31C433F6E1A65AEEFDAA62EC /* Pods_Shopify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A9B08B0F994C3A5BCC6481 /* Pods_Shopify.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		390ED1E9619A55E9A447D3D3 /* Pods_ShopifyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DDFF2CC4A09A57E31BFEE60 /* Pods_ShopifyTests.framework */; };
@@ -152,6 +157,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		220EB86B2C13369A00F2E269 /* NetworkUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkUtilities.swift; sourceTree = "<group>"; };
+		220EB86D2C133EB500F2E269 /* SmartCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCollection.swift; sourceTree = "<group>"; };
+		220EB86F2C1340A600F2E269 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		220FFA6C2C0D5D70001606AF /* OrderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCollectionViewCell.swift; sourceTree = "<group>"; };
 		220FFA6E2C0D5DD3001606AF /* WishlistCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistCollectionViewCell.swift; sourceTree = "<group>"; };
 		220FFA702C0D5EAF001606AF /* OrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersViewController.swift; sourceTree = "<group>"; };
@@ -168,6 +176,8 @@
 		2294A87B2C0B888300FAACF8 /* ProductsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProductsCollectionViewCell.swift; path = Shopify/Views/ProductsCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
 		229B39BF2C0B426700C81497 /* AdsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsCollectionViewCell.swift; sourceTree = "<group>"; };
 		229B39C12C0B42C100C81497 /* BrandsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandsCollectionViewCell.swift; sourceTree = "<group>"; };
+		22B047172C1375E800635975 /* ProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewModel.swift; sourceTree = "<group>"; };
+		22B047192C13806D00635975 /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
 		36A9B08B0F994C3A5BCC6481 /* Pods_Shopify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Shopify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CA775E8FDF08C4CBA7142D6 /* Pods-Shopify.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shopify.debug.xcconfig"; path = "Target Support Files/Pods-Shopify/Pods-Shopify.debug.xcconfig"; sourceTree = "<group>"; };
 		6253E62D3D89364DD7D571A3 /* Pods_Shopify_ShopifyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Shopify_ShopifyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -406,6 +416,8 @@
 			isa = PBXGroup;
 			children = (
 				B6365B862C0A18DE00277D31 /* test24.swift */,
+				220EB86D2C133EB500F2E269 /* SmartCollection.swift */,
+				22B047192C13806D00635975 /* Products.swift */,
 				B60A3C3F2C1248C0002BEB5D /* UserModel.swift */,
 			);
 			path = Model;
@@ -533,6 +545,7 @@
 			isa = PBXGroup;
 			children = (
 				B6365BB22C0A1C1C00277D31 /* test26.swift */,
+				22B047172C1375E800635975 /* ProductViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -707,6 +720,7 @@
 			isa = PBXGroup;
 			children = (
 				B6365BDA2C0A1D1C00277D31 /* test21.swift */,
+				220EB86F2C1340A600F2E269 /* HomeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -743,6 +757,7 @@
 				B6EBA8D52C0B5CB700EE66B9 /* CustomTextField.swift */,
 				B637B7532C0B8948005EFA7D /* CustomButton.swift */,
 				B68E73552C0E6F8B00BC2D90 /* SharedMethods.swift */,
+				220EB86B2C13369A00F2E269 /* NetworkUtilities.swift */,
 			);
 			path = SharedFiles;
 			sourceTree = "<group>";
@@ -1209,6 +1224,7 @@
 				2294A8792C0B87CB00FAACF8 /* ProductViewController.swift in Sources */,
 				B6365BD32C0A1CE600277D31 /* test17.swift in Sources */,
 				B637B7542C0B8948005EFA7D /* CustomButton.swift in Sources */,
+				220EB86E2C133EB500F2E269 /* SmartCollection.swift in Sources */,
 				B637B74F2C0B7DA2005EFA7D /* SignInVC.swift in Sources */,
 				B6365BD52C0A1CF000277D31 /* test18.swift in Sources */,
 				6C159CFC2C0E4FF40077FB62 /* SettingsScreenViewController.swift in Sources */,
@@ -1228,6 +1244,7 @@
 				B6365BBD2C0A1C6000277D31 /* test6.swift in Sources */,
 				220FFA6F2C0D5DD3001606AF /* WishlistCollectionViewCell.swift in Sources */,
 				6C204C212C0B5A6400D2B0FC /* NewAddressViewController.swift in Sources */,
+				220EB8702C1340A600F2E269 /* HomeViewModel.swift in Sources */,
 				B6365BBB2C0A1C5700277D31 /* test5.swift in Sources */,
 				220FFA772C0D9817001606AF /* OrderDetailsCell.swift in Sources */,
 				B6365BDB2C0A1D1C00277D31 /* test21.swift in Sources */,
@@ -1245,12 +1262,14 @@
 				6C16C1C22C0D4C9E009F7EE5 /* CouponViewController.swift in Sources */,
 				B68E73592C0F68F200BC2D90 /* CustomReviewsTableViewCell.swift in Sources */,
 				B6365BCF2C0A1CD500277D31 /* test15.swift in Sources */,
+				22B0471A2C13806D00635975 /* Products.swift in Sources */,
 				220FFA752C0D6488001606AF /* OrderDetailsViewController.swift in Sources */,
 				B6365BC72C0A1C9C00277D31 /* test11.swift in Sources */,
 				B6EBA8D62C0B5CB700EE66B9 /* CustomTextField.swift in Sources */,
 				B60A3C3E2C12483B002BEB5D /* FirebaseAuthService.swift in Sources */,
 				B68E72FE2C0D402900BC2D90 /* CustomCollectionViewCell.swift in Sources */,
 				B6365BCD2C0A1CCA00277D31 /* test14.swift in Sources */,
+				220EB86C2C13369A00F2E269 /* NetworkUtilities.swift in Sources */,
 				B68E73052C0DB84200BC2D90 /* CustomDropDownViewController.swift in Sources */,
 				B637B7592C0B8B21005EFA7D /* FavouriteVC.swift in Sources */,
 				B6365B892C0A198F00277D31 /* test23.swift in Sources */,
@@ -1264,6 +1283,7 @@
 				B60A3C382C123D62002BEB5D /* SignInViewModel.swift in Sources */,
 				B6FB35082C1225FE0030C595 /* SignUpViewModelProtocol.swift in Sources */,
 				220FFA732C0D618A001606AF /* AllOrdersCollectionViewCell.swift in Sources */,
+				22B047182C1375E800635975 /* ProductViewModel.swift in Sources */,
 				6C204C152C0B502B00D2B0FC /* AboutUsViewController.swift in Sources */,
 				B68E73622C10AA1800BC2D90 /* OnboardingUIPageViewController.swift in Sources */,
 				6C204C112C0B4FBC00D2B0FC /* CurrencyViewController.swift in Sources */,
@@ -1452,13 +1472,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5CA775E8FDF08C4CBA7142D6 /* Pods-Shopify.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Shopify/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Shoppingo;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1481,13 +1501,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EAE25E0A39138D2E1D41FD74 /* Pods-Shopify.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Shopify/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Shoppingo;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

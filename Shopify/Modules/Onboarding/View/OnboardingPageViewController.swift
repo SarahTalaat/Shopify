@@ -12,20 +12,31 @@ class OnboardingPageViewController: UIViewController {
     @IBOutlet weak var myTitle: UILabel!
     @IBOutlet weak var myImage: UIImageView!
     @IBOutlet weak var myDescription: UILabel!
-    
+    @IBOutlet weak var actionButton: UIButton!
+
     var imageName: String?
     var titleText: String?
     var descriptionText: String?
+    var buttonText: String?
+
     
     // MARK: - Lifecycle
     
     @IBAction func getStartedButtonTapped(_ sender: UIButton) {
 
-        // Inside the view controller you want to dismiss from
-        dismiss(animated: true, completion: nil)
-        let sb = UIStoryboard.init(name: "Main", bundle: nil)
-        let signUpVC = sb.instantiateViewController(withIdentifier: "SignUpVC")
-        navigationController?.pushViewController(signUpVC, animated: true)
+        if buttonText == "Get Started" {
+            let sb = UIStoryboard(name: "Main", bundle: nil)
+                  if let signUpVC = sb.instantiateViewController(withIdentifier: "SignUpVC") as? SignUpVC {
+                      let navController = UINavigationController(rootViewController: signUpVC)
+                      navController.modalPresentationStyle = .fullScreen
+                      present(navController, animated: true, completion: nil)
+              }
+          } else {
+              if let scrollView = view.superview as? UIScrollView {
+                  let nextOffset = scrollView.contentOffset.x + scrollView.frame.width
+                  scrollView.setContentOffset(CGPoint(x: nextOffset, y: 0), animated: true)
+              }
+          }
 
     }
     
@@ -37,10 +48,10 @@ class OnboardingPageViewController: UIViewController {
         
         // Set the content for the views
         myImage.image = UIImage(named: imageName ?? "")
+       myImage.contentMode = .redraw
         myTitle.text = titleText
         myDescription.text = descriptionText
-        
-        
+        actionButton.setTitle(buttonText, for: .normal)
     }
     
     override func viewDidLayoutSubviews() {
@@ -51,7 +62,5 @@ class OnboardingPageViewController: UIViewController {
         myImage.frame = CGRect(x: myImage.frame.origin.x, y: myImage.frame.origin.y, width: 306, height: 306)
         myImage.layer.cornerRadius = myImage.frame.height / 2
         myImage.clipsToBounds = true
-        
     }
-    
 }

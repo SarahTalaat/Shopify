@@ -17,7 +17,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     var isFavourite = false
     @IBOutlet weak var favouriteButton: UIButton!
     @IBOutlet var myCollectionView: UICollectionView!
-    var imageArray: [String] = ["a.jpg","b.jpg","c.jpg","d.jpg","e.jpg"]
+    var imageArray: [String] = ["image.png","image.png","image.png","image.png","image.png"]
     @IBOutlet var dropdownButton2: UIButton!
     @IBOutlet weak var dropdownButton: UIButton!
     @IBOutlet weak var dropDowntableView1: UITableView!
