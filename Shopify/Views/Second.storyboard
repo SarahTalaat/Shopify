@@ -496,7 +496,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="175" height="160"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adidas-logo-design-template-416e301e26d296a75536e1f323a013e0_screen" translatesAutoresizingMaskIntoConstraints="NO" id="Yad-rg-3aE">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adidas-logo-design-template-416e301e26d296a75536e1f323a013e0_screen" translatesAutoresizingMaskIntoConstraints="NO" id="Yad-rg-3aE">
                                                     <rect key="frame" x="13" y="8" width="149" height="116"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ADIDAS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QTr-tl-Atf">
