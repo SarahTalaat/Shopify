@@ -7,6 +7,7 @@
 
 import Foundation
 struct ProductResponse :Decodable{
+    
   let products : [Products]
 }
 

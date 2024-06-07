@@ -177,6 +177,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             let storyboard = UIStoryboard(name: "Second", bundle: nil)
             let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductViewController") as! ProductViewController
             vm.brandID = viewModel.brands[indexPath.row].id
+            brandsViewController.viewModel = vm
+            print(vm.brandID)
             navigationController?.pushViewController(brandsViewController, animated: true)
          default:
          printContent("Ads")
