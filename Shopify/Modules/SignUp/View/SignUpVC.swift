@@ -119,9 +119,10 @@ class SignUpVC: UIViewController {
         // Do any additional setup after loading the view.
         setUpSignUpScreenUI()
         makeCircularImage()
+        viewModel = DependencyProvider.signUpViewModel
         bindViewModel()
         
-        viewModel = DependencyProvider.signUpViewModel
+   
 
     }
     
@@ -133,18 +134,20 @@ class SignUpVC: UIViewController {
     private func bindViewModel() {
         viewModel.bindUserViewModelToController = {
             // Handle successful sign-up, e.g., navigate to a different screen
-            self.showSignSuccessfulAlert(title: "Success", message: "You have created an account successfully , click ok to sign in", button1Title: "Ok")
-            self.navToSignIn()
+            self.showSignSuccessfulAlert(title: "Success", message: "You have created an account successfully , click ok to sign in", button1Title: "Ok") {
+                self.navToSignIn()
+            }
         }
         
         viewModel.bindErrorViewModelToController = { [weak self] in
             DispatchQueue.main.async {
                 if let errorMessage = self?.viewModel.errorMessage {
                     // Handle error message if needed
-                    self?.showSignSuccessfulAlert(title: "Failure", message: "Failed to creeate a new account , click Ok and try again", button1Title: "Ok")
+                    self?.showSignSuccessfulAlert(title: "Failure", message: "Failed to create a new account , click Ok and try again", button1Title: "Ok", completion: {})
                 }
             }
         }
+
     }
     
     @IBAction func alreadyHaveAnAccountButtonTapped(_ sender: UIButton) {
@@ -194,14 +197,23 @@ class SignUpVC: UIViewController {
     }
     
 
-    private func showSignSuccessfulAlert(title: String , message: String , button1Title:String) {
+//    private func showSignSuccessfulAlert(title: String , message: String , button1Title:String) {
+//        let alert = UIAlertController(title: title , message: message, preferredStyle: .alert)
+//
+//        alert.addAction(UIAlertAction(title: button1Title, style: .cancel, handler: nil))
+//
+//        present(alert, animated: true, completion: nil)
+//    }
+    
+    private func showSignSuccessfulAlert(title: String , message: String , button1Title:String, completion: @escaping () -> Void) {
         let alert = UIAlertController(title: title , message: message, preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: button1Title, style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: button1Title, style: .cancel, handler: { _ in
+            completion()
+        }))
     
         present(alert, animated: true, completion: nil)
     }
-
 
     /*
     // MARK: - Navigation

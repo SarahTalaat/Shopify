@@ -9,7 +9,7 @@ import Foundation
 
 
 
-class SignUpViewModel : SignUpViewModelProtocol{
+class SignUpViewModel : SignUpViewModelProtocol {
     private let authServiceProtocol: AuthServiceProtocol
     
     var user: UserModel? {

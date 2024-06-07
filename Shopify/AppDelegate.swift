@@ -30,6 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
              UITabBar.appearance().unselectedItemTintColor = UIColor.gray
         
         FirebaseApp.configure()
+
+
         return true
     }
 

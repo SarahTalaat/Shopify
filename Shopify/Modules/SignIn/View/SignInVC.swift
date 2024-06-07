@@ -35,24 +35,27 @@ class SignInVC: UIViewController {
         
         viewModel.bindErrorViewModelToController = { [weak self] in
             DispatchQueue.main.async {
-                if let errorMessage = self?.viewModel.errorMessage, errorMessage == "Incorrect data" {
-                    self?.showSignInErrorAlert(title: "Error", message: "Incorrect email or password" , button1Title: "Cancel" ,button2Title: "Sign Up" )
+                if let errorMessage = self?.viewModel.errorMessage {
+                    self?.showSignInErrorAlert(title: "Error", message: errorMessage, button1Title: "OK", button2Title: "Sign Up")
                 }
             }
         }
+        
 
     }
     
     private func showSignInErrorAlert(title: String , message: String , button1Title:String , button2Title: String) {
         let alert = UIAlertController(title: title , message: message, preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: button2Title, style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: button1Title, style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: button2Title, style: .default, handler: { [weak self] _ in
             self?.navigateToSignUp()
         }))
         
         present(alert, animated: true, completion: nil)
     }
+    
+    
     
     private func navigateToSignUp() {
         let sb = UIStoryboard.init(name: "Main", bundle: nil)
@@ -66,6 +69,8 @@ class SignInVC: UIViewController {
             UIApplication.shared.windows.first?.rootViewController = tabBarController
         }
     }
+    
+    
     
 
 }

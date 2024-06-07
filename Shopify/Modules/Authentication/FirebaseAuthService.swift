@@ -10,17 +10,11 @@ import FirebaseAuth
 
 class FirebaseAuthService: AuthServiceProtocol {
     
-
     func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
-            if let error = error {
-                print("Firebase Error: \(error.localizedDescription)")
-            }
             self?.handleAuthResult(result: result, error: error, completion: completion)
         }
     }
-
-    
     
     func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
