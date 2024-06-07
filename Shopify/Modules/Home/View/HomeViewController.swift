@@ -8,6 +8,7 @@
 import UIKit
 import Kingfisher
 
+
 class HomeViewController: UIViewController {
     
     var sharedMethods: SharedMethods?
