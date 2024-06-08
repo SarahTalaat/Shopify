@@ -11,3 +11,9 @@ struct UserModel {
     let uid: String
     let email: String
 }
+
+struct UserCredentials{
+    let verified_email: Bool
+    let email: String
+    let firstname: String
+}

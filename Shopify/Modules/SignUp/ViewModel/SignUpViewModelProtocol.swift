@@ -15,5 +15,5 @@ protocol SignUpViewModelProtocol {
     var bindUserViewModelToController: (() -> ()) { get set }
     var bindErrorViewModelToController: (() -> ()) { get set }
     
-    func signUp(email: String, password: String)
+    func signUp(firstName: String, email: String, verifiedEmail: Bool) 
 }
