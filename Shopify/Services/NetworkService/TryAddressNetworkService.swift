@@ -34,9 +34,7 @@ class TryAddressNetworkService: NetworkService {
     }
     
     func getAddresses(completion: @escaping (Swift.Result<[Address], Error>) -> Void) {
-        let url = ""
-        
-        "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/customers/7493076156577/addresses.json?limit"
+        let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/customers/7493076156577/addresses.json?limit"
         fetchAddressData(from: url, responseType: AddressListResponse.self) { result in
             switch result {
             case .success(let addressListResponse):
