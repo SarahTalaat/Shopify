@@ -17,5 +17,7 @@ class BrandsCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         brandImage.layer.cornerRadius = 10
         brandImage.clipsToBounds = true
+        brandImage.layer.borderWidth = 1
+        brandImage.layer.borderColor = UIColor.lightGray.cgColor
     }
 }
