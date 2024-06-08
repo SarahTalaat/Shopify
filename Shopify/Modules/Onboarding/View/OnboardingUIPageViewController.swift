@@ -15,9 +15,9 @@ class OnboardingViewController: UIViewController, UIScrollViewDelegate {
     
     // Add your onboarding content here (images, titles, descriptions)
     private let onboardingContent = [
-        OnboardingContent(imageName: "salah", title: "Welcome", description: "Welcome to our app!"),
-        OnboardingContent(imageName: "girl", title: "Get Started", description: "Let's get started with the onboarding!"),
-        OnboardingContent(imageName: "logo", title: "Enjoy", description: "Enjoy using our app!")
+        OnboardingContent(imageName: "shop.jpg", title: "Order For Item", description: "Quickly find and order your favorite products with our user-friendly interface", buttonText: "Next"),
+        OnboardingContent(imageName: "payment.jpg", title: "Payment Process", description: "Enjoy secure and fast payments with multiple options, ensuring your transactions are safe", buttonText: "Next"),
+        OnboardingContent(imageName: "delivary.jpg", title: "Item Delivery", description: "GGet your orders delivered swiftly and reliably with real-time tracking and notifications", buttonText: "Get Started")
     ]
     
     // MARK: - Lifecycle Methods
@@ -62,6 +62,7 @@ class OnboardingViewController: UIViewController, UIScrollViewDelegate {
                 onboardingPageVC.imageName = content.imageName
                 onboardingPageVC.titleText = content.title
                 onboardingPageVC.descriptionText = content.description
+                onboardingPageVC.buttonText = content.buttonText
                 addChild(onboardingPageVC)
                 onboardingPageVC.view.frame = CGRect(x: CGFloat(index) * view.frame.width, y: 0, width: view.frame.width, height: view.frame.height)
                 scrollView.addSubview(onboardingPageVC.view)
@@ -69,6 +70,7 @@ class OnboardingViewController: UIViewController, UIScrollViewDelegate {
             }
         }
     }
+
     
     // MARK: - UIScrollViewDelegate
     
@@ -83,4 +85,6 @@ struct OnboardingContent {
     let imageName: String
     let title: String
     let description: String
+    let buttonText: String
+
 }

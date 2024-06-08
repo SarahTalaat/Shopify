@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import FirebaseCore
 
 
 @main
@@ -27,6 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          let customRed = UIColor(red: 219/255.0, green: 48/255.0, blue: 34/255.0, alpha: 1.0)
         UITabBar.appearance().tintColor = customRed
              UITabBar.appearance().unselectedItemTintColor = UIColor.gray
+        
+        FirebaseApp.configure()
+
+
         return true
     }
 

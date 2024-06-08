@@ -24,12 +24,17 @@ class addressTableViewCell: UITableViewCell {
 
     @IBAction func checkBtnAddress(_ sender: UIButton) {
     }
+    
+    @IBOutlet weak var currentAddress: UILabel!
     @IBOutlet weak var addressDetails: UILabel!
     @IBOutlet weak var userName: UILabel!
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
+       
     }
-    
+    func configure(with address: Address) {
+        userName.text = address.first_name
+        addressDetails.text = "\(address.address1), \(address.city), \(address.country)"
+       }
 }
