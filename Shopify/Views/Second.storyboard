@@ -345,7 +345,7 @@
                                 <buttonConfiguration key="configuration" style="tinted" title="Sizes"/>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nUL-X5-jn8">
-                                <rect key="frame" x="16" y="228.5" width="382" height="554.5"/>
+                                <rect key="frame" x="16" y="228.5" width="382" height="633.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="frn-41-hHt">
                                     <size key="itemSize" width="167" height="167"/>
@@ -376,7 +376,7 @@
                         <constraints>
                             <constraint firstItem="jEC-g4-sqC" firstAttribute="trailing" secondItem="ahz-Qj-4a9" secondAttribute="trailing" constant="34" id="5ma-iJ-9s1"/>
                             <constraint firstItem="hhD-Na-s06" firstAttribute="top" secondItem="6Of-eh-1ZD" secondAttribute="bottom" constant="10" id="Fax-3C-jq3"/>
-                            <constraint firstItem="jEC-g4-sqC" firstAttribute="bottom" secondItem="nUL-X5-jn8" secondAttribute="bottom" constant="79" id="HZf-h0-Gan"/>
+                            <constraint firstItem="jEC-g4-sqC" firstAttribute="bottom" secondItem="nUL-X5-jn8" secondAttribute="bottom" id="HZf-h0-Gan"/>
                             <constraint firstItem="Jfm-yW-50B" firstAttribute="leading" secondItem="jEC-g4-sqC" secondAttribute="leading" constant="44" id="JkS-0E-hRn"/>
                             <constraint firstItem="Jfm-yW-50B" firstAttribute="trailing" secondItem="ahz-Qj-4a9" secondAttribute="leading" constant="-30" id="L0P-CO-CRN"/>
                             <constraint firstItem="nUL-X5-jn8" firstAttribute="top" secondItem="ahz-Qj-4a9" secondAttribute="bottom" constant="8" id="M73-Po-Ec2"/>
@@ -496,7 +496,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="175" height="160"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adidas-logo-design-template-416e301e26d296a75536e1f323a013e0_screen" translatesAutoresizingMaskIntoConstraints="NO" id="Yad-rg-3aE">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adidas-logo-design-template-416e301e26d296a75536e1f323a013e0_screen" translatesAutoresizingMaskIntoConstraints="NO" id="Yad-rg-3aE">
                                                     <rect key="frame" x="13" y="8" width="149" height="116"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ADIDAS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QTr-tl-Atf">

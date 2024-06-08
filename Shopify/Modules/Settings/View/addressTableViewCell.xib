@@ -65,6 +65,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="addressDetails" destination="Sd3-FA-pmx" id="gtj-tC-Uus"/>
+                <outlet property="currentAddress" destination="Cc4-74-RRd" id="y3j-bU-9hK"/>
                 <outlet property="userName" destination="9gF-6I-mnc" id="ek0-1Q-XwF"/>
             </connections>
             <point key="canvasLocation" x="129.7709923664122" y="21.83098591549296"/>

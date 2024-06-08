@@ -23,21 +23,23 @@ class SplashScreenVC: UIViewController {
         animationLottieView.play()
 
 
-        Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(goToOnboardingScreen), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(goToOnboardingScreen), userInfo: nil, repeats: false)
     }
 
 
     @objc func goToOnboardingScreen(){
-        let onboardingVC = OnboardingViewController()
+        
+        let sb = UIStoryboard.init(name: "Main", bundle: nil)
+         let onboardingVC = sb.instantiateViewController(withIdentifier: "OnboardingViewController") as! OnboardingViewController
         onboardingVC.modalPresentationStyle = .fullScreen
         present(onboardingVC, animated: true, completion: nil)
+        
+//                    let sb = UIStoryboard.init(name: "Main", bundle: nil)
+//                    let onboardingVC = sb.instantiateViewController(withIdentifier: "OnboardingViewController") as! OnboardingViewController
+//                    navigationController?.pushViewController(onboardingVC, animated: true)
+        
     }
-
-//            let sb = UIStoryboard.init(name: "Main", bundle: nil)
-//            let onboardingVC = sb.instantiateViewController(withIdentifier: "OnboardingViewController")
-//            navigationController?.pushViewController(onboardingVC, animated: true)
-
-    }
+}
 
 
 
