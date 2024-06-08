@@ -28,6 +28,12 @@ class ProductsCollectionViewCell: UICollectionViewCell {
         favBtn.layer.shadowOffset = CGSize(width: 0, height: 2)
         favBtn.layer.shadowOpacity = 0.5
         favBtn.layer.shadowRadius = 4
+        
+        
+        productImage.layer.cornerRadius = 10
+        productImage.clipsToBounds = true
+        productImage.layer.borderWidth = 1
+        productImage.layer.borderColor = UIColor.lightGray.cgColor
     }
 
 }

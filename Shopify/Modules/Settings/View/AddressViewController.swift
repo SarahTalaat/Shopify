@@ -9,7 +9,7 @@ import UIKit
 
 class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource  {
     
-    
+    var addresses: [Address] = []
 
     @IBAction func addNewAddress(_ sender: UIButton) {
 
@@ -29,18 +29,35 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
             addressTableView.dataSource = self
             addressTableView.separatorStyle = .none
             addressTableView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-            addressTableView.reloadData()
+       
+      
         }
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchAddresses()
+    }
+    func fetchAddresses() {
+            TryAddressNetworkService.shared.getAddresses { result in
+                switch result {
+                case .success(let addresses):
+                    self.addresses = addresses
+                    DispatchQueue.main.async {
+                        self.addressTableView.reloadData()
+                    }
+                case .failure(let error):
+                    print("Failed to fetch addresses: \(error)")
+                }
+            }
+        }
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return 3
+            return addresses.count
         }
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "addressTableViewCell", for: indexPath) as! addressTableViewCell
             
-            cell.userName.text = "User \(indexPath.row + 1)"
-            cell.addressDetails.text = "Address details for user \(indexPath.row + 1)"
+            let address = addresses[indexPath.row]
+            cell.configure(with: address)
             
             return cell
         }

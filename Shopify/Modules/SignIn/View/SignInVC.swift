@@ -1,10 +1,3 @@
-//
-//  SignInVC.swift
-//  Shopify
-//
-//  Created by Sara Talat on 01/06/2024.
-//
-
 import UIKit
 
 class SignInVC: UIViewController {
@@ -12,54 +5,72 @@ class SignInVC: UIViewController {
     @IBOutlet var signInButton: UIButton!
     @IBOutlet var emailCustomTextField: CustomTextField!
     @IBOutlet var passwordCustomTextField: CustomTextField!
+    
+    var viewModel: SignInViewModelProtocol!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        viewModel = DependencyProvider.signInViewModel
         setUpSignInScreenUI()
+        bindViewModel()
     }
     
     @IBAction func signInButton(_ sender: UIButton) {
+        guard let email = emailCustomTextField.text, let password = passwordCustomTextField.text else { return }
+        viewModel.signIn(email: email, password: password)
+    }
+    
+    func setUpSignInScreenUI() {
+        CustomTextField.customTextFieldUI(customTextField: emailCustomTextField, label: "Email : ")
+        CustomTextField.customTextFieldUI(customTextField: passwordCustomTextField, label: "Password : ")
+    }
+    
+    private func bindViewModel() {
+        viewModel.bindUserViewModelToController = { [weak self] in
+            DispatchQueue.main.async {
+                self?.navToTabBar()
+            }
+        }
+        
+        viewModel.bindErrorViewModelToController = { [weak self] in
+            DispatchQueue.main.async {
+                if let errorMessage = self?.viewModel.errorMessage {
+                    self?.showSignInErrorAlert(title: "Error", message: errorMessage, button1Title: "OK", button2Title: "Sign Up")
+                }
+            }
+        }
+        
+
+    }
+    
+    private func showSignInErrorAlert(title: String , message: String , button1Title:String , button2Title: String) {
+        let alert = UIAlertController(title: title , message: message, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: button1Title, style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: button2Title, style: .default, handler: { [weak self] _ in
+            self?.navigateToSignUp()
+        }))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
+    
+    private func navigateToSignUp() {
+        let sb = UIStoryboard.init(name: "Main", bundle: nil)
+        let signUpVC = sb.instantiateViewController(withIdentifier: "SignUpVC")
+        navigationController?.pushViewController(signUpVC, animated: true)
+    }
+    
+    private func navToTabBar() {
         let storyboard = UIStoryboard(name: "Second", bundle: nil)
         if let tabBarController = storyboard.instantiateViewController(withIdentifier: "tabbar") as? UITabBarController {
-            // If you want to set it as the root view controller
             UIApplication.shared.windows.first?.rootViewController = tabBarController
         }
     }
     
     
     
-    
-    func navToHome(){
-        let sb = UIStoryboard(name: "Second", bundle: nil)
-        let homeVC = sb.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-        navigationController?.pushViewController(homeVC, animated: true)
-    }
-    
-    
-    
-    func setUpSignInScreenUI() {
-
-        CustomTextField.customTextFieldUI(customTextField: emailCustomTextField, label: "Email : ")
-        CustomTextField.customTextFieldUI(customTextField: passwordCustomTextField, label: "Password : ")
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        // Ensure the button's corners are rounded
-        CustomButton.buttonRoundedCorner(button: signInButton)
-    }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
-
