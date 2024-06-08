@@ -37,27 +37,25 @@ class SignUpViewModel: SignUpViewModelProtocol {
             switch result {
             case .success(let user):
                 self?.user = user
-                self?.postCustomerData(customerRequest: customerModelRequest)
+                self?.postCustomerData(customerModelRequest: customerModelRequest)
             case .failure(let error):
                 self?.errorMessage = error.localizedDescription
             }
         }
     }
     
-    func postCustomerData(customerRequest: CustomerModelRequest) {
-        guard let customer = customerRequest.customer else {
-            // Handle the case when customer is nil
-            return
-        }
-        networkServiceAuthentication.postCustomerData(customer: customer) { [weak self] result in
+    func postCustomerData(customerModelRequest: CustomerModelRequest) {
+
+        networkServiceAuthentication.postCustomerData(customer: customerModelRequest, completion: { [weak self] result in
             switch result {
             case .success(let value):
-                print("vm success : \(value.customer?.email)")
+                print("vm success : \(value.customers)")
                 // Handle the customer object as needed
+                
             case .failure(let error):
                 self?.errorMessage = error.localizedDescription
             }
-        }
+        })
     }
 
 }

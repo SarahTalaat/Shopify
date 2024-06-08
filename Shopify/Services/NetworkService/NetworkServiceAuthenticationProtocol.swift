@@ -8,5 +8,5 @@
 import Foundation
 
 protocol NetworkServiceAuthenticationProtocol {
-    func postCustomerData(customer: CustomerRequest, completion: @escaping (Swift.Result<CustomerModelResponse, Error>) -> Void)
+    func postCustomerData(customer: CustomerModelRequest, completion: @escaping (Swift.Result<CustomerModelResponse, Error>) -> Void)
 }
