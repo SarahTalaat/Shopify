@@ -15,18 +15,22 @@ class ProductViewController: UIViewController {
     @IBOutlet weak var price: UISlider!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var priceLabel: UILabel!
-    
-    
-    @IBAction func priceBar(_ sender: Any) {
-    }
-    
     @IBOutlet weak var sizeMenu: UIButton!
     @IBOutlet weak var colorMenu: UIButton!
+    
+    @IBAction func priceBar(_ sender: UISlider) {
+        let filteredPrice = sender.value
+        priceLabel.text = "Price :\(filteredPrice)"
+        let filteredArray = viewModel.filterByPrice(maxPrice: filteredPrice)
+        viewModel.products = filteredArray
+        
+    }
     
     let colorList = ["Black", "White", "Red", "Blue", "Green", "Brown"]
     let sizeList = ["XS", "S", "M", "L", "XL"]
     var isFilter = false
     var viewModel = ProductViewModel()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +42,28 @@ class ProductViewController: UIViewController {
         sizeMenu.isHidden = true
         colorMenu.isHidden = true
         price.isHidden = true
+        priceLabel.text = "No selected price"
         
+        handleDropDownList()
+        
+        viewModel.bindProducts = { [weak self] in
+            self?.updateCollection()
+            self?.filterByPrice()
+        }
+
+    }
+    
+    
+    func updateCollection(){
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    
+    
+   // MARK: - Drop Down List
+    
+    func handleDropDownList(){
         let actionClosure = { (action: UIAction) in
             print(action.title)
         }
@@ -63,18 +88,20 @@ class ProductViewController: UIViewController {
         
         let filterButton = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal.decrease.circle"), style: .plain, target: self, action: #selector(self.showFilter))
         navigationItem.rightBarButtonItems = [filterButton]
-        
-        viewModel.bindProducts = {
-            self.updateCollection()
-        }
-
     }
+  
     
-    func updateCollection(){
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-        }
+  // MARK: - Filter By Price
+    func filterByPrice(){
+         let priceArray = viewModel.productsPrice
+                if let minPrice = priceArray.min(), let maxPrice = priceArray.max() {
+                    price.minimumValue = Float(minPrice) ?? 0.0
+                    price.maximumValue = Float(maxPrice) ?? 0.0
+                    price.value = price.minimumValue
+                }
+  
+    }
+ // MARK: - Navigation Bar Item
     
     @objc func showFilter(){
         
@@ -93,6 +120,8 @@ class ProductViewController: UIViewController {
         }
     }
     
+    
+    // MARK: - Collection View Layout
     
     func brandsCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
@@ -114,6 +143,8 @@ class ProductViewController: UIViewController {
 }
 
 
+// MARK: - Collection View Methods
+
 extension ProductViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.products.count
@@ -132,9 +163,15 @@ extension ProductViewController : UICollectionViewDelegate,UICollectionViewDataS
         }
         
         if let range = item.title.range(of: "|") {
-            let truncatedString = String(item.title[range.upperBound...]).trimmingCharacters(in: .whitespaces)
+            var truncatedString = String(item.title[range.upperBound...]).trimmingCharacters(in: .whitespaces)
+            
+            if let nextRange = truncatedString.range(of: "|") {
+                truncatedString = String(truncatedString[..<nextRange.lowerBound]).trimmingCharacters(in: .whitespaces)
+                cell.productNameLabel.text = truncatedString
+            }
             cell.productNameLabel.text = truncatedString
         }
+        
         if let imageUrlString = item.images.first?.src, let imageURL = URL(string: imageUrlString) {
             cell.productImage.kf.setImage(with: imageURL)
         }

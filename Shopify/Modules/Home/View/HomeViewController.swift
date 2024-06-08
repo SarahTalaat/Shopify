@@ -49,8 +49,8 @@ class HomeViewController: UIViewController {
     }
     
     func updateCollection(){
-            DispatchQueue.main.async {
-                self.brandsCollectionView.reloadData()
+            DispatchQueue.main.async { [weak self] in
+                self?.brandsCollectionView.reloadData()
             }
         }
        
