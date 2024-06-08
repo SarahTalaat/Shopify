@@ -11,7 +11,7 @@ class NetworkUtilities{
     
     static let apiKey = "b67adf5ce29253f64d89943674815b12"
     static let shopName = "mad44-alex-ios-team4.myshopify.com"
-    
+    static let password = ""
     
     static func fetchData<T: Decodable>(responseType: T.Type, endpoint: String, completion: @escaping (T?) -> Void) {
         let credentials = "\(apiKey):\(password)"
