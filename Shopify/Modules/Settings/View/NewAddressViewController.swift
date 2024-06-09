@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewAddressViewController: UIViewController {
+class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSource{
 
     @IBOutlet weak var fullNameTF: UITextField!
     
@@ -18,7 +18,43 @@ class NewAddressViewController: UIViewController {
     @IBOutlet weak var stateTF: UITextField!
     
     @IBOutlet weak var zipCodeTF: UITextField!
-    
+    let statePicker = UIPickerView()
+        let states = ["State1", "State2", "State3", "State4", "State5"]
+    func setupStatePicker() {
+            statePicker.delegate = self
+            statePicker.dataSource = self
+            stateTF.inputView = statePicker
+
+            // Adding toolbar with Done button
+            let toolbar = UIToolbar()
+            toolbar.sizeToFit()
+            let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneTapped))
+            toolbar.setItems([doneButton], animated: false)
+            toolbar.isUserInteractionEnabled = true
+            stateTF.inputAccessoryView = toolbar
+        }
+
+        @objc func doneTapped() {
+            stateTF.resignFirstResponder()
+        }
+
+        // UIPickerView DataSource and Delegate methods
+        func numberOfComponents(in pickerView: UIPickerView) -> Int {
+            return 1
+        }
+
+        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+            return states.count
+        }
+
+        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+            return states[row]
+        }
+
+        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+            stateTF.text = states[row]
+        }
+
     @IBAction func saveAddressBtn(_ sender: UIButton) {
         HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
         guard let fullName = fullNameTF.text, !fullName.isEmpty,
