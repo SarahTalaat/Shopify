@@ -124,7 +124,7 @@ class SignUpVC: UIViewController {
         guard let firstName = firstNameCustomTextField.text,
               let email = emailCustomTextField.text,
               let password = passwordCustomTextField.text else { return }
-        viewModel.signUp(firstName: firstName, email: email, verifiedEmail: true)
+        viewModel.signUp(email: email, password: password, firstName: firstName)
         
     }
     
