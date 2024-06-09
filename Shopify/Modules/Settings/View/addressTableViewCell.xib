@@ -5,7 +5,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,52 +17,40 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="138"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9gF-6I-mnc">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="User Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9gF-6I-mnc">
                         <rect key="frame" x="21.999999999999993" y="17" width="85.333333333333314" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cc4-74-RRd">
-                        <rect key="frame" x="189" y="18" width="125" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Address Details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sd3-FA-pmx">
+                        <rect key="frame" x="21" y="54" width="242" height="76"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qv1-cu-NBo">
-                        <rect key="frame" x="147" y="11" width="50" height="35"/>
-                        <state key="normal" title="Button"/>
-                        <buttonConfiguration key="configuration" style="plain" image="checkmark.circle.fill" catalog="system">
-                            <color key="baseForegroundColor" systemColor="labelColor"/>
-                        </buttonConfiguration>
-                        <connections>
-                            <action selector="checkBtnAddress:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="RO6-jq-iJr"/>
-                        </connections>
-                    </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Address Details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sd3-FA-pmx">
-                        <rect key="frame" x="21" y="59.000000000000007" width="119" height="20.333333333333336"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Default" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cc4-74-RRd">
+                        <rect key="frame" x="240" y="17" width="55" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="qv1-cu-NBo" firstAttribute="leading" secondItem="9gF-6I-mnc" secondAttribute="trailing" constant="39.670000000000002" id="2mK-mp-baI"/>
-                    <constraint firstAttribute="trailing" secondItem="Cc4-74-RRd" secondAttribute="trailing" constant="6" id="5LN-zn-eos"/>
-                    <constraint firstItem="Cc4-74-RRd" firstAttribute="leading" secondItem="9gF-6I-mnc" secondAttribute="trailing" constant="81.670000000000002" id="FWX-lW-b7o"/>
+                    <constraint firstAttribute="trailing" secondItem="Cc4-74-RRd" secondAttribute="trailing" constant="25" id="AoF-uz-LGt"/>
                     <constraint firstItem="9gF-6I-mnc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="17" id="FXF-SJ-5Ru"/>
-                    <constraint firstItem="Cc4-74-RRd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="18" id="TF0-R5-ZAY"/>
-                    <constraint firstAttribute="trailing" secondItem="qv1-cu-NBo" secondAttribute="trailing" constant="123" id="W9P-te-nOi"/>
-                    <constraint firstItem="qv1-cu-NBo" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="Zg6-zh-kNJ"/>
-                    <constraint firstAttribute="trailing" secondItem="Sd3-FA-pmx" secondAttribute="trailing" constant="180" id="d1v-ds-Egv"/>
-                    <constraint firstAttribute="bottom" secondItem="Sd3-FA-pmx" secondAttribute="bottom" constant="58.670000000000002" id="fqT-2v-jk0"/>
-                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="top" secondItem="9gF-6I-mnc" secondAttribute="bottom" constant="21" id="m3w-SQ-ehq"/>
-                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="21" id="qxr-7u-PDe"/>
+                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="top" secondItem="9gF-6I-mnc" secondAttribute="bottom" constant="16" id="KbI-vV-cMP"/>
+                    <constraint firstAttribute="bottom" secondItem="Sd3-FA-pmx" secondAttribute="bottom" constant="8" id="MMV-lK-yqL"/>
+                    <constraint firstAttribute="trailing" secondItem="Sd3-FA-pmx" secondAttribute="trailing" constant="57" id="a8Y-Jl-XYO"/>
+                    <constraint firstItem="Cc4-74-RRd" firstAttribute="leading" secondItem="9gF-6I-mnc" secondAttribute="trailing" constant="132.66999999999999" id="f1I-4D-COI"/>
+                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="21" id="hJI-25-Nfk"/>
+                    <constraint firstItem="Cc4-74-RRd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="17" id="wBa-02-98I"/>
                     <constraint firstItem="9gF-6I-mnc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="22" id="zak-il-NYM"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="IsDefault" destination="Cc4-74-RRd" id="wy9-7B-Nuu"/>
                 <outlet property="addressDetails" destination="Sd3-FA-pmx" id="gtj-tC-Uus"/>
                 <outlet property="currentAddress" destination="Cc4-74-RRd" id="y3j-bU-9hK"/>
                 <outlet property="userName" destination="9gF-6I-mnc" id="ek0-1Q-XwF"/>
@@ -71,10 +58,4 @@
             <point key="canvasLocation" x="129.7709923664122" y="21.83098591549296"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="checkmark.circle.fill" catalog="system" width="128" height="123"/>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-    </resources>
 </document>

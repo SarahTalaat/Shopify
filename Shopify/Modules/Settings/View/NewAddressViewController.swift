@@ -31,7 +31,7 @@ class NewAddressViewController: UIViewController {
             present(alert, animated: true, completion: nil)
             return
         }
-        let address = Address(id: nil, first_name: fullName, address1: newAddress, city: city, country: country, zip: zipCode)
+        let address = Address(id: nil, first_name: fullName, address1: newAddress, city: city, country: country, zip: zipCode, `default`: false)
 
                TryAddressNetworkService.shared.postNewAddress(address: address) { result in
                    switch result {

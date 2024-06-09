@@ -28,13 +28,16 @@ class addressTableViewCell: UITableViewCell {
     @IBOutlet weak var currentAddress: UILabel!
     @IBOutlet weak var addressDetails: UILabel!
     @IBOutlet weak var userName: UILabel!
+    
+    @IBOutlet weak var IsDefault: UILabel!
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
        
     }
-    func configure(with address: Address) {
+    func configure(with address: Address, isDefault: Bool) {
         userName.text = address.first_name
         addressDetails.text = "\(address.address1), \(address.city), \(address.country)"
-       }
+        IsDefault.isHidden = !isDefault
+    }
 }
