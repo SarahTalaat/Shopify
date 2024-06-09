@@ -35,10 +35,27 @@ class SignUpViewModel: SignUpViewModelProtocol {
         authServiceProtocol.signUp(email: email, password: password) { [weak self] result in
             switch result {
             case .success(let user):
+                
                 print("Sign up successful with user: \(user)")
+                
+                
                 self?.user = user
-                print("Posting customer data with email: \(customerRequest.email), name: \(customerRequest.first_name ?? "default name") , verified email : \(customerRequest.verified_email)")
-                self?.postCustomerData(customerModelRequest: customerModelRequest)
+                
+                
+                print("Posting customer data with email: \(customerModelRequest.customer.email), name: \(customerModelRequest.customer.first_name ) , verified email : \(customerModelRequest.customer.verified_email)")
+                
+                
+                let parameters: [String: Any] = [
+                    "customer": [
+                       "first_name": customerModelRequest.customer.first_name,
+                        "email": customerModelRequest.customer.email,
+                        "verified_email": customerModelRequest.customer.verified_email,
+                    ]
+                ]
+                
+                self?.postCustomerData(customerModelRequest: parameters)
+                
+                
             case .failure(let error):
                 print("Sign up failed with error: \(error)")
                 self?.errorMessage = error.localizedDescription
@@ -46,7 +63,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
         }
     }
     
-    func postCustomerData(customerModelRequest: CustomerModelRequest) {
+    func postCustomerData(customerModelRequest: [String:Any]) {
         print("postCustomerData called with customerModelRequest: \(customerModelRequest)")
         
         networkServiceAuthentication.postCustomerData(customer: customerModelRequest) { [weak self] result in

@@ -15,29 +15,29 @@ enum Result<Success, Failure: Error> {
 
 
 class NetworkServiceAuthentication: NetworkServiceAuthenticationProtocol{
-func postCustomerData(customer: CustomerModelRequest, completion: @escaping (Result<CustomersModelResponse, Error>) -> Void) {
+    func postCustomerData(customer:[String:Any], completion: @escaping (Result<CustomersModelResponse, Error>) -> Void) {
      let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/customers.json"
 
-     let parameters: [String: Any] = [
-         "customer": [
-            "first_name": customer.customer.first_name,
-             "email": customer.customer.email,
-             "verified_email": customer.customer.verified_email,
-         ]
-     ]
-
-
-
-
-    print("network fn: \(customer.customer.first_name)")
-    print("network email: \(customer.customer.email)")
-    print("network verified email: \(customer.customer.verified_email)")
-
-
+//     let parameters: [String: Any] = [
+//         "customer": [
+//            "first_name": customer.customer.first_name,
+//             "email": customer.customer.email,
+//             "verified_email": customer.customer.verified_email,
+//         ]
+//     ]
+//
+//
+//
+//
+//    print("network fn: \(customer.customer.first_name)")
+//    print("network email: \(customer.customer.email)")
+//    print("network verified email: \(customer.customer.verified_email)")
+//
+//
 
 
      do {
-         let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+         let jsonData = try JSONSerialization.data(withJSONObject: customer, options: .prettyPrinted)
          var request = URLRequest(url: URL(string: url)!)
          request.httpMethod = "POST"
          request.setValue("application/json", forHTTPHeaderField: "Content-Type")
