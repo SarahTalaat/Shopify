@@ -37,7 +37,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
             case .success(let user):
                 print("Sign up successful with user: \(user)")
                 self?.user = user
-                print("Posting customer data with email: \(customerRequest.email), name: \(customerRequest.first_name ?? "default name")")
+                print("Posting customer data with email: \(customerRequest.email), name: \(customerRequest.first_name ?? "default name") , verified email : \(customerRequest.verified_email)")
                 self?.postCustomerData(customerModelRequest: customerModelRequest)
             case .failure(let error):
                 print("Sign up failed with error: \(error)")
@@ -54,7 +54,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
             switch result {
             case .success(let value):
                 print("postCustomerData success: \(value.customers?[0].first_name ?? "default firstName")")
-                // Handle the customer object as needed
+                
             case .failure(let error):
                 print("postCustomerData failure: \(error)")
                 self?.errorMessage = error.localizedDescription

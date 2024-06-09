@@ -23,9 +23,18 @@ func postCustomerData(customer: CustomerModelRequest, completion: @escaping (Res
             "first_name": customer.customer.first_name,
              "email": customer.customer.email,
              "verified_email": customer.customer.verified_email,
-
          ]
      ]
+
+
+
+
+    print("network fn: \(customer.customer.first_name)")
+    print("network email: \(customer.customer.email)")
+    print("network verified email: \(customer.customer.verified_email)")
+
+
+
 
      do {
          let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
@@ -62,5 +71,5 @@ func postCustomerData(customer: CustomerModelRequest, completion: @escaping (Res
          completion(.failure(error))
      }
  }
- 
+    
 }

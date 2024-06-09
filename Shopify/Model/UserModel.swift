@@ -15,5 +15,5 @@ struct UserModel {
 struct UserCredentials{
     let verified_email: Bool
     let email: String
-    let firstname: String
+    let first_name: String
 }
