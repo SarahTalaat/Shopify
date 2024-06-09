@@ -14,86 +14,95 @@ enum Result<Success, Failure: Error> {
 }
 
 
-class NetworkServiceAuthentication: NetworkServiceAuthenticationProtocol{
-
-   
-    func postCustomerData<T: Decodable>(apiConfig: APIConfig, customer: [String: Any], completion: @escaping (Result<T, Error>) -> Void) {
-        print("Starting postCustomerData function")
-        print("")
-        
-        let urlString = apiConfig.url
-        print("Constructed URL: \(urlString)")
-        print("")
-        
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: customer, options: .prettyPrinted)
-            print("JSON data serialization succeeded")
-            print("")
-            
-            guard let url = URL(string: urlString) else {
-                let error = NSError(domain: "", code: 400, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])
-                print("Error: Invalid URL")
-                print("")
-                completion(.failure(error))
-                return
-            }
-            print("URL is valid: \(url)")
-            print("")
-            
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.httpBody = jsonData
-            
-            print("Starting Alamofire request")
-            print("")
-            Alamofire.request(request)
-                .validate()
-                .responseData { response in
-                    print("Received response")
-                    print("")
-                    switch response.result {
-                    case .success(let data):
-                        print("Request succeeded, received data")
-                        print("")
-                        if let contentType = response.response?.allHeaderFields["Content-Type"] as? String, contentType.contains("application/json") {
-                            do {
-                                let decodedResponse = try JSONDecoder().decode(T.self, from: data)
-                                print("JSON decoding succeeded")
-                                print("")
-                                completion(.success(decodedResponse))
-                            } catch let decodingError {
-                                print("Error decoding JSON: \(decodingError.localizedDescription)")
-                                print("")
-                                completion(.failure(decodingError))
-                            }
-                        } else {
-                            let responseString = String(data: data, encoding: .utf8) ?? ""
-                            print("Received non-JSON response: \(responseString)")
-                            print("")
-                            let error = NSError(domain: "", code: 200, userInfo: [NSLocalizedDescriptionKey: "Unexpected non-JSON response"])
-                            completion(.failure(error))
-                        }
-                    case .failure(let requestError):
-                        print("Request failed: \(requestError.localizedDescription)")
-                        print("")
-                        if let data = response.data, let responseString = String(data: data, encoding: .utf8) {
-                            print("Response data: \(responseString)")
-                            print("")
-                        }
-                        completion(.failure(requestError))
-                    }
-                }
-        } catch let serializationError {
-            print("Error serializing JSON: \(serializationError.localizedDescription)")
-            print("")
-            completion(.failure(serializationError))
-        }
-    }
-
-    
+class NetworkServiceAuthentication: NetworkServiceAuthenticationProtocol {
+    func postCustomerData<T: Decodable>(urlString: String, customer: [String: Any], completion: @escaping (Result<T, Error>) -> Void) {
+           Alamofire.request(urlString, method: .post, parameters: customer, encoding: JSONEncoding.default)
+               .validate()
+               .responseData { response in
+                   switch response.result {
+                   case .success(let data):
+                       do {
+                           let decodedResponse = try JSONDecoder().decode(T.self, from: data)
+                           completion(.success(decodedResponse))
+                       } catch {
+                           completion(.failure(error))
+                       }
+                   case .failure(let error):
+                       completion(.failure(error))
+                   }
+               }
+       }
 }
 
+//
+//class NetworkServiceAuthentication: NetworkServiceAuthenticationProtocol{
+//
+//        func postCustomerData<T: Decodable>(apiConfig: APIConfig, customer: [String: Any], completion: @escaping (Result<T, Error>) -> Void) {
+//            print("Starting postCustomerData function")
+//
+//            let urlString = apiConfig.url
+//            print("Constructed URL: \(urlString)")
+//
+//            do {
+//                let jsonData = try JSONSerialization.data(withJSONObject: customer, options: .prettyPrinted)
+//                print("JSON data serialization succeeded")
+//
+//                guard let url = URL(string: urlString) else {
+//                    let error = NSError(domain: "", code: 400, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])
+//                    print("Error: Invalid URL")
+//                    completion(.failure(error))
+//                    return
+//                }
+//                print("URL is valid: \(url)")
+//
+//                var request = URLRequest(url: url)
+//                request.httpMethod = "POST"
+//                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//                request.setValue(Constants.adminApiAccessToken, forHTTPHeaderField: "X-Shopify-Access-Token")
+//                request.httpBody = jsonData
+//
+//                print("Starting Alamofire request")
+//                Alamofire.request(request)
+//                    .validate()
+//                    .responseData { response in
+//                        print("Received response")
+//                        switch response.result {
+//                        case .success(let data):
+//                            print("Request succeeded, received data")
+//                            if let contentType = response.response?.allHeaderFields["Content-Type"] as? String, contentType.contains("application/json") {
+//                                do {
+//                                    let decodedResponse = try JSONDecoder().decode(T.self, from: data)
+//                                    print("JSON decoding succeeded")
+//                                    completion(.success(decodedResponse))
+//                                } catch let decodingError {
+//                                    print("Error decoding JSON: \(decodingError.localizedDescription)")
+//                                    completion(.failure(decodingError))
+//                                }
+//                            } else {
+//                                let responseString = String(data: data, encoding: .utf8) ?? ""
+//                                print("Received non-JSON response: \(responseString)")
+//                                let error = NSError(domain: "", code: 200, userInfo: [NSLocalizedDescriptionKey: "Unexpected non-JSON response"])
+//                                completion(.failure(error))
+//                            }
+//                        case .failure(let requestError):
+//                            print("Request failed: \(requestError.localizedDescription)")
+//                            if let data = response.data, let responseString = String(data: data, encoding: .utf8) {
+//                                print("Response data: \(responseString)")
+//                            }
+//                            completion(.failure(requestError))
+//                        }
+//                    }
+//            } catch let serializationError {
+//                print("Error serializing JSON: \(serializationError.localizedDescription)")
+//                completion(.failure(serializationError))
+//            }
+//
+//
+//
+//        }
+//
+//}
+//-----------------------------------------
 //    func postCustomerData(customer:[String:Any], completion: @escaping (Result<CustomersModelResponse, Error>) -> Void) {
 //     let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/customers.json"
 //

@@ -1,3 +1,6 @@
+
+
+
 import Foundation
 
 class SignUpViewModel: SignUpViewModelProtocol {
@@ -57,8 +60,8 @@ class SignUpViewModel: SignUpViewModelProtocol {
                         
                     ]
                 ]
-                
-                self?.postCustomerData(customerModelRequest: parameters)
+                let endPoint = APIConfig.customers.resource
+                self?.postCustomerData(endpoint: endPoint, customerModelRequest: parameters)
                 
                 
             case .failure(let error):
@@ -69,18 +72,20 @@ class SignUpViewModel: SignUpViewModelProtocol {
         }
     }
     
-    func postCustomerData(customerModelRequest: [String:Any]) {
-        print("vm postCustomerData called with customerModelRequest: \(customerModelRequest)")
+
+    func postCustomerData(endpoint: String, customerModelRequest: [String:Any]) {
+        print("vm postCustomerData called with endpoint: \(endpoint), customerModelRequest: \(customerModelRequest)")
         print("")
         
-        let apiConfig = APIConfig.customers
+        let apiKey = Constants.apiKey
+        let password = Constants.adminApiAccessToken
+        let hostName = APIConfig.hostName
+        let version = Constants.version
         
-        print("vm api config: \(apiConfig)")
-        print("")
-        print("vm api config url: \(apiConfig.url)")
-        print("")
+        // Construct the full URL using the provided endpoint
+        let urlString = "https://\(apiKey):\(password)@\(hostName)/admin/api/\(version)/\(endpoint).json"
         
-        networkServiceAuthenticationProtocol.postCustomerData(apiConfig: apiConfig, customer: customerModelRequest, completion: { (result: Result<CustomersModelResponse, Error>) in
+        networkServiceAuthenticationProtocol.postCustomerData(urlString: urlString, customer: customerModelRequest) { (result: Result<CustomersModelResponse, Error>) in
             
             print("vm result: \(result)")
             print("")
@@ -91,21 +96,13 @@ class SignUpViewModel: SignUpViewModelProtocol {
             case .failure(let error):
                 print("vm Failed to post customer data: \(error.localizedDescription)")
                 print("")
+                
+                // Additional error handling for decoding failure
+                if let decodingError = error as? DecodingError {
+                    print("Decoding error: \(decodingError)")
+                    // Handle decoding error appropriately, e.g., log, show error message to user, etc.
+                }
             }
-        })
+        }
     }
 }
-
-/*
- let apiConfig = APIConfig.customers
-
- postCustomerData(apiConfig: apiConfig, customer: customerData) { (result: Result<CustomersModelResponse, Error>) in
-     switch result {
-     case .success(let response):
-         print("Customer data posted successfully: \(response)")
-     case .failure(let error):
-         print("Failed to post customer data: \(error.localizedDescription)")
-     }
- }
-
- */
