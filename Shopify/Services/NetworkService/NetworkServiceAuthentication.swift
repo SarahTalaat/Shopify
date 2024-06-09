@@ -13,26 +13,37 @@ enum Result<Success, Failure: Error> {
     case failure(Failure)
 }
 
-
 class NetworkServiceAuthentication: NetworkServiceAuthenticationProtocol {
-    func postCustomerData<T: Decodable>(urlString: String, customer: [String: Any], completion: @escaping (Result<T, Error>) -> Void) {
-           Alamofire.request(urlString, method: .post, parameters: customer, encoding: JSONEncoding.default)
-               .validate()
-               .responseData { response in
-                   switch response.result {
-                   case .success(let data):
-                       do {
-                           let decodedResponse = try JSONDecoder().decode(T.self, from: data)
-                           completion(.success(decodedResponse))
-                       } catch {
-                           completion(.failure(error))
+    func postFunction<T: Decodable>(urlString: String, model: [String: Any], completion: @escaping (Result<T, Error>) -> Void) {
+        
+        
+        if let data = Constants.credentials.data(using: .utf8) {
+                   let base64Credentials = data.base64EncodedString()
+                   let headers: HTTPHeaders = [
+                       "Authorization": "Basic \(base64Credentials)",
+                       "Accept": "application/json"
+                   ]
+
+                   Alamofire.request(urlString, method: .post, parameters: model, encoding: JSONEncoding.default, headers: headers)
+                       .validate()
+                       .responseData { response in
+                           switch response.result {
+                           case .success(let data):
+                               do {
+                                   let decodedResponse = try JSONDecoder().decode(T.self, from: data)
+                                   completion(.success(decodedResponse))
+                               } catch {
+                                   completion(.failure(error))
+                               }
+                           case .failure(let error):
+                               completion(.failure(error))
+                           }
                        }
-                   case .failure(let error):
-                       completion(.failure(error))
-                   }
                }
-       }
+           }
+    
 }
+
 
 //
 //class NetworkServiceAuthentication: NetworkServiceAuthenticationProtocol{

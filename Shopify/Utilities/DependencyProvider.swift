@@ -23,7 +23,7 @@ class DependencyProvider {
     }
     
     static var signUpViewModel: SignUpViewModel{
-        return SignUpViewModel(authServiceProtocol: authServiceProtocol , networkServiceAuthentication: networkServiceAuthenticationProtocol)
+        return SignUpViewModel(authServiceProtocol: authServiceProtocol , networkServiceAuthenticationProtocol: networkServiceAuthenticationProtocol)
     }
     
     

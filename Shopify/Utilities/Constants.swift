@@ -12,6 +12,8 @@ class Constants  {
     static let apiKey = "b67adf5ce29253f64d89943674815b12"
     static let adminApiAccessToken = "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"
     static let version = "2022-01"
+    static let password = "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"
+    static let credentials = "\(apiKey):\(password)"
 
 }
 
@@ -20,7 +22,6 @@ class Constants  {
 enum APIConfig {
     static let apiKey = "b67adf5ce29253f64d89943674815b12"
     static let password = "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"
-
     static let hostName = "mad44-alex-ios-team4.myshopify.com"
     static let version = "2022-01"
     
@@ -41,6 +42,10 @@ enum APIConfig {
     
     var url: String {
         return "https://\(APIConfig.apiKey):\(APIConfig.password)@\(APIConfig.hostName)/admin/api/\(APIConfig.version)/\(self.resource).json"
+    }
+    
+    var credentials: String {
+        return "\(APIConfig.apiKey):\(APIConfig.password)"
     }
 }
 
