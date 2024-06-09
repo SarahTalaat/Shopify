@@ -9,14 +9,14 @@ class SignUpViewModel: SignUpViewModelProtocol {
     
     var user: UserModel? {
         didSet {
-            print("User model updated: \(String(describing: user))")
+            print("vm User model updated: \(String(describing: user))")
             bindUserViewModelToController()
         }
     }
     
     var errorMessage: String? {
         didSet {
-            print("Error message updated: \(String(describing: errorMessage))")
+            print("vm Error message updated: \(String(describing: errorMessage))")
             bindErrorViewModelToController()
         }
     }
@@ -30,7 +30,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
     }
     
     func signUp(email: String, password: String, firstName: String)  {
-        print("Sign up called with email: \(email), firstName: \(firstName)")
+        print("vm Sign up called with email: \(email), firstName: \(firstName)")
         
         let customerRequest = CustomerRequest(first_name: firstName, email: email, verified_email: true)
         let customerModelRequest = CustomerModelRequest(customer: customerRequest)
@@ -38,7 +38,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
         authServiceProtocol.signUp(email: email, password: password) { [weak self] result in
             switch result {
             case .success(let user):
-                print("Sign up successful with user: \(user)")
+                print("vm Sign up successful with user: \(user)")
                 self?.user = user
                 
                 let parameters: [String: Any] = [
@@ -54,14 +54,14 @@ class SignUpViewModel: SignUpViewModelProtocol {
                 self?.networkServiceAuthenticationProtocol.postFunction(urlString: urlString, model: parameters) { [weak self] (result: Result<CustomersModelResponse, Error>) in
                     switch result {
                     case .success(let response):
-                        print("Customer data posted successfully: \(response)")
+                        print("vm Customer data posted successfully: \(response)")
                     case .failure(let error):
-                        print("Failed to post customer data: \(error.localizedDescription)")
+                        print("vm Failed to post customer data: \(error.localizedDescription)")
                     }
                 }
                 
             case .failure(let error):
-                print("Sign up failed with error: \(error)")
+                print("vm Sign up failed with error: \(error)")
                 self?.errorMessage = error.localizedDescription
             }
         }
