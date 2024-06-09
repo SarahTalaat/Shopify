@@ -2,18 +2,20 @@ import Foundation
 
 class SignUpViewModel: SignUpViewModelProtocol {
     private let authServiceProtocol: AuthServiceProtocol
-    private let networkServiceAuthentication: NetworkServiceAuthenticationProtocol
+    private let networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol
     
     var user: UserModel? {
         didSet {
-            print("User model updated: \(String(describing: user))")
+            print("vm User model updated: \(String(describing: user))")
+            print("")
             self.bindUserViewModelToController()
         }
     }
     
     var errorMessage: String? {
         didSet {
-            print("Error message updated: \(String(describing: errorMessage))")
+            print("vm Error message updated: \(String(describing: errorMessage))")
+            print("")
             self.bindErrorViewModelToController()
         }
     }
@@ -23,11 +25,12 @@ class SignUpViewModel: SignUpViewModelProtocol {
     
     init(authServiceProtocol: AuthServiceProtocol, networkServiceAuthentication: NetworkServiceAuthenticationProtocol) {
         self.authServiceProtocol = authServiceProtocol
-        self.networkServiceAuthentication = networkServiceAuthentication
+        self.networkServiceAuthenticationProtocol = networkServiceAuthentication
     }
     
     func signUp(email: String, password: String, firstName: String)  {
-        print("Sign up called with email: \(email), firstName: \(firstName)")
+        print("vm Sign up called with email: \(email), firstName: \(firstName)")
+        print("")
         
         let customerRequest = CustomerRequest(first_name: firstName, email: email, verified_email: true)
         let customerModelRequest = CustomerModelRequest(customer: customerRequest)
@@ -36,20 +39,22 @@ class SignUpViewModel: SignUpViewModelProtocol {
             switch result {
             case .success(let user):
                 
-                print("Sign up successful with user: \(user)")
+                print("vm Sign up successful with user: \(user)")
+                print("")
                 
                 
                 self?.user = user
                 
                 
-                print("Posting customer data with email: \(customerModelRequest.customer.email), name: \(customerModelRequest.customer.first_name ) , verified email : \(customerModelRequest.customer.verified_email)")
-                
+                print("vm Posting customer data with email: \(customerModelRequest.customer.email), name: \(customerModelRequest.customer.first_name ) , verified email : \(customerModelRequest.customer.verified_email)")
+                print("")
                 
                 let parameters: [String: Any] = [
                     "customer": [
-                       "first_name": customerModelRequest.customer.first_name,
-                        "email": customerModelRequest.customer.email,
                         "verified_email": customerModelRequest.customer.verified_email,
+                        "email": customerModelRequest.customer.email,
+                        "first_name": customerModelRequest.customer.first_name
+                        
                     ]
                 ]
                 
@@ -57,25 +62,50 @@ class SignUpViewModel: SignUpViewModelProtocol {
                 
                 
             case .failure(let error):
-                print("Sign up failed with error: \(error)")
+                print("vm Sign up failed with error: \(error)")
+                print("")
                 self?.errorMessage = error.localizedDescription
             }
         }
     }
     
     func postCustomerData(customerModelRequest: [String:Any]) {
-        print("postCustomerData called with customerModelRequest: \(customerModelRequest)")
+        print("vm postCustomerData called with customerModelRequest: \(customerModelRequest)")
+        print("")
         
-        networkServiceAuthentication.postCustomerData(customer: customerModelRequest) { [weak self] result in
-            print("postCustomerData result: \(result)")
+        let apiConfig = APIConfig.customers
+        
+        print("vm api config: \(apiConfig)")
+        print("")
+        print("vm api config url: \(apiConfig.url)")
+        print("")
+        
+        networkServiceAuthenticationProtocol.postCustomerData(apiConfig: apiConfig, customer: customerModelRequest, completion: { (result: Result<CustomersModelResponse, Error>) in
+            
+            print("vm result: \(result)")
+            print("")
             switch result {
-            case .success(let value):
-                print("postCustomerData success: \(value.customers?[0].first_name ?? "default firstName")")
-                
+            case .success(let response):
+                print("vm Customer data posted successfully: \(response)")
+                print("")
             case .failure(let error):
-                print("postCustomerData failure: \(error)")
-                self?.errorMessage = error.localizedDescription
+                print("vm Failed to post customer data: \(error.localizedDescription)")
+                print("")
             }
-        }
+        })
     }
 }
+
+/*
+ let apiConfig = APIConfig.customers
+
+ postCustomerData(apiConfig: apiConfig, customer: customerData) { (result: Result<CustomersModelResponse, Error>) in
+     switch result {
+     case .success(let response):
+         print("Customer data posted successfully: \(response)")
+     case .failure(let error):
+         print("Failed to post customer data: \(error.localizedDescription)")
+     }
+ }
+
+ */

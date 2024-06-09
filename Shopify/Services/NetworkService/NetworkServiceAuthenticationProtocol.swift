@@ -8,6 +8,5 @@
 import Foundation
 
 protocol NetworkServiceAuthenticationProtocol {
-
-    func postCustomerData(customer: [String:Any], completion: @escaping (Result<CustomersModelResponse, Error>) -> Void)
+    func postCustomerData<T: Decodable>(apiConfig: APIConfig, customer: [String: Any], completion: @escaping (Result<T, Error>) -> Void) 
 }
