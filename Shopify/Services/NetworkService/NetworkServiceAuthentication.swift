@@ -23,19 +23,24 @@ class NetworkServiceAuthentication: NetworkServiceAuthenticationProtocol {
                        "Authorization": "Basic \(base64Credentials)",
                        "Accept": "application/json"
                    ]
+            
+            print("network data: \(data)")
 
                    Alamofire.request(urlString, method: .post, parameters: model, encoding: JSONEncoding.default, headers: headers)
                        .validate()
                        .responseData { response in
+                           print("network response \(response)")
                            switch response.result {
                            case .success(let data):
                                do {
                                    let decodedResponse = try JSONDecoder().decode(T.self, from: data)
                                    completion(.success(decodedResponse))
                                } catch {
+                                   print("network success catch: \(data)")
                                    completion(.failure(error))
                                }
                            case .failure(let error):
+                               print("network failure \(data)")
                                completion(.failure(error))
                            }
                        }
