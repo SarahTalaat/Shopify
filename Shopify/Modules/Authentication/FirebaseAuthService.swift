@@ -62,9 +62,9 @@ class FirebaseAuthService: AuthServiceProtocol {
 
     func getCustomerId(forEmail email: String, completion: @escaping (String?) -> Void) {
         let ref = Database.database().reference()
-        let encodedEmail = SharedMethods.decodeEmail(email)
-        print("Firebase: encoded email:")
-        let customersRef = ref.child("customers").child(encodedEmail)
+        let decodedEmail = SharedMethods.decodeEmail(email)
+        print("Firebase: encoded email: \(decodedEmail)")
+        let customersRef = ref.child("customers").child(decodedEmail)
         
         customersRef.observeSingleEvent(of: .value) { snapshot in
             print("Firebase: Query snapshot value: \(snapshot.value ?? "No data")")
