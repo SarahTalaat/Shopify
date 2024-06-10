@@ -63,10 +63,12 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
            let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
            if let lineItem = draftOrder?.line_items[indexPath.row] {
-               let productName = lineItem.title
-               let variantTitle = lineItem.variant_title
-               cell.productName.text = "\(productName) | \(variantTitle)"
+               let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: .whitespaces) ?? ""
+                       cell.productName.text = productName
+               let productColor = lineItem.variant_title.split(separator: "/").last?.trimmingCharacters(in: .whitespaces) ?? ""
+               cell.productColor.text = productColor
                cell.productAmount.text = "\(lineItem.quantity)"
+            
                cell.productPrice.text = "\(lineItem.price)$"
            }
            return cell
