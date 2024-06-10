@@ -37,8 +37,8 @@ class ProductViewModel{
     
     func updatePrice(){
         productsPrice = products.flatMap { product in
-            product.variants.map { variant in
-                variant.price
+            product.variants.compactMap { variant in
+                return variant.price
             }
         }
         print(productsPrice)

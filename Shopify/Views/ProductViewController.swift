@@ -16,14 +16,13 @@ class ProductViewController: UIViewController {
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var sizeMenu: UIButton!
-    @IBOutlet weak var colorMenu: UIButton!
+    @IBOutlet weak var colorMenu: UIButton!   
+    @IBOutlet weak var collectionViewTopConstraint: UICollectionViewCell!
     
-    @IBAction func priceBar(_ sender: UISlider) {
-        let filteredPrice = sender.value
-        priceLabel.text = "Price :\(filteredPrice)"
-        let filteredArray = viewModel.filterByPrice(maxPrice: filteredPrice)
-        viewModel.products = filteredArray
-        
+    @IBOutlet weak var containerView: UIView!
+    @IBAction func priceBar(_ sender: Any) {
+             self.updateFilteredProducts()
+         
     }
     
     let colorList = ["Black", "White", "Red", "Blue", "Green", "Brown"]
@@ -38,22 +37,20 @@ class ProductViewController: UIViewController {
         collectionView.register(nibCell, forCellWithReuseIdentifier: "ProductsCollectionViewCell")
         collectionView.collectionViewLayout = brandsCollectionViewLayout()
         
-        priceLabel.isHidden = true
-        sizeMenu.isHidden = true
-        colorMenu.isHidden = true
-        price.isHidden = true
+        containerView.isHidden = true
         priceLabel.text = "No selected price"
         
         handleDropDownList()
+        filterByPrice()
         
         viewModel.bindProducts = { [weak self] in
             self?.updateCollection()
             self?.filterByPrice()
         }
+    
 
     }
-    
-    
+
     func updateCollection(){
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
@@ -61,7 +58,36 @@ class ProductViewController: UIViewController {
         }
     
     
-   // MARK: - Drop Down List
+    // MARK: - Filter By Price
+    func filterByPrice() {
+        let priceArray = viewModel.productsPrice.compactMap { Float($0) }
+        if let minPrice = priceArray.min(), let maxPrice = priceArray.max() {
+            price.minimumValue = minPrice
+            price.maximumValue = maxPrice
+            price.value = maxPrice 
+        }
+    }
+    
+    func updateFilteredProducts() {
+        let filteredPrice = price.value
+            priceLabel.text = "Price: \(filteredPrice)"
+            
+        let minPrice = viewModel.productsPrice.compactMap { Float($0) }.min()
+            let filteredArray = viewModel.products.filter { product in
+                product.variants.contains { variant in
+                    if let variantPrice = Float(variant.price) {
+                        return variantPrice >= minPrice ?? 0.0 && variantPrice <= filteredPrice
+                    }
+                    return false
+                }
+            }
+            viewModel.products = filteredArray
+            collectionView.reloadData()
+    }
+
+    
+    
+    // MARK: - Drop Down List
     
     func handleDropDownList(){
         let actionClosure = { (action: UIAction) in
@@ -91,33 +117,19 @@ class ProductViewController: UIViewController {
     }
   
     
-  // MARK: - Filter By Price
-    func filterByPrice(){
-         let priceArray = viewModel.productsPrice
-                if let minPrice = priceArray.min(), let maxPrice = priceArray.max() {
-                    price.minimumValue = Float(minPrice) ?? 0.0
-                    price.maximumValue = Float(maxPrice) ?? 0.0
-                    price.value = price.minimumValue
-                }
-  
-    }
- // MARK: - Navigation Bar Item
+
+    // MARK: - Navigation Bar Item
     
     @objc func showFilter(){
         
         if isFilter{
-            priceLabel.isHidden = true
-            sizeMenu.isHidden = true
-            colorMenu.isHidden = true
-            price.isHidden = true
+            containerView.isHidden = true
             isFilter = false
         } else{
-            priceLabel.isHidden = false
-            sizeMenu.isHidden = false
-            colorMenu.isHidden = false
-            price.isHidden = false
+            containerView.isHidden = false
             isFilter = true
         }
+        
     }
     
     
@@ -135,7 +147,7 @@ class ProductViewController: UIViewController {
                    
                    let section = NSCollectionLayoutSection(group: group)
                    section.interGroupSpacing = 10
-                   section.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4)
+                   section.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 4, bottom: 0, trailing: 4)
                    
                    return section
         }
