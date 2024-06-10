@@ -5,6 +5,7 @@
 //  Created by Haneen Medhat on 07/06/2024.
 //
 
+
 import Foundation
 import Alamofire
 class NetworkUtilities{
@@ -47,10 +48,10 @@ class NetworkUtilities{
 }
 
 
-enum CategoryID: Int {
-    case men = 303081423009
-    case women = 303081455777
-    case kids = 303081488545
-    case sale = 303081521313
+enum CategoryID: String {
+    case men = "303081423009"
+    case women = "303081455777"
+    case kids = "303081488545"
+    case sale = "303081521313"
 }
 

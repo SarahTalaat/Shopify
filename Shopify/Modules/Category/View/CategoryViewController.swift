@@ -17,19 +17,19 @@ class CategoryViewController: UIViewController {
     @IBOutlet weak var search: UITextField!
     @IBOutlet weak var women: UIButton!
     @IBAction func womenBtn(_ sender: UIButton) {
-        updateButton(sender)
+        updateButton(sender,id:.women)
     }
     
     @IBAction func MenBtn(_ sender: UIButton) {
-        updateButton(sender)
+        updateButton(sender,id:.men)
     }
     
     @IBAction func childrenBtn(_ sender: UIButton) {
-        updateButton(sender)
+        updateButton(sender,id:.kids)
     }
     
     @IBAction func saleBtn(_ sender: UIButton) {
-        updateButton(sender)
+        updateButton(sender,id:.sale)
     }
     
     @IBAction func searchTextField(_ sender: UITextField) {
@@ -42,6 +42,8 @@ class CategoryViewController: UIViewController {
     var selectedButton: UIButton?
     var isSearch = false
     let viewModel = CategoryViewModel()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.collectionViewLayout = productCollectionViewLayout()
@@ -73,10 +75,11 @@ class CategoryViewController: UIViewController {
         }
     }
     
-    func updateButton(_ sender: UIButton) {
+    func updateButton(_ sender: UIButton,id:CategoryID) {
           selectedButton?.removeBottomBorder()
           sender.addBottomBorder(withColor: UIColor.red, andWidth: 2)
           selectedButton = sender
+        viewModel.getCategory(id: id)
       }
     
     func updateCollection(){
@@ -147,7 +150,7 @@ class CategoryViewController: UIViewController {
             
             let section = NSCollectionLayoutSection(group: group)
             section.interGroupSpacing = 10
-            section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 4, bottom: 5, trailing: 4)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 4, bottom: 10, trailing: 4)
 
             return section
         }
@@ -158,6 +161,7 @@ class CategoryViewController: UIViewController {
     // MARK: - Collection View Methods
 
     extension CategoryViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+        
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
             return viewModel.category.count
         }
@@ -167,11 +171,14 @@ class CategoryViewController: UIViewController {
             
             let item = viewModel.category[indexPath.row]
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCollectionViewCell", for: indexPath) as! CategoryCollectionViewCell
-            
-             let price = viewModel.getPrice(id: item.id)
+        
             
             cell.productBrand.text = item.vendor
-            cell.productPrice.text = "\(price)$"
+            viewModel.getPrice(id: item.id) { price in
+                       DispatchQueue.main.async {
+                           cell.productPrice.text = "\(price)$"
+                       }
+                   }
             
             if let range = item.title.range(of: "|") {
                 var truncatedString = String(item.title[range.upperBound...]).trimmingCharacters(in: .whitespaces)
@@ -207,7 +214,7 @@ class CategoryViewController: UIViewController {
             let border = CALayer()
             border.backgroundColor = color.cgColor
             border.frame = CGRect(x: 0, y: self.frame.size.height - borderWidth, width: self.frame.size.width, height: borderWidth)
-            border.name = "bottomBorder" // Tag the border layer
+            border.name = "bottomBorder"
             self.layer.addSublayer(border)
         }
         

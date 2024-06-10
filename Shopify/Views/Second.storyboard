@@ -82,9 +82,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="361" height="110"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adidas-logo-design-template-416e301e26d296a75536e1f323a013e0_screen" translatesAutoresizingMaskIntoConstraints="NO" id="jqU-58-fdt">
-                                                    <rect key="frame" x="0.0" y="0.0" width="126" height="110"/>
-                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="adidas" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wYA-zo-jMv">
                                                     <rect key="frame" x="136" y="41.5" width="45.5" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -92,7 +89,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shoes" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GFR-BA-JaP">
-                                                    <rect key="frame" x="136" y="16" width="47.5" height="20.5"/>
+                                                    <rect key="frame" x="136" y="16" width="216.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -123,9 +120,13 @@
                                                         <action selector="addToFav:" destination="rsB-oC-gED" eventType="touchUpInside" id="PK7-jE-6MO"/>
                                                     </connections>
                                                 </button>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="adidas-logo-design-template-416e301e26d296a75536e1f323a013e0_screen" translatesAutoresizingMaskIntoConstraints="NO" id="jqU-58-fdt">
+                                                    <rect key="frame" x="0.0" y="-5" width="126" height="110"/>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="PlN-rb-yn8" firstAttribute="top" secondItem="wYA-zo-jMv" secondAttribute="bottom" constant="5" id="0DZ-tF-uXU"/>
+                                                <constraint firstItem="GFR-BA-JaP" firstAttribute="width" secondItem="2DW-VG-crS" secondAttribute="width" multiplier="0.6" id="3I1-ll-11i"/>
                                                 <constraint firstItem="jqU-58-fdt" firstAttribute="height" secondItem="2DW-VG-crS" secondAttribute="height" id="4V9-ZK-6Gg"/>
                                                 <constraint firstItem="wYA-zo-jMv" firstAttribute="leading" secondItem="GFR-BA-JaP" secondAttribute="leading" id="A87-K5-eb9"/>
                                                 <constraint firstItem="GFR-BA-JaP" firstAttribute="top" secondItem="2DW-VG-crS" secondAttribute="top" constant="16" id="ABC-yN-mcR"/>
