@@ -39,25 +39,18 @@ class FirebaseAuthService: AuthServiceProtocol {
         completion(.success(userModel))
     }
     
-    func saveCustomerId(email: String, id: String) {
-
-        // Get a reference to your Firebase Realtime Database
+    func saveCustomerId(name: String, email: String, id: String) {
         let ref = Database.database().reference()
-
-        // Specify the path where you want to save the data
+        let encodedEmail = SharedMethods.encodeEmail(email)
         let customersRef = ref.child("customers")
-
-        // Create a child node with the unique key
-        let customerRef = customersRef.child("customerData")
-
-        // Create a dictionary to hold the data you want to save
+        let customerRef = customersRef.child(encodedEmail)
+        
         let customerData: [String: Any] = [
             "customerId": id,
-            "email": email
-            // Add more data if needed
+            "email": email,
+            "name": name
         ]
-
-        // Save the data to the specified location in the database
+        
         customerRef.setValue(customerData) { error, _ in
             if let error = error {
                 print("Error saving data to Firebase: \(error.localizedDescription)")
@@ -66,6 +59,34 @@ class FirebaseAuthService: AuthServiceProtocol {
             }
         }
     }
+
+    func getCustomerId(forEmail email: String, completion: @escaping (String?) -> Void) {
+        let ref = Database.database().reference()
+        let encodedEmail = SharedMethods.encodeEmail(email)
+        print("Firebase: encoded email:")
+        let customersRef = ref.child("customers").child(encodedEmail)
+        
+        customersRef.observeSingleEvent(of: .value) { snapshot in
+            print("Firebase: Query snapshot value: \(snapshot.value ?? "No data")")
+            
+            guard let customerData = snapshot.value as? [String: Any] else {
+                print("Firebase: No data found or error occurred")
+                completion(nil)
+                return
+            }
+            
+            if let customerEmail = customerData["email"] as? String, customerEmail == email {
+                print("Firebase: Matched customer ID for email: \(email)")
+                completion(customerData["customerId"] as? String)
+            } else {
+                print("No matching email found")
+                completion(nil)
+            }
+        }
+    }
+
+
+
 
 
     

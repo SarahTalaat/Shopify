@@ -41,7 +41,8 @@ class SignUpViewModel: SignUpViewModelProtocol {
                 print("vm Sign up successful with user: \(user)")
                 self?.user = user
                 
-                self?.authServiceProtocol.saveCustomerId(email: email, id: "7501423804578")
+               
+                self?.authServiceProtocol.saveCustomerId(name: firstName, email: email, id: "7501423804578")
                 
                 let parameters: [String: Any] = [
                     "customer": [
