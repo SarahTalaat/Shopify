@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class CartTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
@@ -24,11 +25,13 @@ class CartTableViewCell: UITableViewCell {
     }
 
     @IBAction func minus(_ sender: UIButton) {
+  
         print("minus")
     }
     @IBOutlet weak var productPrice: UILabel!
     
     @IBAction func plus(_ sender: UIButton) {
+
         print("plus")
     }
     
