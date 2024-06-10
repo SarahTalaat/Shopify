@@ -39,7 +39,7 @@
                                 <rect key="frame" x="52" y="524" width="310.5" height="63"/>
                                 <color key="backgroundColor" systemColor="secondarySystemGroupedBackgroundColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="paG-na-NiF">
                                 <rect key="frame" x="150" y="607" width="209" height="18"/>
@@ -166,7 +166,7 @@
                                 <rect key="frame" x="52" y="435" width="310.5" height="62.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="N8S-AN-0hm"/>
@@ -698,19 +698,19 @@
     </scenes>
     <designables>
         <designable name="Alf-15-BzH">
-            <size key="intrinsicContentSize" width="24" height="18.5"/>
+            <size key="intrinsicContentSize" width="4" height="17"/>
         </designable>
         <designable name="Cdy-VQ-kEt">
-            <size key="intrinsicContentSize" width="24" height="18.5"/>
+            <size key="intrinsicContentSize" width="4" height="18.5"/>
         </designable>
         <designable name="OPE-rW-ysb">
-            <size key="intrinsicContentSize" width="24" height="18.5"/>
+            <size key="intrinsicContentSize" width="4" height="18.5"/>
         </designable>
         <designable name="PvZ-G9-Gt1">
-            <size key="intrinsicContentSize" width="24" height="18.5"/>
+            <size key="intrinsicContentSize" width="4" height="17"/>
         </designable>
         <designable name="Yi8-RZ-ayL">
-            <size key="intrinsicContentSize" width="24" height="18.5"/>
+            <size key="intrinsicContentSize" width="4" height="18.5"/>
         </designable>
         <designable name="oL7-YE-7Z8"/>
         <designable name="wQJ-gb-1pY">
