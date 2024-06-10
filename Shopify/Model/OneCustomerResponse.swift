@@ -1,6 +1,7 @@
 
-import Foundation
 
+
+import Foundation
 
 // MARK: - CustomerResponse
 struct CustomerResponse: Codable {
@@ -192,5 +193,6 @@ struct SMSMarketingConsent: Codable {
 //    let consent_updated_at: String?
 //    let consent_collected_from: String?
 //}
+
 
 

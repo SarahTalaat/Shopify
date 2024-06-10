@@ -53,8 +53,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
                 ]
                 
                 let urlString = APIConfig.customers.url
-                self?.postNewCustomer(urlString: urlString, parameters: parameters)
-                
+                self?.postNewCustomer(urlString: urlString, parameters: parameters, name: firstName, email: email)
             case .failure(let error):
                 print("vm Sign up failed with error: \(error)")
                 self?.errorMessage = error.localizedDescription
@@ -79,6 +78,24 @@ class SignUpViewModel: SignUpViewModelProtocol {
         print(" ")
         print(" ")
         print(" ")
+        print("Get all customers:")
+        print(" ")
+        print(" ")
+        print(" ")
+        print(" ")
+        print(" ")
+        
+        self.networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .get, model: parameters, completion: { [weak self] (result: Result<ManyCustomersResponse, Error>) in
+            switch result {
+            case .success(let response):
+                print("vm Many customers (get) data successfully: \(response)")
+                self?.authServiceProtocol.saveCustomerId(name: name, email: email, id: "\(response)")
+            case .failure(let error):
+                print("vm Failed to GET customer data: \(error.localizedDescription)")
+            }
+        })
+        
+        
     }
     
 
