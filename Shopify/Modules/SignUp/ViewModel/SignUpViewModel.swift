@@ -42,7 +42,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
                 self?.user = user
                 
                
-                self?.authServiceProtocol.saveCustomerId(name: firstName, email: email, id: "7501423804578")
+
                 
                 let parameters: [String: Any] = [
                     "customer": [
@@ -62,16 +62,23 @@ class SignUpViewModel: SignUpViewModelProtocol {
         }
     }
     
-    func postNewCustomer(urlString: String, parameters: [String:Any]){
+    func postNewCustomer(urlString: String, parameters: [String:Any], name: String , email: String){
     
         self.networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<CustomerResponse, Error>) in
             switch result {
             case .success(let response):
                 print("vm Customer data posted successfully: \(response)")
+                self?.authServiceProtocol.saveCustomerId(name: name, email: email, id: "\(response.customer.id)")
             case .failure(let error):
                 print("vm Failed to post customer data: \(error.localizedDescription)")
             }
         })
+        
+        print(" ")
+        print(" ")
+        print(" ")
+        print(" ")
+        print(" ")
     }
     
 
