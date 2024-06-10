@@ -118,7 +118,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
             switch result {
             case .success(let response):
                 print("vm Customer data posted successfully: \(response)")
-                self?.authServiceProtocol.saveCustomerId(name: name, email: email, id: "\(response.customer.id)")
+                self?.authServiceProtocol.saveCustomerId(name: name, email: email, id: "\(response.customer.id)", favouriteId: "", shoppingCartId: "")
             case .failure(let error):
                 print("vm Failed to post customer data: \(error.localizedDescription)")
             }

@@ -40,7 +40,7 @@ class FirebaseAuthService: AuthServiceProtocol {
         completion(.success(userModel))
     }
     
-    func saveCustomerId(name: String, email: String, id: String) {
+    func saveCustomerId(name: String, email: String, id: String, favouriteId: String, shoppingCartId: String) {
         let ref = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
         let customersRef = ref.child("customers")
@@ -49,7 +49,9 @@ class FirebaseAuthService: AuthServiceProtocol {
         let customerData: [String: Any] = [
             "customerId": id,
             "email": email,
-            "name": name
+            "name": name,
+            "favouriteId" : favouriteId,
+            "shoppingCartId": shoppingCartId
         ]
         
         customerRef.setValue(customerData) { error, _ in
@@ -103,5 +105,56 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
 
+    func getEmail(forCustomerId customerId: String, completion: @escaping (String?) -> Void) {
+            let ref = Database.database().reference().child("customers")
+            ref.queryOrdered(byChild: "customerId").queryEqual(toValue: customerId).observeSingleEvent(of: .value) { snapshot in
+                guard let customers = snapshot.value as? [String: Any],
+                      let customerData = customers.values.first as? [String: Any],
+                      let email = customerData["email"] as? String else {
+                    completion(nil)
+                    return
+                }
+                completion(email)
+            }
+        }
+        
+        func getName(forCustomerId customerId: String, completion: @escaping (String?) -> Void) {
+            let ref = Database.database().reference().child("customers")
+            ref.queryOrdered(byChild: "customerId").queryEqual(toValue: customerId).observeSingleEvent(of: .value) { snapshot in
+                guard let customers = snapshot.value as? [String: Any],
+                      let customerData = customers.values.first as? [String: Any],
+                      let name = customerData["name"] as? String else {
+                    completion(nil)
+                    return
+                }
+                completion(name)
+            }
+        }
+        
+        func getFavouriteId(forCustomerId customerId: String, completion: @escaping (String?) -> Void) {
+            let ref = Database.database().reference().child("customers")
+            ref.queryOrdered(byChild: "customerId").queryEqual(toValue: customerId).observeSingleEvent(of: .value) { snapshot in
+                guard let customers = snapshot.value as? [String: Any],
+                      let customerData = customers.values.first as? [String: Any],
+                      let favouriteId = customerData["favouriteId"] as? String else {
+                    completion(nil)
+                    return
+                }
+                completion(favouriteId)
+            }
+        }
+        
+        func getShoppingCartId(forCustomerId customerId: String, completion: @escaping (String?) -> Void) {
+            let ref = Database.database().reference().child("customers")
+            ref.queryOrdered(byChild: "customerId").queryEqual(toValue: customerId).observeSingleEvent(of: .value) { snapshot in
+                guard let customers = snapshot.value as? [String: Any],
+                      let customerData = customers.values.first as? [String: Any],
+                      let shoppingCartId = customerData["shoppingCartId"] as? String else {
+                    completion(nil)
+                    return
+                }
+                completion(shoppingCartId)
+            }
+        }
 
 }

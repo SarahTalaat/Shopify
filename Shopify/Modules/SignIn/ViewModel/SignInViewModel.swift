@@ -75,10 +75,43 @@ class SignInViewModel: SignInViewModelProtocol {
         authServiceProtocol.getCustomerId(forEmail: email) { [weak self] customerId in
             print("si: fetchCustomerId: \(customerId ?? "No customer id found")")
             self?.customerID = customerId
+            self?.fetchCustomerDataFromDatabase(customerID: self?.customerID ?? "000000000" )
             print("si: after getchCustomerId assign: \(customerId ?? "No customer id found")")
+            
+
+            
         }
+
+    }
+    
+    func fetchCustomerDataFromDatabase(customerID: String){
+        var custEmail = authServiceProtocol.getEmail(forCustomerId: customerID, completion: { custEmail in
+            print("custEmail: \(custEmail ?? "No email found")")
+            
+        })
+        print(" ")
+        var custFavId = authServiceProtocol.getName(forCustomerId: customerID, completion: { custFavId in
+            print("custFavId: \(custFavId ?? "No favourite ID found")")
+            
+        })
+
+        print(" ")
+        
+        var custShopCartId = authServiceProtocol.getShoppingCartId(forCustomerId: customerID, completion: { custShopCartId in
+            print("custShopCartId: \(custShopCartId ?? "No shopping cart ID found")")
+            
+        })
+        
+        print(" ")
+        
+        var custName = authServiceProtocol.getName(forCustomerId: customerID, completion: { custName in
+            print("custName: \(custName ?? "No name found")")
+        })
+
+        print(" ")
         
     }
+    
 }
 
 
