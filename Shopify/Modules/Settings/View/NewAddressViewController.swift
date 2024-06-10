@@ -62,7 +62,13 @@ class NewAddressViewController: UIViewController {
         stateTF.addPaddingToTextField()
         zipCodeTF.addPaddingToTextField()
         self.title = "New Address"
-    }
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+         view.addGestureRecognizer(tapGesture)
+     }
+
+     @objc func dismissKeyboard() {
+         view.endEditing(true)
+     }
     
     override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
