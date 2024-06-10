@@ -51,6 +51,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
                         "first_name": customerModelRequest.customer.first_name
                     ]
                 ]
+                
                 let urlString = APIConfig.customers.url
                 self?.postNewCustomer(urlString: urlString, parameters: parameters)
                 
@@ -62,14 +63,15 @@ class SignUpViewModel: SignUpViewModelProtocol {
     }
     
     func postNewCustomer(urlString: String, parameters: [String:Any]){
-        self.networkServiceAuthenticationProtocol.postFunction(urlString: urlString, model: parameters) { [weak self] (result: Result<CustomersModelResponse, Error>) in
+    
+        self.networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<CustomersResponse, Error>) in
             switch result {
             case .success(let response):
                 print("vm Customer data posted successfully: \(response)")
             case .failure(let error):
                 print("vm Failed to post customer data: \(error.localizedDescription)")
             }
-        }
+        })
     }
     
 

@@ -4,7 +4,10 @@
 //
 //  Created by Sara Talat on 08/06/2024.
 
-
+/*
+ request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+ request.setValue("application/json", forHTTPHeaderField: "Accept")
+ */
 import Foundation
 import Alamofire
 
@@ -13,43 +16,51 @@ enum Result<Success, Failure: Error> {
     case failure(Failure)
 }
 
+enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
+    // Add more methods as needed
+}
 
 class NetworkServiceAuthentication: NetworkServiceAuthenticationProtocol {
     
-    func postFunction<T: Decodable>(urlString: String, model: [String: Any], completion: @escaping (Result<T, Error>) -> Void) {
-
-
+    func requestFunction<T: Decodable>(urlString: String, method: HTTPMethod, model: [String: Any], completion: @escaping (Result<T, Error>) -> Void) {
+        
         if let data = Constants.credentials.data(using: .utf8) {
-                   let base64Credentials = data.base64EncodedString()
-                   let headers: HTTPHeaders = [
-                       "Authorization": "Basic \(base64Credentials)",
-                       "Accept": "application/json"
-                   ]
-
-            print("network data: \(data)")
-
-                   Alamofire.request(urlString, method: .post, parameters: model, encoding: JSONEncoding.default, headers: headers)
-                       .validate()
-                       .responseData { response in
-                           print("network response \(response)")
-                           switch response.result {
-                           case .success(let data):
-                               do {
-                                   let decodedResponse = try JSONDecoder().decode(T.self, from: data)
-                                   completion(.success(decodedResponse))
-                               } catch {
-                                   print("network success catch: \(data)")
-                                   completion(.failure(error))
-                               }
-                           case .failure(let error):
-                               print("network failure \(data)")
-                               completion(.failure(error))
-                           }
-                       }
-               }
-           }
+            let base64Credentials = data.base64EncodedString()
+            var headers: HTTPHeaders = [
+                "Authorization": "Basic \(base64Credentials)",
+            ]
+            
+            // Set Content-Type and Accept headers for both POST and GET requests
+            headers["Content-Type"] = "application/json"
+            headers["Accept"] = "application/json"
+            
+            var request: DataRequest
+            switch method {
+            case .get:
+                request = Alamofire.request(urlString, method: .get, parameters: model, encoding: URLEncoding.default, headers: headers)
+            case .post:
+                request = Alamofire.request(urlString, method: .post, parameters: model, encoding: JSONEncoding.default, headers: headers)
+            }
+            
+            request.validate().responseData { response in
+                switch response.result {
+                case .success(let data):
+                    do {
+                        let decodedResponse = try JSONDecoder().decode(T.self, from: data)
+                        completion(.success(decodedResponse))
+                    } catch {
+                        completion(.failure(error))
+                    }
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
     
-    
+
 
     
 }

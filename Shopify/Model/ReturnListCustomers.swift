@@ -1,22 +1,23 @@
 
 import Foundation
 
-struct CustomersModelResponse: Codable {
-    let customers: [CustomersResponse]?
-}
 
 
 struct CustomersResponse: Codable {
-    let id: Int64?
+    let customers: [CustomersDetails]?
+}
+
+struct CustomersDetails: Codable {
+    let id: Int?
     let email: String?
-    let created_at: Date?
-    let updated_at: Date?
+    let created_at: String?
+    let updated_at: String?
     let first_name: String?
     let last_name: String?
     let orders_count: Int?
     let state: String?
     let total_spent: String?
-    let last_order_id: Int64?
+    let last_order_id: Int?
     let note: String?
     let verified_email: Bool?
     let multipass_identifier: String?
@@ -25,19 +26,20 @@ struct CustomersResponse: Codable {
     let last_order_name: String?
     let currency: String?
     let phone: String?
-    let addresses: [AddressesModel]?
+    let addresses: [AddressModel]?
     let accepts_marketing: Bool?
-    let accepts_marketing_updated_at: Date?
+    let accepts_marketing_updated_at: String?
     let marketing_opt_in_level: String?
     let tax_exemptions: [String]?
-    let email_marketing_consent: Consent?
-    let sms_marketing_consent: Consent?
+    let email_marketing_consent: EmailMarketingConsent?
+    let sms_marketing_consent: SMSMarketingConsent?
     let admin_graphql_api_id: String?
-    let default_address: AddressesModel?
+    let default_address: AddressModel?
 }
-struct AddressesModel: Codable {
-    let id: Int64?
-    let customer_id: Int64?
+
+struct AddressModel: Codable {
+    let id: Int?
+    let customer_id: Int?
     let first_name: String?
     let last_name: String?
     let company: String?
@@ -52,41 +54,18 @@ struct AddressesModel: Codable {
     let province_code: String?
     let country_code: String?
     let country_name: String?
-    let defaultValue: Bool?
-    
-    enum CodingKeys: String, CodingKey {
-        case defaultValue = "default"
-    }
-    
-    init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        defaultValue = try values.decodeIfPresent(Bool.self, forKey: .defaultValue)
-        
-        // Set default values for non-optional properties
-        id = nil
-        customer_id = nil
-        first_name = nil
-        last_name = nil
-        company = nil
-        address1 = nil
-        address2 = nil
-        city = nil
-        province = nil
-        country = nil
-        zip = nil
-        phone = nil
-        name = nil
-        province_code = nil
-        country_code = nil
-        country_name = nil
-    }
+    let `default`: Bool?
 }
 
-
-
-struct Consent: Codable {
+struct EmailMarketingConsent: Codable {
     let state: String?
     let opt_in_level: String?
-    let consent_updated_at: Date?
+    let consent_updated_at: String?
+}
+
+struct SMSMarketingConsent: Codable {
+    let state: String?
+    let opt_in_level: String?
+    let consent_updated_at: String?
     let consent_collected_from: String?
 }
