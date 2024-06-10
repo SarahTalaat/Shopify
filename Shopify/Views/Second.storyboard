@@ -337,13 +337,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="100" minValue="100" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="ahz-Qj-4a9">
-                                        <rect key="frame" x="181" y="45" width="190.5" height="31"/>
+                                        <rect key="frame" x="197" y="45" width="175" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="tintColor" red="1" green="0.32833661019999999" blue="0.2354005324" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <rect key="contentStretch" x="0.050000000000000003" y="0.14999999999999999" width="1" height="1"/>
-                                        <connections>
-                                            <action selector="priceBar:" destination="d8i-wE-fM1" eventType="valueChanged" id="3jc-NH-ILW"/>
-                                        </connections>
                                     </slider>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -404,11 +401,11 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="nUL-X5-jn8" id="Sxa-vj-9UN"/>
-                        <outlet property="collectionViewTopConstraint" destination="ul6-bB-raM" id="f5v-Mn-eRv"/>
+                        <outlet property="collectionViewTopConstraint" destination="nUL-X5-jn8" id="zSV-B7-2C0"/>
                         <outlet property="colorMenu" destination="ZdZ-06-PXJ" id="7Un-pP-dLp"/>
                         <outlet property="containerView" destination="8gw-0b-2pl" id="02g-An-b0s"/>
-                        <outlet property="price" destination="ahz-Qj-4a9" id="xVn-ph-qoV"/>
                         <outlet property="priceLabel" destination="Jfm-yW-50B" id="RtL-fv-8ps"/>
+                        <outlet property="priceSlider" destination="ahz-Qj-4a9" id="yvD-3P-6d8"/>
                         <outlet property="searchTextField" destination="6Of-eh-1ZD" id="uQJ-bb-pVf"/>
                         <outlet property="sizeMenu" destination="hhD-Na-s06" id="aBO-Hi-6c4"/>
                     </connections>

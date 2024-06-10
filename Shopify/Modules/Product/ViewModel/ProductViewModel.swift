@@ -9,49 +9,62 @@ import Foundation
 
 class ProductViewModel{
     
-    var brandID : Int =  0 {
-        didSet{
+    var brandID: Int = 0 {
+        didSet {
             getProducts()
         }
     }
-    var products : [Products] = []{
-        didSet{
-            bindProducts()
-            updatePrice()
+    
+    var products: [Products] = [] {
+        didSet {
+            calculatePriceRange()
+            filterProducts()
         }
     }
     
-    var productsPrice :[String] = []
-    var bindProducts : (() -> ()) = {}
+    var filteredProducts: [Products] = [] {
+        didSet {
+            bindFilteredProducts()
+            print(filteredProducts)
+        }
+    }
     
+    var minPrice: Float = 0
+    var maxPrice: Float = 1000
     
-    init(){
+    var bindFilteredProducts: (() -> ()) = {}
+    var bindPriceRange: (() -> ()) = {}
+    
+    var currentMaxPrice: Float = 1000 {
+        didSet {
+            filterProducts()
+        }
+    }
+    
+    init() {
         getProducts()
     }
     
     func getProducts() {
         NetworkUtilities.fetchData(responseType: ProductResponse.self, endpoint: "products.json?collection_id=\(brandID)") { product in
-            self.products = product?.products ??  []
+            self.products = product?.products ?? []
         }
     }
     
-    func updatePrice(){
-        productsPrice = products.flatMap { product in
-            product.variants.compactMap { variant in
-                return variant.price
-            }
-        }
-        print(productsPrice)
+    func calculatePriceRange() {
+        let prices = products.compactMap { Float($0.variants.first?.price ?? "0") }
+        minPrice =  0
+        maxPrice = prices.max() ?? 1000
+        currentMaxPrice = maxPrice
+        bindPriceRange()
     }
     
-    func filterByPrice(maxPrice: Float) -> [Products] {
-        return products.filter { product in
-            product.variants.contains { variant in
-                if let variantPrice = Float(variant.price) {
-                    return variantPrice <= maxPrice
-                }
-                return false
+    func filterProducts() {
+        filteredProducts = products.filter { product in
+            if let productPrice = Float(product.variants.first?.price ?? "0") {
+                return productPrice <= currentMaxPrice
             }
+            return false
         }
     }
 }

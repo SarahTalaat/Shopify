@@ -12,18 +12,13 @@ class ProductViewController: UIViewController {
     
 
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var price: UISlider!
     @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var priceSlider: UISlider!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var sizeMenu: UIButton!
-    @IBOutlet weak var colorMenu: UIButton!   
-    @IBOutlet weak var collectionViewTopConstraint: UICollectionViewCell!
-    
+    @IBOutlet weak var colorMenu: UIButton!
     @IBOutlet weak var containerView: UIView!
-    @IBAction func priceBar(_ sender: Any) {
-             self.updateFilteredProducts()
-         
-    }
+    @IBOutlet weak var collectionViewTopConstraint: NSLayoutConstraint!
     
     let colorList = ["Black", "White", "Red", "Blue", "Green", "Brown"]
     let sizeList = ["XS", "S", "M", "L", "XL"]
@@ -41,15 +36,19 @@ class ProductViewController: UIViewController {
         priceLabel.text = "No selected price"
         
         handleDropDownList()
-        filterByPrice()
         
-        viewModel.bindProducts = { [weak self] in
+        viewModel.bindFilteredProducts = { [weak self] in
             self?.updateCollection()
-            self?.filterByPrice()
         }
-    
-
+        
+        viewModel.bindPriceRange = { [weak self] in
+            self?.updatePriceRange()
+        }
+            priceSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
+            
+        
     }
+
 
     func updateCollection(){
             DispatchQueue.main.async {
@@ -57,35 +56,24 @@ class ProductViewController: UIViewController {
             }
         }
     
-    
-    // MARK: - Filter By Price
-    func filterByPrice() {
-        let priceArray = viewModel.productsPrice.compactMap { Float($0) }
-        if let minPrice = priceArray.min(), let maxPrice = priceArray.max() {
-            price.minimumValue = minPrice
-            price.maximumValue = maxPrice
-            price.value = maxPrice 
-        }
-    }
-    
-    func updateFilteredProducts() {
-        let filteredPrice = price.value
-            priceLabel.text = "Price: \(filteredPrice)"
-            
-        let minPrice = viewModel.productsPrice.compactMap { Float($0) }.min()
-            let filteredArray = viewModel.products.filter { product in
-                product.variants.contains { variant in
-                    if let variantPrice = Float(variant.price) {
-                        return variantPrice >= minPrice ?? 0.0 && variantPrice <= filteredPrice
-                    }
-                    return false
-                }
-            }
-            viewModel.products = filteredArray
-            collectionView.reloadData()
-    }
 
-    
+    // MARK: - Filter By Price
+
+    @objc func sliderValueChanged(_ sender: UISlider) {
+        priceLabel.text = String(format: "Price: %.2f", sender.value)
+             viewModel.currentMaxPrice = sender.value
+        
+    }
+        
+        func updatePriceRange() {
+            DispatchQueue.main.async {
+                self.priceSlider.minimumValue = self.viewModel.minPrice
+                self.priceSlider.maximumValue = self.viewModel.maxPrice
+                self.priceSlider.value = 0
+                self.priceLabel.text = "No selected price"
+            }
+        }
+        
     
     // MARK: - Drop Down List
     
@@ -122,15 +110,20 @@ class ProductViewController: UIViewController {
     
     @objc func showFilter(){
         
-        if isFilter{
-            containerView.isHidden = true
-            isFilter = false
-        } else{
-            containerView.isHidden = false
-            isFilter = true
-        }
+        if isFilter {
+                   containerView.isHidden = true
+                   isFilter = false
+               } else {
+                   containerView.isHidden = false
+                   isFilter = true
+               }
+               
+               UIView.animate(withDuration: 0.3) {
+                   self.view.layoutIfNeeded()
+               }
+           }
         
-    }
+
     
     
     // MARK: - Collection View Layout
@@ -155,49 +148,49 @@ class ProductViewController: UIViewController {
 }
 
 
-// MARK: - Collection View Methods
+    // MARK: - Collection View Methods
 
-extension ProductViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.products.count
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let item = viewModel.products[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsCollectionViewCell", for: indexPath) as! ProductsCollectionViewCell
-        
-        cell.brandLabel.text = item.vendor
-        if let price = item.variants.first?.price {
-            cell.priceLabel.text = "\(price)$"
-
+    extension ProductViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+            return viewModel.filteredProducts.count
         }
         
-        if let range = item.title.range(of: "|") {
-            var truncatedString = String(item.title[range.upperBound...]).trimmingCharacters(in: .whitespaces)
+        
+        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             
-            if let nextRange = truncatedString.range(of: "|") {
-                truncatedString = String(truncatedString[..<nextRange.lowerBound]).trimmingCharacters(in: .whitespaces)
+            let item = viewModel.filteredProducts[indexPath.row]
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsCollectionViewCell", for: indexPath) as! ProductsCollectionViewCell
+            
+            cell.brandLabel.text = item.vendor
+            if let price = item.variants.first?.price {
+                cell.priceLabel.text = "\(price)$"
+
+            }
+            
+            if let range = item.title.range(of: "|") {
+                var truncatedString = String(item.title[range.upperBound...]).trimmingCharacters(in: .whitespaces)
+                
+                if let nextRange = truncatedString.range(of: "|") {
+                    truncatedString = String(truncatedString[..<nextRange.lowerBound]).trimmingCharacters(in: .whitespaces)
+                    cell.productNameLabel.text = truncatedString
+                }
                 cell.productNameLabel.text = truncatedString
             }
-            cell.productNameLabel.text = truncatedString
+            
+            if let imageUrlString = item.images.first?.src, let imageURL = URL(string: imageUrlString) {
+                cell.productImage.kf.setImage(with: imageURL)
+            }
+          
+            return cell
         }
         
-        if let imageUrlString = item.images.first?.src, let imageURL = URL(string: imageUrlString) {
-            cell.productImage.kf.setImage(with: imageURL)
-        }
-      
-        return cell
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
+            navigationController?.pushViewController(brandsViewController, animated: true)
+          }
+        
+        
+        
+        
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
-        navigationController?.pushViewController(brandsViewController, animated: true)
-      }
-    
-    
-    
-    
-}
