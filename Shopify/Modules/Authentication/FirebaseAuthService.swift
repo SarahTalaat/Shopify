@@ -62,7 +62,7 @@ class FirebaseAuthService: AuthServiceProtocol {
 
     func getCustomerId(forEmail email: String, completion: @escaping (String?) -> Void) {
         let ref = Database.database().reference()
-        let encodedEmail = SharedMethods.encodeEmail(email)
+        let encodedEmail = SharedMethods.decodeEmail(email)
         print("Firebase: encoded email:")
         let customersRef = ref.child("customers").child(encodedEmail)
         

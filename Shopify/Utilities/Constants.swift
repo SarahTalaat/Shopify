@@ -26,15 +26,12 @@ enum APIConfig {
     static let version = "2022-01"
     
     case customers
-    case customer
     case endPoint(String)
     
     var resource: String {
         switch self {
         case .customers:
             return "customers"
-        case .customer:
-            return "customer"
         case .endPoint(let customResource):
             return customResource
         }

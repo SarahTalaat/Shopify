@@ -41,9 +41,6 @@ class SignUpViewModel: SignUpViewModelProtocol {
                 print("vm Sign up successful with user: \(user)")
                 self?.user = user
                 
-               
-
-                
                 let parameters: [String: Any] = [
                     "customer": [
                         "verified_email": customerModelRequest.customer.verified_email,
@@ -72,6 +69,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
                 print("vm Failed to post customer data: \(error.localizedDescription)")
             }
         })
+        
         
     }
     
