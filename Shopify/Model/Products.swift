@@ -44,5 +44,9 @@ struct Images : Decodable {
 }
 
 
+struct SingleProduct:Decodable{
+  var product: Products
+}
+
 
 

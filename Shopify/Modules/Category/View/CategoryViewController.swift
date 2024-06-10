@@ -172,8 +172,17 @@ class CategoryViewController: UIViewController {
             
             cell.productBrand.text = item.vendor
             cell.productPrice.text = "\(price)$"
-            cell.productName.text = item
-                .title
+            
+            if let range = item.title.range(of: "|") {
+                var truncatedString = String(item.title[range.upperBound...]).trimmingCharacters(in: .whitespaces)
+                
+                if let nextRange = truncatedString.range(of: "|") {
+                    truncatedString = String(truncatedString[..<nextRange.lowerBound]).trimmingCharacters(in: .whitespaces)
+                    cell.productName.text = truncatedString
+                }
+                cell.productName.text = truncatedString
+            }
+        
             let imageURL = URL(string: item.image.src)
             cell.categoryImage.kf.setImage(with: imageURL)
             

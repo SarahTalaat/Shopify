@@ -19,9 +19,34 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     @IBAction func addToFav(_ sender: UIButton) {
     }
     
+    private let bottomBorder = UIView()
+
     override func awakeFromNib() {
         super.awakeFromNib()
         categoryImage.layer.cornerRadius = 10
         categoryImage.clipsToBounds = true
+        setupImageViewShadow()
+        setupBottomBorder()
     }
+    
+    func setupImageViewShadow() {
+        categoryImage.layer.shadowColor = UIColor.black.cgColor
+        categoryImage.layer.shadowOpacity = 0.5
+        categoryImage.layer.shadowOffset = CGSize(width: 0, height: 2)
+        categoryImage.layer.shadowRadius = 4
+        categoryImage.layer.masksToBounds = false
+    }
+    
+     func setupBottomBorder() {
+           bottomBorder.backgroundColor = UIColor.lightGray
+           bottomBorder.translatesAutoresizingMaskIntoConstraints = false
+           contentView.addSubview(bottomBorder)
+           
+           NSLayoutConstraint.activate([
+               bottomBorder.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+               bottomBorder.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+               bottomBorder.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+               bottomBorder.heightAnchor.constraint(equalToConstant: 1)
+           ])
+       }
 }

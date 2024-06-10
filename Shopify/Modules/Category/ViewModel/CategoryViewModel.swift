@@ -35,9 +35,10 @@ class CategoryViewModel{
     }
     
     func getPrice(id:Int) -> String{
-        NetworkUtilities.fetchData(responseType: Products.self, endpoint: "products/\(id).json") { product in
-            self.price = product?.variants.first?.price ?? "0"
+        NetworkUtilities.fetchData(responseType: SingleProduct.self, endpoint: "products/\(id).json") { product in
+            self.price = product?.product.variants.first?.price ?? "0"
         }
+        print(price)
         return price
     }
     
