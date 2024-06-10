@@ -44,58 +44,68 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
                    DispatchQueue.main.async {
                        self.addressTableView.reloadData()
                    }
+                   self.updateDefaultAddressLabel()
                case .failure(let error):
                    print("Failed to fetch addresses: \(error)")
                }
            }
        }
-
-      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-          return addresses.count
-      }
-
-      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-          let cell = tableView.dequeueReusableCell(withIdentifier: "addressTableViewCell", for: indexPath) as! addressTableViewCell
-              let address = addresses[indexPath.row]
-              let isDefault = address.`default` ?? false
-              cell.configure(with: address, isDefault: isDefault)
-             print(address)
-             
-          return cell
-      }
-
-      func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-          return 120
-      }
-
-      func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-          return 20
-      }
-
-      func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-          let footerView = UIView()
-          footerView.backgroundColor = .clear
-          return footerView
-      }
-
-      func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-          if editingStyle == .delete {
-              let address = addresses[indexPath.row]
-              if let addressId = address.id {
-                  TryAddressNetworkService.shared.deleteAddress(addressId: addressId) { result in
-                      switch result {
-                      case .success:
-                          self.addresses.remove(at: indexPath.row)
-                          DispatchQueue.main.async {
-                              self.addressTableView.deleteRows(at: [indexPath], with: .automatic)
-                          }
-                      case .failure(let error):
-                          print("Failed to delete address: \(error)")
-                      }
-                  }
-              }
-          }
-      }
+       
+       func updateDefaultAddressLabel() {
+           if let defaultAddress = addresses.first(where: { $0.default == true }) {
+               DispatchQueue.main.async {
+                   if let settingsVC = self.navigationController?.viewControllers.first(where: { $0 is SettingsScreenViewController }) as? SettingsScreenViewController {
+                       settingsVC.currentAddress.text = defaultAddress.city
+                   }
+               }
+           }
+       }
+       
+       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+           return addresses.count
+       }
+       
+       func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+           let cell = tableView.dequeueReusableCell(withIdentifier: "addressTableViewCell", for: indexPath) as! addressTableViewCell
+           let address = addresses[indexPath.row]
+           let isDefault = address.`default` ?? false
+           cell.configure(with: address, isDefault: isDefault)
+           return cell
+       }
+       
+       func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+           return 120
+       }
+       
+       func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+           return 20
+       }
+       
+       func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+           let footerView = UIView()
+           footerView.backgroundColor = .clear
+           return footerView
+       }
+       
+       func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+           if editingStyle == .delete {
+               let address = addresses[indexPath.row]
+               if let addressId = address.id {
+                   TryAddressNetworkService.shared.deleteAddress(addressId: addressId) { result in
+                       switch result {
+                       case .success:
+                           self.addresses.remove(at: indexPath.row)
+                           DispatchQueue.main.async {
+                               self.addressTableView.deleteRows(at: [indexPath], with: .automatic)
+                           }
+                           self.updateDefaultAddressLabel() // Update default address label after deletion
+                       case .failure(let error):
+                           print("Failed to delete address: \(error)")
+                       }
+                   }
+               }
+           }
+       }
     }
 
 
