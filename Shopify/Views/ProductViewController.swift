@@ -44,9 +44,7 @@ class ProductViewController: UIViewController {
         viewModel.bindPriceRange = { [weak self] in
             self?.updatePriceRange()
         }
-            priceSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
-            
-        
+         priceSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
     }
 
 
@@ -64,7 +62,7 @@ class ProductViewController: UIViewController {
              viewModel.currentMaxPrice = sender.value
         
     }
-        
+
         func updatePriceRange() {
             DispatchQueue.main.async {
                 self.priceSlider.minimumValue = self.viewModel.minPrice
@@ -104,8 +102,6 @@ class ProductViewController: UIViewController {
         navigationItem.rightBarButtonItems = [filterButton]
     }
   
-    
-
     // MARK: - Navigation Bar Item
     
     @objc func showFilter(){
@@ -117,14 +113,11 @@ class ProductViewController: UIViewController {
                    containerView.isHidden = false
                    isFilter = true
                }
-               
                UIView.animate(withDuration: 0.3) {
                    self.view.layoutIfNeeded()
                }
            }
         
-
-    
     
     // MARK: - Collection View Layout
     
@@ -154,7 +147,6 @@ class ProductViewController: UIViewController {
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
             return viewModel.filteredProducts.count
         }
-        
         
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             
@@ -189,8 +181,5 @@ class ProductViewController: UIViewController {
             let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
             navigationController?.pushViewController(brandsViewController, animated: true)
           }
-        
-        
-        
-        
+ 
     }

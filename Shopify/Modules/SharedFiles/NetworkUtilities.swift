@@ -45,5 +45,12 @@ class NetworkUtilities{
         }
     }
 }
-    
+
+
+enum CategoryID: Int {
+    case men = 303081423009
+    case women = 303081455777
+    case kids = 303081488545
+    case sale = 303081521313
+}
 
