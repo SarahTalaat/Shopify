@@ -64,7 +64,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
     
     func postNewCustomer(urlString: String, parameters: [String:Any]){
     
-        self.networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<CustomersResponse, Error>) in
+        self.networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<CustomerResponse, Error>) in
             switch result {
             case .success(let response):
                 print("vm Customer data posted successfully: \(response)")

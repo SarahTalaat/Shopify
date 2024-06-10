@@ -85,10 +85,4 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
 
-
-
-
-
-    
-    
 }
