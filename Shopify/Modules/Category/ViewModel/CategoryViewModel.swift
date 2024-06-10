@@ -9,6 +9,7 @@ import Foundation
 
 class CategoryViewModel{
     var price = "0"
+    var subCategory : [Product] = []
     var category : [Product] = [] {
         didSet{
             bindCategory()
@@ -25,6 +26,7 @@ class CategoryViewModel{
         NetworkUtilities.fetchData(responseType: CategoryResponse.self, endpoint: "collections/\(id.rawValue)/products.json") { product in
             if let products = product?.products {
                 print("Fetched products: \(products.count)")
+                self.subCategory = products
                 self.category = products
             } else {
                 print("No products fetched")
@@ -40,12 +42,13 @@ class CategoryViewModel{
         }
     }
     
+    func filterBySubCategory(subcategory:SubCategories){
+        if subcategory == .all{
+            self.category = self.subCategory
+        } else {
+            self.category = self.subCategory.filter{$0 .product_type == subcategory.rawValue}
+        }
     
-    
-    
-    
-    
-    
-    
-    
+    }
+  
 }

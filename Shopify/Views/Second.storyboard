@@ -172,6 +172,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
+                                    <action selector="allButton:" destination="565-VT-EkS" eventType="touchUpInside" id="qoV-KL-btp"/>
                                     <action selector="didClickMoreButton:" destination="565-VT-EkS" eventType="touchUpInside" id="7JC-Xd-nSz"/>
                                 </connections>
                             </button>
@@ -191,6 +192,9 @@
                                         <integer key="value" value="25"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="clothButton:" destination="565-VT-EkS" eventType="touchUpInside" id="W0E-St-phq"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeA-Sf-b7D">
                                 <rect key="frame" x="340" y="539" width="50" height="50"/>
@@ -208,6 +212,9 @@
                                         <integer key="value" value="25"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="bagButton:" destination="565-VT-EkS" eventType="touchUpInside" id="2ik-QH-uMc"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BQe-Sf-F5M">
                                 <rect key="frame" x="340" y="479" width="50" height="50"/>
@@ -225,6 +232,9 @@
                                         <integer key="value" value="25"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="shoesButton:" destination="565-VT-EkS" eventType="touchUpInside" id="bdw-Fw-kuu"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="search here" textAlignment="natural" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="Ukd-Qj-1BY">
                                 <rect key="frame" x="24" y="159" width="366" height="34"/>

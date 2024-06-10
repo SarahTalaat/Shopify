@@ -16,24 +16,7 @@ class CategoryViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var search: UITextField!
     @IBOutlet weak var women: UIButton!
-    @IBAction func womenBtn(_ sender: UIButton) {
-        updateButton(sender,id:.women)
-    }
-    
-    @IBAction func MenBtn(_ sender: UIButton) {
-        updateButton(sender,id:.men)
-    }
-    
-    @IBAction func childrenBtn(_ sender: UIButton) {
-        updateButton(sender,id:.kids)
-    }
-    
-    @IBAction func saleBtn(_ sender: UIButton) {
-        updateButton(sender,id:.sale)
-    }
-    
-    @IBAction func searchTextField(_ sender: UITextField) {
-    }
+
     var shoesButtonCenter: CGPoint!
     var bagsButtonCenter: CGPoint!
     var clothButtonCenter: CGPoint!
@@ -87,6 +70,46 @@ class CategoryViewController: UIViewController {
                 self.collectionView.reloadData()
             }
         }
+    
+    //MARK: - Buttons Actions
+    @IBAction func womenBtn(_ sender: UIButton) {
+        updateButton(sender,id:.women)
+    }
+    
+    @IBAction func MenBtn(_ sender: UIButton) {
+        updateButton(sender,id:.men)
+    }
+    
+    @IBAction func childrenBtn(_ sender: UIButton) {
+        updateButton(sender,id:.kids)
+    }
+    
+    @IBAction func saleBtn(_ sender: UIButton) {
+        updateButton(sender,id:.sale)
+    }
+    
+    @IBAction func searchTextField(_ sender: UITextField) {
+    }
+    
+    @IBAction func shoesButton(_ sender: UIButton) {
+        viewModel.filterBySubCategory(subcategory: .shoes)
+        
+    }
+    
+    @IBAction func bagButton(_ sender: UIButton) {
+        viewModel.filterBySubCategory(subcategory: .bag)
+
+    }
+    
+    @IBAction func clothButton(_ sender: UIButton) {
+        viewModel.filterBySubCategory(subcategory: .cloth)
+
+    }
+
+    @IBAction func allButton(_ sender: UIButton) {
+        viewModel.filterBySubCategory(subcategory: .all)
+
+    }
     
     // MARK: - Navigation Bar Item
     
