@@ -11,5 +11,6 @@ import FirebaseAuth
 protocol AuthServiceProtocol  {
     func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void)
     func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void)
-
+    func saveCustomerId(email: String, id: String)
+    func getCustomerId(forEmail email: String, completion: @escaping (String?) -> Void)
 }

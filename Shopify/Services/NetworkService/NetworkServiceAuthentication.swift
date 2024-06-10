@@ -13,17 +13,19 @@ enum Result<Success, Failure: Error> {
     case failure(Failure)
 }
 
+
 class NetworkServiceAuthentication: NetworkServiceAuthenticationProtocol {
+    
     func postFunction<T: Decodable>(urlString: String, model: [String: Any], completion: @escaping (Result<T, Error>) -> Void) {
-        
-        
+
+
         if let data = Constants.credentials.data(using: .utf8) {
                    let base64Credentials = data.base64EncodedString()
                    let headers: HTTPHeaders = [
                        "Authorization": "Basic \(base64Credentials)",
                        "Accept": "application/json"
                    ]
-            
+
             print("network data: \(data)")
 
                    Alamofire.request(urlString, method: .post, parameters: model, encoding: JSONEncoding.default, headers: headers)
@@ -46,6 +48,9 @@ class NetworkServiceAuthentication: NetworkServiceAuthenticationProtocol {
                        }
                }
            }
+    
+    
+
     
 }
 
@@ -157,3 +162,44 @@ class NetworkServiceAuthentication: NetworkServiceAuthenticationProtocol {
 //         completion(.failure(error))
 //     }
 // }
+
+
+
+//     func requestFunction<T: Decodable>(urlString: String, method: HTTPMethod, model: [String: Any]? = nil, completion: @escaping (Result<T, Error>) -> Void) {
+//           guard let data = Constants.credentials.data(using: .utf8) else { return }
+//           let base64Credentials = data.base64EncodedString()
+//           let headers: HTTPHeaders = [
+//               "Authorization": "Basic \(base64Credentials)",
+//               "Accept": "application/json"
+//           ]
+//
+//           print("network data: \(data)")
+//
+//           Alamofire.request(urlString, method: method, parameters: model, encoding: JSONEncoding.default, headers: headers)
+//               .validate()
+//               .responseData { response in
+//                   print("network response \(response)")
+//                   switch response.result {
+//                   case .success(let data):
+//                       do {
+//                           let decodedResponse = try JSONDecoder().decode(T.self, from: data)
+//                           completion(.success(decodedResponse))
+//                       } catch {
+//                           print("network success catch: \(data)")
+//                           completion(.failure(error))
+//                       }
+//                   case .failure(let error):
+//                       print("network failure \(data)")
+//                       completion(.failure(error))
+//                   }
+//               }
+//       }
+   
+//       func postFunction<T: Decodable>(urlString: String, model: [String: Any], completion: @escaping (Result<T, Error>) -> Void) {
+//           requestFunction(urlString: urlString, method: .post, model: model, completion: completion)
+//       }
+//
+//       func getFunction<T: Decodable>(urlString: String, completion: @escaping (Result<T, Error>) -> Void) {
+//           requestFunction(urlString: urlString, method: .get, completion: completion)
+//       }
+

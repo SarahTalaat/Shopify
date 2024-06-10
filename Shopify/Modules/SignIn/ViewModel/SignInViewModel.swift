@@ -29,6 +29,8 @@ class SignInViewModel: SignInViewModelProtocol {
         }
     }
     
+    var customerID: String?
+    
     var bindUserViewModelToController: (() -> ()) = {}
     var bindErrorViewModelToController: (() -> ()) = {}
     
@@ -41,6 +43,11 @@ class SignInViewModel: SignInViewModelProtocol {
             switch result {
             case .success(let user):
                 self?.user = user
+                self?.authServiceProtocol.getCustomerId(forEmail: email) { customerId in
+                    self?.customerID = customerId
+                    print("si : customerId firebase : \(self?.customerID ?? "No customer ID found")")
+                }
+                
                 print("user idddd view model: \(self?.user?.uid)")
             case .failure(let error):
                 if let authError = error as? AuthErrorCode {
@@ -57,8 +64,10 @@ class SignInViewModel: SignInViewModelProtocol {
         }
     }
     
-    
-    
+//           func getFunction<T: Decodable>(urlString: String, completion: @escaping (Result<T, Error>) -> Void) {
+//               requestFunction(urlString: urlString, method: .get, completion: completion)
+//           }
+//    
 //    func signIn(email: String, password: String) {
 //        authServiceProtocol.signIn(email: email, password: password) { [weak self] result in
 //            switch result {

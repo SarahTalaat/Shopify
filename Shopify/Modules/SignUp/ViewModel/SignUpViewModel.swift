@@ -41,6 +41,8 @@ class SignUpViewModel: SignUpViewModelProtocol {
                 print("vm Sign up successful with user: \(user)")
                 self?.user = user
                 
+                self?.authServiceProtocol.saveCustomerId(email: email, id: "7501423804578")
+                
                 let parameters: [String: Any] = [
                     "customer": [
                         "verified_email": customerModelRequest.customer.verified_email,
@@ -48,17 +50,8 @@ class SignUpViewModel: SignUpViewModelProtocol {
                         "first_name": customerModelRequest.customer.first_name
                     ]
                 ]
-                let endPoint = APIConfig.customers.resource
                 let urlString = APIConfig.customers.url
-                
-                self?.networkServiceAuthenticationProtocol.postFunction(urlString: urlString, model: parameters) { [weak self] (result: Result<CustomersModelResponse, Error>) in
-                    switch result {
-                    case .success(let response):
-                        print("vm Customer data posted successfully: \(response)")
-                    case .failure(let error):
-                        print("vm Failed to post customer data: \(error.localizedDescription)")
-                    }
-                }
+                self?.postNewCustomer(urlString: urlString, parameters: parameters)
                 
             case .failure(let error):
                 print("vm Sign up failed with error: \(error)")
@@ -66,4 +59,24 @@ class SignUpViewModel: SignUpViewModelProtocol {
             }
         }
     }
+    
+    func postNewCustomer(urlString: String, parameters: [String:Any]){
+        self.networkServiceAuthenticationProtocol.postFunction(urlString: urlString, model: parameters) { [weak self] (result: Result<CustomersModelResponse, Error>) in
+            switch result {
+            case .success(let response):
+                print("vm Customer data posted successfully: \(response)")
+            case .failure(let error):
+                print("vm Failed to post customer data: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+
+    
 }
+
+
+
+/*
+ 7501423804577 7501423804577
+ */
