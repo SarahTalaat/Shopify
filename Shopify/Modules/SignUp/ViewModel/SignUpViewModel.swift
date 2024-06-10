@@ -1,6 +1,5 @@
 import Foundation
 
-
 class SignUpViewModel: SignUpViewModelProtocol {
     private let authServiceProtocol: AuthServiceProtocol
     private let networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol
@@ -44,9 +43,9 @@ class SignUpViewModel: SignUpViewModelProtocol {
                 return
             }
 
-            let passwordErrors = self?.validatePassword(password)
-            guard ((passwordErrors?.isEmpty) != nil) else {
-                let errorMessage = passwordErrors?.joined(separator: "\n")
+            let passwordErrors = self?.validatePassword(password) ?? []
+            guard passwordErrors.isEmpty else {
+                let errorMessage = passwordErrors.joined(separator: "\n")
                 self?.errorMessage = errorMessage
                 return
             }
@@ -114,9 +113,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
         return password.rangeOfCharacter(from: .decimalDigits) != nil
     }
 
-    
-    func postNewCustomer(urlString: String, parameters: [String:Any], name: String , email: String){
-    
+    func postNewCustomer(urlString: String, parameters: [String:Any], name: String , email: String) {
         self.networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<CustomerResponse, Error>) in
             switch result {
             case .success(let response):

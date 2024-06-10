@@ -138,7 +138,7 @@ class SignUpVC: UIViewController {
         viewModel.bindErrorViewModelToController = { [weak self] in
             DispatchQueue.main.async {
                 if let errorMessage = self?.viewModel.errorMessage {
-                    self?.showSignSuccessfulAlert(title: "Failure", message: "Failed to create a new account, click Ok and try again", button1Title: "Ok", completion: {})
+                    self?.showSignSuccessfulAlert(title: "Failure", message: "\(errorMessage)", button1Title: "Ok", completion: {})
                 }
             }
         }
