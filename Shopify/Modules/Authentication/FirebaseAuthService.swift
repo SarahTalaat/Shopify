@@ -9,6 +9,7 @@ import Foundation
 import FirebaseAuth
 import FirebaseDatabase
 
+
 class FirebaseAuthService: AuthServiceProtocol {
     
     func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
@@ -88,6 +89,17 @@ class FirebaseAuthService: AuthServiceProtocol {
                 print("Firebase: No matching email found")
                 completion(nil)
             }
+        }
+    }
+    
+    func isEmailTaken(email: String, completion: @escaping (Bool) -> Void) {
+        let ref = Database.database().reference()
+        let encodedEmail = SharedMethods.encodeEmail(email)
+        let customersRef = ref.child("customers").child(encodedEmail)
+
+        customersRef.observeSingleEvent(of: .value) { snapshot in
+            let isTaken = snapshot.exists()
+            completion(isTaken)
         }
     }
 

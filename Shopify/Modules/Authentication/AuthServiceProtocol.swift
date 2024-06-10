@@ -13,4 +13,5 @@ protocol AuthServiceProtocol  {
     func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void)
     func saveCustomerId(name: String, email: String, id: String)
     func getCustomerId(forEmail email: String, completion: @escaping (String?) -> Void)
+    func isEmailTaken(email: String, completion: @escaping (Bool) -> Void) 
 }
