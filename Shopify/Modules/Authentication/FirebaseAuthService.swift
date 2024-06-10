@@ -62,9 +62,9 @@ class FirebaseAuthService: AuthServiceProtocol {
 
     func getCustomerId(forEmail email: String, completion: @escaping (String?) -> Void) {
         let ref = Database.database().reference()
-        let decodedEmail = SharedMethods.decodeEmail(email)
-        print("Firebase: encoded email: \(decodedEmail)")
-        let customersRef = ref.child("customers").child(decodedEmail)
+        let encodedEmail = SharedMethods.encodeEmail(email)
+        print("Firebase: encoded email: \(encodedEmail)")
+        let customersRef = ref.child("customers").child(encodedEmail)
         
         customersRef.observeSingleEvent(of: .value) { snapshot in
             print("Firebase: Query snapshot value: \(snapshot.value ?? "No data")")
@@ -74,15 +74,22 @@ class FirebaseAuthService: AuthServiceProtocol {
                 completion(nil)
                 return
             }
-            
+           
             if let customerEmail = customerData["email"] as? String, customerEmail == email {
-                print("Firebase: Matched customer ID for email: \(email)")
-                completion(customerData["customerId"] as? String)
+                if let customerId = customerData["customerId"] as? String {
+                    print("Firebase: Matched customer ID for email: \(email)")
+                    print("Firebase: Matched customer ID : \(customerId)")
+                    completion(customerId)
+                } else {
+                    print("Firebase: Customer ID not found")
+                    completion(nil)
+                }
             } else {
-                print("No matching email found")
+                print("Firebase: No matching email found")
                 completion(nil)
             }
         }
     }
+
 
 }
