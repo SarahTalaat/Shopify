@@ -14,7 +14,7 @@ struct Address: Codable {
     let city: String
     let country: String
     let zip: String
-    let `default`: Bool?
+    var `default`: Bool?
 }
  
 struct AddressListResponse: Codable {

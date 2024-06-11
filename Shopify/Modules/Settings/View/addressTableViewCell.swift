@@ -9,6 +9,7 @@ import UIKit
 
 class addressTableViewCell: UITableViewCell {
 
+    var defaultButtonAction: (() -> Void)?
     override func awakeFromNib() {
         super.awakeFromNib()
         self.layer.borderColor = UIColor.lightGray.cgColor
@@ -23,22 +24,20 @@ class addressTableViewCell: UITableViewCell {
     }
 
     @IBAction func checkBtnAddress(_ sender: UIButton) {
+        defaultButtonAction?()
     }
     
     @IBOutlet weak var currentAddress: UILabel!
     @IBOutlet weak var addressDetails: UILabel!
     @IBOutlet weak var userName: UILabel!
     
-
     @IBOutlet weak var defaultButton: UIButton!
     
+
     
-   
-    @IBOutlet weak var unChecked: UIButton!
     
-    @IBOutlet weak var cheked: UIButton!
-    var flag = false
-    var flag2 =  false
+    @IBOutlet weak var checked: UIButton!
+  
 
     
     
@@ -51,26 +50,14 @@ class addressTableViewCell: UITableViewCell {
         userName.text = address.first_name
         addressDetails.text = "\(address.address1), \(address.city), \(address.country)"
         defaultButton.isHidden = !isDefault
-            
+                let image = isDefault ? UIImage(named: "radio") : UIImage(named: "unRadio")
+        checked.setBackgroundImage(image, for: .normal)
     }
     
     
     @IBAction func checkedBtn(_ sender: UIButton) {
-        if (flag == false){
-            sender.setBackgroundImage(UIImage(named: "radio.png"), for: UIControl.State.normal)
-            unChecked.setBackgroundImage(UIImage(named: "unRadio.png"), for: UIControl.State.normal)
-            flag = true
-            flag2 = false
-        }
+        defaultButtonAction?()
         print("ch")
     }
-    @IBAction func unCheckedBtn(_ sender: UIButton) {
-        if (flag2 == false){
-            sender.setBackgroundImage(UIImage(named: "radio.png"), for: UIControl.State.normal)
-            cheked.setBackgroundImage(UIImage(named: "unRadio.png"), for: UIControl.State.normal)
-            flag2 = true
-            flag = false
-        }
-        print("un")
-    }
+   
 }
