@@ -17,12 +17,13 @@ class HomeViewModel{
     
     var coupons : [PriceRules] = []{
         didSet{
-         self.bindCoupons()
+         self.bindBrandsData()
         }
     }
     
     var bindBrandsData : (() -> ()) = {}
-    var bindCoupons : (() -> ()) = {}
+    var bindCouponsData: (() -> Void)?
+
     
     init(){
         getBrands()
@@ -40,6 +41,7 @@ class HomeViewModel{
             self.coupons = coupon?.price_rules ?? []
         }
         print(coupons)
+        bindCouponsData?()
 
     }
 

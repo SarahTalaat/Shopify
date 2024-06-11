@@ -47,8 +47,10 @@ class HomeViewController: UIViewController {
     func updateCollection(){
             DispatchQueue.main.async { [weak self] in
                 self?.brandsCollectionView.reloadData()
+                self?.adsCollectionView.reloadData()
             }
         }
+    
        
     // MARK: - Navigation Bar Items 
     
@@ -86,7 +88,7 @@ class HomeViewController: UIViewController {
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(150))
+                                                   heightDimension: .absolute(165))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
@@ -127,6 +129,10 @@ class HomeViewController: UIViewController {
 
 
 
+
+
+
+
 // MARK: - UICollectionView Methods
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -139,7 +145,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         case brandsCollectionView:
             return viewModel.brands.count
         default:
-            return 6
+            return viewModel.coupons.count
         }
      
     }
@@ -161,7 +167,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AdsCollectionViewCell", for: indexPath) as! AdsCollectionViewCell
-            cell.adsImage.image = UIImage(named: "Sale.jpeg")
+            let images = ["withsale.jpg","ss.jpg"]
+            cell.adsImage.image = UIImage(named: images[indexPath.row])
             return cell
      
         }
@@ -177,9 +184,28 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             brandsViewController.viewModel = vm
             print(vm.brandID)
             navigationController?.pushViewController(brandsViewController, animated: true)
+            
          default:
-         printContent("Ads")
+            let item = indexPath.row
+            let id = viewModel.coupons[item].id
+            if item == 0 {
+                showAlert(title: "Congratulations!", message: "You have just won a 20% discount coupon, copy this coupon \(id) and use it in the checkout proccess")
+            } else {
+                showAlert(title: "Congratulations!", message: "You have just won a 10% discount coupon, copy this coupon \(id) and use it in the checkout proccess")
+            }
+            
             }
         }
     }
 
+// MARK: - Alert Handeling
+
+extension UIViewController {
+    
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+}

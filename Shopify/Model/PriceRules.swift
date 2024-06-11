@@ -18,7 +18,7 @@ struct PriceRules: Decodable{
     let target_type : String
 }
 
-
+struct 
 
  
 

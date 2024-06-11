@@ -32,7 +32,7 @@ class NetworkUtilities{
                 do {
                     let decodedData = try JSONDecoder().decode(T.self, from: data)
                     completion(decodedData)
-                    print(decodedData)
+                    //print(decodedData)
                 } catch {
                     print("Error decoding data")
                     print(String(describing: error))
