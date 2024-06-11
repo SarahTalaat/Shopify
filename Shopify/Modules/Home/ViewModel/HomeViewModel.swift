@@ -15,10 +15,18 @@ class HomeViewModel{
         }
     }
     
+    var coupons : [PriceRules] = []{
+        didSet{
+         self.bindCoupons()
+        }
+    }
+    
     var bindBrandsData : (() -> ()) = {}
+    var bindCoupons : (() -> ()) = {}
     
     init(){
         getBrands()
+        getCoupons()
     }
     
     func getBrands() {
@@ -26,5 +34,13 @@ class HomeViewModel{
             self.brands = brand?.smart_collections ??  []
           }
       }
+    
+    func getCoupons(){
+        NetworkUtilities.fetchData(responseType: PriceRulesResponse.self, endpoint: "price_rules.json"){ coupon in
+            self.coupons = coupon?.price_rules ?? []
+        }
+        print(coupons)
+
+    }
 
 }

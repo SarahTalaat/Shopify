@@ -24,7 +24,6 @@ class HomeViewController: UIViewController {
         adsCollectionView.collectionViewLayout = adsCollectionViewLayout()
         brandsCollectionView.collectionViewLayout = brandsCollectionViewLayout()
         
-        
         //Brands View Borders
         brandsCollectionView.layer.cornerRadius = 10
         brandsCollectionView.layer.borderWidth = 1.0
@@ -43,9 +42,6 @@ class HomeViewController: UIViewController {
         viewModel.bindBrandsData = {
             self.updateCollection()
         }
-        
-
-        
     }
     
     func updateCollection(){

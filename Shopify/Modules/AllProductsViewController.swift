@@ -12,8 +12,7 @@ class AllProductsViewController: UIViewController {
 
     @IBOutlet weak var search: UITextField!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBAction func searchTextFeild(_ sender: UITextField) {
-    }
+
     
     let viewModel = AllProductsViewModel()
     
@@ -29,7 +28,7 @@ class AllProductsViewController: UIViewController {
         }
     }
     
-    func updateCollection(){
+         func updateCollection(){
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
@@ -60,6 +59,7 @@ class AllProductsViewController: UIViewController {
 
     extension AllProductsViewController :
         UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+        
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
             return viewModel.products.count
         }
@@ -86,6 +86,7 @@ class AllProductsViewController: UIViewController {
             
             return cell
         }
+        
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC

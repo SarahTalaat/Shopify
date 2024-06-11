@@ -28,8 +28,5 @@ class AllProductsViewModel{
             self.products = product?.products ?? []
         }
     }
-    
-    
-    
-    
+     
 }
