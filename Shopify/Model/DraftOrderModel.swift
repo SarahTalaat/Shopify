@@ -23,6 +23,7 @@ struct DraftOrder: Codable  {
 }
 
 struct LineItem: Codable {
+    let id: Int
     let title: String
     let variant_id: Int
     let variant_title: String

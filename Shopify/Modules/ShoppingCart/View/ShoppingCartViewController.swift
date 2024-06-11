@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,CartTableViewCellDelegate{
    
     @IBOutlet weak var totalAmount: UILabel!
     @IBOutlet weak var shoppingCartTableView: UITableView!
@@ -70,6 +70,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
                cell.productAmount.text = "\(lineItem.quantity)"
             
                cell.productPrice.text = "\(lineItem.price)$"
+               cell.delegate = self
            }
            return cell
        }
@@ -98,5 +99,25 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
         navigationController?.pushViewController(addressVC, animated: true)
     }
 
-    
+    func didTapPlusButton(on cell: CartTableViewCell) {
+            guard let indexPath = shoppingCartTableView.indexPath(for: cell),
+                  var lineItem = draftOrder?.line_items[indexPath.row] else { return }
+            
+            lineItem.quantity += 1
+            draftOrder?.line_items[indexPath.row] = lineItem
+            updateTotalAmount()
+            shoppingCartTableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+        
+        func didTapMinusButton(on cell: CartTableViewCell) {
+            guard let indexPath = shoppingCartTableView.indexPath(for: cell),
+                  var lineItem = draftOrder?.line_items[indexPath.row] else { return }
+            
+            if lineItem.quantity > 1 {
+                lineItem.quantity -= 1
+                draftOrder?.line_items[indexPath.row] = lineItem
+                updateTotalAmount()
+                shoppingCartTableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+        }
 }

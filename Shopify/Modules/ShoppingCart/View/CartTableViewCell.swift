@@ -7,9 +7,12 @@
 
 import UIKit
 
-
+protocol CartTableViewCellDelegate: AnyObject {
+    func didTapPlusButton(on cell: CartTableViewCell)
+    func didTapMinusButton(on cell: CartTableViewCell)
+}
 class CartTableViewCell: UITableViewCell {
-
+    weak var delegate: CartTableViewCellDelegate?
     override func awakeFromNib() {
         super.awakeFromNib()
            self.layer.borderWidth = 1.0
@@ -25,13 +28,13 @@ class CartTableViewCell: UITableViewCell {
     }
 
     @IBAction func minus(_ sender: UIButton) {
-  
+        delegate?.didTapMinusButton(on: self)
         print("minus")
     }
     @IBOutlet weak var productPrice: UILabel!
     
     @IBAction func plus(_ sender: UIButton) {
-
+        delegate?.didTapPlusButton(on: self)
         print("plus")
     }
     
