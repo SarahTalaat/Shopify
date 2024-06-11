@@ -16,6 +16,10 @@ enum AuthErrorCode: Error {
 class SignInViewModel: SignInViewModelProtocol {
     
     let authServiceProtocol: AuthServiceProtocol
+    var name: String?
+    var email: String?
+    var favId: String?
+    var shopCartId: String?
     
     var user: UserModel? {
         didSet {
@@ -29,6 +33,8 @@ class SignInViewModel: SignInViewModelProtocol {
             self.bindErrorViewModelToController()
         }
     }
+    
+    
     
     var customerID: String? {
         didSet{
@@ -66,70 +72,59 @@ class SignInViewModel: SignInViewModelProtocol {
     }
     
 
-    private func fetchCustomerID() {
+//    private func fetchCustomerID() {
+//        guard let email = user?.email else {
+//            print("User email is nil")
+//            return
+//        }
+//        authServiceProtocol.getCustomerId(forEmail: email) { [weak self] customerId in
+//            print("si: fetchCustomerId: \(customerId ?? "No customer id found")")
+//
+//            SharedDataRepository.instance.customerId = customerId
+//            self?.fetchCustomerDataFromDatabase(customerID: customerId ?? "000000")
+//            print("si: after getchCustomerId assign: \(self?.customerID ?? "No customer id found")")
+//
+//
+//
+//        }
+//
+//    }
+    
+    private func fetchCustomerID(){
+        
         guard let email = user?.email else {
             print("User email is nil")
             return
         }
-        authServiceProtocol.getCustomerId(forEmail: email) { [weak self] customerId in
-            print("si: fetchCustomerId: \(customerId ?? "No customer id found")")
-            self?.customerID = customerId
-            self?.fetchCustomerDataFromDatabase(customerID: customerId ?? "000000")
-            print("si: after getchCustomerId assign: \(self?.customerID ?? "No customer id found")")
+        
+        authServiceProtocol.fetchCustomerDataFromRealTimeDatabase(forEmail: email){
+            [weak self] customerDataModel in
             
-
+            print("si: param email: \(email)")
+            print("si: customerDataModel: \(customerDataModel ?? CustomerData(customerId: "NOOOID", name: "NOOOName", email: "NOOOEmail", favouriteId: "NOOOFavID", shoppingCartId: "NOOOShoppingID"))")
+            SharedDataRepository.instance.customerName = customerDataModel?.name
+            SharedDataRepository.instance.customerId = customerDataModel?.customerId
+            SharedDataRepository.instance.shoppingCartId = customerDataModel?.shoppingCartId
+            SharedDataRepository.instance.favouriteId = customerDataModel?.favouriteId
             
+            print("si: inside: name: \(SharedDataRepository.instance.customerName ?? "NONAME")")
+            print("si: inside email: \(SharedDataRepository.instance.customerEmail ?? "NOEMAIL")")
+            print("si: inside: Cid: \(SharedDataRepository.instance.customerId ?? "NO CID")")
+            print("si: inside: favId: \(SharedDataRepository.instance.favouriteId ?? "NO FID")")
+            print("si: inside: shoppingCartId: \(SharedDataRepository.instance.shoppingCartId ?? "NO ShopID")")
         }
-
+        SharedDataRepository.instance.customerEmail = user?.email
+        
+//        print("si: outside: name: \(SharedDataRepository.instance.customerName ?? "NONAME")")
+//        print("si: outside: email: \(SharedDataRepository.instance.customerEmail ?? "NOEMAIL")")
+//        print("si: outside: Cid: \(SharedDataRepository.instance.customerId ?? "NO CID")")
+//        print("si: outside: favId: \(SharedDataRepository.instance.favouriteId ?? "NO FID")")
+//        print("si: outside: shoppingCartId: \(SharedDataRepository.instance.shoppingCartId ?? "NO ShopID")")
+        
     }
     
-    func fetchCustomerDataFromDatabase(customerID: String) {
-        let dispatchGroup = DispatchGroup()
-        
-        dispatchGroup.enter()
-        authServiceProtocol.getEmail(forCustomerId: customerID) { custEmail in
-            if let custEmail = custEmail {
-                print("custEmail: \(custEmail)")
-            } else {
-                print("Error: Failed to fetch email")
-            }
-            dispatchGroup.leave()
-        }
-        
-        dispatchGroup.enter()
-        authServiceProtocol.getName(forCustomerId: customerID) { custName in
-            if let custName = custName {
-                print("custName: \(custName)")
-            } else {
-                print("Error: Failed to fetch name")
-            }
-            dispatchGroup.leave()
-        }
-        
-        dispatchGroup.enter()
-        authServiceProtocol.getFavouriteId(forCustomerId: customerID) { custFavId in
-            if let custFavId = custFavId {
-                print("custFavId: \(custFavId)")
-            } else {
-                print("Error: Failed to fetch fav ID")
-            }
-            dispatchGroup.leave()
-        }
-        
-        dispatchGroup.enter()
-        authServiceProtocol.getShoppingCartId(forCustomerId: customerID) { custShopCartId in
-            if let custShopCartId = custShopCartId {
-                print("custShopCartId: \(custShopCartId)")
-            } else {
-                print("Error: Failed to fetch shopping cart ID")
-            }
-            dispatchGroup.leave()
-        }
-        
-        dispatchGroup.notify(queue: .main) {
-            print("All asynchronous tasks have completed")
-        }
-    }
+
+
 }
 
 

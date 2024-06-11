@@ -63,36 +63,39 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
 
-    func getCustomerId(forEmail email: String, completion: @escaping (String?) -> Void) {
+    func fetchCustomerDataFromRealTimeDatabase(forEmail email: String, completion: @escaping (CustomerData?) -> Void) {
         let ref = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
-        print("Firebase: encoded email: \(encodedEmail)")
         let customersRef = ref.child("customers").child(encodedEmail)
         
         customersRef.observeSingleEvent(of: .value) { snapshot in
-            print("Firebase: Query snapshot value: \(snapshot.value ?? "No data")")
-            
             guard let customerData = snapshot.value as? [String: Any] else {
                 print("Firebase: No data found or error occurred")
                 completion(nil)
                 return
             }
-           
+            
             if let customerEmail = customerData["email"] as? String, customerEmail == email {
-                if let customerId = customerData["customerId"] as? String {
-                    print("Firebase: Matched customer ID for email: \(email)")
-                    print("Firebase: Matched customer ID : \(customerId)")
-                    completion(customerId)
-                } else {
-                    print("Firebase: Customer ID not found")
+                guard let customerId = customerData["customerId"] as? String,
+                      let name = customerData["name"] as? String,
+                      let favouriteId = customerData["favouriteId"] as? String,
+                      let shoppingCartId = customerData["shoppingCartId"] as? String else {
+                    print("Firebase: Missing data for the customer")
                     completion(nil)
+                    return
                 }
+                
+                let customer = CustomerData(customerId: customerId, name: name, email: email, favouriteId: favouriteId, shoppingCartId: shoppingCartId)
+                print("Firebase: customer: \(customer)")
+                print("Firebase: Customer data fetched successfully")
+                completion(customer)
             } else {
                 print("Firebase: No matching email found")
                 completion(nil)
             }
         }
     }
+
     
     func isEmailTaken(email: String, completion: @escaping (Bool) -> Void) {
         let ref = Database.database().reference()
@@ -105,60 +108,6 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
 
-    func getEmail(forCustomerId customerId: String, completion: @escaping (String?) -> Void) {
-            let ref = Database.database().reference().child("customers")
-            ref.queryOrdered(byChild: "customerId").queryEqual(toValue: customerId).observeSingleEvent(of: .value) { snapshot in
-                guard let customers = snapshot.value as? [String: Any],
-                      let customerData = customers.values.first as? [String: Any],
-                      let email = customerData["email"] as? String else {
-                    completion(nil)
-                    return
-                }
-                print("Firebase getEmail: \(email)")
-                completion(email)
-            }
-        }
-        
-        func getName(forCustomerId customerId: String, completion: @escaping (String?) -> Void) {
-            let ref = Database.database().reference().child("customers")
-            ref.queryOrdered(byChild: "customerId").queryEqual(toValue: customerId).observeSingleEvent(of: .value) { snapshot in
-                guard let customers = snapshot.value as? [String: Any],
-                      let customerData = customers.values.first as? [String: Any],
-                      let name = customerData["name"] as? String else {
-                    completion(nil)
-                    return
-                }
-                print("Firebase getName: \(name)")
-                completion(name)
-            }
-        }
-        
-        func getFavouriteId(forCustomerId customerId: String, completion: @escaping (String?) -> Void) {
-            let ref = Database.database().reference().child("customers")
-            ref.queryOrdered(byChild: "customerId").queryEqual(toValue: customerId).observeSingleEvent(of: .value) { snapshot in
-                guard let customers = snapshot.value as? [String: Any],
-                      let customerData = customers.values.first as? [String: Any],
-                      let favouriteId = customerData["favouriteId"] as? String else {
-                    completion(nil)
-                    return
-                }
-                print("Firebase getFavId: \(favouriteId)")
-                completion(favouriteId)
-            }
-        }
-        
-        func getShoppingCartId(forCustomerId customerId: String, completion: @escaping (String?) -> Void) {
-            let ref = Database.database().reference().child("customers")
-            ref.queryOrdered(byChild: "customerId").queryEqual(toValue: customerId).observeSingleEvent(of: .value) { snapshot in
-                guard let customers = snapshot.value as? [String: Any],
-                      let customerData = customers.values.first as? [String: Any],
-                      let shoppingCartId = customerData["shoppingCartId"] as? String else {
-                    completion(nil)
-                    return
-                }
-                print("Firebase getShoppingCartId: \(shoppingCartId)")
-                completion(shoppingCartId)
-            }
-        }
+
 
 }

@@ -20,6 +20,8 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var register: UIButton!
     var sharedMethods: SharedMethods?
     
+    var userProfileViewModel: UserProfileViewModelProfileProtocol!
+    
     @IBAction func ordersBtn(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Second", bundle: nil)
                  let orders = storyboard.instantiateViewController(withIdentifier: "OrdersViewController") as! OrdersViewController
@@ -41,9 +43,16 @@ class ProfileViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+  
         ordersCollectionView.collectionViewLayout = ordersCollectionViewLayout()
         wishlistCollectionView.collectionViewLayout = wishlistCollectionViewLayout()
         sharedMethods = SharedMethods(viewController: self)
+        
+        
+        print("Profile View Controller ViewDidLoad")
+        userProfileViewModel = DependencyProvider.userProfileViewModel
+        bindViewModel() 
         
         let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
         let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
@@ -59,7 +68,16 @@ class ProfileViewController: UIViewController {
        
     }
     
-    
+    private func bindViewModel() {
+        userProfileViewModel.bindUserViewModelToController = { [weak self] in
+            DispatchQueue.main.async {
+                self?.welcomeLabel.text = "Welcome\(self?.userProfileViewModel?.name)"
+                print("Profile: View: name: \(self?.userProfileViewModel?.name ?? "Nope there is no value for name!!!")")
+                self?.usernameLabel.text = self?.userProfileViewModel?.name
+                self?.gmailLabel.text = self?.userProfileViewModel?.email
+            }
+        }
+    }
     
     
     func ordersCollectionViewLayout() -> UICollectionViewCompositionalLayout {

@@ -29,6 +29,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
     func signUp(email: String, password: String, firstName: String) {
         print("vm Sign up called with email: \(email), firstName: \(firstName)")
 
+        
         let customerRequest = CustomerRequest(first_name: firstName, email: email, verified_email: true)
         let customerModelRequest = CustomerModelRequest(customer: customerRequest)
 
