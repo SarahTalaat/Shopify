@@ -12,7 +12,6 @@ class SettingsScreenViewController: UIViewController {
     @IBOutlet weak var addressView: UIView!
     @IBOutlet weak var currentAddress: UILabel!
 
-  //  var sharedMethods: SharedMethods?
    
     @IBAction func addressBtn(_ sender: UIButton) {
          let addressVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "addressViewController") as! AddressViewController
@@ -80,15 +79,7 @@ class SettingsScreenViewController: UIViewController {
         currencyView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
         currencyView.layer.shadowOpacity = 0.5
         
-        print("test settings")
-        print("test settings")
-        
 
     }
-    
-
-    
-
-    
-
+  
 }

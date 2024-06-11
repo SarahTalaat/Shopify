@@ -75,8 +75,20 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zfj-1z-WK0">
+                        <rect key="frame" x="279" y="29" width="48" height="27"/>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" image="trash" catalog="system">
+                            <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </buttonConfiguration>
+                        <connections>
+                            <action selector="deleteBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="cBm-r4-GBh"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="Zfj-1z-WK0" firstAttribute="leading" secondItem="ZNp-Nz-EwC" secondAttribute="trailing" constant="82" id="0cU-AG-XHu"/>
+                    <constraint firstAttribute="trailing" secondItem="Zfj-1z-WK0" secondAttribute="trailing" constant="17" id="18b-AM-DYT"/>
                     <constraint firstItem="d9S-Vi-gKU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="5FD-cc-3t2"/>
                     <constraint firstItem="ZNp-Nz-EwC" firstAttribute="top" secondItem="d9S-Vi-gKU" secondAttribute="bottom" constant="2.3300000000000001" id="7t5-dR-k8e"/>
                     <constraint firstItem="HD3-Jf-Aij" firstAttribute="leading" secondItem="sni-Hf-Zl9" secondAttribute="trailing" constant="22" id="Byb-HH-h7C"/>
@@ -84,10 +96,12 @@
                     <constraint firstItem="HD3-Jf-Aij" firstAttribute="top" secondItem="d9S-Vi-gKU" secondAttribute="bottom" constant="1.6699999999999999" id="Drs-cz-OBC"/>
                     <constraint firstItem="ZNp-Nz-EwC" firstAttribute="leading" secondItem="HD3-Jf-Aij" secondAttribute="trailing" constant="2" id="KKl-uX-nMf"/>
                     <constraint firstItem="ZNp-Nz-EwC" firstAttribute="leading" secondItem="HD3-Jf-Aij" secondAttribute="trailing" constant="2" id="T2z-Mg-fGc"/>
+                    <constraint firstItem="Zfj-1z-WK0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="29" id="TXo-ec-vPp"/>
                     <constraint firstItem="jtx-s5-RNA" firstAttribute="top" secondItem="ZNp-Nz-EwC" secondAttribute="bottom" constant="23.670000000000002" id="Veg-MY-hme"/>
                     <constraint firstItem="oGa-DV-9qb" firstAttribute="leading" secondItem="sni-Hf-Zl9" secondAttribute="trailing" constant="20" id="YqD-oH-QXo"/>
                     <constraint firstItem="sni-Hf-Zl9" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="bEU-8b-MQ0"/>
                     <constraint firstAttribute="bottom" secondItem="sni-Hf-Zl9" secondAttribute="bottom" id="gyo-NM-zOF"/>
+                    <constraint firstItem="Pja-xS-PbI" firstAttribute="top" secondItem="Zfj-1z-WK0" secondAttribute="bottom" constant="5" id="kHu-eZ-7Ht"/>
                     <constraint firstItem="d9S-Vi-gKU" firstAttribute="leading" secondItem="sni-Hf-Zl9" secondAttribute="trailing" constant="22" id="mUK-nm-xFy"/>
                     <constraint firstItem="Pja-xS-PbI" firstAttribute="leading" secondItem="sni-Hf-Zl9" secondAttribute="trailing" constant="189" id="nI9-bo-S90"/>
                     <constraint firstItem="3Jj-Ye-lxG" firstAttribute="top" secondItem="ZNp-Nz-EwC" secondAttribute="bottom" constant="18.670000000000002" id="utV-au-VYs"/>
@@ -107,6 +121,7 @@
     <resources>
         <image name="minus.circle" catalog="system" width="128" height="123"/>
         <image name="plus.circle" catalog="system" width="128" height="123"/>
+        <image name="trash" catalog="system" width="117" height="128"/>
         <image name="try" width="201" height="251"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

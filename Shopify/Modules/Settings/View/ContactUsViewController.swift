@@ -24,9 +24,6 @@ class ContactUsViewController: UIViewController {
         emailView.layer.shadowOpacity = 0.5
         self.title = "Contact Us"
     }
-    
-
-    
     @IBOutlet weak var phoneView: UIView!
     
     @IBOutlet weak var emailView: UIView!

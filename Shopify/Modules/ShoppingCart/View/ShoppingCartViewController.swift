@@ -120,4 +120,23 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
                 shoppingCartTableView.reloadRows(at: [indexPath], with: .automatic)
             }
         }
+    func didTapDeleteButton(on cell: CartTableViewCell) {
+            guard let indexPath = shoppingCartTableView.indexPath(for: cell),
+                  var draftOrder = draftOrder else { return }
+            
+            draftOrder.line_items.remove(at: indexPath.row)
+            
+            draftOrderService.updateDraftOrder(draftOrder: draftOrder) { [weak self] result in
+                switch result {
+                case .success(let updatedDraftOrder):
+                    self?.draftOrder = updatedDraftOrder
+                    DispatchQueue.main.async {
+                        self?.shoppingCartTableView.reloadData()
+                        self?.updateTotalAmount()
+                    }
+                case .failure(let error):
+                    print("Failed to update draft order: \(error.localizedDescription)")
+                }
+            }
+        }
 }

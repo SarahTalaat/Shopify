@@ -10,7 +10,9 @@ import UIKit
 protocol CartTableViewCellDelegate: AnyObject {
     func didTapPlusButton(on cell: CartTableViewCell)
     func didTapMinusButton(on cell: CartTableViewCell)
+    func didTapDeleteButton(on cell: CartTableViewCell)
 }
+
 class CartTableViewCell: UITableViewCell {
     weak var delegate: CartTableViewCellDelegate?
     override func awakeFromNib() {
@@ -38,6 +40,10 @@ class CartTableViewCell: UITableViewCell {
         print("plus")
     }
     
+    
+    @IBAction func deleteBtn(_ sender: UIButton) {
+        delegate?.didTapDeleteButton(on: self)
+    }
     @IBOutlet weak var productimage: UIImageView!
     @IBOutlet weak var productAmount: UILabel!
     @IBOutlet weak var productSize: UILabel!
