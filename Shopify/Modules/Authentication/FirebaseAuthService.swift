@@ -12,17 +12,66 @@ import FirebaseDatabase
 
 class FirebaseAuthService: AuthServiceProtocol {
     
+
     func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
-            self?.handleAuthResult(result: result, error: error, completion: completion)
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let user = result?.user else {
+                let unknownError = NSError(domain: "FirebaseAuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
+                completion(.failure(unknownError))
+                return
+            }
+            
+            self?.checkEmailVerification(for: user) { isVerified, error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                if isVerified {
+                    let userModel = UserModel(uid: user.uid, email: user.email ?? "")
+                    completion(.success(userModel))
+                } else {
+                    let verificationError = NSError(domain: "FirebaseAuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Email not verified. Please check your email for a verification link."])
+                    completion(.failure(verificationError))
+                }
+            }
         }
     }
     
     func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
-            self?.handleAuthResult(result: result, error: error, completion: completion)
+            guard self != nil else { return }
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let user = result?.user else {
+                let unknownError = NSError(domain: "FirebaseAuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
+                completion(.failure(unknownError))
+                return
+            }
+            
+            // Send verification email
+            user.sendEmailVerification { error in
+                if let error = error {
+                    print("Firebase: Error sending verification email: \(error.localizedDescription)")
+                } else {
+                    print("Firebase: Verification email sent successfully.")
+                }
+            }
+            
+            let userModel = UserModel(uid: user.uid, email: user.email ?? "")
+            print("Firebase: The user iddd: \(userModel.uid)")
+            completion(.success(userModel))
         }
     }
+
     
     private func handleAuthResult(result: AuthDataResult?, error: Error?, completion: @escaping (Result<UserModel, Error>) -> Void) {
         if let error = error {
@@ -39,7 +88,15 @@ class FirebaseAuthService: AuthServiceProtocol {
         print("The user iddd: \(userModel.uid)")
         completion(.success(userModel))
     }
-    
+    func checkEmailVerification(for user: User, completion: @escaping (Bool, Error?) -> Void) {
+        user.reload { error in
+            if let error = error {
+                completion(false, error)
+                return
+            }
+            completion(user.isEmailVerified, nil)
+        }
+    }
     func saveCustomerId(name: String, email: String, id: String, favouriteId: String, shoppingCartId: String) {
         let ref = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
@@ -108,6 +165,19 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
 
-
-
 }
+
+//    func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+//        Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
+//            self?.handleAuthResult(result: result, error: error, completion: completion)
+//        }
+//
+//
+//    }
+    
+//    func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+//        Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
+//            self?.handleAuthResult(result: result, error: error, completion: completion)
+//        }
+//    }
+    

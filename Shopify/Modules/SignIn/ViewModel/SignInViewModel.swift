@@ -12,6 +12,7 @@ import FirebaseAuth
 enum AuthErrorCode: Error {
     case wrongPassword
     case userNotFound
+    case emailNotVerified
 }
 class SignInViewModel: SignInViewModelProtocol {
     
@@ -70,25 +71,6 @@ class SignInViewModel: SignInViewModelProtocol {
             }
         }
     }
-    
-
-//    private func fetchCustomerID() {
-//        guard let email = user?.email else {
-//            print("User email is nil")
-//            return
-//        }
-//        authServiceProtocol.getCustomerId(forEmail: email) { [weak self] customerId in
-//            print("si: fetchCustomerId: \(customerId ?? "No customer id found")")
-//
-//            SharedDataRepository.instance.customerId = customerId
-//            self?.fetchCustomerDataFromDatabase(customerID: customerId ?? "000000")
-//            print("si: after getchCustomerId assign: \(self?.customerID ?? "No customer id found")")
-//
-//
-//
-//        }
-//
-//    }
     
     private func fetchCustomerID(){
         
