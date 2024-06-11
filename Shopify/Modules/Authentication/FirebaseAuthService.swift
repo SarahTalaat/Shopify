@@ -114,6 +114,7 @@ class FirebaseAuthService: AuthServiceProtocol {
                     completion(nil)
                     return
                 }
+                print("Firebase getEmail: \(email)")
                 completion(email)
             }
         }
@@ -127,6 +128,7 @@ class FirebaseAuthService: AuthServiceProtocol {
                     completion(nil)
                     return
                 }
+                print("Firebase getName: \(name)")
                 completion(name)
             }
         }
@@ -140,6 +142,7 @@ class FirebaseAuthService: AuthServiceProtocol {
                     completion(nil)
                     return
                 }
+                print("Firebase getFavId: \(favouriteId)")
                 completion(favouriteId)
             }
         }
@@ -153,6 +156,7 @@ class FirebaseAuthService: AuthServiceProtocol {
                     completion(nil)
                     return
                 }
+                print("Firebase getShoppingCartId: \(shoppingCartId)")
                 completion(shoppingCartId)
             }
         }

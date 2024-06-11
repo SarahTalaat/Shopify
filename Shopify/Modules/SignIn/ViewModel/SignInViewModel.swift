@@ -33,7 +33,6 @@ class SignInViewModel: SignInViewModelProtocol {
     var customerID: String? {
         didSet{
             self.bindUserViewModelToController()
-            fetchCustomerID()
         }
     }
     
@@ -75,8 +74,8 @@ class SignInViewModel: SignInViewModelProtocol {
         authServiceProtocol.getCustomerId(forEmail: email) { [weak self] customerId in
             print("si: fetchCustomerId: \(customerId ?? "No customer id found")")
             self?.customerID = customerId
-            self?.fetchCustomerDataFromDatabase(customerID: self?.customerID ?? "000000000" )
-            print("si: after getchCustomerId assign: \(customerId ?? "No customer id found")")
+            self?.fetchCustomerDataFromDatabase(customerID: customerId ?? "000000")
+            print("si: after getchCustomerId assign: \(self?.customerID ?? "No customer id found")")
             
 
             
@@ -84,34 +83,53 @@ class SignInViewModel: SignInViewModelProtocol {
 
     }
     
-    func fetchCustomerDataFromDatabase(customerID: String){
-        var custEmail = authServiceProtocol.getEmail(forCustomerId: customerID, completion: { custEmail in
-            print("custEmail: \(custEmail ?? "No email found")")
-            
-        })
-        print(" ")
-        var custFavId = authServiceProtocol.getName(forCustomerId: customerID, completion: { custFavId in
-            print("custFavId: \(custFavId ?? "No favourite ID found")")
-            
-        })
-
-        print(" ")
+    func fetchCustomerDataFromDatabase(customerID: String) {
+        let dispatchGroup = DispatchGroup()
         
-        var custShopCartId = authServiceProtocol.getShoppingCartId(forCustomerId: customerID, completion: { custShopCartId in
-            print("custShopCartId: \(custShopCartId ?? "No shopping cart ID found")")
-            
-        })
+        dispatchGroup.enter()
+        authServiceProtocol.getEmail(forCustomerId: customerID) { custEmail in
+            if let custEmail = custEmail {
+                print("custEmail: \(custEmail)")
+            } else {
+                print("Error: Failed to fetch email")
+            }
+            dispatchGroup.leave()
+        }
         
-        print(" ")
+        dispatchGroup.enter()
+        authServiceProtocol.getName(forCustomerId: customerID) { custName in
+            if let custName = custName {
+                print("custName: \(custName)")
+            } else {
+                print("Error: Failed to fetch name")
+            }
+            dispatchGroup.leave()
+        }
         
-        var custName = authServiceProtocol.getName(forCustomerId: customerID, completion: { custName in
-            print("custName: \(custName ?? "No name found")")
-        })
-
-        print(" ")
+        dispatchGroup.enter()
+        authServiceProtocol.getFavouriteId(forCustomerId: customerID) { custFavId in
+            if let custFavId = custFavId {
+                print("custFavId: \(custFavId)")
+            } else {
+                print("Error: Failed to fetch fav ID")
+            }
+            dispatchGroup.leave()
+        }
         
+        dispatchGroup.enter()
+        authServiceProtocol.getShoppingCartId(forCustomerId: customerID) { custShopCartId in
+            if let custShopCartId = custShopCartId {
+                print("custShopCartId: \(custShopCartId)")
+            } else {
+                print("Error: Failed to fetch shopping cart ID")
+            }
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            print("All asynchronous tasks have completed")
+        }
     }
-    
 }
 
 
