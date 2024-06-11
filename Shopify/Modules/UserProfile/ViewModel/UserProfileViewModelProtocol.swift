@@ -11,4 +11,5 @@ protocol UserProfileViewModelProfileProtocol {
     var name: String? { get }
     var email: String? { get }
     var bindUserViewModelToController: (() -> ()) { get set }
+    func userPersonalData()
 }

@@ -52,7 +52,12 @@ class ProfileViewController: UIViewController {
         
         print("Profile View Controller ViewDidLoad")
         userProfileViewModel = DependencyProvider.userProfileViewModel
-        bindViewModel() 
+        bindViewModel()
+        userProfileViewModel.userPersonalData()
+        print("Profile: test name : \(userProfileViewModel.name)")
+        print("Profile: test email : \(userProfileViewModel.email)")
+        
+        
         
         let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
         let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
@@ -71,7 +76,7 @@ class ProfileViewController: UIViewController {
     private func bindViewModel() {
         userProfileViewModel.bindUserViewModelToController = { [weak self] in
             DispatchQueue.main.async {
-                self?.welcomeLabel.text = "Welcome\(self?.userProfileViewModel?.name)"
+                self?.welcomeLabel.text = "Welcome \(self?.userProfileViewModel?.name ?? "No valueeee for name!!!!!")"
                 print("Profile: View: name: \(self?.userProfileViewModel?.name ?? "Nope there is no value for name!!!")")
                 self?.usernameLabel.text = self?.userProfileViewModel?.name
                 self?.gmailLabel.text = self?.userProfileViewModel?.email
