@@ -62,6 +62,8 @@ class SignInViewModel: SignInViewModelProtocol {
                     switch authError {
                     case .wrongPassword, .userNotFound:
                         self?.errorMessage = "Invalid email or password"
+                    case .emailNotVerified:
+                        self?.errorMessage = "Email not verified. Please check your email for a verification link."
                     default:
                         self?.errorMessage = "An error occurred. Please try again later."
                     }

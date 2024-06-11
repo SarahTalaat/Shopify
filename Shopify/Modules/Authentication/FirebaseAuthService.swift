@@ -36,12 +36,12 @@ class FirebaseAuthService: AuthServiceProtocol {
                     let userModel = UserModel(uid: user.uid, email: user.email ?? "")
                     completion(.success(userModel))
                 } else {
-                    let verificationError = NSError(domain: "FirebaseAuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Email not verified. Please check your email for a verification link."])
-                    completion(.failure(verificationError))
+                    completion(.failure(AuthErrorCode.emailNotVerified))
                 }
             }
         }
     }
+
     
     func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
