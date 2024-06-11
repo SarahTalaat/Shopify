@@ -32,7 +32,7 @@ class ProductViewController: UIViewController {
         collectionView.register(nibCell, forCellWithReuseIdentifier: "ProductsCollectionViewCell")
         collectionView.collectionViewLayout = brandsCollectionViewLayout()
         
-        containerView.isHidden = true
+        containerView.isHidden = false
         priceLabel.text = "No selected price"
         
         handleDropDownList()

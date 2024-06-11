@@ -29,6 +29,7 @@ class CategoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        search.isHidden = false
         collectionView.collectionViewLayout = productCollectionViewLayout()
         sharedMethods = SharedMethods(viewController: self)
         

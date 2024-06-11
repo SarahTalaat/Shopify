@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class AllProductsViewController: UIViewController {
 
@@ -14,13 +15,27 @@ class AllProductsViewController: UIViewController {
     @IBAction func searchTextFeild(_ sender: UITextField) {
     }
     
+    let viewModel = AllProductsViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "All Products"
         let nibCell = UINib(nibName: "ProductsCollectionViewCell", bundle: nil)
         collectionView.register(nibCell, forCellWithReuseIdentifier: "ProductsCollectionViewCell")
         collectionView.collectionViewLayout = brandsCollectionViewLayout()
+        
+        viewModel.bindAllProducts = {
+            self.updateCollection()
+        }
     }
     
+    func updateCollection(){
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    
+    // MARK: - Collection View Layout
     
     func brandsCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
@@ -39,38 +54,42 @@ class AllProductsViewController: UIViewController {
                    return section
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
-extension AllProductsViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsCollectionViewCell", for: indexPath) as! ProductsCollectionViewCell
+    // MARK: - Collection View Methods
+
+    extension AllProductsViewController :
+        UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+            return viewModel.products.count
+        }
         
-        cell.brandLabel.text = "Zara"
-        cell.priceLabel.text = "9$"
-        cell.productNameLabel.text = "Black Dress"
-        return cell
+        
+        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsCollectionViewCell", for: indexPath) as! ProductsCollectionViewCell
+            let item = viewModel.products[indexPath.row]
+            
+            cell.brandLabel.text = item.vendor
+            cell.priceLabel.text = "\(item.variants[0].price)$"
+            
+            if let range = item.title.range(of: "|") {
+                var truncatedString = String(item.title[range.upperBound...]).trimmingCharacters(in: .whitespaces)
+                
+                if let nextRange = truncatedString.range(of: "|") {
+                    truncatedString = String(truncatedString[..<nextRange.lowerBound]).trimmingCharacters(in: .whitespaces)
+                    cell.productNameLabel.text = truncatedString
+                }
+                cell.productNameLabel.text = truncatedString
+            }
+            let imageURL = URL(string: item.images[0].src)
+            cell.productImage.kf.setImage(with: imageURL)
+            
+            return cell
+        }
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
+            navigationController?.pushViewController(brandsViewController, animated: true)
+          }
+     
     }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
-        navigationController?.pushViewController(brandsViewController, animated: true)
-      }
-    
-    
-    
-    
-}
