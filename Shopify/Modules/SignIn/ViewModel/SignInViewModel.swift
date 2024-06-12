@@ -60,8 +60,12 @@ class SignInViewModel: SignInViewModelProtocol {
                 self?.user = user
                 self?.fetchCustomerID()
                 let urlString = APIConfig.draft_orders.url
-                var draftOrder = self?.draftOrderDummyModel()
-                self?.postDraftOrder(urlString: urlString, parameters: draftOrder ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX")
+                var draftOrder1 = self?.draftOrderDummyModel1()
+                var draftOrder2 = self?.draftOrderDummyModel2()
+                
+                
+                self?.postDraftOrder(urlString: urlString, parameters: draftOrder1 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX")
+                self?.postDraftOrder(urlString: urlString, parameters: draftOrder2 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX")
                 
                 SharedDataRepository.instance.isSignedIn = true
                 print("si: firebase firebase id user idddd view model: \(self?.user?.uid)")
@@ -122,7 +126,7 @@ class SignInViewModel: SignInViewModelProtocol {
     }
     
     
-    func draftOrderDummyModel() -> [String:Any] {
+    func draftOrderDummyModel1() -> [String:Any] {
         let draftOrder: [String: Any] = [
             "draft_order": [
                 "line_items": [
@@ -137,6 +141,20 @@ class SignInViewModel: SignInViewModelProtocol {
         return draftOrder
     }
     
+    func draftOrderDummyModel2() -> [String:Any] {
+        let draftOrder: [String:Any] = [
+            "draft_order": [
+                "line_items": [
+                    [
+                        "variant_id": 44382094393505,
+                        "quantity": 1
+                    ]
+                ]
+            ]
+        ]
+        
+        return draftOrder
+    }
 
 
 }
@@ -151,7 +169,7 @@ class SignInViewModel: SignInViewModelProtocol {
      "draft_order": [
          "line_items": [
              [
-                 "variant_id": 44382096457889,
+                 "variant_id": 44382094393505,
                  "quantity": 1
              ]
          ]
