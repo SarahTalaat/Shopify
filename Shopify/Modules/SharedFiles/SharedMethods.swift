@@ -49,6 +49,25 @@ class SharedMethods{
         viewController.navigationController?.pushViewController(settingsVC, animated: true)
     }
 
+    static func encodeEmail(_ email: String) -> String {
+        return email
+            .replacingOccurrences(of: ".", with: ",")
+            .replacingOccurrences(of: "#", with: "_hash_")
+            .replacingOccurrences(of: "$", with: "_dollar_")
+            .replacingOccurrences(of: "[", with: "_leftbracket_")
+            .replacingOccurrences(of: "]", with: "_rightbracket_")
+            .replacingOccurrences(of: "@", with: "_at_")
+    }
+    
+    static func decodeEmail(_ encodedEmail: String) -> String {
+        return encodedEmail
+            .replacingOccurrences(of: "_at_", with: "@")
+            .replacingOccurrences(of: "_rightbracket_", with: "]")
+            .replacingOccurrences(of: "_leftbracket_", with: "[")
+            .replacingOccurrences(of: "_dollar_", with: "$")
+            .replacingOccurrences(of: "_hash_", with: "#")
+            .replacingOccurrences(of: ",", with: ".")
+    }
 
     
 }

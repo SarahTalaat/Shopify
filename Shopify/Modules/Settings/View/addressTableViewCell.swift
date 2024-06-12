@@ -9,6 +9,7 @@ import UIKit
 
 class addressTableViewCell: UITableViewCell {
 
+    var defaultButtonAction: (() -> Void)?
     override func awakeFromNib() {
         super.awakeFromNib()
         self.layer.borderColor = UIColor.lightGray.cgColor
@@ -23,18 +24,40 @@ class addressTableViewCell: UITableViewCell {
     }
 
     @IBAction func checkBtnAddress(_ sender: UIButton) {
+        defaultButtonAction?()
     }
     
     @IBOutlet weak var currentAddress: UILabel!
     @IBOutlet weak var addressDetails: UILabel!
     @IBOutlet weak var userName: UILabel!
+    
+    @IBOutlet weak var defaultButton: UIButton!
+    
+
+    
+    
+    @IBOutlet weak var checked: UIButton!
+  
+
+    
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
        
     }
-    func configure(with address: Address) {
+    func configure(with address: Address, isDefault: Bool) {
         userName.text = address.first_name
         addressDetails.text = "\(address.address1), \(address.city), \(address.country)"
-       }
+        defaultButton.isHidden = !isDefault
+                let image = isDefault ? UIImage(named: "radio") : UIImage(named: "unRadio")
+        checked.setBackgroundImage(image, for: .normal)
+    }
+    
+    
+    @IBAction func checkedBtn(_ sender: UIButton) {
+        defaultButtonAction?()
+        print("ch")
+    }
+   
 }

@@ -14,6 +14,8 @@ class SignInVC: UIViewController {
         viewModel = DependencyProvider.signInViewModel
         setUpSignInScreenUI()
         bindViewModel()
+        
+        print("Sign in view controller")
     }
     
     @IBAction func signInButton(_ sender: UIButton) {
