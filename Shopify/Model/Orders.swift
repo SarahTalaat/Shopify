@@ -7,12 +7,14 @@
 
 import Foundation
 
-    struct OrdersResponse:Encodable{
+    struct OrdersResponse:Decodable{
+        let orders : [Orders]
+    }
+    struct OrdersSend:Encodable{
         let order : Orders
     }
 
-    struct Orders: Encodable{
-
+    struct Orders: Encodable,Decodable{
             let id: Int
             let confirmation_number: String
             let confirmed: Bool
@@ -21,7 +23,6 @@ import Foundation
             let email: String
             let financial_status:String
             let order_number: Int
-            let presentment_currency: String
             let source_name: String
             let tags: String
             let token: String
@@ -31,21 +32,13 @@ import Foundation
             let line_items : [LineItemss]
     }
 
-    struct LineItemss:Encodable{
-        
+    struct LineItemss:Encodable,Decodable{
             let id : Int
             let name: String
             let price: String
-            let price_set: ShopMoney
             let quantity: Int
             let title: String
             let total_discount: String
-            let total_discount_set:ShopMoney
-    }
-
-    struct ShopMoney:Encodable{
-        let amount:String
-        let currency_code: String
     }
 
 

@@ -10,18 +10,25 @@ import UIKit
 class OrdersViewController: UIViewController {
 
     @IBOutlet weak var ordersCollectionView: UICollectionView!
-    
+    let ordersViewModel = OrdersViewModel()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         ordersCollectionView.collectionViewLayout = ordersCollectionViewLayout()
-
-        // Do any additional setup after loading the view.
-        
-      
+        ordersViewModel.bindAllOrders = {
+            self.updateCollection()
+        }
     }
     
+    func updateCollection(){
+            DispatchQueue.main.async { [weak self] in
+                self?.ordersCollectionView.reloadData()
+            }
+        }
+ 
     
-    
+    // MARK: - Collection View Layout Drawing
+
     func ordersCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -38,44 +45,41 @@ class OrdersViewController: UIViewController {
             return section
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
-extension OrdersViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AllOrdersCollectionViewCell", for: indexPath) as! AllOrdersCollectionViewCell
-        cell.layer.cornerRadius = 10
-        cell.layer.borderWidth = 1.0
-        cell.layer.borderColor = UIColor.lightGray.cgColor
-        cell.clipsToBounds = true
+    // MARK: - UICollectionView Methods
+
+    extension OrdersViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+        func numberOfSections(in collectionView: UICollectionView) -> Int {
+            return 1
+        }
         
-        cell.creationDate.text = "2024-6-22"
-        cell.totalPrice.text = "200$"
-            return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+          //  return min(ordersViewModel.orders.count, 2)
+            return 2
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AllOrdersCollectionViewCell", for: indexPath) as! AllOrdersCollectionViewCell
+            let item = ordersViewModel.orders[indexPath.row]
+            cell.layer.cornerRadius = 10
+            cell.layer.borderWidth = 1.0
+            cell.clipsToBounds = true
+            
+            
+            let date = item.created_at
+            let datePart = date.split(separator: "T").first.map(String.init)
+            cell.creationDate.text = "Created At: \(datePart ??  " ")"
+            cell.totalPrice.text = "Total Price: \(item.total_price)$"
+                return cell
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            let item = ordersViewModel.orders[indexPath.count]
             let storyboard = UIStoryboard(name: "Second", bundle: nil)
-                     let brandsViewController = storyboard.instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
-                     navigationController?.pushViewController(brandsViewController, animated: true)
-                  }
-    
-    }
+            let brandsViewController = storyboard.instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
+            
+               navigationController?.pushViewController(brandsViewController, animated: true)
+            }
+        
+}

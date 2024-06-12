@@ -190,7 +190,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             let couponId = viewModel.coupons[item].id
             viewModel.getDiscountCode(id: couponId) { discountCode in
                 guard let discountCode = discountCode else {
-                    // Handle the case where no discount code was fetched
                     print("Failed to fetch discount code")
                     return
                 }

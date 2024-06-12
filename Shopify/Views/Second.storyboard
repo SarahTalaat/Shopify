@@ -923,10 +923,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="gmailLabel" destination="dYr-VO-HoT" id="ZtH-ZO-dGs"/>
-                        <outlet property="login" destination="LLN-Js-QQf" id="SsF-mN-OxX"/>
+                        <outlet property="login" destination="LLN-Js-QQf" id="YkB-TW-Jrc"/>
                         <outlet property="ordersCollectionView" destination="shB-cC-cmm" id="Ck6-DA-zZb"/>
                         <outlet property="ordersLabel" destination="XfV-aU-1NN" id="6jY-Wk-GcL"/>
-                        <outlet property="register" destination="xEC-Pu-Vul" id="1PP-Bm-Xtt"/>
+                        <outlet property="register" destination="xEC-Pu-Vul" id="Jzp-76-9iM"/>
                         <outlet property="usernameLabel" destination="ZAO-1a-ZGq" id="tZV-za-Qnk"/>
                         <outlet property="welcomeLabel" destination="aZS-9J-q3O" id="apP-Gh-31B"/>
                         <outlet property="wishlistCollectionView" destination="5EK-z3-4w8" id="UGn-nJ-Bdf"/>
@@ -946,7 +946,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Orders" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dbn-di-dDD">
-                                <rect key="frame" x="16" y="108" width="160" height="41"/>
+                                <rect key="frame" x="26" y="108" width="160" height="41"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="34"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1002,14 +1002,14 @@
                             </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rUf-Kv-jes"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="Dbn-di-dDD" firstAttribute="top" secondItem="rUf-Kv-jes" secondAttribute="top" constant="16" id="02q-bp-o3T"/>
                             <constraint firstItem="xrv-03-3Sl" firstAttribute="top" secondItem="Dbn-di-dDD" secondAttribute="bottom" constant="20" id="1RR-Q7-yQK"/>
                             <constraint firstItem="rUf-Kv-jes" firstAttribute="bottom" secondItem="xrv-03-3Sl" secondAttribute="bottom" id="EZv-Jb-EUs"/>
                             <constraint firstItem="xrv-03-3Sl" firstAttribute="leading" secondItem="rUf-Kv-jes" secondAttribute="leading" constant="16" id="RsO-au-Wtb"/>
                             <constraint firstItem="rUf-Kv-jes" firstAttribute="trailing" secondItem="xrv-03-3Sl" secondAttribute="trailing" constant="16" id="kOf-bL-sJ8"/>
-                            <constraint firstItem="Dbn-di-dDD" firstAttribute="leading" secondItem="rUf-Kv-jes" secondAttribute="leading" constant="16" id="osx-0m-nDJ"/>
+                            <constraint firstItem="Dbn-di-dDD" firstAttribute="leading" secondItem="rUf-Kv-jes" secondAttribute="leading" constant="26" id="osx-0m-nDJ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Orders" id="XDL-EF-NuE"/>
