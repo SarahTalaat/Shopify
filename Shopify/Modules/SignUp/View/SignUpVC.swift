@@ -104,37 +104,33 @@
 import UIKit
 
 class SignUpVC: UIViewController {
-
     @IBOutlet weak var logoImage: UIImageView!
     @IBOutlet var passwordCustomTextField: CustomTextField!
     @IBOutlet var signUpButton: UIButton!
     @IBOutlet var alreadySignedInCustomButton: UIButton!
     @IBOutlet var emailCustomTextField: CustomTextField!
-    @IBOutlet var nameCustomTextField: CustomTextField!
+    @IBOutlet var firstNameCustomTextField: CustomTextField!
     var viewModel: SignUpViewModelProtocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         setUpSignUpScreenUI()
         makeCircularImage()
         viewModel = DependencyProvider.signUpViewModel
         bindViewModel()
-        
-   
-
     }
     
     @IBAction private func signUpButton(_ sender: UIButton) {
-        guard let name = nameCustomTextField.text, let email = emailCustomTextField.text, let password = passwordCustomTextField.text else { return }
-        viewModel.signUp(email: email, password: password)
+        guard let firstName = firstNameCustomTextField.text,
+              let email = emailCustomTextField.text,
+              let password = passwordCustomTextField.text else { return }
+        viewModel.signUp(email: email, password: password, firstName: firstName)
+        
     }
     
     private func bindViewModel() {
         viewModel.bindUserViewModelToController = {
-            // Handle successful sign-up, e.g., navigate to a different screen
-            self.showSignSuccessfulAlert(title: "Success", message: "You have created an account successfully , click ok to sign in", button1Title: "Ok") {
+            self.showSignSuccessfulAlert(title: "Success", message: "You have created an account successfully , you will receive a verification email , you have to get verified first to be able to sign in", button1Title: "Ok") {
                 self.navToSignIn()
             }
         }
@@ -142,17 +138,14 @@ class SignUpVC: UIViewController {
         viewModel.bindErrorViewModelToController = { [weak self] in
             DispatchQueue.main.async {
                 if let errorMessage = self?.viewModel.errorMessage {
-                    // Handle error message if needed
-                    self?.showSignSuccessfulAlert(title: "Failure", message: "Failed to create a new account , click Ok and try again", button1Title: "Ok", completion: {})
+                    self?.showSignSuccessfulAlert(title: "Failure", message: "\(errorMessage)", button1Title: "Ok", completion: {})
                 }
             }
         }
-
     }
     
     @IBAction func alreadyHaveAnAccountButtonTapped(_ sender: UIButton) {
         navToSignIn()
-        
     }
     
     func makeCircularImage() {
@@ -161,19 +154,17 @@ class SignUpVC: UIViewController {
     }
 
     @IBAction func continueAsAGuestButtonTapped(_ sender: UIButton) {
-        
         navToHome()
     }
     
-    func navToHome(){
+    func navToHome() {
         let storyboard = UIStoryboard(name: "Second", bundle: nil)
         if let tabBarController = storyboard.instantiateViewController(withIdentifier: "tabbar") as? UITabBarController {
-            // If you want to set it as the root view controller
             UIApplication.shared.windows.first?.rootViewController = tabBarController
         }
     }
     
-    func navToSignIn(){
+    func navToSignIn() {
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let signInVC = sb.instantiateViewController(withIdentifier: "SignInVC") as! SignInVC
         navigationController?.pushViewController(signInVC, animated: true)
@@ -181,13 +172,11 @@ class SignUpVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        // Ensure the button's corners are rounded
         CustomButton.buttonRoundedCorner(button: signUpButton)
     }
     
-    func setUpSignUpScreenUI(){
-        CustomTextField.customTextFieldUI(customTextField: nameCustomTextField, label: "Name : ")
+    func setUpSignUpScreenUI() {
+        CustomTextField.customTextFieldUI(customTextField: firstNameCustomTextField, label: "First Name : ")
         CustomTextField.customTextFieldUI(customTextField: emailCustomTextField, label: "Email : ")
         CustomTextField.customTextFieldUI(customTextField: passwordCustomTextField, label: "Password : ")
         CustomButton.buttonImageColor(button: alreadySignedInCustomButton)
@@ -196,34 +185,11 @@ class SignUpVC: UIViewController {
         CustomButton.setupButtonTitle(signUpButton)
     }
     
-
-//    private func showSignSuccessfulAlert(title: String , message: String , button1Title:String) {
-//        let alert = UIAlertController(title: title , message: message, preferredStyle: .alert)
-//
-//        alert.addAction(UIAlertAction(title: button1Title, style: .cancel, handler: nil))
-//
-//        present(alert, animated: true, completion: nil)
-//    }
-    
-    private func showSignSuccessfulAlert(title: String , message: String , button1Title:String, completion: @escaping () -> Void) {
-        let alert = UIAlertController(title: title , message: message, preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: button1Title, style: .cancel, handler: { _ in
+    private func showSignSuccessfulAlert(title: String, message: String, button1Title: String, completion: @escaping () -> Void) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: button1Title, style: .cancel) { _ in
             completion()
-        }))
-    
+        })
         present(alert, animated: true, completion: nil)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
-

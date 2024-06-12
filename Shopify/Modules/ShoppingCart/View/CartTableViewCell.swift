@@ -7,8 +7,14 @@
 
 import UIKit
 
-class CartTableViewCell: UITableViewCell {
+protocol CartTableViewCellDelegate: AnyObject {
+    func didTapPlusButton(on cell: CartTableViewCell)
+    func didTapMinusButton(on cell: CartTableViewCell)
+    func didTapDeleteButton(on cell: CartTableViewCell)
+}
 
+class CartTableViewCell: UITableViewCell {
+    weak var delegate: CartTableViewCellDelegate?
     override func awakeFromNib() {
         super.awakeFromNib()
            self.layer.borderWidth = 1.0
@@ -24,14 +30,20 @@ class CartTableViewCell: UITableViewCell {
     }
 
     @IBAction func minus(_ sender: UIButton) {
+        delegate?.didTapMinusButton(on: self)
         print("minus")
     }
     @IBOutlet weak var productPrice: UILabel!
     
     @IBAction func plus(_ sender: UIButton) {
+        delegate?.didTapPlusButton(on: self)
         print("plus")
     }
     
+    
+    @IBAction func deleteBtn(_ sender: UIButton) {
+        delegate?.didTapDeleteButton(on: self)
+    }
     @IBOutlet weak var productimage: UIImageView!
     @IBOutlet weak var productAmount: UILabel!
     @IBOutlet weak var productSize: UILabel!
