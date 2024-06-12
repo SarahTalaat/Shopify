@@ -24,7 +24,6 @@ class HomeViewController: UIViewController {
         adsCollectionView.collectionViewLayout = adsCollectionViewLayout()
         brandsCollectionView.collectionViewLayout = brandsCollectionViewLayout()
         
-        
         //Brands View Borders
         brandsCollectionView.layer.cornerRadius = 10
         brandsCollectionView.layer.borderWidth = 1.0
@@ -43,16 +42,15 @@ class HomeViewController: UIViewController {
         viewModel.bindBrandsData = {
             self.updateCollection()
         }
-        
-
-        
     }
     
     func updateCollection(){
-            DispatchQueue.main.async {
-                self.brandsCollectionView.reloadData()
+            DispatchQueue.main.async { [weak self] in
+                self?.brandsCollectionView.reloadData()
+                self?.adsCollectionView.reloadData()
             }
         }
+    
        
     // MARK: - Navigation Bar Items 
     
@@ -90,7 +88,7 @@ class HomeViewController: UIViewController {
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(150))
+                                                   heightDimension: .absolute(165))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
@@ -131,6 +129,10 @@ class HomeViewController: UIViewController {
 
 
 
+
+
+
+
 // MARK: - UICollectionView Methods
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -143,37 +145,37 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         case brandsCollectionView:
             return viewModel.brands.count
         default:
-            return 6
+            return viewModel.coupons.count
         }
-     
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-       
-       
+        
+        
         switch collectionView {
         case brandsCollectionView:
-         let item = viewModel.brands[indexPath.row]
+            let item = viewModel.brands[indexPath.row]
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrandsCollectionViewCell", for: indexPath) as! BrandsCollectionViewCell
             
             let imageURL = URL(string: item.image.src)
             cell.brandImage.kf.setImage(with: imageURL)
-              
+            
             cell.brandLabel.text = item.title
             return cell
             
             
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AdsCollectionViewCell", for: indexPath) as! AdsCollectionViewCell
-            cell.adsImage.image = UIImage(named: "Sale.jpeg")
+            let images = ["withsale.jpg","ss.jpg"]
+            cell.adsImage.image = UIImage(named: images[indexPath.row])
             return cell
-     
+            
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView {
-            
         case brandsCollectionView:
             let storyboard = UIStoryboard(name: "Second", bundle: nil)
             let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductViewController") as! ProductViewController
@@ -181,9 +183,47 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             brandsViewController.viewModel = vm
             print(vm.brandID)
             navigationController?.pushViewController(brandsViewController, animated: true)
-         default:
-         printContent("Ads")
+            
+        default:
+            let item = indexPath.row
+            let couponId = viewModel.coupons[item].id
+            viewModel.getDiscountCode(id: couponId) { discountCode in
+                guard let discountCode = discountCode else {
+                    // Handle the case where no discount code was fetched
+                    print("Failed to fetch discount code")
+                    return
+                }
+                
+                let discountMessage = item == 0 ? "You have just won a 20% discount coupon, copy this coupon and use it in the checkout process" : "You have just won a 10% discount coupon, copy this coupon and use it in the checkout process"
+                
+                self.showAlertWithTextField(title: "Congratulations!", message: discountMessage, discountCode: discountCode)
             }
         }
     }
+}
+// MARK: - Alert Handeling
 
+extension UIViewController {
+    
+    func showAlertWithTextField(title: String, message: String, discountCode: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alertController.addTextField { textField in
+            textField.text = discountCode
+            textField.isUserInteractionEnabled = true
+        }
+        
+        let copyAction = UIAlertAction(title: "Copy", style: .default) { _ in
+            if let textField = alertController.textFields?.first {
+                UIPasteboard.general.string = textField.text
+            }
+        }
+        
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        
+        alertController.addAction(copyAction)
+        alertController.addAction(okAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+}

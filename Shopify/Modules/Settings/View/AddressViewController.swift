@@ -16,6 +16,27 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
     }
     @IBOutlet weak var addressTableView: UITableView!
     override func viewDidLoad() {
+
+        super.viewDidLoad()
+        
+        let nib = UINib(nibName: "addressTableViewCell", bundle: nil)
+        addressTableView.register(nib, forCellReuseIdentifier: "addressTableViewCell")
+        
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: addressTableView.frame.width, height: 40))
+        headerView.backgroundColor = .clear
+        addressTableView.tableHeaderView = headerView
+        
+        addressTableView.delegate = self
+        addressTableView.dataSource = self
+        addressTableView.separatorStyle = .none
+        addressTableView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        
+    }
+        
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchAddresses()
+
           super.viewDidLoad()
 
           let nib = UINib(nibName: "addressTableViewCell", bundle: nil)
@@ -78,6 +99,7 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
 //            self?.setDefaultAddress(at: indexPath.row)
 //        }
         return cell
+
     }
     
 //    func setDefaultAddress(at index: Int) {

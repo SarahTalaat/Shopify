@@ -15,10 +15,19 @@ class HomeViewModel{
         }
     }
     
+    var coupons : [PriceRules] = []{
+        didSet{
+         self.bindBrandsData()
+        }
+    }
+    
     var bindBrandsData : (() -> ()) = {}
+    var bindCouponsData: (() -> Void)?
+
     
     init(){
         getBrands()
+        getCoupons()
     }
     
     func getBrands() {
@@ -26,5 +35,40 @@ class HomeViewModel{
             self.brands = brand?.smart_collections ??  []
           }
       }
+    
+    func getCoupons(){
+        NetworkUtilities.fetchData(responseType: PriceRulesResponse.self, endpoint: "price_rules.json"){ coupon in
+            self.coupons = coupon?.price_rules ?? []
+        }
+        print(coupons)
+        bindCouponsData?()
 
+    }
+    
+    func postDiscountCodes() {
+        let discountCodes = ["SUMMERSALE20OFF", "SUMMERSALE10OFF"]
+        
+        for (index, coupon) in coupons.enumerated() {
+            guard index < discountCodes.count else {
+                print("Not enough discount codes provided for all price rules.")
+                return
+            }
+            
+            let discountCodeData = DiscountCode(price_rule_id: coupon.id, code: discountCodes[index])
+            NetworkUtilities.postData(data: discountCodeData, endpoint: "price_rules/\(coupon.id)/discount_codes.json") { success in
+                if success {
+                    print("Discount code '\(discountCodes[index])' posted successfully for price rule with ID \(coupon.id)")
+                } else {
+                    print("Failed to post discount code '\(discountCodes[index])' for price rule with ID \(coupon.id)")
+                }
+            }
+        }
+    }
+    
+    func getDiscountCode(id: Int, completion: @escaping (String?) -> Void) {
+        NetworkUtilities.fetchData(responseType: DiscountResponse.self, endpoint: "price_rules/\(id)/discount_codes.json") { response in
+            let discountCode = response?.discount_codes.first?.code
+            completion(discountCode)
+        }
+    }
 }

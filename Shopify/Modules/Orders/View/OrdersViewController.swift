@@ -16,7 +16,12 @@ class OrdersViewController: UIViewController {
         ordersCollectionView.collectionViewLayout = ordersCollectionViewLayout()
 
         // Do any additional setup after loading the view.
+        
+      
     }
+    
+    
+    
     func ordersCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -57,6 +62,11 @@ extension OrdersViewController: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AllOrdersCollectionViewCell", for: indexPath) as! AllOrdersCollectionViewCell
+        cell.layer.cornerRadius = 10
+        cell.layer.borderWidth = 1.0
+        cell.layer.borderColor = UIColor.lightGray.cgColor
+        cell.clipsToBounds = true
+        
         cell.creationDate.text = "2024-6-22"
         cell.totalPrice.text = "200$"
             return cell

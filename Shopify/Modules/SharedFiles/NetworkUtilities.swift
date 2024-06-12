@@ -5,6 +5,7 @@
 //  Created by Haneen Medhat on 07/06/2024.
 //
 
+
 import Foundation
 import Alamofire
 class NetworkUtilities{
@@ -31,7 +32,7 @@ class NetworkUtilities{
                 do {
                     let decodedData = try JSONDecoder().decode(T.self, from: data)
                     completion(decodedData)
-                    print(decodedData)
+                    //print(decodedData)
                 } catch {
                     print("Error decoding data")
                     print(String(describing: error))
@@ -45,5 +46,39 @@ class NetworkUtilities{
         }
     }
 }
-    
 
+extension NetworkUtilities {
+    static func postData<T: Encodable>(data: T, endpoint: String, completion: @escaping (Bool) -> Void) {
+        let credentials = "\(apiKey):\(password)"
+        guard let credentialData = credentials.data(using: String.Encoding.utf8) else {
+            print("Error encoding credentials.")
+            completion(false)
+            return
+        }
+        let base64Credentials = credentialData.base64EncodedString(options: [])
+        let headers: HTTPHeaders = [
+            "Authorization": "Basic \(base64Credentials)",
+            "Content-Type": "application/json"
+        ]
+        
+        let url = "https://\(shopName)/admin/api/2022-01/\(endpoint)"
+        
+        do {
+            let jsonData = try JSONEncoder().encode(data)
+            Alamofire.request(url, method: .post, parameters: try? JSONSerialization.jsonObject(with: jsonData, options: []) as? Parameters, encoding: JSONEncoding.default, headers: headers)
+                .validate()
+                .responseData { response in
+                    switch response.result {
+                    case .success:
+                        completion(true)
+                    case .failure(let error):
+                        print("Error posting data: \(error)")
+                        completion(false)
+                    }
+                }
+        } catch {
+            print("Error encoding data: \(error)")
+            completion(false)
+        }
+    }
+}

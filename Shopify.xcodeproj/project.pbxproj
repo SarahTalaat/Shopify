@@ -28,6 +28,10 @@
 		229B39C22C0B42C100C81497 /* BrandsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229B39C12C0B42C100C81497 /* BrandsCollectionViewCell.swift */; };
 		22B047182C1375E800635975 /* ProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B047172C1375E800635975 /* ProductViewModel.swift */; };
 		22B0471A2C13806D00635975 /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B047192C13806D00635975 /* Products.swift */; };
+		22CDE1F62C18557800C674F7 /* AllProductsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CDE1F52C18557800C674F7 /* AllProductsViewModel.swift */; };
+		22CDE1F82C18844200C674F7 /* PriceRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CDE1F72C18844200C674F7 /* PriceRules.swift */; };
+		22D3E18B2C171856002CA666 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D3E18A2C171856002CA666 /* CategoryViewModel.swift */; };
+		22D3E18D2C173BD3002CA666 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D3E18C2C173BD3002CA666 /* Category.swift */; };
 		299440442A1E0C33463A3563 /* Pods_Shopify_ShopifyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6253E62D3D89364DD7D571A3 /* Pods_Shopify_ShopifyUITests.framework */; };
 		31C433F6E1A65AEEFDAA62EC /* Pods_Shopify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A9B08B0F994C3A5BCC6481 /* Pods_Shopify.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		390ED1E9619A55E9A447D3D3 /* Pods_ShopifyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DDFF2CC4A09A57E31BFEE60 /* Pods_ShopifyTests.framework */; };
@@ -194,6 +198,10 @@
 		229B39C12C0B42C100C81497 /* BrandsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandsCollectionViewCell.swift; sourceTree = "<group>"; };
 		22B047172C1375E800635975 /* ProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewModel.swift; sourceTree = "<group>"; };
 		22B047192C13806D00635975 /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
+		22CDE1F52C18557800C674F7 /* AllProductsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllProductsViewModel.swift; sourceTree = "<group>"; };
+		22CDE1F72C18844200C674F7 /* PriceRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceRules.swift; sourceTree = "<group>"; };
+		22D3E18A2C171856002CA666 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
+		22D3E18C2C173BD3002CA666 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		36A9B08B0F994C3A5BCC6481 /* Pods_Shopify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Shopify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CA775E8FDF08C4CBA7142D6 /* Pods-Shopify.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shopify.debug.xcconfig"; path = "Target Support Files/Pods-Shopify/Pods-Shopify.debug.xcconfig"; sourceTree = "<group>"; };
 		6253E62D3D89364DD7D571A3 /* Pods_Shopify_ShopifyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Shopify_ShopifyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -404,6 +412,7 @@
 				B6365B912C0A1A7800277D31 /* Home */,
 				B6365B882C0A198F00277D31 /* test23.swift */,
 				2284A1F32C0F1AE100FBE50A /* AllProductsViewController.swift */,
+				22CDE1F52C18557800C674F7 /* AllProductsViewModel.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -456,12 +465,15 @@
 				22B047192C13806D00635975 /* Products.swift */,
 				B60A3C3F2C1248C0002BEB5D /* UserModel.swift */,
 				B6F73F422C13E7C900919A67 /* AddressModel.swift */,
+				22D3E18C2C173BD3002CA666 /* Category.swift */,
+				22CDE1F72C18844200C674F7 /* PriceRules.swift */,
 				6C39A4092C1744B200767E83 /* DraftOrderModel.swift */,
 				B6E33E212C16E8BE00B24A62 /* AddCustomer.swift */,
 				B6F73F562C14C57100919A67 /* OneCustomerResponse.swift */,
 				B6E33E232C1774E700B24A62 /* ManyCustomersResponse.swift */,
 				B63F66A52C18D4CE0024A3EA /* CustomerData.swift */,
 				B63F66ED2C193BA80024A3EA /* OneDraftOrderResponse.swift */,
+
 
 			);
 			path = Model;
@@ -711,6 +723,7 @@
 			isa = PBXGroup;
 			children = (
 				B6365BCE2C0A1CD500277D31 /* test15.swift */,
+				22D3E18A2C171856002CA666 /* CategoryViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1270,6 +1283,7 @@
 				6C204C132C0B4FFA00D2B0FC /* ContactUsViewController.swift in Sources */,
 				B68E73642C10AD6C00BC2D90 /* OnboardingPageViewController.swift in Sources */,
 				B69FA16B2C09F04D009D43B7 /* AppDelegate.swift in Sources */,
+				22CDE1F82C18844200C674F7 /* PriceRules.swift in Sources */,
 				B6FB35042C12252A0030C595 /* Constants.swift in Sources */,
 				2294A8792C0B87CB00FAACF8 /* ProductViewController.swift in Sources */,
 				B6365BD32C0A1CE600277D31 /* test17.swift in Sources */,
@@ -1286,6 +1300,7 @@
 				B63F66A42C18AAF60024A3EA /* UserProfileViewModelProtocol.swift in Sources */,
 				B6F73F592C14C57300919A67 /* OneCustomerResponse.swift in Sources */,
 				B60A3C3A2C123D74002BEB5D /* SignInViewModelProtocol.swift in Sources */,
+				22CDE1F62C18557800C674F7 /* AllProductsViewModel.swift in Sources */,
 				B68E735C2C0FC89E00BC2D90 /* SplashScreenVC.swift in Sources */,
 				B69FA1752C09F04E009D43B7 /* Shopify.xcdatamodeld in Sources */,
 				B63F66F22C194F7F0024A3EA /* SettingsViewModelProtocol.swift in Sources */,
@@ -1352,6 +1367,7 @@
 				B6F73F432C13E7C900919A67 /* AddressModel.swift in Sources */,
 				B6F73F452C1478E700919A67 /* NetworkServiceAuthenticationProtocol.swift in Sources */,
 				227854402C0A4B6500974093 /* HomeViewController.swift in Sources */,
+				22D3E18B2C171856002CA666 /* CategoryViewModel.swift in Sources */,
 				B63F66EE2C193BA80024A3EA /* OneDraftOrderResponse.swift in Sources */,
 				B69FA16D2C09F04D009D43B7 /* SceneDelegate.swift in Sources */,
 				B60A3C422C1252A8002BEB5D /* DependencyProvider.swift in Sources */,
@@ -1363,7 +1379,9 @@
 				22934A1C2C0C30AD001B79E4 /* ProfileViewController.swift in Sources */,
 				B6365BC92C0A1CA800277D31 /* test12.swift in Sources */,
 				B6365BCB2C0A1CBB00277D31 /* test13.swift in Sources */,
+				22D3E18D2C173BD3002CA666 /* Category.swift in Sources */,
 				B63F66A22C18A7810024A3EA /* UserProfileViewModel.swift in Sources */,
+
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1540,7 +1558,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = ZFU225CW3S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Shopify/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Shoppingo;
@@ -1554,6 +1572,30 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"Kingfisher\"",
+					"-framework",
+					"\"Lottie\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Reachability\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"\"-v\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Sarah-Talaat.Shopify";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1569,7 +1611,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = ZFU225CW3S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Shopify/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Shoppingo;
@@ -1583,6 +1625,30 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"Kingfisher\"",
+					"-framework",
+					"\"Lottie\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Reachability\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"\"-v\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Sarah-Talaat.Shopify";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

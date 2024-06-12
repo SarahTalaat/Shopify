@@ -13,7 +13,7 @@ class AdsCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
            super.awakeFromNib()
-           adsImage.layer.cornerRadius = 14
-           adsImage.clipsToBounds = true
+       
+   
        }
 }
