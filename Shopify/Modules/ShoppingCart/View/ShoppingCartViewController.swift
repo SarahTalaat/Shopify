@@ -49,12 +49,12 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 8 // Adjust this value to control the space between cells
+        return 8
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = UIView()
-        footerView.backgroundColor = .clear // Make the footer view transparent
+        footerView.backgroundColor = .clear// Make the footer view transparent
         return footerView
     }
     

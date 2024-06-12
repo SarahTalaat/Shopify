@@ -176,7 +176,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView {
-            
         case brandsCollectionView:
             let storyboard = UIStoryboard(name: "Second", bundle: nil)
             let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductViewController") as! ProductViewController
@@ -195,25 +194,36 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                     return
                 }
                 
-                if item == 0 {
-                    self.showAlert(title: "Congratulations!", message: "You have just won a 20% discount coupon, copy this coupon \(discountCode) and use it in the checkout process")
-                } else {
-                    self.showAlert(title: "Congratulations!", message: "You have just won a 10% discount coupon, copy this coupon \(discountCode) and use it in the checkout process")
-                }
+                let discountMessage = item == 0 ? "You have just won a 20% discount coupon, copy this coupon and use it in the checkout process" : "You have just won a 10% discount coupon, copy this coupon and use it in the checkout process"
+                
+                self.showAlertWithTextField(title: "Congratulations!", message: discountMessage, discountCode: discountCode)
             }
         }
-        
     }
 }
-
 // MARK: - Alert Handeling
 
 extension UIViewController {
     
-    func showAlert(title: String, message: String) {
+    func showAlertWithTextField(title: String, message: String, discountCode: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alertController.addTextField { textField in
+            textField.text = discountCode
+            textField.isUserInteractionEnabled = true
+        }
+        
+        let copyAction = UIAlertAction(title: "Copy", style: .default) { _ in
+            if let textField = alertController.textFields?.first {
+                UIPasteboard.general.string = textField.text
+            }
+        }
+        
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        
+        alertController.addAction(copyAction)
         alertController.addAction(okAction)
+        
         self.present(alertController, animated: true, completion: nil)
     }
 }
