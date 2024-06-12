@@ -16,6 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+       
+        
         // Override point for customization after application launch.
         
         // Customize the back button globally
@@ -93,6 +96,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+//
+//    func configureAppTransportSecurity() {
+//        // Access Info.plist as a dictionary
+//        guard var infoDict = Bundle.main.infoDictionary else {
+//            print("Error accessing Info.plist")
+//            return
+//        }
+//        
+//        // Create NSAppTransportSecurity dictionary
+//        var appTransportSecurityDict: [String: Any] = [:]
+//        
+//        // Create NSAllowsArbitraryLoads key-value pair
+//        appTransportSecurityDict["NSAllowsArbitraryLoads"] = true
+//        
+//        // If you want to allow non-HTTPS connections for specific domains, add NSExceptionDomains
+//        var exceptionDomainsDict: [String: Any] = [:]
+//        // Example domain "example.com"
+//        var exampleDomainDict: [String: Any] = [:]
+//        exampleDomainDict["NSIncludesSubdomains"] = true
+//        exampleDomainDict["NSTemporaryExceptionAllowsInsecureHTTPLoads"] = true
+//        // Add more domains if needed
+//        
+//        // Add example domain to exception domains
+//        exceptionDomainsDict["example.com"] = exampleDomainDict
+//        // Add more domains if needed
+//        
+//        // Add exception domains to app transport security dictionary
+//        appTransportSecurityDict["NSExceptionDomains"] = exceptionDomainsDict
+//        
+//        // Add NSAppTransportSecurity dictionary to Info.plist
+//        infoDict["NSAppTransportSecurity"] = appTransportSecurityDict
+//        
+//        // Update Info.plist with the modified dictionary
+//        if let plistPath = Bundle.main.url(forResource: "Info", withExtension: "plist"),
+//           let data = try? PropertyListSerialization.data(fromPropertyList: infoDict, format: .xml, options: 0) {
+//            do {
+//                try data.write(to: plistPath, options: .atomic)
+//                print("NSAppTransportSecurity configured successfully.")
+//            } catch {
+//                print("Error writing to Info.plist: \(error)")
+//            }
+//        }
+//    }
+
+    // Call the function where appropriate
+
 
 }
 

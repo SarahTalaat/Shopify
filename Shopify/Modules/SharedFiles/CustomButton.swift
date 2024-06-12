@@ -19,21 +19,7 @@ class CustomButton: UIButton {
         super.init(coder: coder)
         setupButton()
     }
-//    static func buttonRoundedCorner(button:UIButton){
-//        // Make sure the button's corners are rounded
-//        button.layer.cornerRadius = 20
-//        button.clipsToBounds = true
-//
-//    }
-//
-//    static func buttonShadow(button: UIButton){
-//        button.layer.shadowColor = UIColor.black.cgColor
-//        button.layer.shadowOpacity = 0.5
-//        button.layer.shadowOffset = CGSize(width: 0, height: 2)
-//        button.layer.shadowRadius = 4
-//        button.layer.masksToBounds = false
-//    }
-    
+
     
     func setupButton(){
         CustomButton.buttonRoundedCorner(button: self)
