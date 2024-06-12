@@ -11,11 +11,8 @@ class AboutUsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.title = "About Us"
     }
-    
-
     
     @IBOutlet weak var aboutUs: UITextView!
     

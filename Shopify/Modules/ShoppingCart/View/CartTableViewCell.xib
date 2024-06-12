@@ -34,19 +34,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Black" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZNp-Nz-EwC">
-                        <rect key="frame" x="166" y="29.999999999999996" width="33" height="13.333333333333332"/>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Size:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P0M-vk-V8I">
-                        <rect key="frame" x="226" y="31" width="28" height="12"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="L" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nFE-nJ-zJ3">
-                        <rect key="frame" x="262" y="32" width="6" height="10"/>
+                        <rect key="frame" x="166" y="29.999999999999996" width="31" height="13.333333333333332"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -63,7 +51,7 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jtx-s5-RNA">
-                        <rect key="frame" x="168" y="67" width="8" height="20.333333333333332"/>
+                        <rect key="frame" x="168" y="67" width="17" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
@@ -80,35 +68,41 @@
                             <action selector="plus:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="5gT-cH-EJ5"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1$" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Pja-xS-PbI">
-                        <rect key="frame" x="298" y="58" width="37" height="30"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1$" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Pja-xS-PbI">
+                        <rect key="frame" x="269" y="61" width="68" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zfj-1z-WK0">
+                        <rect key="frame" x="279" y="29" width="48" height="27"/>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" image="trash" catalog="system">
+                            <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </buttonConfiguration>
+                        <connections>
+                            <action selector="deleteBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="cBm-r4-GBh"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="nFE-nJ-zJ3" secondAttribute="trailing" constant="76" id="0pl-yI-KRN"/>
+                    <constraint firstItem="Zfj-1z-WK0" firstAttribute="leading" secondItem="ZNp-Nz-EwC" secondAttribute="trailing" constant="82" id="0cU-AG-XHu"/>
+                    <constraint firstAttribute="trailing" secondItem="Zfj-1z-WK0" secondAttribute="trailing" constant="17" id="18b-AM-DYT"/>
                     <constraint firstItem="d9S-Vi-gKU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="5FD-cc-3t2"/>
                     <constraint firstItem="ZNp-Nz-EwC" firstAttribute="top" secondItem="d9S-Vi-gKU" secondAttribute="bottom" constant="2.3300000000000001" id="7t5-dR-k8e"/>
                     <constraint firstItem="HD3-Jf-Aij" firstAttribute="leading" secondItem="sni-Hf-Zl9" secondAttribute="trailing" constant="22" id="Byb-HH-h7C"/>
                     <constraint firstItem="sni-Hf-Zl9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="DRz-M8-tJH"/>
                     <constraint firstItem="HD3-Jf-Aij" firstAttribute="top" secondItem="d9S-Vi-gKU" secondAttribute="bottom" constant="1.6699999999999999" id="Drs-cz-OBC"/>
                     <constraint firstItem="ZNp-Nz-EwC" firstAttribute="leading" secondItem="HD3-Jf-Aij" secondAttribute="trailing" constant="2" id="KKl-uX-nMf"/>
-                    <constraint firstItem="nFE-nJ-zJ3" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="32" id="O6q-K6-5C3"/>
                     <constraint firstItem="ZNp-Nz-EwC" firstAttribute="leading" secondItem="HD3-Jf-Aij" secondAttribute="trailing" constant="2" id="T2z-Mg-fGc"/>
+                    <constraint firstItem="Zfj-1z-WK0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="29" id="TXo-ec-vPp"/>
                     <constraint firstItem="jtx-s5-RNA" firstAttribute="top" secondItem="ZNp-Nz-EwC" secondAttribute="bottom" constant="23.670000000000002" id="Veg-MY-hme"/>
                     <constraint firstItem="oGa-DV-9qb" firstAttribute="leading" secondItem="sni-Hf-Zl9" secondAttribute="trailing" constant="20" id="YqD-oH-QXo"/>
-                    <constraint firstItem="P0M-vk-V8I" firstAttribute="leading" secondItem="ZNp-Nz-EwC" secondAttribute="trailing" constant="27" id="ZAt-PQ-93R"/>
                     <constraint firstItem="sni-Hf-Zl9" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="bEU-8b-MQ0"/>
-                    <constraint firstItem="P0M-vk-V8I" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="31" id="d4z-Tb-FFX"/>
-                    <constraint firstAttribute="trailing" secondItem="P0M-vk-V8I" secondAttribute="trailing" constant="90" id="dBA-gf-vZC"/>
                     <constraint firstAttribute="bottom" secondItem="sni-Hf-Zl9" secondAttribute="bottom" id="gyo-NM-zOF"/>
-                    <constraint firstAttribute="bottom" secondItem="P0M-vk-V8I" secondAttribute="bottom" constant="78" id="jsX-e8-BvW"/>
-                    <constraint firstAttribute="bottom" secondItem="nFE-nJ-zJ3" secondAttribute="bottom" constant="79" id="llR-gY-MdI"/>
+                    <constraint firstItem="Pja-xS-PbI" firstAttribute="top" secondItem="Zfj-1z-WK0" secondAttribute="bottom" constant="5" id="kHu-eZ-7Ht"/>
                     <constraint firstItem="d9S-Vi-gKU" firstAttribute="leading" secondItem="sni-Hf-Zl9" secondAttribute="trailing" constant="22" id="mUK-nm-xFy"/>
-                    <constraint firstItem="nFE-nJ-zJ3" firstAttribute="leading" secondItem="P0M-vk-V8I" secondAttribute="trailing" constant="8" symbolic="YES" id="mdh-PM-rwg"/>
                     <constraint firstItem="Pja-xS-PbI" firstAttribute="leading" secondItem="sni-Hf-Zl9" secondAttribute="trailing" constant="189" id="nI9-bo-S90"/>
                     <constraint firstItem="3Jj-Ye-lxG" firstAttribute="top" secondItem="ZNp-Nz-EwC" secondAttribute="bottom" constant="18.670000000000002" id="utV-au-VYs"/>
                 </constraints>
@@ -119,7 +113,6 @@
                 <outlet property="productColor" destination="ZNp-Nz-EwC" id="4Ic-Ov-6nD"/>
                 <outlet property="productName" destination="d9S-Vi-gKU" id="Elx-tT-GUu"/>
                 <outlet property="productPrice" destination="Pja-xS-PbI" id="zmO-GP-KXf"/>
-                <outlet property="productSize" destination="nFE-nJ-zJ3" id="d58-8b-Gp8"/>
                 <outlet property="productimage" destination="sni-Hf-Zl9" id="KrB-Ra-m5B"/>
             </connections>
             <point key="canvasLocation" x="125.19083969465649" y="-27.112676056338028"/>
@@ -128,6 +121,7 @@
     <resources>
         <image name="minus.circle" catalog="system" width="128" height="123"/>
         <image name="plus.circle" catalog="system" width="128" height="123"/>
+        <image name="trash" catalog="system" width="117" height="128"/>
         <image name="try" width="201" height="251"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
