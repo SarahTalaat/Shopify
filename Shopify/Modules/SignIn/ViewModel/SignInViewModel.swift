@@ -16,7 +16,9 @@ enum AuthErrorCode: Error {
 }
 class SignInViewModel: SignInViewModelProtocol {
     
+  
     let authServiceProtocol: AuthServiceProtocol
+    let networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol
     var name: String?
     var email: String?
     var favId: String?
@@ -46,8 +48,9 @@ class SignInViewModel: SignInViewModelProtocol {
     var bindUserViewModelToController: (() -> ()) = {}
     var bindErrorViewModelToController: (() -> ()) = {}
     
-    init(authServiceProtocol: AuthServiceProtocol) {
+    init(authServiceProtocol: AuthServiceProtocol, networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol) {
         self.authServiceProtocol = authServiceProtocol
+        self.networkServiceAuthenticationProtocol = networkServiceAuthenticationProtocol
     }
     
     func signIn(email: String, password: String) {
@@ -56,6 +59,11 @@ class SignInViewModel: SignInViewModelProtocol {
             case .success(let user):
                 self?.user = user
                 self?.fetchCustomerID()
+                let urlString = APIConfig.draft_orders.url
+                var draftOrder = self?.draftOrderDummyModel()
+                self?.postDraftOrder(urlString: urlString, parameters: draftOrder ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX")
+                
+                SharedDataRepository.instance.isSignedIn = true
                 print("si: firebase firebase id user idddd view model: \(self?.user?.uid)")
             case .failure(let error):
                 if let authError = error as? AuthErrorCode {
@@ -91,6 +99,7 @@ class SignInViewModel: SignInViewModelProtocol {
             SharedDataRepository.instance.shoppingCartId = customerDataModel?.shoppingCartId
             SharedDataRepository.instance.favouriteId = customerDataModel?.favouriteId
             
+            
             print("si: inside: name: \(SharedDataRepository.instance.customerName ?? "NONAME")")
             print("si: inside email: \(SharedDataRepository.instance.customerEmail ?? "NOEMAIL")")
             print("si: inside: Cid: \(SharedDataRepository.instance.customerId ?? "NO CID")")
@@ -99,12 +108,33 @@ class SignInViewModel: SignInViewModelProtocol {
         }
         SharedDataRepository.instance.customerEmail = user?.email
         
-//        print("si: outside: name: \(SharedDataRepository.instance.customerName ?? "NONAME")")
-//        print("si: outside: email: \(SharedDataRepository.instance.customerEmail ?? "NOEMAIL")")
-//        print("si: outside: Cid: \(SharedDataRepository.instance.customerId ?? "NO CID")")
-//        print("si: outside: favId: \(SharedDataRepository.instance.favouriteId ?? "NO FID")")
-//        print("si: outside: shoppingCartId: \(SharedDataRepository.instance.shoppingCartId ?? "NO ShopID")")
         
+    }
+    func postDraftOrder(urlString: String, parameters: [String:Any], name: String , email: String) {
+       networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
+            switch result {
+            case .success(let response):
+                print("si Draft order posted successfully: \(response)")
+            case .failure(let error):
+                print("si Failed to post draft order: \(error.localizedDescription)")
+            }
+        })
+    }
+    
+    
+    func draftOrderDummyModel() -> [String:Any] {
+        let draftOrder: [String: Any] = [
+            "draft_order": [
+                "line_items": [
+                    [
+                        "variant_id": 44382096457889,
+                        "quantity": 1
+                    ]
+                ]
+            ]
+        ]
+        
+        return draftOrder
     }
     
 
@@ -116,6 +146,18 @@ class SignInViewModel: SignInViewModelProtocol {
 
 
 
+/*
+ let json: [String: Any] = [
+     "draft_order": [
+         "line_items": [
+             [
+                 "variant_id": 44382096457889,
+                 "quantity": 1
+             ]
+         ]
+     ]
+ ]
+ */
 
 
 

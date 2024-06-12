@@ -57,16 +57,19 @@ class SignUpViewModel: SignUpViewModelProtocol {
                     print("vm Sign up successful with user: \(user)")
                     self?.user = user
 
-                    let parameters: [String: Any] = [
+                    let createCustomer: [String: Any] = [
                         "customer": [
                             "verified_email": customerModelRequest.customer.verified_email,
                             "email": customerModelRequest.customer.email,
                             "first_name": customerModelRequest.customer.first_name
                         ]
                     ]
+                    
+
 
                     let urlString = APIConfig.customers.url
-                    self?.postNewCustomer(urlString: urlString, parameters: parameters, name: firstName, email: email)
+                    self?.postNewCustomer(urlString: urlString, parameters: createCustomer, name: firstName, email: email)
+                
                 case .failure(let error):
                     print("vm Sign up failed with error: \(error)")
                     self?.handleSignUpError(error)
@@ -125,6 +128,8 @@ class SignUpViewModel: SignUpViewModelProtocol {
             }
         })
     }
+    
+
 
     private func isEmailFormatValid(_ email: String) -> Bool {
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"

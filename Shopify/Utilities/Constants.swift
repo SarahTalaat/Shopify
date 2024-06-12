@@ -25,11 +25,14 @@ enum APIConfig {
     static let hostName = "mad44-alex-ios-team4.myshopify.com"
     static let version = "2022-01"
     
+    case draft_orders
     case customers
     case endPoint(String)
     
     var resource: String {
         switch self {
+        case .draft_orders:
+            return "draft_orders"
         case .customers:
             return "customers"
         case .endPoint(let customResource):

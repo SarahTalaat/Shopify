@@ -13,4 +13,5 @@ struct CustomerData {
     let email: String
     let favouriteId: String
     let shoppingCartId: String
+
 }
