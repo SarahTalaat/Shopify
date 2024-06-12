@@ -52,10 +52,7 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
           addressTableView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
       }
 
-      override func viewWillAppear(_ animated: Bool) {
-          super.viewWillAppear(animated)
-          fetchAddresses()
-      }
+   
 
     func fetchAddresses() {
            TryAddressNetworkService.shared.getAddresses { result in

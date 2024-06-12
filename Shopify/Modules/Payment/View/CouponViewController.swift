@@ -9,7 +9,7 @@ import UIKit
 
 class CouponViewController: UIViewController {
     
-    private let viewModel = CouponViewModel()
+    private let viewModel = CouponsViewModel()
        
        override func viewDidLoad() {
            super.viewDidLoad()

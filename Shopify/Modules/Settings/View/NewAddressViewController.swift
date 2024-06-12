@@ -8,6 +8,7 @@
 import UIKit
 
 class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSource{
+    
 
     @IBOutlet weak var fullNameTF: UITextField!
     
@@ -20,42 +21,6 @@ class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerV
     @IBOutlet weak var zipCodeTF: UITextField!
         let countryPicker = UIPickerView()
         let countries = ["Egypt", "Turkish", "Frensh", "Spanish", "Italian"]
-
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            setupCountryPicker()
-            fullNameTF.addPaddingToTextField()
-            newAddressTF.addPaddingToTextField()
-            cityTF.addPaddingToTextField()
-            stateTF.addPaddingToTextField()
-            zipCodeTF.addPaddingToTextField()
-            stateTF.addPaddingToTextField()
-            self.title = "New Address"
-        }
-
-        let address = Address(id: nil, first_name: fullName, address1: newAddress, city: city, country: country, zip: zipCode)
-
-               TryAddressNetworkService.shared.postNewAddress(address: address) { result in
-                   switch result {
-                   case .success(let address):
-                       print("Address successfully posted: \(address)")
-                       DispatchQueue.main.async {
-                           let successAlert = UIAlertController(title: "Success", message: "Address saved successfully.", preferredStyle: .alert)
-                           successAlert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-                               self.navigationController?.popViewController(animated: true)
-                           })
-                           self.present(successAlert, animated: true, completion: nil)
-                       }
-                   case .failure(let error):
-                       print("Failed to post address: \(error)")
-                       DispatchQueue.main.async {
-                           let errorAlert = UIAlertController(title: "Error", message: "Failed to save address. Please try again.", preferredStyle: .alert)
-                           errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                           self.present(errorAlert, animated: true, completion: nil)
-                       }
-                   }
-               }
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
         fullNameTF.addPaddingToTextField()
@@ -73,8 +38,7 @@ class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerV
         view.endEditing(true)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-
+   
 
         override func viewWillAppear(_ animated: Bool) {
 
