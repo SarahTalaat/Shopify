@@ -59,10 +59,8 @@ class SignUpViewModel: SignUpViewModelProtocol {
                     print("vm Sign up successful with user: \(user)")
                     self?.user = user
                     SharedDataRepository.instance.firebaseAuthId = user.uid
-                    if(SharedDataRepository.instance.isSignedIn==true){
+                    if(SharedDataRepository.instance.isSignedIn==false){
                         SharedDataRepository.instance.customerName = firstName
-                    }else{
-                        SharedDataRepository.instance.customerName = "Guest"
                     }
                     let createCustomer: [String: Any] = [
                         "customer": [
