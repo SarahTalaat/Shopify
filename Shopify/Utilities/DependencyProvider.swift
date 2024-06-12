@@ -14,13 +14,27 @@ class DependencyProvider {
         return FirebaseAuthService()
     }
     
+    static var networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol {
+        return NetworkServiceAuthentication()
+    }
+    
     static var signInViewModel: SignInViewModel{
-        return SignInViewModel(authServiceProtocol: authServiceProtocol)
+        return SignInViewModel(authServiceProtocol: authServiceProtocol , networkServiceAuthenticationProtocol: networkServiceAuthenticationProtocol)
+    }
+    
+    static var userProfileViewModel: UserProfileViewModel{
+        return UserProfileViewModel()
     }
     
     static var signUpViewModel: SignUpViewModel{
-        return SignUpViewModel(authServiceProtocol: authServiceProtocol)
+        return SignUpViewModel(authServiceProtocol: authServiceProtocol , networkServiceAuthenticationProtocol: networkServiceAuthenticationProtocol)
     }
+    
+    static var settingsViewModel: SettingsViewModel{
+        return SettingsViewModel(authServiceProtocol: authServiceProtocol)
+    }
+    
+    
 
 
 
