@@ -12,35 +12,49 @@ import FirebaseDatabase
 
 class FirebaseAuthService: AuthServiceProtocol {
     
-
+    
     func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            
-            guard let user = result?.user else {
-                let unknownError = NSError(domain: "FirebaseAuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
-                completion(.failure(unknownError))
-                return
-            }
-            
-            self?.checkEmailVerification(for: user) { isVerified, error in
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-                
-                if isVerified {
-                    let userModel = UserModel(uid: user.uid, email: user.email ?? "")
-                    completion(.success(userModel))
-                } else {
-                    completion(.failure(AuthErrorCode.emailNotVerified))
-                }
-            }
+            self?.handleAuthResult(result: result, error: error, completion: completion)
+        }
+
+
+    }
+    
+    func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+        Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
+            self?.handleAuthResult(result: result, error: error, completion: completion)
         }
     }
+
+//    func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+//        Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
+//            if let error = error {
+//                completion(.failure(error))
+//                return
+//            }
+//
+//            guard let user = result?.user else {
+//                let unknownError = NSError(domain: "FirebaseAuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
+//                completion(.failure(unknownError))
+//                return
+//            }
+//
+//            self?.checkEmailVerification(for: user) { isVerified, error in
+//                if let error = error {
+//                    completion(.failure(error))
+//                    return
+//                }
+//
+//                if isVerified {
+//                    let userModel = UserModel(uid: user.uid, email: user.email ?? "")
+//                    completion(.success(userModel))
+//                } else {
+//                    completion(.failure(AuthErrorCode.emailNotVerified))
+//                }
+//            }
+//        }
+//    }
     
     func signOut(completion: @escaping (Result<Void, Error>) -> Void) {
         do {
@@ -52,34 +66,34 @@ class FirebaseAuthService: AuthServiceProtocol {
     }
 
     
-    func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
-        Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
-            guard self != nil else { return }
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            
-            guard let user = result?.user else {
-                let unknownError = NSError(domain: "FirebaseAuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
-                completion(.failure(unknownError))
-                return
-            }
-            
-            // Send verification email
-            user.sendEmailVerification { error in
-                if let error = error {
-                    print("Firebase: Error sending verification email: \(error.localizedDescription)")
-                } else {
-                    print("Firebase: Verification email sent successfully.")
-                }
-            }
-            
-            let userModel = UserModel(uid: user.uid, email: user.email ?? "")
-            print("Firebase: The user iddd: \(userModel.uid)")
-            completion(.success(userModel))
-        }
-    }
+//    func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+//        Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
+//            guard self != nil else { return }
+//            if let error = error {
+//                completion(.failure(error))
+//                return
+//            }
+//
+//            guard let user = result?.user else {
+//                let unknownError = NSError(domain: "FirebaseAuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
+//                completion(.failure(unknownError))
+//                return
+//            }
+//
+//            // Send verification email
+//            user.sendEmailVerification { error in
+//                if let error = error {
+//                    print("Firebase: Error sending verification email: \(error.localizedDescription)")
+//                } else {
+//                    print("Firebase: Verification email sent successfully.")
+//                }
+//            }
+//
+//            let userModel = UserModel(uid: user.uid, email: user.email ?? "")
+//            print("Firebase: The user iddd: \(userModel.uid)")
+//            completion(.success(userModel))
+//        }
+//    }
 
     
     private func handleAuthResult(result: AuthDataResult?, error: Error?, completion: @escaping (Result<UserModel, Error>) -> Void) {
@@ -106,18 +120,27 @@ class FirebaseAuthService: AuthServiceProtocol {
             completion(user.isEmailVerified, nil)
         }
     }
-    func saveCustomerId(name: String, email: String, id: String, favouriteId: String, shoppingCartId: String) {
+    func saveCustomerId(name: String, email: String, customerId: String, favouriteId: String, shoppingCartId: String , productId: String , productTitle: String, productSize: String, productName: String, productImage: String) {
         let ref = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
         let customersRef = ref.child("customers")
         let customerRef = customersRef.child(encodedEmail)
         
         let customerData: [String: Any] = [
-            "customerId": id,
+            "customerId": customerId,
             "email": email,
             "name": name,
             "favouriteId" : favouriteId,
-            "shoppingCartId": shoppingCartId
+            "shoppingCartId": shoppingCartId,
+            "products" : [
+                "productId" : [
+                    "productTitle" : productTitle,
+                    "productSize" : productSize,
+                    "productName" : productName,
+                    "productImage" : productImage
+                
+                ]
+            ]
         ]
         
         customerRef.setValue(customerData) { error, _ in
@@ -174,6 +197,22 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
 
+     func deleteFavouriteId(email: String) {
+         let ref = Database.database().reference()
+         let encodedEmail = SharedMethods.encodeEmail(email)
+         let customersRef = ref.child("customers").child(encodedEmail)
+
+         // Remove the favouriteId node from the customer data
+         customersRef.child("favouriteId").removeValue { error, _ in
+             if let error = error {
+                 print("Error deleting favouriteId node: \(error.localizedDescription)")
+                 return
+             }
+
+             print("favouriteId node deleted successfully")
+         }
+     }
+ 
 }
 
 //    func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
@@ -189,4 +228,3 @@ class FirebaseAuthService: AuthServiceProtocol {
 //            self?.handleAuthResult(result: result, error: error, completion: completion)
 //        }
 //    }
-    

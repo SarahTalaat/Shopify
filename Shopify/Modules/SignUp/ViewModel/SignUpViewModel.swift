@@ -57,16 +57,14 @@ class SignUpViewModel: SignUpViewModelProtocol {
                     print("vm Sign up successful with user: \(user)")
                     self?.user = user
 
-                    let createCustomer: [String: Any] = [
-                        "customer": [
-                            "verified_email": customerModelRequest.customer.verified_email,
-                            "email": customerModelRequest.customer.email,
-                            "first_name": customerModelRequest.customer.first_name
-                        ]
-                    ]
-                    
-
-
+//                    let createCustomer: [String: Any] = [
+//                        "customer": [
+//                            "verified_email": customerModelRequest.customer.verified_email,
+//                            "email": customerModelRequest.customer.email,
+//                            "first_name": customerModelRequest.customer.first_name
+//                        ]
+//                    ]
+                    let createCustomer: [String: Any] = JsonRequestModels.instance.oneCustomerRequest(verifiedEmail: customerModelRequest.customer.verified_email ?? true, email: customerModelRequest.customer.email ?? "NoNo Email", firstName: customerModelRequest.customer.first_name ?? "NoNoFirstName")
                     let urlString = APIConfig.customers.url
                     self?.postNewCustomer(urlString: urlString, parameters: createCustomer, name: firstName, email: email)
                 
@@ -122,7 +120,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
             switch result {
             case .success(let response):
                 print("vm Customer data posted successfully: \(response)")
-                self?.authServiceProtocol.saveCustomerId(name: name, email: email, id: "\(response.customer.id)", favouriteId: "", shoppingCartId: "")
+                self?.authServiceProtocol.saveCustomerId(name: name, email: email, customerId: "\(response.customer.id)", favouriteId: "", shoppingCartId: "", productId: "", productTitle: "", productSize: "", productName: "", productImage: "")
             case .failure(let error):
                 print("vm Failed to post customer data: \(error.localizedDescription)")
             }

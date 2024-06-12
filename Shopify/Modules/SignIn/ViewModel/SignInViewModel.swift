@@ -60,8 +60,8 @@ class SignInViewModel: SignInViewModelProtocol {
                 self?.user = user
                 self?.fetchCustomerID()
                 let urlString = APIConfig.draft_orders.url
-                var draftOrder1 = self?.draftOrderDummyModel1()
-                var draftOrder2 = self?.draftOrderDummyModel2()
+                let draftOrder1 = JsonRequestModels.instance.draftOrderForShoppingCart(variantId: 44382096457889, quantity: 1)
+                let draftOrder2 = JsonRequestModels.instance.draftOrderForFavourite(variantId: 44382094393505, quantity: 1)
                 
                 
                 self?.postDraftOrderForShoppingCart(urlString: urlString, parameters: draftOrder1 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX")
