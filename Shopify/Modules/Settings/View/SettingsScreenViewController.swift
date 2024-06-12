@@ -96,7 +96,7 @@ class SettingsScreenViewController: UIViewController {
         viewModel.bindErrorViewModelToController = { [weak self] in
             DispatchQueue.main.async {
                 if let errorMessage = self?.viewModel.errorMessage {
-                    self?.showSignSuccessfulAlert(title: "Failure", message: "\(errorMessage)", button1Title: "Ok", completion: {})
+                    self?.showSignOutFailureAlert(title: "Failure", message: "\(errorMessage)", button1Title: "Ok", completion: {})
                 }
             }
         }
@@ -106,5 +106,12 @@ class SettingsScreenViewController: UIViewController {
         
     }
     
+    func showSignOutFailureAlert(title: String, message: String, button1Title: String, completion: @escaping () -> Void) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: button1Title, style: .cancel) { _ in
+            completion()
+        })
+        present(alert, animated: true, completion: nil)
+    }
 
 }
