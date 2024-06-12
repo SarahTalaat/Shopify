@@ -680,7 +680,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Ie9-It-zGZ">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hd3-FA-xW9" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="NavigationController" automaticallyAdjustsScrollViewInsets="NO" id="hd3-FA-xW9" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hHU-Ia-Moa">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -697,22 +697,6 @@
         </scene>
     </scenes>
     <designables>
-        <designable name="Alf-15-BzH">
-            <size key="intrinsicContentSize" width="24" height="17"/>
-        </designable>
-        <designable name="Cdy-VQ-kEt">
-            <size key="intrinsicContentSize" width="24" height="18.5"/>
-        </designable>
-        <designable name="OPE-rW-ysb">
-            <size key="intrinsicContentSize" width="24" height="18.5"/>
-        </designable>
-        <designable name="PvZ-G9-Gt1">
-            <size key="intrinsicContentSize" width="24" height="17"/>
-        </designable>
-        <designable name="Yi8-RZ-ayL">
-            <size key="intrinsicContentSize" width="24" height="18.5"/>
-        </designable>
-        <designable name="oL7-YE-7Z8"/>
         <designable name="wQJ-gb-1pY">
             <size key="intrinsicContentSize" width="138.5" height="41.5"/>
         </designable>

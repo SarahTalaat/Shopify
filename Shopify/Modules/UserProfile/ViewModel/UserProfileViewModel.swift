@@ -22,9 +22,16 @@ class UserProfileViewModel: UserProfileViewModelProfileProtocol {
     var bindUserViewModelToController: (() -> ()) = {}
     
     func userPersonalData(){
+        
+        if (SharedDataRepository.instance.isSignedIn == true){
+        
         self.name = SharedDataRepository.instance.customerName
         self.email = SharedDataRepository.instance.customerEmail
-        
+        }
+        else{
+            self.name = "Guest"
+            self.email = ""
+        }
         print("Profile: name: \(SharedDataRepository.instance.customerName ?? "NONAME")")
         print("Profile: email: \(SharedDataRepository.instance.customerEmail ?? "NOEMAIL")")
         print("Profile: Cid: \(SharedDataRepository.instance.customerId ?? "NO CID")")

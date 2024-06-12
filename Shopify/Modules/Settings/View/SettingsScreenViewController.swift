@@ -103,11 +103,16 @@ class SettingsScreenViewController: UIViewController {
     }
 
     func navigateToSignUp() {
+        guard let window = UIApplication.shared.windows.first else {
+            return
+        }
         print("Print navigateToSignUp")
         let sb = UIStoryboard(name: "Main", bundle: nil)
-        let signUpVC = sb.instantiateViewController(withIdentifier: "SignUpVC")
-        navigationController?.pushViewController(signUpVC, animated: true)
+        let navigationController = sb.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
+        window.rootViewController = navigationController
+        UIView.transition(with: window, duration: 0.5, options: .transitionFlipFromLeft, animations: nil, completion: nil)
     }
+
     
     func showSignOutFailureAlert(title: String, message: String, button1Title: String, completion: @escaping () -> Void) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

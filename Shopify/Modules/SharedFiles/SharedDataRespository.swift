@@ -17,5 +17,5 @@ class SharedDataRepository{
     var customerId: String?
     var shoppingCartId: String?
     var favouriteId: String?
-    var isSignedIn: Bool?
+    var isSignedIn: Bool = false
 }
