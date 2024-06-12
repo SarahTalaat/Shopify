@@ -95,4 +95,55 @@ class TryAddressNetworkService: NetworkService {
             completion(.failure(error))
         }
     }
+    func deleteAddress(addressId: Int, completion: @escaping (Swift.Result<Void, Error>) -> Void) {
+        let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/customers/7493076156577/addresses/\(addressId).json"
+        
+        var request = URLRequest(url: URL(string: url)!)
+        request.httpMethod = "DELETE"
+        
+        Alamofire.request(request).validate().response { response in
+            if let error = response.error {
+                if let data = response.data,
+                   let responseString = String(data: data, encoding: .utf8) {
+                    print("Server response: \(responseString)")
+                }
+                completion(.failure(error))
+            } else {
+                completion(.success(()))
+            }
+        }
+    }
+    func updateAddress(addressId: Int, completion: @escaping (Swift.Result<Void, Error>) -> Void) {
+          
+           let url = URL(string: "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/customers/7493076156577/addresses/\(addressId).json")!
+           var request = URLRequest(url: url)
+           request.httpMethod = "PUT"
+           request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+           
+           let encoder = JSONEncoder()
+           do {
+               let jsonData = try encoder.encode(address)
+               request.httpBody = jsonData
+           } catch {
+               completion(.failure(error))
+               return
+           }
+           
+           let task = URLSession.shared.dataTask(with: request) { data, response, error in
+               if let error = error {
+                   completion(.failure(error))
+                   return
+               }
+               
+               guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                   let error = NSError(domain: "Invalid response", code: 0, userInfo: nil)
+                   completion(.failure(error))
+                   return
+               }
+               
+               completion(.success(()))
+           }
+           task.resume()
+       }
+
 }

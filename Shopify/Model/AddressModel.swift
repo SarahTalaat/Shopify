@@ -14,6 +14,7 @@ struct Address: Codable {
     let city: String
     let country: String
     let zip: String
+    var `default`: Bool?
 }
  
 struct AddressListResponse: Codable {
@@ -23,3 +24,4 @@ struct AddressListResponse: Codable {
 struct AddressResponse: Codable {
     let customer_address: Address
 }
+

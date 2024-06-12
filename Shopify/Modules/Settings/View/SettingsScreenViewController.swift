@@ -76,15 +76,58 @@ class SettingsScreenViewController: UIViewController {
         currencyView.layer.shadowColor = UIColor.black.cgColor
         currencyView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
         currencyView.layer.shadowOpacity = 0.5
-        
+
         print("test settings")
         print("test settings")
         
         settingsViewModel = DependencyProvider.settingsViewModel
         bindViewModel()
 
+
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+          super.viewWillAppear(animated)
+          fetchDefaultAddress()
+        self.tabBarController?.tabBar.isHidden = true
+      }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
+
+
+      private func setupView(view: UIView) {
+          view.layer.shadowRadius = 4.0
+          view.layer.cornerRadius = 10.0
+          view.layer.shadowColor = UIColor.black.cgColor
+          view.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+          view.layer.shadowOpacity = 0.5
+      }
+
+      func updateCurrentAddressLabel(with city: String) {
+          self.currentAddress.text = city
+      }
+      
+      private func fetchDefaultAddress() {
+          TryAddressNetworkService.shared.getAddresses { result in
+              switch result {
+              case .success(let addresses):
+                  if let defaultAddress = addresses.first(where: { $0.default == true }) {
+                      DispatchQueue.main.async {
+                          self.updateCurrentAddressLabel(with: defaultAddress.city)
+                      }
+                  } else {
+                      DispatchQueue.main.async {
+                          self.updateCurrentAddressLabel(with: "No Default Address")
+                      }
+                  }
+              case .failure(let error):
+                  print("Failed to fetch addresses: \(error)")
+              }
+          }
+      }
+       
 
     func bindViewModel() {
         settingsViewModel.bindLogOutStatusViewModelToController = {
@@ -122,4 +165,6 @@ class SettingsScreenViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
 
+
+      
 }
