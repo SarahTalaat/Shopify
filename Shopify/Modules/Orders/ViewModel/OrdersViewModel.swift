@@ -14,7 +14,6 @@ class OrdersViewModel{
         }
     }
     
-    var ids : [Int] = []
     var bindAllOrders: (() -> ()) = {}
     
     init() {
@@ -26,9 +25,6 @@ class OrdersViewModel{
             self.orders = item?.orders ?? []
         }
         print(orders)
-    }
-    func getIds(index:Int){
-        ids = orders[index].line_items.map { $0.id }
     }
      
 }

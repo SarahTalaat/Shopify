@@ -8,30 +8,34 @@
 import Foundation
 class OrderDetailsViewModel{
     
-    var ids: [Int] = []
-    
-    var products: [Products] = [] {
+    var id: Int = 0 {
         didSet {
-            bindProducts()
+            getOrderById()
         }
     }
     
-
-    var bindProducts: (() -> ()) = {}
+    var orders: [LineItemss] = [] {
+        didSet {
+            bindOrders()
+        }
+    }
+    
+    var bindOrders: (() -> ()) = {}
     
     init() {
-        getProductsById()
+        getOrderById()
     }
     
-    func getProductsById() {
-        for i in ids{
-            NetworkUtilities.fetchData(responseType: Products.self, endpoint: "products/\(ids).json") { item in
-                guard let item = item else {return}
-                self.products.append(item)
-            }
-            print(products)
+  
+    
+    func getOrderById(){
+        NetworkUtilities.fetchData(responseType: OrdersSend.self, endpoint: "orders/\(id).json"){ order in
+            self.orders = order?.order.line_items ?? []
+            
+            
         }
-   
+        print(id)
     }
     
+   
 }

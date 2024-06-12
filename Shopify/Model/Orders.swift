@@ -10,7 +10,7 @@ import Foundation
     struct OrdersResponse:Decodable{
         let orders : [Orders]
     }
-    struct OrdersSend:Encodable{
+    struct OrdersSend:Encodable,Decodable{
         let order : Orders
     }
 

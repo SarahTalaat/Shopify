@@ -6,21 +6,21 @@
 //
 
 import UIKit
-import Kingfisher
 
 class OrderDetailsViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
-    let viewModel = OrderDetailsViewModel()
-    
+    var viewModel = OrderDetailsViewModel()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.collectionViewLayout = detailsCollectionViewLayout()
         self.title = "Order Details"
         
-        viewModel.bindProducts = {
+        viewModel.bindOrders = {
             self.updateCollection()
         }
+
     }
     
     func updateCollection(){
@@ -28,11 +28,8 @@ class OrderDetailsViewController: UIViewController {
                 self?.collectionView.reloadData()
             }
         }
- 
 
-    
-    
-    
+
     
     // MARK: - Collection View Layout Drawing
     
@@ -62,22 +59,16 @@ class OrderDetailsViewController: UIViewController {
         }
         
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return viewModel.products.count
+            return viewModel.orders.count
         }
         
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OrderDetailsCell", for: indexPath) as! OrderDetailsCell
-            let item = viewModel.products[indexPath.row]
-            cell.numOfUnit.text = "Unit:1"
-            cell.orderBrand.text = item.vendor
-            cell.unitColor.text = "Color:Black"
-            cell.unitPrice.text = "\(item.variants.first?.price)$"
-            cell.unitSize.text = "Size:M"
+            let item = viewModel.orders[indexPath.row]
+            cell.numOfUnit.text = "Quantity:\(item.quantity)"
+            cell.unitPrice.text = "\(item.price)$"
             cell.productName.text = item.title
-            
-            if let imageUrlString = item.images.first?.src, let imageUrl = URL(string: imageUrlString) {
-                cell.orderImage.kf.setImage(with: imageUrl)
-            }
+      
             return cell
         }
         

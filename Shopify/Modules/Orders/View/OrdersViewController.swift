@@ -11,6 +11,7 @@ class OrdersViewController: UIViewController {
 
     @IBOutlet weak var ordersCollectionView: UICollectionView!
     let ordersViewModel = OrdersViewModel()
+    var detailsModel = OrderDetailsViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,13 +77,13 @@ class OrdersViewController: UIViewController {
         }
         
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            let item = ordersViewModel.orders[indexPath.count]
-            let storyboard = UIStoryboard(name: "Second", bundle: nil)
-            let brandsViewController = storyboard.instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
-            let orderDetails = OrderDetailsViewModel()
-            ordersViewModel.getIds(index: indexPath.row)
-            orderDetails.ids = ordersViewModel.ids
-               navigationController?.pushViewController(brandsViewController, animated: true)
+          
+            detailsModel.id = ordersViewModel.orders[indexPath.row].id
+             let storyboard = UIStoryboard(name: "Second", bundle: nil)
+             let orderDetailsViewController = storyboard.instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
+            orderDetailsViewController.viewModel = detailsModel
+
+             navigationController?.pushViewController(orderDetailsViewController, animated: true)
             }
         
 }
