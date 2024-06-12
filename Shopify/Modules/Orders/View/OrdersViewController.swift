@@ -15,6 +15,7 @@ class OrdersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ordersCollectionView.collectionViewLayout = ordersCollectionViewLayout()
+        
         ordersViewModel.bindAllOrders = {
             self.updateCollection()
         }
@@ -61,15 +62,16 @@ class OrdersViewController: UIViewController {
         
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AllOrdersCollectionViewCell", for: indexPath) as! AllOrdersCollectionViewCell
+            
             let item = ordersViewModel.orders[indexPath.row]
             cell.layer.cornerRadius = 10
             cell.layer.borderWidth = 1.0
             cell.clipsToBounds = true
             
             
-            let date = item.created_at
-            let datePart = date.split(separator: "T").first.map(String.init)
-            cell.creationDate.text = "Created At: \(datePart ??  " ")"
+//            let date = item.created_at
+//            let datePart = date.split(separator: "T").first.map(String.init)
+//            cell.creationDate.text = "Created At: \(datePart ??  " ")"
             cell.totalPrice.text = "Total Price: \(item.total_price)$"
                 return cell
         }

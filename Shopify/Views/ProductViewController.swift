@@ -20,7 +20,7 @@ class ProductViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var collectionViewTopConstraint: NSLayoutConstraint!
     
-    let colorList = ["Black", "White", "Red", "Blue", "Green", "Brown"]
+    let colorList = ["All","black", "white", "red", "blue", "gray", "yellow","beige","light-brown","burgandy"]
     let sizeList = ["XS", "S", "M", "L", "XL"]
     var isFilter = false
     var viewModel = ProductViewModel()
@@ -79,20 +79,31 @@ class ProductViewController: UIViewController {
         let actionClosure = { (action: UIAction) in
             print(action.title)
         }
+        let colorClosure = { [weak self] (action: UIAction) in
+            guard let self = self else { return }
+            let selectedColor = action.title
+            print("Selected color: \(selectedColor)")
+            if selectedColor == "All" {
+                self.viewModel.filteredProducts = self.viewModel.products
+            } else {
+                self.viewModel.filterByColor(color: selectedColor)
+            }
+        }
 
         //Color Menu
         var menuColors: [UIMenuElement] = []
-        for fruit in colorList {
-            menuColors.append(UIAction(title: fruit, handler: actionClosure))
+        for color in colorList {
+            menuColors.append(UIAction(title: color, handler: colorClosure))
         }
         colorMenu.menu = UIMenu(options: .displayInline, children: menuColors)
         colorMenu.showsMenuAsPrimaryAction = true
         colorMenu.changesSelectionAsPrimaryAction = true
         
+        
         //Size Menu
         var menusizes: [UIMenuElement] = []
-        for fruit in sizeList {
-            menusizes.append(UIAction(title: fruit, handler: actionClosure))
+        for size in sizeList {
+            menusizes.append(UIAction(title: size, handler: actionClosure))
         }
         sizeMenu.menu = UIMenu(options: .displayInline, children: menusizes)
         sizeMenu.showsMenuAsPrimaryAction = true

@@ -21,7 +21,8 @@ struct Products: Decodable{
     let status : String
     let variants : [Variants]
     let images : [Images]
-}
+    let options : [Options]
+  }
 
 struct Variants:Decodable{
     let id : Int
@@ -35,18 +36,23 @@ struct Variants:Decodable{
     let inventory_item_id : Int
     let inventory_quantity : Int
     let requires_shipping : Bool
-}
+  }
 
-struct Images : Decodable {
-   let id : Int
-   let product_id : Int
-   let src : String
-}
+    struct Images : Decodable {
+       let id : Int
+       let product_id : Int
+       let src : String
+    }
+    struct Options : Decodable {
+         let id: Int
+         let product_id: Int
+         let name: String
+         let values : [String]
 
-
-struct SingleProduct:Decodable{
-  var product: Products
-}
+    }
+    struct SingleProduct:Decodable{
+      var product: Products
+    }
 
 
 
