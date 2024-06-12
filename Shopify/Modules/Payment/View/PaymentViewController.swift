@@ -7,75 +7,48 @@
 
 import UIKit
 import PassKit
-class PaymentViewController: UIViewController, PKPaymentAuthorizationViewControllerDelegate {
-    func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
-        controller.dismiss(animated:true ,completion: nil)
-    }
-    func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
-        completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
-    }
+class PaymentViewController: UIViewController {
+    private var viewModel = PaymentViewModel()
     
     
-    private var paymentRequest : PKPaymentRequest = {
-        let request = PKPaymentRequest()
-        request.merchantIdentifier = "merchant.com.pushpendra.pay"
-        request.supportedNetworks = [.quicPay,.masterCard, .visa]
-        request.supportedCountries = ["EG","US"]
-        request.merchantCapabilities = .capability3DS
-        
-        request.countryCode = "EG"
-        request.currencyCode = "EGP"
-        
-        if UserDefaults.standard.string(forKey: "Currency") == "EGP" {
-            request.currencyCode = "EGP"
-        } else{
-            request.currencyCode = "USD"
-        }
-        request.paymentSummaryItems = [PKPaymentSummaryItem(label: "T-shirt", amount:1200 )]
-        
-        return request
-    }()
     override func viewDidLoad() {
-        super.viewDidLoad()
-
-        cashView.layer.shadowRadius = 4.0
-        cashView.layer.cornerRadius = 10.0
-        cashView.layer.shadowColor = UIColor.black.cgColor
-        cashView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-        cashView.layer.shadowOpacity = 0.5
-        
-        applePayView.layer.shadowRadius = 4.0
-        applePayView.layer.cornerRadius = 10.0
-        applePayView.layer.shadowColor = UIColor.black.cgColor
-        applePayView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-        applePayView.layer.shadowOpacity = 0.5
-        self.title = "Choose Payment Method"
-        
-        let cashTapGesture = UITapGestureRecognizer(target: self, action: #selector(cashViewTapped))
-              cashView.addGestureRecognizer(cashTapGesture)
-              
-        let applePayTapGesture = UITapGestureRecognizer(target: self, action: #selector(applePayViewTapped))
-              applePayView.addGestureRecognizer(applePayTapGesture)
-        
-        self.unCheckedApplePay.addTarget(self, action: #selector(tapForPay), for: .touchUpInside)
-    }
-    
-    @objc func tapForPay(){
-        let controller = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest)
-        if controller != nil {
-            controller!.delegate = self
-            present(controller!, animated: true) {
-                print("Completed")
-            }
-        }
-    }
-    var selectedPaymentMethod: PaymentMethod?
-
-       enum PaymentMethod {
-           case cash
-           case applePay
+           super.viewDidLoad()
+           
+           setupUI()
+           setupGestures()
+           self.title = "Choose Payment Method"
        }
-
+       
+       private func setupUI() {
+           [cashView, applePayView,addressView].forEach { view in
+               view?.layer.shadowRadius = 4.0
+               view?.layer.cornerRadius = 10.0
+               view?.layer.shadowColor = UIColor.black.cgColor
+               view?.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+               view?.layer.shadowOpacity = 0.5
+           }
+           
+           unCheckedApplePay.addTarget(self, action: #selector(tapForPay), for: .touchUpInside)
+       }
+       
+       private func setupGestures() {
+           let cashTapGesture = UITapGestureRecognizer(target: self, action: #selector(cashViewTapped))
+           cashView.addGestureRecognizer(cashTapGesture)
+           
+           let applePayTapGesture = UITapGestureRecognizer(target: self, action: #selector(applePayViewTapped))
+           applePayView.addGestureRecognizer(applePayTapGesture)
+       }
+       
+       @objc private func tapForPay() {
+           let controller = PKPaymentAuthorizationViewController(paymentRequest: viewModel.paymentRequest)
+           if controller != nil {
+               controller!.delegate = viewModel
+               present(controller!, animated: true) {
+                   print("Completed")
+               }
+           }
+       }
+ 
    
     @IBAction func continuePaymentBtn(_ sender: UIButton) {
         let coupontUsVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "CouponViewController") as? CouponViewController
@@ -112,8 +85,8 @@ class PaymentViewController: UIViewController, PKPaymentAuthorizationViewControl
     @IBOutlet weak var unCheckedApplePay: UIButton!
     @IBOutlet weak var unCheckedCash: UIButton!
     
-    private func selectPaymentMethod(_ method: PaymentMethod) {
-           selectedPaymentMethod = method
+    private func selectPaymentMethod(_ method: PaymentViewModel.PaymentMethod) {
+           viewModel.selectPaymentMethod(method)
            switch method {
            case .cash:
                unCheckedCash.setImage(UIImage(named: "checked.png"), for: .normal)
