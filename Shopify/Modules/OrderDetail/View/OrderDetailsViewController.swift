@@ -8,15 +8,30 @@
 import UIKit
 
 class OrderDetailsViewController: UIViewController {
-
+    
     @IBOutlet weak var collectionView: UICollectionView!
+    var viewModel = OrderDetailsViewModel()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         collectionView.collectionViewLayout = detailsCollectionViewLayout()
+        self.title = "Order Details"
+        
+        viewModel.bindOrders = {
+            self.updateCollection()
+        }
 
     }
     
+    func updateCollection(){
+            DispatchQueue.main.async { [weak self] in
+                self?.collectionView.reloadData()
+            }
+        }
+
+
+    
+    // MARK: - Collection View Layout Drawing
     
     func detailsCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
@@ -30,44 +45,32 @@ class OrderDetailsViewController: UIViewController {
             let section = NSCollectionLayoutSection(group: group)
             section.interGroupSpacing = 10
             section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-
+            
             return section
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
-extension OrderDetailsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+// MARK: - UICollectionView Methods
+
+    extension OrderDetailsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+        func numberOfSections(in collectionView: UICollectionView) -> Int {
+            return 1
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+            return viewModel.orders.count
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OrderDetailsCell", for: indexPath) as! OrderDetailsCell
-        cell.orderImage.image = UIImage(named:"jan22sale.jpg")
-        cell.numOfUnit.text = "Unit:1"
-        cell.orderBrand.text = "ZARA"
-        cell.unitColor.text = "Color:Black"
-        cell.unitPrice.text = "30$"
-        cell.unitSize.text = "Size:M"
-        cell.productName.text = "Shoes"
+            let item = viewModel.orders[indexPath.row]
+            cell.numOfUnit.text = "Quantity:\(item.quantity)"
+            cell.unitPrice.text = "\(item.price)$"
+            cell.productName.text = item.title
+      
             return cell
+        }
+        
     }
-    
-}
 

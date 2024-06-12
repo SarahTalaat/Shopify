@@ -29,6 +29,11 @@ class ProductViewModel{
         }
     }
     
+    var coloredProducts: [Products] = [] {
+        didSet {
+            bindFilteredProducts()
+        }
+    }
     var minPrice: Float = 0
     var maxPrice: Float = 1000
     
@@ -67,4 +72,17 @@ class ProductViewModel{
             return false
         }
     }
+    
+    func filterByColor(color: String) {
+        coloredProducts = products.filter { product in
+            for option in product.options where option.name == "Color" {
+                if option.values.contains(color) {
+                    return true
+                }
+            }
+            return false
+        }
+        filteredProducts = coloredProducts 
+    }
+ 
 }
