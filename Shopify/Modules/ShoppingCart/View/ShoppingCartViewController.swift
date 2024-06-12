@@ -95,8 +95,8 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
     
     @IBAction func processedToPaymentBtn(_ sender: UIButton) {
         let sb = UIStoryboard(name: "Third", bundle: nil)
-        let addressVC = sb.instantiateViewController(withIdentifier: "addressViewController") as! AddressViewController
-        navigationController?.pushViewController(addressVC, animated: true)
+        let paymentVC = sb.instantiateViewController(withIdentifier: "PaymentVC") as! PaymentViewController
+        navigationController?.pushViewController(paymentVC , animated: true)
     }
 
     func didTapPlusButton(on cell: CartTableViewCell) {
