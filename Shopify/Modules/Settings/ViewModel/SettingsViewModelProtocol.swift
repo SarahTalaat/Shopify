@@ -8,5 +8,10 @@
 import Foundation
 
 protocol SettingsViewModelProtocol {
+    
+    var isSignedOut: Bool? { get }
+    var errorMessage: String? { get }
+    var bindLogOutStatusViewModelToController: (() -> ()) { get set }
+    var bindErrorViewModelToController: (() -> ()) { get set }
     func signOut(isSignedOut: Bool)
 }

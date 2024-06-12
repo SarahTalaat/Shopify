@@ -87,15 +87,15 @@ class SettingsScreenViewController: UIViewController {
     
 
     func bindViewModel() {
-        viewModel.bindUserViewModelToController = {
+        settingsViewModel.bindLogOutStatusViewModelToController = {
             DispatchQueue.main.async {
-                self.navigateToSignUp()()
+                self.navigateToSignUp()
             }
         }
         
-        viewModel.bindErrorViewModelToController = { [weak self] in
+        settingsViewModel.bindErrorViewModelToController = { [weak self] in
             DispatchQueue.main.async {
-                if let errorMessage = self?.viewModel.errorMessage {
+                if let errorMessage = self?.settingsViewModel.errorMessage {
                     self?.showSignOutFailureAlert(title: "Failure", message: "\(errorMessage)", button1Title: "Ok", completion: {})
                 }
             }
@@ -103,7 +103,10 @@ class SettingsScreenViewController: UIViewController {
     }
 
     func navigateToSignUp() {
-        
+        print("Print navigateToSignUp")
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let signUpVC = sb.instantiateViewController(withIdentifier: "SignUpVC")
+        navigationController?.pushViewController(signUpVC, animated: true)
     }
     
     func showSignOutFailureAlert(title: String, message: String, button1Title: String, completion: @escaping () -> Void) {
