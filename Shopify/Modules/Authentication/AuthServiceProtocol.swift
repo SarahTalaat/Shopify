@@ -17,4 +17,6 @@ protocol AuthServiceProtocol  {
     func isEmailTaken(email: String, completion: @escaping (Bool) -> Void)
     func signOut(completion: @escaping (Result<Void, Error>) -> Void)
     func deleteFavouriteId(email: String)
+    func fetchProducts(forCustomerId customerId: String, completion: @escaping ([CustomProduct]?) -> Void)
+    func deleteProduct(forCustomerId customerId: String, productId: String) 
 }

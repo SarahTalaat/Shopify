@@ -212,6 +212,49 @@ class FirebaseAuthService: AuthServiceProtocol {
              print("favouriteId node deleted successfully")
          }
      }
+    
+    func fetchProducts(forCustomerId customerId: String, completion: @escaping ([CustomProduct]?) -> Void) {
+        let ref = Database.database().reference()
+        let productsRef = ref.child("customers").child(customerId).child("products")
+        
+        productsRef.observeSingleEvent(of: .value) { snapshot in
+            guard let productsData = snapshot.value as? [String: [String: Any]] else {
+                print("Firebase: No products found or error occurred")
+                completion(nil)
+                return
+            }
+            
+            var products: [CustomProduct] = []
+            for (productId, productDetails) in productsData {
+                if let productTitle = productDetails["productTitle"] as? String,
+                   let productSize = productDetails["productSize"] as? String,
+                   let productName = productDetails["productName"] as? String,
+                   let productImage = productDetails["productImage"] as? String {
+                    let product = CustomProduct(productId: productId, productTitle: productTitle, productSize: productSize, productName: productName, productImage: productImage)
+                    products.append(product)
+                }
+            }
+            completion(products)
+        }
+    }
+    
+    
+    func deleteProduct(forCustomerId customerId: String, productId: String) {
+        let ref = Database.database().reference()
+        let productRef = ref.child("customers").child(customerId).child("products").child(productId)
+        
+        productRef.removeValue { error, _ in
+            if let error = error {
+                print("Error deleting product: \(error.localizedDescription)")
+            } else {
+                print("Product deleted successfully")
+            }
+        }
+    }
+
+
+
+
  
 }
 
