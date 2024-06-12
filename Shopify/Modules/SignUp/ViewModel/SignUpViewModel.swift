@@ -57,14 +57,14 @@ class SignUpViewModel: SignUpViewModelProtocol {
                     print("vm Sign up successful with user: \(user)")
                     self?.user = user
 
-//                    let createCustomer: [String: Any] = [
-//                        "customer": [
-//                            "verified_email": customerModelRequest.customer.verified_email,
-//                            "email": customerModelRequest.customer.email,
-//                            "first_name": customerModelRequest.customer.first_name
-//                        ]
-//                    ]
-                    let createCustomer: [String: Any] = JsonRequestModels.instance.oneCustomerRequest(verifiedEmail: customerModelRequest.customer.verified_email ?? true, email: customerModelRequest.customer.email ?? "NoNo Email", firstName: customerModelRequest.customer.first_name ?? "NoNoFirstName")
+                    let createCustomer: [String: Any] = [
+                        "customer": [
+                            "verified_email": customerModelRequest.customer.verified_email,
+                            "email": customerModelRequest.customer.email,
+                            "first_name": customerModelRequest.customer.first_name
+                        ]
+                    ]
+//                    let createCustomer: [String: Any] = JsonRequestModels.instance.oneCustomerRequest(verifiedEmail: customerModelRequest.customer.verified_email ?? true, email: customerModelRequest.customer.email ?? "NoNo Email", firstName: customerModelRequest.customer.first_name ?? "NoNoFirstName")
                     let urlString = APIConfig.customers.url
                     self?.postNewCustomer(urlString: urlString, parameters: createCustomer, name: firstName, email: email)
                 
