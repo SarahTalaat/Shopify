@@ -110,14 +110,19 @@ class FirebaseAuthService: AuthServiceProtocol {
         let ref = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
         let customersRef = ref.child("customers")
-        let customerRef = customersRef.child(encodedEmail)
+        let customerRef = customersRef.child(SharedDataRepository.instance.firebaseAuthId ?? "000000000000No FirebaseAuth id")
         
         let customerData: [String: Any] = [
             "customerId": id,
             "email": email,
             "name": name,
             "favouriteId" : favouriteId,
-            "shoppingCartId": shoppingCartId
+            "shoppingCartId": shoppingCartId,
+            "products" : [
+                "productId" : "",
+                "productTitle" : "",
+                "productImage" : ""
+            ]
         ]
         
         customerRef.setValue(customerData) { error, _ in
@@ -132,7 +137,7 @@ class FirebaseAuthService: AuthServiceProtocol {
     func fetchCustomerDataFromRealTimeDatabase(forEmail email: String, completion: @escaping (CustomerData?) -> Void) {
         let ref = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
-        let customersRef = ref.child("customers").child(encodedEmail)
+        let customersRef = ref.child("customers").child(SharedDataRepository.instance.firebaseAuthId ?? "No FirebaseAuth id 0000000")
         
         customersRef.observeSingleEvent(of: .value) { snapshot in
             guard let customerData = snapshot.value as? [String: Any] else {
@@ -162,17 +167,48 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
 
+    func deleteFavouriteId() {
+        let ref = Database.database().reference()
+        let customerId = SharedDataRepository.instance.firebaseAuthId ?? "000000000000No FirebaseAuth id"
+        let customersRef = ref.child("customers").child(customerId)
+
+        // Remove the favouriteId node from the customer data
+        customersRef.child("favouriteId").removeValue { error, _ in
+            if let error = error {
+                print("Error deleting favouriteId node: \(error.localizedDescription)")
+                return
+            }
+
+            print("favouriteId node deleted successfully")
+        }
+    }
+
     
     func isEmailTaken(email: String, completion: @escaping (Bool) -> Void) {
         let ref = Database.database().reference()
-        let encodedEmail = SharedMethods.encodeEmail(email)
-        let customersRef = ref.child("customers").child(encodedEmail)
+        let customersRef = ref.child("customers")
 
         customersRef.observeSingleEvent(of: .value) { snapshot in
-            let isTaken = snapshot.exists()
+            var isTaken = false
+            
+            for idSnapshot in snapshot.children {
+                guard let customerSnapshot = idSnapshot as? DataSnapshot else {
+                    continue
+                }
+                
+                if let emailValue = customerSnapshot.childSnapshot(forPath: "email").value as? String, emailValue == email {
+                    // Email already exists
+                    isTaken = true
+                    break
+                }
+            }
             completion(isTaken)
         }
     }
+
+
+
+
 
 }
 
@@ -190,3 +226,22 @@ class FirebaseAuthService: AuthServiceProtocol {
 //        }
 //    }
     
+//    func updateExistingNode() {
+//        let ref = Database.database().reference()
+//        let customersRef = ref.child("customers")
+//
+//        let newKey = "kFBSk6zTeMNZvqwDPwJKv1DZD832"
+//
+//        // Retrieve the reference to the existing node
+//        let existingNodeRef = customersRef.child("sarahtalaatammar,twitter_at_gmail,com")
+//
+//        // Set the value of the existing node with the new key
+//        existingNodeRef.setValue(newKey) { error, _ in
+//            if let error = error {
+//                print("Error updating existing node: \(error.localizedDescription)")
+//                return
+//            }
+//
+//            print("Existing node updated successfully")
+//        }
+//    }

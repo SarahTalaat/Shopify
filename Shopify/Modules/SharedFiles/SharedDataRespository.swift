@@ -14,6 +14,7 @@ class SharedDataRepository{
     
     var customerName: String?
     var customerEmail: String?
+    var firebaseAuthId: String?
     var customerId: String?
     var shoppingCartId: String?
     var favouriteId: String?
