@@ -74,36 +74,36 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
         let address = addresses[indexPath.row]
         let isDefault = address.id == selectedDefaultAddressId
         cell.configure(with: address, isDefault: isDefault)
-        cell.defaultButtonAction = { [weak self] in
-            self?.setDefaultAddress(at: indexPath.row)
-        }
+//        cell.defaultButtonAction = { [weak self] in
+//            self?.setDefaultAddress(at: indexPath.row)
+//        }
         return cell
     }
     
-    func setDefaultAddress(at index: Int) {
-        guard index < addresses.count else {
-            print("Index out of range: \(index) for addresses.count: \(addresses.count)")
-            return
-        }
-        
-        for i in 0..<addresses.count {
-            addresses[i].default = false
-        }
-        addresses[index].default = true
-        selectedDefaultAddressId = addresses[index].id
-
-        TryAddressNetworkService.shared.updateAddress(addresses[index]) { result in
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    self.addressTableView.reloadData()
-                }
-                self.updateDefaultAddressLabel()
-            case .failure(let error):
-                print("Failed to update address: \(error)")
-            }
-        }
-    }
+//    func setDefaultAddress(at index: Int) {
+//        guard index < addresses.count else {
+//            print("Index out of range: \(index) for addresses.count: \(addresses.count)")
+//            return
+//        }
+//        
+//        for i in 0..<addresses.count {
+//            addresses[i].default = false
+//        }
+//        addresses[index].default = true
+//        selectedDefaultAddressId = addresses[index].id
+//
+//        TryAddressNetworkService.shared.updateAddress(addresses[index]) { result in
+//            switch result {
+//            case .success:
+//                DispatchQueue.main.async {
+//                    self.addressTableView.reloadData()
+//                }
+//                self.updateDefaultAddressLabel()
+//            case .failure(let error):
+//                print("Failed to update address: \(error)")
+//            }
+//        }
+//    }
        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
            return 120
        }

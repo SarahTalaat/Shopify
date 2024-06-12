@@ -19,7 +19,8 @@ enum Result<Success, Failure: Error> {
 enum HTTPMethod: String {
     case get = "GET"
     case post = "POST"
- 
+    case delete = "DELETE"
+    case put = "PUT"
 }
 
 class NetworkServiceAuthentication: NetworkServiceAuthenticationProtocol {
@@ -41,6 +42,10 @@ class NetworkServiceAuthentication: NetworkServiceAuthenticationProtocol {
                 request = Alamofire.request(urlString, method: .get, parameters: model, encoding: URLEncoding.default, headers: headers)
             case .post:
                 request = Alamofire.request(urlString, method: .post, parameters: model, encoding: JSONEncoding.default, headers: headers)
+            case .delete:
+                request = Alamofire.request(urlString, method: .delete, parameters: model, encoding: URLEncoding.default, headers: headers)
+            case .put:
+                request = Alamofire.request(urlString, method: .put, parameters: model, encoding: JSONEncoding.default, headers: headers)
             }
             
             request.validate().responseData { response in
@@ -58,5 +63,4 @@ class NetworkServiceAuthentication: NetworkServiceAuthenticationProtocol {
             }
         }
     }
-
 }
