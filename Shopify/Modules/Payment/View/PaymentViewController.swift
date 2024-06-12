@@ -8,7 +8,7 @@
 import UIKit
 import PassKit
 class PaymentViewController: UIViewController {
-    private var viewModel = PaymentViewModel()
+    private var viewModel = PaymentsViewModel()
     
     
     override func viewDidLoad() {
@@ -85,7 +85,7 @@ class PaymentViewController: UIViewController {
     @IBOutlet weak var unCheckedApplePay: UIButton!
     @IBOutlet weak var unCheckedCash: UIButton!
     
-    private func selectPaymentMethod(_ method: PaymentViewModel.PaymentMethod) {
+    private func selectPaymentMethod(_ method: PaymentsViewModel.PaymentMethod) {
            viewModel.selectPaymentMethod(method)
            switch method {
            case .cash:

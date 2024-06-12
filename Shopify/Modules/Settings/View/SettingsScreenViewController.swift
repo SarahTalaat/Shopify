@@ -80,12 +80,7 @@ class SettingsScreenViewController: UIViewController {
         currencyView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
         currencyView.layer.shadowOpacity = 0.5
 
-        
-
-    }
-  
-
-
+    
         print("test settings")
         print("test settings")
         

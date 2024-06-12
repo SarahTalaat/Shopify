@@ -19,10 +19,10 @@ struct DraftOrder: Codable  {
     let subtotal_price: String
     let total_price: String
     let total_tax: String
-    var line_items: [LineItem]
+    var line_items: [LineItems]
 }
 
-struct LineItem: Codable {
+struct LineItems: Codable {
     let id: Int
     let title: String
     let variant_id: Int
