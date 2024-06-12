@@ -56,31 +56,32 @@ class OrdersViewController: UIViewController {
         }
         
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-          //  return min(ordersViewModel.orders.count, 2)
-            return 2
+            return min(2, ordersViewModel.orders.count)
+
         }
         
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AllOrdersCollectionViewCell", for: indexPath) as! AllOrdersCollectionViewCell
             
-            let item = ordersViewModel.orders[indexPath.row]
-            cell.layer.cornerRadius = 10
-            cell.layer.borderWidth = 1.0
-            cell.clipsToBounds = true
-            
-            
-//            let date = item.created_at
-//            let datePart = date.split(separator: "T").first.map(String.init)
-//            cell.creationDate.text = "Created At: \(datePart ??  " ")"
-            cell.totalPrice.text = "Total Price: \(item.total_price)$"
-                return cell
+                   let item = ordersViewModel.orders[indexPath.row]
+                   cell.layer.cornerRadius = 10
+                   cell.layer.borderWidth = 1.0
+                   cell.clipsToBounds = true
+                   
+                   let date = item.created_at
+                   let datePart = date.split(separator: "T").first.map(String.init)
+                   cell.creationDate.text = "Created At: \(datePart ?? " ")"
+                   cell.totalPrice.text = "Total Price: \(item.total_price)$"
+                   return cell
         }
         
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             let item = ordersViewModel.orders[indexPath.count]
             let storyboard = UIStoryboard(name: "Second", bundle: nil)
             let brandsViewController = storyboard.instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
-            
+            let orderDetails = OrderDetailsViewModel()
+            ordersViewModel.getIds(index: indexPath.row)
+            orderDetails.ids = ordersViewModel.ids
                navigationController?.pushViewController(brandsViewController, animated: true)
             }
         
