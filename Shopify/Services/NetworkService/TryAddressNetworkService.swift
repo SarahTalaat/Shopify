@@ -62,7 +62,9 @@ class TryAddressNetworkService: NetworkService {
             let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
             var request = URLRequest(url: URL(string: url)!)
             request.httpMethod = "POST"
+       //     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
             request.httpBody = jsonData
  
             Alamofire.request(request)
