@@ -111,9 +111,9 @@ class TryAddressNetworkService: NetworkService {
             }
         }
     }
-    func updateAddress(_ address: Address, completion: @escaping (Swift.Result<Void, Error>) -> Void) {
+    func updateAddress(addressId: Int, completion: @escaping (Swift.Result<Void, Error>) -> Void) {
           
-           let url = URL(string: "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/customers/7493076156577/addresses/\(address.id)")!
+           let url = URL(string: "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/customers/7493076156577/addresses/\(addressId).json")!
            var request = URLRequest(url: url)
            request.httpMethod = "PUT"
            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
