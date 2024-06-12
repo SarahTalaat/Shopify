@@ -11,7 +11,6 @@ import FirebaseDatabase
 
 
 class FirebaseAuthService: AuthServiceProtocol {
-    
 
     func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
@@ -19,19 +18,19 @@ class FirebaseAuthService: AuthServiceProtocol {
                 completion(.failure(error))
                 return
             }
-            
+
             guard let user = result?.user else {
                 let unknownError = NSError(domain: "FirebaseAuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
                 completion(.failure(unknownError))
                 return
             }
-            
+
             self?.checkEmailVerification(for: user) { isVerified, error in
                 if let error = error {
                     completion(.failure(error))
                     return
                 }
-                
+
                 if isVerified {
                     let userModel = UserModel(uid: user.uid, email: user.email ?? "")
                     completion(.success(userModel))
@@ -59,13 +58,13 @@ class FirebaseAuthService: AuthServiceProtocol {
                 completion(.failure(error))
                 return
             }
-            
+
             guard let user = result?.user else {
                 let unknownError = NSError(domain: "FirebaseAuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
                 completion(.failure(unknownError))
                 return
             }
-            
+
             // Send verification email
             user.sendEmailVerification { error in
                 if let error = error {
@@ -74,7 +73,7 @@ class FirebaseAuthService: AuthServiceProtocol {
                     print("Firebase: Verification email sent successfully.")
                 }
             }
-            
+
             let userModel = UserModel(uid: user.uid, email: user.email ?? "")
             print("Firebase: The user iddd: \(userModel.uid)")
             completion(.success(userModel))
@@ -110,19 +109,14 @@ class FirebaseAuthService: AuthServiceProtocol {
         let ref = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
         let customersRef = ref.child("customers")
-        let customerRef = customersRef.child(SharedDataRepository.instance.firebaseAuthId ?? "000000000000No FirebaseAuth id")
+        let customerRef = customersRef.child(encodedEmail)
         
         let customerData: [String: Any] = [
             "customerId": id,
             "email": email,
             "name": name,
             "favouriteId" : favouriteId,
-            "shoppingCartId": shoppingCartId,
-            "products" : [
-                "productId" : "",
-                "productTitle" : "",
-                "productImage" : ""
-            ]
+            "shoppingCartId": shoppingCartId
         ]
         
         customerRef.setValue(customerData) { error, _ in
@@ -137,7 +131,7 @@ class FirebaseAuthService: AuthServiceProtocol {
     func fetchCustomerDataFromRealTimeDatabase(forEmail email: String, completion: @escaping (CustomerData?) -> Void) {
         let ref = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
-        let customersRef = ref.child("customers").child(SharedDataRepository.instance.firebaseAuthId ?? "No FirebaseAuth id 0000000")
+        let customersRef = ref.child("customers").child(encodedEmail)
         
         customersRef.observeSingleEvent(of: .value) { snapshot in
             guard let customerData = snapshot.value as? [String: Any] else {
@@ -167,48 +161,17 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
 
-    func deleteFavouriteId() {
-        let ref = Database.database().reference()
-        let customerId = SharedDataRepository.instance.firebaseAuthId ?? "000000000000No FirebaseAuth id"
-        let customersRef = ref.child("customers").child(customerId)
-
-        // Remove the favouriteId node from the customer data
-        customersRef.child("favouriteId").removeValue { error, _ in
-            if let error = error {
-                print("Error deleting favouriteId node: \(error.localizedDescription)")
-                return
-            }
-
-            print("favouriteId node deleted successfully")
-        }
-    }
-
     
     func isEmailTaken(email: String, completion: @escaping (Bool) -> Void) {
         let ref = Database.database().reference()
-        let customersRef = ref.child("customers")
+        let encodedEmail = SharedMethods.encodeEmail(email)
+        let customersRef = ref.child("customers").child(encodedEmail)
 
         customersRef.observeSingleEvent(of: .value) { snapshot in
-            var isTaken = false
-            
-            for idSnapshot in snapshot.children {
-                guard let customerSnapshot = idSnapshot as? DataSnapshot else {
-                    continue
-                }
-                
-                if let emailValue = customerSnapshot.childSnapshot(forPath: "email").value as? String, emailValue == email {
-                    // Email already exists
-                    isTaken = true
-                    break
-                }
-            }
+            let isTaken = snapshot.exists()
             completion(isTaken)
         }
     }
-
-
-
-
 
 }
 
@@ -225,23 +188,19 @@ class FirebaseAuthService: AuthServiceProtocol {
 //            self?.handleAuthResult(result: result, error: error, completion: completion)
 //        }
 //    }
-    
-//    func updateExistingNode() {
-//        let ref = Database.database().reference()
-//        let customersRef = ref.child("customers")
+
+
+//    func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+//        Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
+//            self?.handleAuthResult(result: result, error: error, completion: completion)
+//        }
 //
-//        let newKey = "kFBSk6zTeMNZvqwDPwJKv1DZD832"
 //
-//        // Retrieve the reference to the existing node
-//        let existingNodeRef = customersRef.child("sarahtalaatammar,twitter_at_gmail,com")
+//    }
 //
-//        // Set the value of the existing node with the new key
-//        existingNodeRef.setValue(newKey) { error, _ in
-//            if let error = error {
-//                print("Error updating existing node: \(error.localizedDescription)")
-//                return
-//            }
-//
-//            print("Existing node updated successfully")
+//    func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+//        Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
+//            self?.handleAuthResult(result: result, error: error, completion: completion)
 //        }
 //    }
+    

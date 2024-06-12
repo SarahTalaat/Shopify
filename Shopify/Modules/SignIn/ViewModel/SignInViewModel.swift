@@ -59,7 +59,6 @@ class SignInViewModel: SignInViewModelProtocol {
             case .success(let user):
                 self?.user = user
                 self?.fetchCustomerID()
-                self?.authServiceProtocol.deleteFavouriteId()
                 let urlString = APIConfig.draft_orders.url
                 var draftOrder1 = self?.draftOrderDummyModel1()
                 var draftOrder2 = self?.draftOrderDummyModel2()
@@ -124,7 +123,6 @@ class SignInViewModel: SignInViewModelProtocol {
                 print("si Draft order posted successfully: \(response)")
                 SharedDataRepository.instance.shoppingCartId = "\(response.draftOrder?.id)"
                 print("si: ShoppingCardId: \(SharedDataRepository.instance.shoppingCartId)")
-               
             case .failure(let error):
                 print("si Failed to post draft order: \(error.localizedDescription)")
             }
@@ -195,6 +193,3 @@ class SignInViewModel: SignInViewModelProtocol {
      ]
  ]
  */
-
-
-

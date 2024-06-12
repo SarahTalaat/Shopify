@@ -50,18 +50,13 @@ class SignUpViewModel: SignUpViewModelProtocol {
                 self?.errorMessage = errorMessage
                 return
             }
-/*
- kFBSk6zTeMNZvqwDPwJKv1DZD832
- */
+
             self?.authServiceProtocol.signUp(email: email, password: password) { [weak self] result in
                 switch result {
                 case .success(let user):
                     print("vm Sign up successful with user: \(user)")
                     self?.user = user
-                    SharedDataRepository.instance.firebaseAuthId = user.uid
-                    if(SharedDataRepository.instance.isSignedIn==false){
-                        SharedDataRepository.instance.customerName = firstName
-                    }
+
                     let createCustomer: [String: Any] = [
                         "customer": [
                             "verified_email": customerModelRequest.customer.verified_email,
