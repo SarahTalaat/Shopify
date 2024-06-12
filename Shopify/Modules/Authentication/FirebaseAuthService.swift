@@ -41,6 +41,15 @@ class FirebaseAuthService: AuthServiceProtocol {
             }
         }
     }
+    
+    func signOut(completion: @escaping (Result<Void, Error>) -> Void) {
+        do {
+            try Auth.auth().signOut()
+            completion(.success(()))
+        } catch let signOutError as NSError {
+            completion(.failure(signOutError))
+        }
+    }
 
     
     func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {

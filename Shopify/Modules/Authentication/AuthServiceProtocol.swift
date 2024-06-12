@@ -14,7 +14,5 @@ protocol AuthServiceProtocol  {
     func saveCustomerId(name: String, email: String, id: String, favouriteId: String, shoppingCartId: String)
     func fetchCustomerDataFromRealTimeDatabase(forEmail email: String, completion: @escaping (CustomerData?) -> Void)
     func isEmailTaken(email: String, completion: @escaping (Bool) -> Void)
-    
-
-
+    func signOut(completion: @escaping (Result<Void, Error>) -> Void)
 }

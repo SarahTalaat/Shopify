@@ -117,6 +117,8 @@
 		B63F66A42C18AAF60024A3EA /* UserProfileViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63F66A32C18AAF60024A3EA /* UserProfileViewModelProtocol.swift */; };
 		B63F66A62C18D4CE0024A3EA /* CustomerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63F66A52C18D4CE0024A3EA /* CustomerData.swift */; };
 		B63F66EE2C193BA80024A3EA /* OneDraftOrderResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63F66ED2C193BA80024A3EA /* OneDraftOrderResponse.swift */; };
+		B63F66F02C194F750024A3EA /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63F66EF2C194F750024A3EA /* SettingsViewModel.swift */; };
+		B63F66F22C194F7F0024A3EA /* SettingsViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63F66F12C194F7E0024A3EA /* SettingsViewModelProtocol.swift */; };
 		B68E72FE2C0D402900BC2D90 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68E72FD2C0D402900BC2D90 /* CustomCollectionViewCell.swift */; };
 		B68E73002C0D42F700BC2D90 /* ProductDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68E72FF2C0D42F700BC2D90 /* ProductDetailsVC.swift */; };
 		B68E73052C0DB84200BC2D90 /* CustomDropDownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68E73032C0DB84200BC2D90 /* CustomDropDownViewController.swift */; };
@@ -254,6 +256,8 @@
 		B63F66A32C18AAF60024A3EA /* UserProfileViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModelProtocol.swift; sourceTree = "<group>"; };
 		B63F66A52C18D4CE0024A3EA /* CustomerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerData.swift; sourceTree = "<group>"; };
 		B63F66ED2C193BA80024A3EA /* OneDraftOrderResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneDraftOrderResponse.swift; sourceTree = "<group>"; };
+		B63F66EF2C194F750024A3EA /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		B63F66F12C194F7E0024A3EA /* SettingsViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelProtocol.swift; sourceTree = "<group>"; };
 		B68E72FD2C0D402900BC2D90 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		B68E72FF2C0D42F700BC2D90 /* ProductDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsVC.swift; sourceTree = "<group>"; };
 		B68E73032C0DB84200BC2D90 /* CustomDropDownViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDropDownViewController.swift; sourceTree = "<group>"; };
@@ -625,6 +629,8 @@
 			isa = PBXGroup;
 			children = (
 				B6365BBE2C0A1C6800277D31 /* test7.swift */,
+				B63F66EF2C194F750024A3EA /* SettingsViewModel.swift */,
+				B63F66F12C194F7E0024A3EA /* SettingsViewModelProtocol.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1268,11 +1274,13 @@
 				B6365B832C0A18BD00277D31 /* DatabaseManager.swift in Sources */,
 				B6365BB32C0A1C1C00277D31 /* test26.swift in Sources */,
 				B6365BC52C0A1C8D00277D31 /* test10.swift in Sources */,
+				B63F66F02C194F750024A3EA /* SettingsViewModel.swift in Sources */,
 				B63F66A42C18AAF60024A3EA /* UserProfileViewModelProtocol.swift in Sources */,
 				B6F73F592C14C57300919A67 /* OneCustomerResponse.swift in Sources */,
 				B60A3C3A2C123D74002BEB5D /* SignInViewModelProtocol.swift in Sources */,
 				B68E735C2C0FC89E00BC2D90 /* SplashScreenVC.swift in Sources */,
 				B69FA1752C09F04E009D43B7 /* Shopify.xcdatamodeld in Sources */,
+				B63F66F22C194F7F0024A3EA /* SettingsViewModelProtocol.swift in Sources */,
 				22934A1A2C0C27FF001B79E4 /* CategoryCollectionViewCell.swift in Sources */,
 				220FFA6D2C0D5D70001606AF /* OrderCollectionViewCell.swift in Sources */,
 				B6365B8C2C0A19C000277D31 /* test25.swift in Sources */,

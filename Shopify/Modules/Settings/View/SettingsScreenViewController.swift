@@ -12,7 +12,7 @@ class SettingsScreenViewController: UIViewController {
     @IBOutlet weak var addressView: UIView!
     @IBOutlet weak var currentAddress: UILabel!
 
-  //  var sharedMethods: SharedMethods?
+    var settingsViewModel: SettingsViewModelProtocol!
    
     @IBAction func addressBtn(_ sender: UIButton) {
          let addressVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "addressViewController") as! AddressViewController
@@ -44,10 +44,7 @@ class SettingsScreenViewController: UIViewController {
     @IBOutlet weak var aboutView: UIView!
     
     @IBAction func logoutBtn(_ sender: UIButton) {
-        
-        let sb = UIStoryboard(name: "Main", bundle: nil)
-        let signUpVC = sb.instantiateViewController(withIdentifier: "SignUpVC")
-        navigationController?.pushViewController(signUpVC, animated: true)
+        settingsViewModel.signOut(isSignedOut: true)
     }
    
     
@@ -83,12 +80,31 @@ class SettingsScreenViewController: UIViewController {
         print("test settings")
         print("test settings")
         
+        settingsViewModel = DependencyProvider.settingsViewModel
+        bindViewModel()
 
     }
     
 
-    
+    func bindViewModel() {
+        viewModel.bindUserViewModelToController = {
+            DispatchQueue.main.async {
+                self.navigateToSignUp()()
+            }
+        }
+        
+        viewModel.bindErrorViewModelToController = { [weak self] in
+            DispatchQueue.main.async {
+                if let errorMessage = self?.viewModel.errorMessage {
+                    self?.showSignSuccessfulAlert(title: "Failure", message: "\(errorMessage)", button1Title: "Ok", completion: {})
+                }
+            }
+        }
+    }
 
+    func navigateToSignUp() {
+        
+    }
     
 
 }
