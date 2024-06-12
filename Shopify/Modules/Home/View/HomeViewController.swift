@@ -147,20 +147,20 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         default:
             return viewModel.coupons.count
         }
-     
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-       
-       
+        
+        
         switch collectionView {
         case brandsCollectionView:
-         let item = viewModel.brands[indexPath.row]
+            let item = viewModel.brands[indexPath.row]
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrandsCollectionViewCell", for: indexPath) as! BrandsCollectionViewCell
             
             let imageURL = URL(string: item.image.src)
             cell.brandImage.kf.setImage(with: imageURL)
-              
+            
             cell.brandLabel.text = item.title
             return cell
             
@@ -170,7 +170,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             let images = ["withsale.jpg","ss.jpg"]
             cell.adsImage.image = UIImage(named: images[indexPath.row])
             return cell
-     
+            
         }
     }
     
@@ -185,18 +185,26 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             print(vm.brandID)
             navigationController?.pushViewController(brandsViewController, animated: true)
             
-         default:
+        default:
             let item = indexPath.row
-            let id = viewModel.coupons[item].id
-            if item == 0 {
-                showAlert(title: "Congratulations!", message: "You have just won a 20% discount coupon, copy this coupon \(id) and use it in the checkout proccess")
-            } else {
-                showAlert(title: "Congratulations!", message: "You have just won a 10% discount coupon, copy this coupon \(id) and use it in the checkout proccess")
-            }
-            
+            let couponId = viewModel.coupons[item].id
+            viewModel.getDiscountCode(id: couponId) { discountCode in
+                guard let discountCode = discountCode else {
+                    // Handle the case where no discount code was fetched
+                    print("Failed to fetch discount code")
+                    return
+                }
+                
+                if item == 0 {
+                    self.showAlert(title: "Congratulations!", message: "You have just won a 20% discount coupon, copy this coupon \(discountCode) and use it in the checkout process")
+                } else {
+                    self.showAlert(title: "Congratulations!", message: "You have just won a 10% discount coupon, copy this coupon \(discountCode) and use it in the checkout process")
+                }
             }
         }
+        
     }
+}
 
 // MARK: - Alert Handeling
 

@@ -18,7 +18,24 @@ struct PriceRules: Decodable{
     let target_type : String
 }
 
-struct 
+struct DiscountCodeResponse :Encodable{
+    let discount_code : DiscountCode
+}
 
- 
+struct DiscountCode : Encodable{
+    let price_rule_id: Int
+    let code: String
+}
+
+
+struct DiscountResponse :Decodable{
+    let discount_codes : [Discount]
+}
+
+struct Discount : Decodable{
+    let id : Int
+    let price_rule_id: Int
+    let code: String
+}
+
 
