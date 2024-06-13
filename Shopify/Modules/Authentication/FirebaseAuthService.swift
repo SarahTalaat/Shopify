@@ -189,16 +189,14 @@ class FirebaseAuthService: AuthServiceProtocol {
     func addProduct(email: String, productId: String, productTitle: String, productSize: String, productColour: String, productImage: String, completion: @escaping (Bool) -> Void) {
         let ref = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
-        let productsRef = ref.child("customers").child(encodedEmail).child("products")
+        let productsRef = ref.child("customers").child(encodedEmail).child("products").child(productId)
 
         let productData: [String: Any] = [
-            productId: [
-                "productId": productId,
-                "productTitle": productTitle,
-                "productSize": productSize,
-                "productColour": productColour,
-                "productImage": productImage
-            ]
+            "productId": productId,
+            "productTitle": productTitle,
+            "productSize": productSize,
+            "productColour": productColour,
+            "productImage": productImage
         ]
 
         productsRef.setValue(productData) { error, _ in
