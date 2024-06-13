@@ -59,6 +59,7 @@
 		6CDDBE512C1A4AB700D804D3 /* CouponsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDDBE502C1A4AB700D804D3 /* CouponsViewModel.swift */; };
 		6CDDBE532C1A4BC900D804D3 /* PaymentMethodsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDDBE522C1A4BC900D804D3 /* PaymentMethodsViewModel.swift */; };
 		6CDDBE552C1B70DB00D804D3 /* AddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDDBE542C1B70D900D804D3 /* AddressViewModel.swift */; };
+		6CDDBE572C1B73F100D804D3 /* NewAddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDDBE562C1B73F100D804D3 /* NewAddressViewModel.swift */; };
 		B60A3C382C123D62002BEB5D /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60A3C372C123D62002BEB5D /* SignInViewModel.swift */; };
 		B60A3C3A2C123D74002BEB5D /* SignInViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60A3C392C123D74002BEB5D /* SignInViewModelProtocol.swift */; };
 		B60A3C3C2C124803002BEB5D /* AuthServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60A3C3B2C124803002BEB5D /* AuthServiceProtocol.swift */; };
@@ -235,6 +236,7 @@
 		6CDDBE502C1A4AB700D804D3 /* CouponsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponsViewModel.swift; sourceTree = "<group>"; };
 		6CDDBE522C1A4BC900D804D3 /* PaymentMethodsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodsViewModel.swift; sourceTree = "<group>"; };
 		6CDDBE542C1B70D900D804D3 /* AddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressViewModel.swift; sourceTree = "<group>"; };
+		6CDDBE562C1B73F100D804D3 /* NewAddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAddressViewModel.swift; sourceTree = "<group>"; };
 		8DDFF2CC4A09A57E31BFEE60 /* Pods_ShopifyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShopifyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABD16382AFA74B2F1FD6DE89 /* Pods-ShopifyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopifyTests.debug.xcconfig"; path = "Target Support Files/Pods-ShopifyTests/Pods-ShopifyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B60A3C372C123D62002BEB5D /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
@@ -662,6 +664,7 @@
 				B63F66EF2C194F750024A3EA /* SettingsViewModel.swift */,
 				B63F66F12C194F7E0024A3EA /* SettingsViewModelProtocol.swift */,
 				6CDDBE542C1B70D900D804D3 /* AddressViewModel.swift */,
+				6CDDBE562C1B73F100D804D3 /* NewAddressViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1383,6 +1386,7 @@
 				6CB508D32C1330CE0052E606 /* TryAddressNetworkService.swift in Sources */,
 				B68E73622C10AA1800BC2D90 /* OnboardingUIPageViewController.swift in Sources */,
 				B6F73F472C14791E00919A67 /* NetworkServiceAuthentication.swift in Sources */,
+				6CDDBE572C1B73F100D804D3 /* NewAddressViewModel.swift in Sources */,
 				6CDDBE532C1A4BC900D804D3 /* PaymentMethodsViewModel.swift in Sources */,
 				6C204C112C0B4FBC00D2B0FC /* CurrencyViewController.swift in Sources */,
 				B6365BBF2C0A1C6800277D31 /* test7.swift in Sources */,
