@@ -172,6 +172,18 @@ class FirebaseAuthService: AuthServiceProtocol {
             completion(isTaken)
         }
     }
+    func isEmailVerified(email: String, completion: @escaping (Bool, Error?) -> Void) {
+        Auth.auth().fetchSignInMethods(forEmail: email) { methods, error in
+            if let error = error {
+                completion(false, error)
+                return
+            }
+            // If methods contains any sign-in methods, it means the email is verified
+            let isVerified = methods?.isEmpty == false
+            completion(isVerified, nil)
+        }
+    }
+
 
 }
 
