@@ -10,7 +10,7 @@ import Alamofire
 class DraftOrderNetworkService {
 
     func fetchDraftOrders(completion: @escaping (Swift.Result<DraftOrder, Error>) -> Void) {
-        let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/1031695532193.json"
+        let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/1032579809441.json"
         
         Alamofire.request(url).responseData { response in
             switch response.result {
