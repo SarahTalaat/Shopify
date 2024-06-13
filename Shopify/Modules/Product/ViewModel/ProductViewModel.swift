@@ -105,13 +105,15 @@ class ProductViewModel: ProductViewModelProtocol{
     func addProductToFavorites(productId: String, title: String, option1: String, option2: String, src: String) {
         guard let authServiceProtocol = authServiceProtocol else { return }
         
-        authServiceProtocol.addProduct(productId: productId, title: title, option1: option1, option2: option2, src: src) { [weak self] success in
+        let email = SharedDataRepository.instance.customerEmail ?? "Product no email"
+        
+        authServiceProtocol.addProduct(email: email, productId: productId, productTitle: title, productSize: option1, productColour: option2, productImage: src) { [weak self] success in
             if success {
                 self?.favoriteProducts.insert(productId)
             }
         }
-
     }
+
     
     func deleteProduct(productId: String) {
         guard let authServiceProtocol = authServiceProtocol else { return }
