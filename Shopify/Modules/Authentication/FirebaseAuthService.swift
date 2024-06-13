@@ -108,31 +108,30 @@ class FirebaseAuthService: AuthServiceProtocol {
             completion(user.isEmailVerified, nil)
         }
     }
-    func saveCustomerId(name: String, email: String, id: String, favouriteId: String, shoppingCartId: String,productId:String, productTitle:String , productSize:String , productColour:String , productImage:String) {
+    func saveCustomerId(name: String, email: String, id: String, favouriteId: String, shoppingCartId: String, productId: String, productTitle: String, productSize: String, productColour: String, productImage: String) {
         let ref = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
         let customersRef = ref.child("customers")
         let customerRef = customersRef.child(encodedEmail)
-        
+
+        let productData: [String: Any] = [
+            "productId": productId,
+            "productTitle": productTitle,
+            "productSize": productSize,
+            "productColour": productColour,
+            "productImage": productImage
+        ]
+
         let customerData: [String: Any] = [
             "customerId": id,
             "email": email,
             "name": name,
             "favouriteId": favouriteId,
             "shoppingCartId": shoppingCartId,
-            "products": [
-                productId: [
-                    "productId": productId,
-                    "productTitle": productTitle,
-                    "productSize": productSize,
-                    "productColour": productColour,
-                    "productImage": productImage
-                ]
-            ]
+            "products": [productId: productData]
         ]
 
-        
-        customerRef.setValue(customerData) { error, _ in
+        customerRef.updateChildValues(customerData) { error, _ in
             if let error = error {
                 print("Error saving data to Firebase: \(error.localizedDescription)")
             } else {
@@ -140,6 +139,7 @@ class FirebaseAuthService: AuthServiceProtocol {
             }
         }
     }
+
 
     func fetchCustomerDataFromRealTimeDatabase(forEmail email: String, completion: @escaping (CustomerData?) -> Void) {
         let ref = Database.database().reference()
