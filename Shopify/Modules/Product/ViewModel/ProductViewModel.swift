@@ -7,13 +7,19 @@
 
 import Foundation
 
-class ProductViewModel{
+class ProductViewModel: ProductViewModelProtocol{
+    
+    
+    var authServiceProtocol: AuthServiceProtocol!
+    
     
     var brandID: Int = 0 {
         didSet {
             getProducts()
         }
     }
+    
+    private var favoriteProducts: Set<String> = []
     
     var products: [Products] = [] {
         didSet {
@@ -40,6 +46,9 @@ class ProductViewModel{
     var bindFilteredProducts: (() -> ()) = {}
     var bindPriceRange: (() -> ()) = {}
     
+    
+
+    
     var currentMaxPrice: Float = 1000 {
         didSet {
             filterProducts()
@@ -50,10 +59,18 @@ class ProductViewModel{
         getProducts()
     }
     
+    init(authServiceProtocol:AuthServiceProtocol){
+        self.authServiceProtocol = authServiceProtocol
+    }
+    
     func getProducts() {
         NetworkUtilities.fetchData(responseType: ProductResponse.self, endpoint: "products.json?collection_id=\(brandID)") { product in
             self.products = product?.products ?? []
         }
+    }
+    
+    func addToFavourite(productId:String){
+        
     }
     
     func calculatePriceRange() {
@@ -83,6 +100,31 @@ class ProductViewModel{
             return false
         }
         filteredProducts = coloredProducts 
+    }
+    
+    func addProductToFavorites(productId: String, title: String, option1: String, option2: String, src: String) {
+        guard let authServiceProtocol = authServiceProtocol else { return }
+        
+        authServiceProtocol.addProduct(productId: productId, title: title, option1: option1, option2: option2, src: src) { [weak self] success in
+            if success {
+                self?.favoriteProducts.insert(productId)
+            }
+        }
+
+    }
+    
+    func deleteProduct(productId: String) {
+        guard let authServiceProtocol = authServiceProtocol else { return }
+        
+        authServiceProtocol.deleteProduct(email: SharedDataRepository.instance.customerEmail ?? "Product No Email", productId: productId) { [weak self] success in
+            if success {
+                self?.favoriteProducts.remove(productId)
+            }
+        }
+    }
+    
+    func isFavorite(productId: String) -> Bool {
+        return favoriteProducts.contains(productId)
     }
  
 }

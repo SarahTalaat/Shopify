@@ -25,6 +25,8 @@ class ProductViewController: UIViewController {
     var isFilter = false
     var viewModel = ProductViewModel()
     
+    var productViewModel: ProductViewModelProtocol!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +38,8 @@ class ProductViewController: UIViewController {
         priceLabel.text = "No selected price"
         
         handleDropDownList()
+        
+        productViewModel = DependencyProvider.productViewModel
         
         viewModel.bindFilteredProducts = { [weak self] in
             self?.updateCollection()
