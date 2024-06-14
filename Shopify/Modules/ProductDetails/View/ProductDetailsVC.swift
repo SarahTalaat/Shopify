@@ -44,7 +44,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         
         setUpFavouriteButton()
         
-        setupConstraints()
+     //   setupConstraints()
 
 
     }
