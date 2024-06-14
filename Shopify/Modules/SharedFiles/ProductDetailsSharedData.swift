@@ -15,7 +15,7 @@ class ProductDetailsSharedData {
     
     var filteredProducts: [Products]?
     var brandsProductIndex: Int?
-    
+    var isProduct: Bool?
     
     
     

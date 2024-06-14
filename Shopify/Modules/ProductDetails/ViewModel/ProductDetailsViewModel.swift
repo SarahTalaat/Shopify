@@ -43,11 +43,13 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     var bindCustomProductDetailsViewModelToController: (() -> ()) = {}
 
     func getProduct(){
+        
+        if(ProductDetailsSharedData.instance.isProduct==true){
+            
+        
         filteredProducts = ProductDetailsSharedData.instance.filteredProducts ?? []
         print("PD FilterProducts count: \(filteredProducts?.count)")
         product = filteredProducts?[ProductDetailsSharedData.instance.brandsProductIndex ?? 0]
-        
-        self.postProduct(variantId: product?.variants.first?.id ?? 44382094393505, quantity: <#T##Int#>)
         
         variant = product?.variants ?? []
         if let variants = product?.variants {
@@ -77,6 +79,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         let product = CustomProductDetails(images:images ?? [] , colour: colour ?? [], size: size ?? [], variant: variant ?? [], vendor: vendor ?? "No vendor", title: title ?? "No title", price: price ?? "No price", description: description ?? "No description")
     
         self.customProductDetails = product
+        }
         self.bindCustomProductDetailsViewModelToController()
 
     }

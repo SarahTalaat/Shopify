@@ -90,5 +90,9 @@ class ProductViewModel{
         print("prod vm index: \(index)")
         ProductDetailsSharedData.instance.brandsProductIndex = index
     }
+    
+    func isProductCheck(check: Bool){
+        ProductDetailsSharedData.instance.isProduct = check
+    }
  
 }
