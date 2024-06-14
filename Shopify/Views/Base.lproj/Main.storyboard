@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -426,6 +427,16 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k9c-9i-JyH" customClass="CustomButton" customModule="Shopify" customModuleProvider="target">
+                                                <rect key="frame" x="52" y="1849" width="310" height="50"/>
+                                                <color key="tintColor" red="1" green="0.085469850700000002" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" imagePlacement="trailing" title="Add to cart" imagePadding="20">
+                                                    <imageReference key="image" image="cart.badge.plus.fill" catalog="system" symbolScale="large"/>
+                                                    <fontDescription key="titleFontDescription" type="system" pointSize="21"/>
+                                                    <color key="baseBackgroundColor" red="1" green="0.085469850700000002" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </buttonConfiguration>
+                                            </button>
                                         </subviews>
                                         <viewLayoutGuide key="safeArea" id="tT5-gO-aGG"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -451,9 +462,11 @@
                                             <constraint firstItem="9Yg-6e-cnq" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="32" id="NJn-wM-Zl7"/>
                                             <constraint firstItem="VhD-OC-Gly" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.3" id="OWQ-ac-y8b"/>
                                             <constraint firstItem="4vf-1K-nTz" firstAttribute="leading" secondItem="70L-FJ-uMv" secondAttribute="trailing" constant="10" id="OsP-ez-Lb0"/>
+                                            <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="k9c-9i-JyH" secondAttribute="trailing" constant="52" id="PQI-c1-dgX"/>
                                             <constraint firstItem="FdZ-h1-fmC" firstAttribute="top" secondItem="4vf-1K-nTz" secondAttribute="bottom" constant="4" id="PkJ-lM-TyW"/>
                                             <constraint firstItem="FdZ-h1-fmC" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.15" id="PoN-5K-p8A"/>
                                             <constraint firstItem="Vpg-R2-mjX" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" id="Pqt-CQ-dTF"/>
+                                            <constraint firstItem="k9c-9i-JyH" firstAttribute="centerX" secondItem="tT5-gO-aGG" secondAttribute="centerX" id="S31-bl-KyU"/>
                                             <constraint firstItem="V02-Ib-1bQ" firstAttribute="top" secondItem="Vpg-R2-mjX" secondAttribute="bottom" constant="20" id="Up9-Br-4y1"/>
                                             <constraint firstItem="joN-TH-lrW" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" id="V5A-ot-gl3"/>
                                             <constraint firstItem="mEQ-44-4E3" firstAttribute="leading" secondItem="4vf-1K-nTz" secondAttribute="trailing" constant="10" id="WFf-lz-R48"/>
@@ -475,6 +488,7 @@
                                             <constraint firstItem="tT5-gO-aGG" firstAttribute="leading" secondItem="S75-xb-dGm" secondAttribute="leading" constant="-10" id="kZa-L6-9so"/>
                                             <constraint firstItem="kcU-Oo-n38" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" multiplier="0.2" id="mNT-qP-8yd"/>
                                             <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="8Fi-V9-xR1" secondAttribute="trailing" constant="10" id="mVb-99-i6c"/>
+                                            <constraint firstItem="k9c-9i-JyH" firstAttribute="top" secondItem="cEj-gK-rrH" secondAttribute="bottom" constant="77.5" id="nCc-Cv-7Vi"/>
                                             <constraint firstItem="V02-Ib-1bQ" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="20" id="nRa-Gy-AaE"/>
                                             <constraint firstItem="70L-FJ-uMv" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="10" id="oeo-IA-bxL"/>
                                             <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="cEj-gK-rrH" secondAttribute="trailing" constant="10" id="pDH-H1-X7m"/>
@@ -487,6 +501,7 @@
                                             <constraint firstItem="FdZ-h1-fmC" firstAttribute="width" secondItem="4vf-1K-nTz" secondAttribute="width" id="w0u-Rb-y9C"/>
                                             <constraint firstItem="VhD-OC-Gly" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" id="wXj-FT-lv7"/>
                                             <constraint firstItem="joN-TH-lrW" firstAttribute="top" secondItem="10p-Hd-3k4" secondAttribute="bottom" constant="10" id="xPC-Ea-8Nv"/>
+                                            <constraint firstItem="k9c-9i-JyH" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="52" id="xzS-6Y-17r"/>
                                             <constraint firstItem="Vpg-R2-mjX" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" id="yl8-3r-lNO"/>
                                         </constraints>
                                     </view>
@@ -697,6 +712,22 @@
         </scene>
     </scenes>
     <designables>
+        <designable name="Alf-15-BzH">
+            <size key="intrinsicContentSize" width="24" height="17"/>
+        </designable>
+        <designable name="Cdy-VQ-kEt">
+            <size key="intrinsicContentSize" width="24" height="18.5"/>
+        </designable>
+        <designable name="OPE-rW-ysb">
+            <size key="intrinsicContentSize" width="24" height="18.5"/>
+        </designable>
+        <designable name="PvZ-G9-Gt1">
+            <size key="intrinsicContentSize" width="24" height="17"/>
+        </designable>
+        <designable name="Yi8-RZ-ayL">
+            <size key="intrinsicContentSize" width="24" height="18.5"/>
+        </designable>
+        <designable name="oL7-YE-7Z8"/>
         <designable name="wQJ-gb-1pY">
             <size key="intrinsicContentSize" width="138.5" height="41.5"/>
         </designable>
@@ -704,6 +735,7 @@
     <resources>
         <image name="Sale" width="1200" height="675"/>
         <image name="arrow.right" catalog="system" width="128" height="98"/>
+        <image name="cart.badge.plus.fill" catalog="system" width="128" height="106"/>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="logo" width="816" height="816"/>
