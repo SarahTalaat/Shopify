@@ -15,7 +15,7 @@ class AllProductsViewController: UIViewController {
 
     
     let viewModel = AllProductsViewModel()
-    
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "All Products"
@@ -70,7 +70,16 @@ class AllProductsViewController: UIViewController {
             let item = viewModel.products[indexPath.row]
             
             cell.brandLabel.text = item.vendor
-            cell.priceLabel.text = "\(item.variants[0].price)$"
+            
+            let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+                  let exchangeRate = viewModel.exchangeRates[selectedCurrency] ?? 1.0
+                  
+                  if let price = Double(item.variants[0].price) {
+                      let convertedPrice = price * exchangeRate
+                      cell.priceLabel.text = "\(String(format: "%.2f", convertedPrice)) \(selectedCurrency)"
+                  } else {
+                      cell.priceLabel.text = "Invalid price"
+                  }
             
             if let range = item.title.range(of: "|") {
                 var truncatedString = String(item.title[range.upperBound...]).trimmingCharacters(in: .whitespaces)

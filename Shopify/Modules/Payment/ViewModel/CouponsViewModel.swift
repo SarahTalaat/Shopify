@@ -9,17 +9,21 @@ import Foundation
 class CouponsViewModel {
     
     let network = NetworkServiceAuthentication()
-    let staticSubTotal: Double = 100.00
     private(set) var discountCodes: [String] = []
 
-    var subTotal: String {
-        return String(format: "$%.2f", staticSubTotal)
-    }
-    
     init() {
          setupOrder()
      }
 
+    var staticSubTotal: Double = 100.00
+
+    var subTotal: String = String(format: "$%.2f", 100.00) {
+           didSet {
+               if let subTotalValue = Double(subTotal.replacingOccurrences(of: "$", with: "")) {
+                   staticSubTotal = subTotalValue
+               }
+           }
+       }
     func validateCoupon(_ couponCode: String, completion: @escaping (Double?) -> Void) {
         let discountAmount: Double? = {
             if couponCode == "SUMMERSALE20OFF" {

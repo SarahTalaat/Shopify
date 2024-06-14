@@ -15,7 +15,7 @@ class SharedDataRepository{
     var customerName: String?
     var customerEmail: String?
     var customerId: String?
-    var shoppingCartId: String?
+    var draftOrderId: String?
     var favouriteId: String?
     var isSignedIn: Bool = false
 }

@@ -199,8 +199,13 @@ class CategoryViewController: UIViewController {
             
             cell.productBrand.text = item.vendor
             viewModel.getPrice(id: item.id) { price in
-                       DispatchQueue.main.async {
-                           cell.productPrice.text = "\(price)$"
+                       let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+                       let exchangeRate = self.viewModel.exchangeRates[selectedCurrency] ?? 1.0
+                       if let priceDouble = Double(price) {
+                           let convertedPrice = priceDouble * exchangeRate
+                           DispatchQueue.main.async {
+                               cell.productPrice.text = "\(String(format: "%.2f", convertedPrice)) \(selectedCurrency)"
+                           }
                        }
                    }
             

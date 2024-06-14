@@ -8,12 +8,12 @@
 import Foundation
 import Alamofire
 class DraftOrderNetworkService {
-    
-    let draftOrderId = SharedDataRepository.instance.shoppingCartId
+            
+    let draftOrderId = SharedDataRepository.instance.draftOrderId
 
-    func fetchDraftOrders(completion: @escaping (Swift.Result<DraftOrder, Error>) -> Void) {
+    func fetchDraftOrders(completion: @escaping (Result<DraftOrder, Error>) -> Void) {
         let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/1033025454241.json"
-        
+        print("draft:\(draftOrderId ?? "testtttt")")
         Alamofire.request(url).responseData { response in
             switch response.result {
             case .success(let data):
@@ -50,30 +50,31 @@ class DraftOrderNetworkService {
                         "price": $0.price
                     ]}
                 ]
+
             ]
-            
-            Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default).responseData { response in
-                switch response.result {
-                case .success(let data):
-                    print("Response data: \(String(data: data, encoding: .utf8) ?? "No data")")
-                    do {
-                        let decoder = JSONDecoder()
-                        let draftOrderResponse = try decoder.decode([String: DraftOrder].self, from: data)
-                        if let draftOrder = draftOrderResponse["draft_order"] {
-                            completion(.success(draftOrder))
-                        } else {
-                            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid response format"])))
-                        }
-                    } catch {
-                        print("Decoding error: \(error)")
-                        completion(.failure(error))
+        ]
+        
+        Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default).responseData { response in
+            switch response.result {
+            case .success(let data):
+                print("Response data: \(String(data: data, encoding: .utf8) ?? "No data")")
+                do {
+                    let decoder = JSONDecoder()
+                    let draftOrderResponse = try decoder.decode([String: DraftOrder].self, from: data)
+                    if let draftOrder = draftOrderResponse["draft_order"] {
+                        completion(.success(draftOrder))
+                    } else {
+                        completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid response format"])))
                     }
-                    
-                case .failure(let error):
-                    print("Network request error: \(error)")
+                } catch {
+                    print("Decoding error: \(error)")
                     completion(.failure(error))
                 }
+                
+            case .failure(let error):
+                print("Network request error: \(error)")
+                completion(.failure(error))
             }
         }
-    
+    }
 }
