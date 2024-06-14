@@ -45,11 +45,25 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             colour = variants.compactMap{ $0.option2}
             size = variants.compactMap { $0.option1 }
             price = variants.first?.price
+            
+            
+            print("vm PD  variants.compactMap{ $0.option2} :\(variants.compactMap{ $0.option2} )")
+            print("vm PD variants.compactMap { $0.option1 } :\(variants.compactMap { $0.option1 } )")
+            print("vm PD variants.first?.price :\(variants.first?.price ?? "NOO PRICE")")
         }
         images = product?.images.compactMap{$0.src}
         vendor = product?.vendor
         title = product?.title
         description = product?.body_html
+        print("vm PD filteredProdShared  :\(ProductDetailsSharedData.instance.filteredProducts ?? [])")
+        print("vm PD  product?.variants ?? [] :\(product?.variants ?? [])")
+
+        print("vm PD  product?.images.compactMap{$0.src} :\(product?.images.compactMap{$0.src} ?? [])")
+        print("vm PD  product?.vendor :\(product?.vendor ?? "NOO VEND")")
+        print("vm PD  product?.title :\(product?.title ?? "NOO TITl")")
+        print("vm PD  product?.body_html :\(product?.body_html ?? "NO DESC" )")
+        print("vm PD  index :\(ProductDetailsSharedData.instance.brandsProductIndex ?? 000)")
+        
         
         customProductDetails = CustomProductDetails(images:images ?? [] , colour: colour ?? [], size: size ?? [], variant: variant ?? [], vendor: vendor ?? "No vendor", title: title ?? "No title", price: price ?? "No price", description: description ?? "No description")
     

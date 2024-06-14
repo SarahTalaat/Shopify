@@ -9,9 +9,6 @@ import UIKit
 
 class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource{
     @IBOutlet weak var brandNameLabel: UILabel!
-    
-    @IBOutlet weak var collectionViewCell: CustomCollectionViewCell!
-    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var ratingView: UIView!
     @IBOutlet weak var brandTitleLabel: UILabel!
@@ -42,6 +39,8 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
         viewModel = DependencyProvider.productDetails
         viewModel.getProduct()
+        bindViewModel()
+ 
         
         
         
@@ -63,7 +62,17 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     
     
 
-
+    private func bindViewModel() {
+        viewModel.bindCustomProductDetailsViewModelToController = { [weak self] in
+            DispatchQueue.main.async {
+                
+                self?.brandNameLabel.text = self?.viewModel.customProductDetails?.vendor
+                self?.brandTitleLabel.text = self?.viewModel.customProductDetails?.title
+                
+            }
+        }
+        
+    }
 
     @IBAction func favouriteButtonTapped(_ sender: UIButton) {
 
