@@ -16,12 +16,14 @@ class ProductViewController: UIViewController {
     @IBOutlet weak var priceSlider: UISlider!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var sizeMenu: UIButton!
+    @IBOutlet weak var clothSizeMenu: UIButton!
     @IBOutlet weak var colorMenu: UIButton!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var collectionViewTopConstraint: NSLayoutConstraint!
     
     let colorList = ["All","black", "white", "red", "blue", "gray", "yellow","beige","light-brown","burgandy"]
-    let sizeList = ["XS", "S", "M", "L", "XL"]
+    let sizeList = ["All","1","2","3","4","5","6","7","8","9","10","11","12","13","14"]
+    let clothList = [ "All","S", "M", "L", "XL"]
     var isFilter = false
     var viewModel = ProductViewModel()
     
@@ -75,10 +77,17 @@ class ProductViewController: UIViewController {
     
     // MARK: - Drop Down List
     
-    func handleDropDownList(){
-        let actionClosure = { (action: UIAction) in
-            print(action.title)
+    func handleDropDownList() {
+        let shoesClosure = { [weak self](action: UIAction) in
+            guard let self = self else { return }
+            let selected = action.title
+            if selected == "All" {
+                self.viewModel.filteredProducts = self.viewModel.products
+            } else {
+                self.viewModel.filterBySize(productType: "SHOES", size: selected)
+            }
         }
+        
         let colorClosure = { [weak self] (action: UIAction) in
             guard let self = self else { return }
             let selectedColor = action.title
@@ -89,29 +98,24 @@ class ProductViewController: UIViewController {
                 self.viewModel.filterByColor(color: selectedColor)
             }
         }
+        
+        let clothClosure = { [weak self](action: UIAction) in
+            guard let self = self else { return }
+            let selected = action.title
+            if selected == "All" {
+                self.viewModel.filteredProducts = self.viewModel.products
+            } else {
+                self.viewModel.filterBySize(productType: "T-SHIRTS", size: selected)
+            }
+        }
 
-        //Color Menu
-        var menuColors: [UIMenuElement] = []
-        for color in colorList {
-            menuColors.append(UIAction(title: color, handler: colorClosure))
-        }
-        colorMenu.menu = UIMenu(options: .displayInline, children: menuColors)
-        colorMenu.showsMenuAsPrimaryAction = true
-        colorMenu.changesSelectionAsPrimaryAction = true
-        
-        
-        //Size Menu
-        var menusizes: [UIMenuElement] = []
-        for size in sizeList {
-            menusizes.append(UIAction(title: size, handler: actionClosure))
-        }
-        sizeMenu.menu = UIMenu(options: .displayInline, children: menusizes)
-        sizeMenu.showsMenuAsPrimaryAction = true
-        sizeMenu.changesSelectionAsPrimaryAction = true
-        
+
         let filterButton = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal.decrease.circle"), style: .plain, target: self, action: #selector(self.showFilter))
         navigationItem.rightBarButtonItems = [filterButton]
     }
+
+    
+ 
   
     // MARK: - Navigation Bar Item
     

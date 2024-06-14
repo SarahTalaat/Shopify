@@ -34,6 +34,16 @@ class ProductViewModel{
             bindFilteredProducts()
         }
     }
+    var clothProducts: [Products] = [] {
+        didSet {
+            bindFilteredProducts()
+        }
+    }
+    var shoesProducts: [Products] = [] {
+        didSet {
+            bindFilteredProducts()
+        }
+    }
     var minPrice: Float = 0
     var maxPrice: Float = 1000
     
@@ -84,5 +94,27 @@ class ProductViewModel{
         }
         filteredProducts = coloredProducts 
     }
- 
+    
+    func filterBySize(productType: String, size: String) {
+        let filteredByType = products.filter { $0.product_type == productType }
+        
+        let filteredBySize = filteredByType.filter { product in
+            for option in product.options where option.name == "Size" {
+                if option.values.contains(size) {
+                    return true
+                }
+            }
+            return false
+        }
+        
+        switch productType {
+        case "SHOES":
+            shoesProducts = filteredBySize
+            filteredProducts = shoesProducts
+        default:
+            clothProducts = filteredBySize
+            filteredProducts = clothProducts
+        }
+    }
+
 }

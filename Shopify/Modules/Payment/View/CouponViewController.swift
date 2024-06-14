@@ -64,6 +64,7 @@ class CouponViewController: UIViewController {
     
     
     @IBAction func placePaymentBtn(_ sender: UIButton) {
+        viewModel.postOrder()
     }
   
 

@@ -18,12 +18,71 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var wishlistLabel: UILabel!
     @IBOutlet weak var register: UIButton!
     @IBOutlet weak var login: UIButton!
-    
+    @IBOutlet weak var ordersView: UIView!
+    @IBOutlet weak var wishlistView: UIView!
     
     let ordersViewModel = OrdersViewModel()
+    var detailsModel = OrderDetailsViewModel()
     var sharedMethods: SharedMethods?
-    
     var userProfileViewModel: UserProfileViewModelProfileProtocol!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        ordersCollectionView.collectionViewLayout = ordersCollectionViewLayout()
+        wishlistCollectionView.collectionViewLayout = wishlistCollectionViewLayout()
+        sharedMethods = SharedMethods(viewController: self)
+        
+        print("Profile View Controller ViewDidLoad")
+        userProfileViewModel = DependencyProvider.userProfileViewModel
+        bindViewModel()
+        userProfileViewModel.userPersonalData()
+        print("Profile: test name : \(userProfileViewModel.name)")
+        print("Profile: test email : \(userProfileViewModel.email)")
+
+        let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
+
+        let thirdButton = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToSettings))
+
+        navigationItem.rightBarButtonItems = [secondButton]
+        navigationItem.leftBarButtonItem = thirdButton
+        
+        login.isHidden = true
+        register.isHidden = true
+        
+        guestMode()
+            ordersViewModel.bindAllOrders = {
+            self.updateCollection()
+        }
+    }
+    
+    func updateCollection(){
+            DispatchQueue.main.async { [weak self] in
+                self?.ordersCollectionView.reloadData()
+            }
+        }
+    
+    private func bindViewModel() {
+        userProfileViewModel.bindUserViewModelToController = { [weak self] in
+            DispatchQueue.main.async {
+                self?.welcomeLabel.text = "Welcome \(self?.userProfileViewModel?.name ?? "No valueeee for name!!!!!")"
+                print("Profile: View: name: \(self?.userProfileViewModel?.name ?? "Nope there is no value for name!!!")")
+                self?.usernameLabel.text = self?.userProfileViewModel?.name
+                self?.gmailLabel.text = self?.userProfileViewModel?.email
+            }
+        }
+    }
+    func guestMode(){
+        if userProfileViewModel.name == "Guest"{
+            login.isHidden = false
+            register.isHidden = false
+            ordersCollectionView.isHidden = true
+            wishlistCollectionView.isHidden = true
+            ordersView.isHidden = true
+            wishlistView.isHidden = true
+        }
+    }
+    
+    // MARK: - Handle Buttons Action
     
     @IBAction func ordersBtn(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Second", bundle: nil)
@@ -38,59 +97,7 @@ class ProfileViewController: UIViewController {
         navigationController?.pushViewController(favouriteVC, animated: true)
     }
     
-        
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-  
-        ordersCollectionView.collectionViewLayout = ordersCollectionViewLayout()
-        wishlistCollectionView.collectionViewLayout = wishlistCollectionViewLayout()
-        sharedMethods = SharedMethods(viewController: self)
-        
-
-        
-        print("Profile View Controller ViewDidLoad")
-        userProfileViewModel = DependencyProvider.userProfileViewModel
-        bindViewModel()
-        userProfileViewModel.userPersonalData()
-        print("Profile: test name : \(userProfileViewModel.name)")
-        print("Profile: test email : \(userProfileViewModel.email)")
-        
-        
-        
-        let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
-        let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
-        
-        let thirdButton = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToSettings))
-
-        navigationItem.rightBarButtonItems = [secondButton]
-        navigationItem.leftBarButtonItem = thirdButton
-        
-        login.isHidden = true
-        register.isHidden = true
-
-        ordersViewModel.bindAllOrders = {
-            self.updateCollection()
-        }
-    }
     
-    func updateCollection(){
-            DispatchQueue.main.async { [weak self] in
-                self?.ordersCollectionView.reloadData()
-            }
-        }
-    
-    
-    private func bindViewModel() {
-        userProfileViewModel.bindUserViewModelToController = { [weak self] in
-            DispatchQueue.main.async {
-                self?.welcomeLabel.text = "Welcome \(self?.userProfileViewModel?.name ?? "No valueeee for name!!!!!")"
-                print("Profile: View: name: \(self?.userProfileViewModel?.name ?? "Nope there is no value for name!!!")")
-                self?.usernameLabel.text = self?.userProfileViewModel?.name
-                self?.gmailLabel.text = self?.userProfileViewModel?.email
-            }
-        }
-    }
     
     // MARK: - Collection View Layout Drawing
     
@@ -165,9 +172,12 @@ class ProfileViewController: UIViewController {
         
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             if collectionView == ordersCollectionView {
-                let storyboard = UIStoryboard(name: "Second", bundle: nil)
-                         let orders = storyboard.instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
-                         navigationController?.pushViewController(orders, animated: true)
+                detailsModel.id = ordersViewModel.orders[indexPath.row].id ?? 0
+                 let storyboard = UIStoryboard(name: "Second", bundle: nil)
+                 let orderDetailsViewController = storyboard.instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
+                orderDetailsViewController.viewModel = detailsModel
+
+                 navigationController?.pushViewController(orderDetailsViewController, animated: true)
             } else {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let favouriteVC = storyboard.instantiateViewController(withIdentifier: "FavouriteVC") as! FavouriteVC
