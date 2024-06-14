@@ -59,12 +59,20 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         
         setUpFavouriteButton()
         
-
+        applyRoundedBorders(to: reviewTextView1)
+        applyRoundedBorders(to: reviewTextView2)
+        applyRoundedBorders(to: descriptionLabel)
 
 
     }
     
     
+    func applyRoundedBorders(to textView: UITextView) {
+        textView.layer.cornerRadius = 10
+        textView.layer.borderWidth = 1
+        textView.layer.borderColor = UIColor.lightGray.cgColor
+        textView.layer.masksToBounds = true
+    }
 
 
 
@@ -178,10 +186,19 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
         if tableView == dropDowntableView1 {
             cell = tableView.dequeueReusableCell(withIdentifier: "dropdownCell1", for: indexPath)
-            cell.textLabel?.text = viewModel.customProductDetails?.size?[indexPath.row]
+            
+            if(indexPath.row < viewModel.customProductDetails?.size?.count ?? 1){
+                cell.textLabel?.text = viewModel.customProductDetails?.size?[indexPath.row]
+            }
+
         } else if tableView == dropDowntableView2 {
             cell = tableView.dequeueReusableCell(withIdentifier: "dropdownCell2", for: indexPath)
-            cell.textLabel?.text = viewModel.customProductDetails?.colour?[indexPath.row] ?? "Red"
+            
+            
+            if(indexPath.row < viewModel.customProductDetails?.colour?.count ?? 1){
+                cell.textLabel?.text = viewModel.customProductDetails?.colour?[indexPath.row] ?? "Red"
+            }
+
         }
         return cell
     }

@@ -87,6 +87,7 @@ class ProductViewModel{
     }
     
     func productIndexPath(index: Int){
+        print("prod vm index: \(index)")
         ProductDetailsSharedData.instance.brandsProductIndex = index
     }
  

@@ -42,12 +42,12 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
     func getProduct(){
         filteredProducts = ProductDetailsSharedData.instance.filteredProducts ?? []
-        
+        print("PD FilterProducts count: \(filteredProducts?.count)")
         product = filteredProducts?[ProductDetailsSharedData.instance.brandsProductIndex ?? 0]
         variant = product?.variants ?? []
         if let variants = product?.variants {
-            colour = variants.compactMap{ $0.option2}
-            size = variants.compactMap { $0.option1 }
+            colour = Array(Set(variants.compactMap { $0.option2 }))
+            size = Array(Set(variants.compactMap { $0.option1 }))
             price = variants.first?.price
             
             

@@ -406,7 +406,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="10p-Hd-3k4">
-                                                <rect key="frame" x="10" y="1382" width="394" height="160.5"/>
+                                                <rect key="frame" x="10" y="1382" width="394" height="183.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <string key="text">I recently purchased this product and I am absolutely thrilled with it. The quality is outstanding, and it exceeded all my expectations. The design is sleek and modern, making it a great addition to my home. It was easy to set up and use right out of the box. The performance is top-notch and it has made my daily routine so much easier. Customer service was also very responsive and helpful when I had a few initial questions. I highly recommend this product to anyone looking for something reliable and well-made.</string>
                                                 <color key="textColor" systemColor="labelColor"/>
@@ -427,8 +427,8 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k9c-9i-JyH" customClass="CustomButton" customModule="Shopify" customModuleProvider="target">
-                                                <rect key="frame" x="52" y="1849" width="310" height="50"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k9c-9i-JyH" customClass="CustomButton" customModule="Shopify" customModuleProvider="target">
+                                                <rect key="frame" x="52" y="1849" width="310" height="39.5"/>
                                                 <color key="tintColor" red="1" green="0.085469850700000002" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="filled" imagePlacement="trailing" title="Add to cart" imagePadding="20">
@@ -477,18 +477,18 @@
                                             <constraint firstItem="kcU-Oo-n38" firstAttribute="top" secondItem="70L-FJ-uMv" secondAttribute="bottom" constant="20" id="dCO-jC-VIp"/>
                                             <constraint firstItem="70L-FJ-uMv" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.05" id="eOc-sv-8pl"/>
                                             <constraint firstItem="IpG-f2-T0r" firstAttribute="top" secondItem="9Yg-6e-cnq" secondAttribute="bottom" constant="20" id="eXX-V5-2WF"/>
+                                            <constraint firstItem="k9c-9i-JyH" firstAttribute="top" secondItem="cEj-gK-rrH" secondAttribute="bottom" constant="82" id="ejC-Yf-wQ9"/>
                                             <constraint firstItem="joN-TH-lrW" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" id="fAG-V6-ZvQ"/>
                                             <constraint firstItem="S75-xb-dGm" firstAttribute="width" secondItem="70L-FJ-uMv" secondAttribute="width" id="fEh-vX-UPg"/>
                                             <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="Vpg-R2-mjX" secondAttribute="trailing" id="fH3-ey-Arj"/>
                                             <constraint firstItem="FdZ-h1-fmC" firstAttribute="trailing" secondItem="4vf-1K-nTz" secondAttribute="trailing" id="fHe-PS-yUJ"/>
-                                            <constraint firstItem="10p-Hd-3k4" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.07" id="gT0-vO-s2W"/>
+                                            <constraint firstItem="10p-Hd-3k4" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.07" constant="23.129999999999995" id="gT0-vO-s2W"/>
                                             <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="10p-Hd-3k4" secondAttribute="trailing" constant="10" id="gaz-ji-mXy"/>
                                             <constraint firstItem="kcU-Oo-n38" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="16" id="hHw-Jd-qXm"/>
                                             <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="V02-Ib-1bQ" secondAttribute="trailing" constant="250" id="jJj-io-ro1"/>
                                             <constraint firstItem="tT5-gO-aGG" firstAttribute="leading" secondItem="S75-xb-dGm" secondAttribute="leading" constant="-10" id="kZa-L6-9so"/>
                                             <constraint firstItem="kcU-Oo-n38" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" multiplier="0.2" constant="167.19999999999999" id="mNT-qP-8yd"/>
                                             <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="8Fi-V9-xR1" secondAttribute="trailing" constant="10" id="mVb-99-i6c"/>
-                                            <constraint firstItem="k9c-9i-JyH" firstAttribute="top" secondItem="cEj-gK-rrH" secondAttribute="bottom" constant="77.5" id="nCc-Cv-7Vi"/>
                                             <constraint firstItem="V02-Ib-1bQ" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="20" id="nRa-Gy-AaE"/>
                                             <constraint firstItem="70L-FJ-uMv" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="10" id="oeo-IA-bxL"/>
                                             <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="cEj-gK-rrH" secondAttribute="trailing" constant="10" id="pDH-H1-X7m"/>
@@ -500,7 +500,7 @@
                                             <constraint firstItem="IpG-f2-T0r" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="10" id="ucA-4J-bp1"/>
                                             <constraint firstItem="FdZ-h1-fmC" firstAttribute="width" secondItem="4vf-1K-nTz" secondAttribute="width" id="w0u-Rb-y9C"/>
                                             <constraint firstItem="VhD-OC-Gly" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" id="wXj-FT-lv7"/>
-                                            <constraint firstItem="joN-TH-lrW" firstAttribute="top" secondItem="10p-Hd-3k4" secondAttribute="bottom" constant="10" id="xPC-Ea-8Nv"/>
+                                            <constraint firstItem="joN-TH-lrW" firstAttribute="top" secondItem="10p-Hd-3k4" secondAttribute="bottom" constant="-13" id="xPC-Ea-8Nv"/>
                                             <constraint firstItem="k9c-9i-JyH" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="52" id="xzS-6Y-17r"/>
                                             <constraint firstItem="Vpg-R2-mjX" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" id="yl8-3r-lNO"/>
                                         </constraints>
