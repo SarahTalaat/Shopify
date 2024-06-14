@@ -17,9 +17,10 @@ class CategoryViewModel{
     }
     
     var bindCategory : (()->()) = {}
-    
+    var exchangeRates: [String: Double] = [:]
     init(){
         getCategory(id: .women )
+        fetchExchangeRates()
     }
 
     func getCategory(id:CategoryID) {
@@ -50,5 +51,17 @@ class CategoryViewModel{
         }
     
     }
+    func fetchExchangeRates() {
+            let exchangeRateApiService = ExchangeRateApiService()
+            exchangeRateApiService.getLatestRates { [weak self] result in
+                switch result {
+                case .success(let response):
+                    self?.exchangeRates = response.conversion_rates
+                case .failure(let error):
+                    print("Error fetching exchange rates: \(error)")
+                }
+                self?.bindCategory()
+            }
+        }
   
 }

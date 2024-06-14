@@ -36,9 +36,7 @@ class CurrencyViewController: UIViewController,UITableViewDelegate, UITableViewD
             case .success(let response):
                 // Get all currencies from the response
                 let allCurrencies = Array(response.conversion_rates.keys)
-                // Ensure USD and EGP are included in the currencies
                 var selectedCurrencies = ["USD", "EGP"]
-                // Select 18 additional currencies randomly
                 while selectedCurrencies.count < 20 {
                     if let randomCurrency = allCurrencies.randomElement(), !selectedCurrencies.contains(randomCurrency) {
                         selectedCurrencies.append(randomCurrency)
