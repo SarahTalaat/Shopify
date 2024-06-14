@@ -35,7 +35,6 @@ class CurrencyViewController: UIViewController,UITableViewDelegate, UITableViewD
           exchangeRateApiService.getLatestRates { result in
               switch result {
               case .success(let response):
-                  // Get all currencies from the response
                   let allCurrencies = Array(response.conversion_rates.keys)
                   var selectedCurrencies = ["USD", "EGP"]
                   while selectedCurrencies.count < 20 {
@@ -66,11 +65,11 @@ class CurrencyViewController: UIViewController,UITableViewDelegate, UITableViewD
           return cell
       }
       
-      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-          let selectedCurrency = filteredCurrencies[indexPath.row]
-          UserDefaults.standard.set(selectedCurrency, forKey: "selectedCurrency")
-          navigationController?.popViewController(animated: true)
-      }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedCurrency = filteredCurrencies[indexPath.row]
+        UserDefaults.standard.set(selectedCurrency, forKey: "selectedCurrency")
+        navigationController?.popViewController(animated: true)
+    }
       
       // MARK: - Search Bar Delegate Methods
       

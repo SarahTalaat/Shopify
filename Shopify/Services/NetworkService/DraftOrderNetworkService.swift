@@ -11,7 +11,7 @@ class DraftOrderNetworkService {
     let draftOrderId = SharedDataRepository.instance.draftOrderId
 
     func fetchDraftOrders(completion: @escaping (Result<DraftOrder, Error>) -> Void) {
-        let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/\(draftOrderId).json"
+        let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/1033025454241.json"
         print("draft:\(draftOrderId ?? "testtttt")")
         Alamofire.request(url).responseData { response in
             switch response.result {
@@ -38,7 +38,7 @@ class DraftOrderNetworkService {
     }
 
     func updateDraftOrder(draftOrder: DraftOrder, completion: @escaping (Result<DraftOrder, Error>) -> Void) {
-        let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/\(draftOrderId).json"
+        let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/1033025454241.json"
         
         let parameters: [String: Any] = [
             "draft_order": [
