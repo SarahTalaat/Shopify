@@ -10,12 +10,17 @@ import UIKit
 class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource{
     @IBOutlet weak var brandNameLabel: UILabel!
     
-
+    @IBOutlet weak var collectionViewCell: CustomCollectionViewCell!
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var ratingView: UIView!
+    @IBOutlet weak var brandTitleLabel: UILabel!
+    
     @IBOutlet weak var reviewTextView2: UITextView!
     @IBOutlet weak var reviewTextView1: UITextView!
-    // Define a boolean variable to track the state
-    var isFavourite = false
+
     @IBOutlet weak var favouriteButton: UIButton!
+    @IBOutlet weak var descriptionLabel: UITextView!
     @IBOutlet var myCollectionView: UICollectionView!
     var imageArray: [String] = ["image.png","image.png","image.png","image.png","image.png"]
     @IBOutlet var dropdownButton2: UIButton!
@@ -28,6 +33,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     var dropdownItems2: [String] = ["Item1","Item2","Item3","Item4","Item5"]
     var isDropdownVisible = false
     var isDropdownVisible2 = false
+    var isFavourite = false
     
     var viewModel: ProductDetailsViewModelProtocol!
     
