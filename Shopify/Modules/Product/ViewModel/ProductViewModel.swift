@@ -91,8 +91,8 @@ class ProductViewModel{
         ProductDetailsSharedData.instance.brandsProductIndex = index
     }
     
-    func isProductCheck(check: Bool){
-        ProductDetailsSharedData.instance.isProduct = check
+    func screenNamePassing(screenName: String){
+        ProductDetailsSharedData.instance.screenName = screenName
     }
  
 }

@@ -14,8 +14,11 @@ class ProductDetailsSharedData {
     private init() {}
     
     var filteredProducts: [Products]?
+    var filteredCategory: [Products]?
+    var filteredSearch: [Products]?
+    
     var brandsProductIndex: Int?
-    var isProduct: Bool?
+    var screenName: String?
     
     
     

@@ -12,6 +12,7 @@ class CategoryViewModel{
     var subCategory : [Product] = []
     var category : [Product] = [] {
         didSet{
+//            ProductDetailsSharedData.instance.filteredCategory = category
             bindCategory()
         }
     }
@@ -49,6 +50,15 @@ class CategoryViewModel{
             self.category = self.subCategory.filter{$0 .product_type == subcategory.rawValue}
         }
     
+    }
+    
+    func productIndexPath(index: Int){
+        print("category vm index: \(index)")
+        ProductDetailsSharedData.instance.brandsProductIndex = index
+    }
+    
+    func screenNamePassing(screenName: String){
+        ProductDetailsSharedData.instance.screenName = screenName
     }
   
 }

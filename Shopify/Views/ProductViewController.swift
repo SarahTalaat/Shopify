@@ -192,7 +192,7 @@ class ProductViewController: UIViewController {
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             
             viewModel.productIndexPath(index: indexPath.row)
-            viewModel.isProductCheck(check: true)
+            viewModel.screenNamePassing(screenName: "Products")
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
             navigationController?.pushViewController(brandsViewController, animated: true)
