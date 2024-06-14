@@ -64,7 +64,12 @@ class SignInViewModel: SignInViewModelProtocol {
                 var draftOrder2 = self?.draftOrderDummyModel2()
                 
                 
-                self?.postDraftOrderForShoppingCart(urlString: urlString, parameters: draftOrder1 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX")
+                self?.postDraftOrderForShoppingCart(urlString: urlString, parameters: draftOrder1 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX") { [weak self] shoppingCartId in
+                    if let shoppingCartId = shoppingCartId {
+                        SharedDataRepository.instance.shoppingCartId = shoppingCartId // Update the singleton class property
+                        self?.useShoppingCartId(shoppingCartId)
+                    }
+                }
             
                 
                 self?.postDraftOrderForFavourite(urlString: urlString, parameters: draftOrder2 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX")
@@ -117,17 +122,24 @@ class SignInViewModel: SignInViewModelProtocol {
         
     }
     
-    func postDraftOrderForShoppingCart(urlString: String, parameters: [String:Any], name: String , email: String) {
-       networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
+    func postDraftOrderForShoppingCart(urlString: String, parameters: [String:Any], name: String, email: String, completion: @escaping (String?) -> Void) {
+        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method:.post, model: parameters, completion: { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
             switch result {
-            case .success(let response):
+            case.success(let response):
                 print("si Draft order posted successfully: \(response)")
-                SharedDataRepository.instance.shoppingCartId = "\(response.draftOrder?.id)"
-                print("si: ShoppingCardId: \(SharedDataRepository.instance.shoppingCartId)")
-            case .failure(let error):
+                let shoppingCartId = "\(response.draftOrder?.id)"
+                completion(shoppingCartId) // Call the completion handler with the shoppingCartId value
+            case.failure(let error):
                 print("si Failed to post draft order: \(error.localizedDescription)")
+                completion(nil)
             }
         })
+    }
+    func useShoppingCartId(_ shoppingCartId: String) {
+        // Use the shoppingCartId value here
+        SharedDataRepository.instance.shoppingCartId = shoppingCartId
+        print("si useShop: \(SharedDataRepository.instance.shoppingCartId)")
+        print("si: Using shoppingCartId: \(shoppingCartId)")
     }
     
     func postDraftOrderForFavourite(urlString: String, parameters: [String:Any], name: String , email: String) {

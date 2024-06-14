@@ -12,14 +12,39 @@ class CategoryViewModel{
     var subCategory : [Product] = []
     var category : [Product] = [] {
         didSet{
-//            ProductDetailsSharedData.instance.filteredCategory = category
             bindCategory()
         }
     }
     
+//    var categoryProduct: ProductModel? {
+//        didSet {
+//
+//            ProductDetailsSharedData.instance.filteredCategory = categoryProduct
+//            print("Category categoryproductArray: \(categoryProduct)")
+//
+//
+//        }
+//    }
+    
+    var categoryProduct: ProductModel? {
+        didSet {
+          
+            ProductDetailsSharedData.instance.filteredCategory = self.categoryProduct
+            print("Category categoryProductArray: \(String(describing: self.categoryProduct))")
+            
+        }
+    }
+
+    
+    
+    var productId: Int?
+    
     var bindCategory : (()->()) = {}
     
-    init(){
+    var networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol!
+    
+    init(networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol){
+        self.networkServiceAuthenticationProtocol = networkServiceAuthenticationProtocol
         getCategory(id: .women )
     }
 
@@ -29,6 +54,7 @@ class CategoryViewModel{
                 print("Fetched products: \(products.count)")
                 self.subCategory = products
                 self.category = products
+                
             } else {
                 print("No products fetched")
                 self.category = []
@@ -55,10 +81,27 @@ class CategoryViewModel{
     func productIndexPath(index: Int){
         print("category vm index: \(index)")
         ProductDetailsSharedData.instance.brandsProductIndex = index
+        var product = category[index]
+        getSingleProductResponse(productId: product.id)
+        
     }
     
     func screenNamePassing(screenName: String){
         ProductDetailsSharedData.instance.screenName = screenName
     }
   
+    func getSingleProductResponse(productId: Int){
+        let urlString = APIConfig.endPoint("products/\(productId)").url
+        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .get, model: [:], completion: { [weak self] (result: Result<OneProductResponse, Error>) in
+            switch result {
+            case.success(let response):
+                print("Category product response successfully: \(response)")
+                self?.categoryProduct = response.product
+            case.failure(let error):
+                print("Category Failed to post draft order: \(error.localizedDescription)")
+             
+            }
+        })
+    }
+    
 }

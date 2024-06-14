@@ -37,6 +37,8 @@ class AllProductsViewModel{
     }
     
     func screenNamePassing(screenName: String){
+        var x = SharedDataRepository.instance.shoppingCartId
+        print("Search: ShoppingCartId: \(x)")
         ProductDetailsSharedData.instance.screenName = screenName
     }
     

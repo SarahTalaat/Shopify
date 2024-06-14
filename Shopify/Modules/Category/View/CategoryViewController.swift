@@ -24,7 +24,7 @@ class CategoryViewController: UIViewController {
     var sharedMethods: SharedMethods?
     var selectedButton: UIButton?
     var isSearch = false
-    let viewModel = CategoryViewModel()
+    let viewModel = CategoryViewModel(networkServiceAuthenticationProtocol: DependencyProvider.networkServiceAuthenticationProtocol)
     
     
     override func viewDidLoad() {
