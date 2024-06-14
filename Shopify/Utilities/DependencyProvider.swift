@@ -9,9 +9,7 @@ import Foundation
 
 
 class DependencyProvider {
-    static var productDetailsViewModel: ProductDetailsViewModel{
-        return ProductDetailsViewModel()
-    }
+
     
     
     static var authServiceProtocol : AuthServiceProtocol {
@@ -39,7 +37,9 @@ class DependencyProvider {
     }
     
 
-
+    static var productDetailsViewModel: ProductDetailsViewModel{
+        return ProductDetailsViewModel(networkServiceAuthenticationProtocol: networkServiceAuthenticationProtocol)
+    }
 
 
     

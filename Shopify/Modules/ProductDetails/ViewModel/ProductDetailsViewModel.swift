@@ -10,9 +10,11 @@ import Foundation
 class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
  
+    var networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol!
     
-    init(){
-        
+    
+    init(networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol){
+        self.networkServiceAuthenticationProtocol = networkServiceAuthenticationProtocol
     }
     
     var filteredProducts: [Products]? {
@@ -44,6 +46,9 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         filteredProducts = ProductDetailsSharedData.instance.filteredProducts ?? []
         print("PD FilterProducts count: \(filteredProducts?.count)")
         product = filteredProducts?[ProductDetailsSharedData.instance.brandsProductIndex ?? 0]
+        
+        self.postProduct(variantId: product?.variants.first?.id ?? 44382094393505, quantity: <#T##Int#>)
+        
         variant = product?.variants ?? []
         if let variants = product?.variants {
             colour = Array(Set(variants.compactMap { $0.option2 }))
@@ -75,6 +80,40 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         self.bindCustomProductDetailsViewModelToController()
 
     }
+    
+    
+    func draftOrder(variantId: Int, quantity: Int ) -> [String:Any] {
+        let draftOrder: [String:Any] = [
+            "draft_order": [
+                "line_items": [
+                    [
+                        "variant_id": variantId,
+                        "quantity": quantity
+                    ]
+                ]
+            ]
+        ]
+        
+        return draftOrder
+    }
+    
+    
+    func postProduct(variantId: Int , quantity: Int){
+        let urlString = APIConfig.draft_orders.url
+        let draftOrder = draftOrder(variantId: variantId, quantity: quantity)
+        
+        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: draftOrder, completion: { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
+            switch result {
+            case .success(let response):
+                print("PD Draft order posted successfully: \(response)")
+                DraftOrderSharedData.instance.draftOrder = response
+            case .failure(let error):
+                print("PD Failed to post draft order: \(error.localizedDescription)")
+            }
+        })
+    }
+
+    
     
     
 }

@@ -116,6 +116,7 @@ class SignInViewModel: SignInViewModelProtocol {
         
         
     }
+    
     func postDraftOrderForShoppingCart(urlString: String, parameters: [String:Any], name: String , email: String) {
        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
             switch result {
