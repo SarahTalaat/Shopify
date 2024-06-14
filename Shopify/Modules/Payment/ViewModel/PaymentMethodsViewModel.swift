@@ -15,6 +15,14 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     }
     
     var selectedPaymentMethod: PaymentMethod?
+    private var subtotal: String?
+    
+    func selectPaymentMethod(_ method: PaymentMethod) {
+        selectedPaymentMethod = method
+    }
+    func updatePaymentSummaryItems(subtotal: String) {
+        self.subtotal = subtotal
+    }
     
     var paymentRequest: PKPaymentRequest {
         let request = PKPaymentRequest()
@@ -24,7 +32,12 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         request.merchantCapabilities = .capability3DS
         request.countryCode = "EG"
         request.currencyCode = UserDefaults.standard.string(forKey: "Currency") == "EGP" ? "EGP" : "USD"
-        request.paymentSummaryItems = [PKPaymentSummaryItem(label: "T-shirt", amount: 1200)]
+        if let subtotal = subtotal {
+            let amount = NSDecimalNumber(string: subtotal)
+            request.paymentSummaryItems = [PKPaymentSummaryItem(label: "Total Order", amount: amount)]
+        } else {
+            request.paymentSummaryItems = [PKPaymentSummaryItem(label: "T-shirt", amount: 1200)]
+        }
         return request
     }
     
@@ -35,9 +48,5 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
         completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
-    }
-    
-    func selectPaymentMethod(_ method: PaymentMethod) {
-        selectedPaymentMethod = method
     }
 }

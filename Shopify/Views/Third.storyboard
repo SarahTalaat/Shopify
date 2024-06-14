@@ -26,7 +26,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Add" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qTu-GX-lnm">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not Selected" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qTu-GX-lnm">
                                         <rect key="frame" x="239" y="28" width="102" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
@@ -81,7 +81,7 @@
                                             <action selector="currencyBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="pOf-Im-W5Q"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" misplaced="YES" text="Current Cur" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ad-ne-gih">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" misplaced="YES" text="Not Selected" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ad-ne-gih">
                                         <rect key="frame" x="239" y="32" width="102" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="102" id="FUt-AU-Rjo"/>
@@ -419,14 +419,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Avaliable Currency:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5G0-KD-nUp">
-                                <rect key="frame" x="20" y="118" width="168" height="22"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="3i9-6V-Qe3">
-                                <rect key="frame" x="20" y="169" width="374" height="693"/>
+                                <rect key="frame" x="20" y="181" width="374" height="681"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CurrencyTableViewCell" id="uix-yN-eFs" customClass="CurrencyTableViewCell" customModule="Shopify" customModuleProvider="target">
@@ -439,20 +433,30 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <searchBar contentMode="redraw" placeholder="Search for Currency " translatesAutoresizingMaskIntoConstraints="NO" id="ken-DC-FVS">
+                                <rect key="frame" x="0.0" y="75" width="414" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="a6w-oU-3KO" id="OLY-zW-a1Z"/>
+                                </connections>
+                            </searchBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="GXx-tr-EZ3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="3i9-6V-Qe3" firstAttribute="top" secondItem="5G0-KD-nUp" secondAttribute="bottom" constant="29" id="601-uO-51f"/>
-                            <constraint firstItem="5G0-KD-nUp" firstAttribute="top" secondItem="GXx-tr-EZ3" secondAttribute="top" constant="70" id="9Vd-wr-0h2"/>
                             <constraint firstItem="3i9-6V-Qe3" firstAttribute="leading" secondItem="GXx-tr-EZ3" secondAttribute="leading" constant="20" id="M6R-6R-mFH"/>
                             <constraint firstItem="3i9-6V-Qe3" firstAttribute="bottom" secondItem="GXx-tr-EZ3" secondAttribute="bottom" id="Pj6-H5-DkA"/>
-                            <constraint firstItem="5G0-KD-nUp" firstAttribute="leading" secondItem="lvy-Vh-NTX" secondAttribute="leadingMargin" id="eaH-Us-8Ty"/>
+                            <constraint firstItem="ken-DC-FVS" firstAttribute="leading" secondItem="lvy-Vh-NTX" secondAttribute="leading" id="Q86-Bl-gFT"/>
+                            <constraint firstItem="GXx-tr-EZ3" firstAttribute="trailing" secondItem="ken-DC-FVS" secondAttribute="trailing" id="XaO-VE-YiN"/>
+                            <constraint firstItem="3i9-6V-Qe3" firstAttribute="top" secondItem="ken-DC-FVS" secondAttribute="bottom" constant="50" id="bsu-hK-VAs"/>
+                            <constraint firstItem="ken-DC-FVS" firstAttribute="top" secondItem="GXx-tr-EZ3" secondAttribute="top" constant="27" id="iHw-wQ-6jT"/>
                             <constraint firstItem="GXx-tr-EZ3" firstAttribute="trailing" secondItem="3i9-6V-Qe3" secondAttribute="trailing" constant="20" id="ql2-vT-3Fc"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="USDView" destination="ken-DC-FVS" id="dkm-VN-DLG"/>
                         <outlet property="currencyTableView" destination="3i9-6V-Qe3" id="F3M-KO-tVY"/>
+                        <outlet property="searchCurrency" destination="ken-DC-FVS" id="oXm-V0-0C0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xYN-GT-o88" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -534,7 +538,7 @@
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="382" id="i0W-d0-gbv"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Continue Payment" cornerStyle="large">
+                                <buttonConfiguration key="configuration" style="plain" title="Place Order" cornerStyle="large">
                                     <backgroundConfiguration key="background">
                                         <color key="backgroundColor" systemColor="systemRedColor"/>
                                     </backgroundConfiguration>
@@ -677,7 +681,7 @@
                                     <constraint firstAttribute="height" constant="56" id="y7Q-g5-e1Z"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Place Payment" cornerStyle="large">
+                                <buttonConfiguration key="configuration" style="plain" title="Submit" cornerStyle="large">
                                     <backgroundConfiguration key="background">
                                         <color key="backgroundColor" systemColor="systemRedColor"/>
                                     </backgroundConfiguration>
@@ -933,8 +937,11 @@ We’ll be happy to help you</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="5Bx-CU-pQ8">
-                                <rect key="frame" x="16" y="99" width="382" height="622"/>
+                                <rect key="frame" x="16" y="99" width="382" height="473"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="473" id="fzr-KS-hKh"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CartTableViewCell" id="Zlu-ST-J0v" customClass="CartTableViewCell" customModule="Shopify" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="382" height="43.5"/>
@@ -974,6 +981,37 @@ We’ll be happy to help you</string>
                                     <action selector="processedToPaymentBtn:" destination="Crp-fh-P6Z" eventType="touchUpInside" id="6Z3-jM-duk"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1hI-QL-hG1">
+                                <rect key="frame" x="16" y="630" width="378" height="72"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Save Your Order" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ta7-hj-zgw">
+                                        <rect key="frame" x="0.0" y="23" width="162" height="27"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WH1-QN-lEm">
+                                        <rect key="frame" x="259" y="21" width="119" height="35"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Add Coupon">
+                                            <color key="baseForegroundColor" systemColor="systemRedColor"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="AddCouponBtn:" destination="Crp-fh-P6Z" eventType="touchUpInside" id="ahX-Nb-x2N"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <constraints>
+                                    <constraint firstItem="ta7-hj-zgw" firstAttribute="leading" secondItem="1hI-QL-hG1" secondAttribute="leading" id="Gs0-bo-njT"/>
+                                    <constraint firstAttribute="trailing" secondItem="WH1-QN-lEm" secondAttribute="trailing" id="O1H-RY-0am"/>
+                                    <constraint firstAttribute="bottom" secondItem="WH1-QN-lEm" secondAttribute="bottom" constant="16" id="Sc2-y5-VnQ"/>
+                                    <constraint firstItem="ta7-hj-zgw" firstAttribute="top" secondItem="1hI-QL-hG1" secondAttribute="top" constant="23" id="Sjs-vc-gic"/>
+                                    <constraint firstItem="WH1-QN-lEm" firstAttribute="leading" secondItem="ta7-hj-zgw" secondAttribute="trailing" constant="97" id="edE-yG-b4X"/>
+                                    <constraint firstItem="WH1-QN-lEm" firstAttribute="top" secondItem="1hI-QL-hG1" secondAttribute="top" constant="21" id="i39-x6-GnO"/>
+                                    <constraint firstAttribute="bottom" secondItem="ta7-hj-zgw" secondAttribute="bottom" constant="22" id="vgO-Gb-6ea"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Tfd-X5-Hc3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -982,9 +1020,10 @@ We’ll be happy to help you</string>
                             <constraint firstItem="Tfd-X5-Hc3" firstAttribute="trailing" secondItem="krh-2N-KKB" secondAttribute="trailing" constant="20" id="EZK-jQ-q5F"/>
                             <constraint firstItem="Tfd-X5-Hc3" firstAttribute="trailing" secondItem="5Bx-CU-pQ8" secondAttribute="trailing" constant="16" id="Hmf-re-kGs"/>
                             <constraint firstItem="a44-qf-9Po" firstAttribute="leading" secondItem="Tfd-X5-Hc3" secondAttribute="leading" constant="2" id="OB7-qh-zy1"/>
-                            <constraint firstItem="sCY-Zn-5aq" firstAttribute="top" secondItem="5Bx-CU-pQ8" secondAttribute="bottom" constant="25" id="OrA-pj-Fxw"/>
+                            <constraint firstItem="Tfd-X5-Hc3" firstAttribute="trailing" secondItem="1hI-QL-hG1" secondAttribute="trailing" constant="20" id="RBY-Hk-Msa"/>
+                            <constraint firstItem="sCY-Zn-5aq" firstAttribute="top" secondItem="1hI-QL-hG1" secondAttribute="bottom" constant="44" id="T1P-fS-fG4"/>
                             <constraint firstItem="Tfd-X5-Hc3" firstAttribute="bottom" secondItem="krh-2N-KKB" secondAttribute="bottom" constant="95" id="TwJ-7o-kM1"/>
-                            <constraint firstItem="krh-2N-KKB" firstAttribute="top" secondItem="5Bx-CU-pQ8" secondAttribute="bottom" constant="25" id="UCO-dX-ppf"/>
+                            <constraint firstItem="1hI-QL-hG1" firstAttribute="leading" secondItem="Tfd-X5-Hc3" secondAttribute="leading" constant="16" id="WWj-C6-jz5"/>
                             <constraint firstItem="a44-qf-9Po" firstAttribute="trailing" secondItem="Tfd-X5-Hc3" secondAttribute="trailing" id="ecB-7J-jq9"/>
                             <constraint firstItem="5Bx-CU-pQ8" firstAttribute="top" secondItem="Tfd-X5-Hc3" secondAttribute="top" constant="7" id="fLW-3y-zIZ"/>
                             <constraint firstItem="Tfd-X5-Hc3" firstAttribute="bottom" secondItem="sCY-Zn-5aq" secondAttribute="bottom" constant="95" id="gDs-Ha-L4P"/>
@@ -1006,7 +1045,7 @@ We’ll be happy to help you</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4S1-Hh-FqV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="9855.7251908396938" y="626.05633802816908"/>
+            <point key="canvasLocation" x="9853.6231884057979" y="625.44642857142856"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="g2U-Pv-o9m">
@@ -1074,6 +1113,9 @@ We’ll be happy to help you</string>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGroupedBackgroundColor">
             <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

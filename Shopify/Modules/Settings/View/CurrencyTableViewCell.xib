@@ -26,7 +26,7 @@
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aDz-qQ-6ib">
                         <rect key="frame" x="16" y="-2" width="74" height="64"/>
                         <state key="normal" title="Button"/>
-                        <buttonConfiguration key="configuration" style="plain" image="checked "/>
+                        <buttonConfiguration key="configuration" style="plain" image="unchecked"/>
                     </button>
                 </subviews>
                 <constraints>
@@ -49,6 +49,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="checked " width="50" height="50"/>
+        <image name="unchecked" width="50" height="50"/>
     </resources>
 </document>

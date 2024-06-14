@@ -36,7 +36,7 @@ class UserProfileViewModel: UserProfileViewModelProfileProtocol {
         print("Profile: email: \(SharedDataRepository.instance.customerEmail ?? "NOEMAIL")")
         print("Profile: Cid: \(SharedDataRepository.instance.customerId ?? "NO CID")")
         print("Profile: favId: \(SharedDataRepository.instance.favouriteId ?? "NO FID")")
-        print("Profile: shoppingCartId: \(SharedDataRepository.instance.shoppingCartId ?? "NO ShopID")")
+        print("Profile: shoppingCartId: \(SharedDataRepository.instance.draftOrderId ?? "NO ShopID")")
     }
     
 }
