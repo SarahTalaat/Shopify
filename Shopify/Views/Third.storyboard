@@ -180,7 +180,6 @@
                                 <rect key="frame" x="18" y="798" width="378" height="56"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="378" id="53l-aT-Zeu"/>
-                                    <constraint firstAttribute="width" constant="382" id="EWZ-Id-HM0"/>
                                     <constraint firstAttribute="height" constant="56" id="pVK-hV-fVO"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
