@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ProductViewModel{
+class ProductViewModel {
     
     var brandID: Int = 0 {
         didSet {
@@ -18,32 +18,22 @@ class ProductViewModel{
     var products: [Products] = [] {
         didSet {
             calculatePriceRange()
-            filterProducts()
+            applyFilters()
         }
     }
     
     var filteredProducts: [Products] = [] {
         didSet {
             bindFilteredProducts()
-            print(filteredProducts)
         }
     }
     
-    var coloredProducts: [Products] = [] {
+    var currentFilters: (price: Float?, color: String?, size: (type: String, value: String)?) = (nil, nil, nil) {
         didSet {
-            bindFilteredProducts()
+            applyFilters()
         }
     }
-    var clothProducts: [Products] = [] {
-        didSet {
-            bindFilteredProducts()
-        }
-    }
-    var shoesProducts: [Products] = [] {
-        didSet {
-            bindFilteredProducts()
-        }
-    }
+
     var minPrice: Float = 0
     var maxPrice: Float = 1000
     
@@ -52,7 +42,7 @@ class ProductViewModel{
     
     var currentMaxPrice: Float = 1000 {
         didSet {
-            filterProducts()
+            currentFilters.price = currentMaxPrice
         }
     }
     
@@ -68,53 +58,46 @@ class ProductViewModel{
     
     func calculatePriceRange() {
         let prices = products.compactMap { Float($0.variants.first?.price ?? "0") }
-        minPrice =  0
+        minPrice = 0
         maxPrice = prices.max() ?? 1000
         currentMaxPrice = maxPrice
         bindPriceRange()
     }
     
-    func filterProducts() {
-        filteredProducts = products.filter { product in
-            if let productPrice = Float(product.variants.first?.price ?? "0") {
-                return productPrice <= currentMaxPrice
-            }
-            return false
-        }
-    }
-    
-    func filterByColor(color: String) {
-        coloredProducts = products.filter { product in
-            for option in product.options where option.name == "Color" {
-                if option.values.contains(color) {
-                    return true
-                }
-            }
-            return false
-        }
-        filteredProducts = coloredProducts 
-    }
-    
-    func filterBySize(productType: String, size: String) {
-        let filteredByType = products.filter { $0.product_type == productType }
+    func applyFilters() {
+        filteredProducts = products
         
-        let filteredBySize = filteredByType.filter { product in
-            for option in product.options where option.name == "Size" {
-                if option.values.contains(size) {
-                    return true
+        if let maxPrice = currentFilters.price {
+            filteredProducts = filteredProducts.filter { product in
+                if let productPrice = Float(product.variants.first?.price ?? "0") {
+                    return productPrice <= maxPrice
                 }
+                return false
             }
-            return false
         }
         
-        switch productType {
-        case "SHOES":
-            shoesProducts = filteredBySize
-            filteredProducts = shoesProducts
-        default:
-            clothProducts = filteredBySize
-            filteredProducts = clothProducts
+        if let color = currentFilters.color, color != "All" {
+            filteredProducts = filteredProducts.filter { product in
+                for option in product.options where option.name == "Color" {
+                    if option.values.contains(color) {
+                        return true
+                    }
+                }
+                return false
+            }
+        }
+        
+        if let size = currentFilters.size, size.value != "All" {
+            filteredProducts = filteredProducts.filter { product in
+                if product.product_type == size.type {
+                    for option in product.options where option.name == "Size" {
+                        if option.values.contains(size.value) {
+                            return true
+                        }
+                    }
+                }
+                return false
+            }
         }
     }
-
 }
