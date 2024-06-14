@@ -9,6 +9,10 @@ import Foundation
 
 
 class DependencyProvider {
+    static var productDetailsViewModel: ProductDetailsViewModel{
+        return ProductDetailsViewModel()
+    }
+    
     
     static var authServiceProtocol : AuthServiceProtocol {
         return FirebaseAuthService()
@@ -34,10 +38,7 @@ class DependencyProvider {
         return SettingsViewModel(authServiceProtocol: authServiceProtocol)
     }
     
-    static var productDetails: ProductDetailsViewModel{
-        return ProductDetailsViewModel()
-    }
-    
+
 
 
 

@@ -15,12 +15,16 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         
     }
     
-    var filteredProducts: [Products]?
+    var filteredProducts: [Products]? {
+        didSet{
+            self.bindCustomProductDetailsViewModelToController()
+        }
+    }
     var product: Products?
     
     var customProductDetails: CustomProductDetails? {
         didSet{
-            bindCustomProductDetailsViewModelToController()
+            self.bindCustomProductDetailsViewModelToController()
         }
     }
     
@@ -65,9 +69,11 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         print("vm PD  index :\(ProductDetailsSharedData.instance.brandsProductIndex ?? 000)")
         
         
-        customProductDetails = CustomProductDetails(images:images ?? [] , colour: colour ?? [], size: size ?? [], variant: variant ?? [], vendor: vendor ?? "No vendor", title: title ?? "No title", price: price ?? "No price", description: description ?? "No description")
+        let product = CustomProductDetails(images:images ?? [] , colour: colour ?? [], size: size ?? [], variant: variant ?? [], vendor: vendor ?? "No vendor", title: title ?? "No title", price: price ?? "No price", description: description ?? "No description")
     
-        bindCustomProductDetailsViewModelToController()
+        self.customProductDetails = product
+        self.bindCustomProductDetailsViewModelToController()
+
     }
     
     

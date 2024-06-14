@@ -17,6 +17,7 @@ protocol ProductDetailsViewModelProtocol {
     var title: String? {get set}
     var price: String? {get set}
     var description: String? {get set}
+    var filteredProducts: [Products]? {get set}
     var customProductDetails: CustomProductDetails? {get set}
     var bindCustomProductDetailsViewModelToController: (() -> ()) {get set}
     
