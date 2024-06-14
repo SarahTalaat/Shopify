@@ -73,19 +73,19 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
           return viewModel.addresses.count
       }
 
-      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-          guard indexPath.row < viewModel.addresses.count else {
-              return UITableViewCell()
-          }
-          let cell = tableView.dequeueReusableCell(withIdentifier: "addressTableViewCell", for: indexPath) as! addressTableViewCell
-          let address = viewModel.addresses[indexPath.row]
-          let isDefault = address.id == viewModel.selectedDefaultAddressId
-          cell.configure(with: address, isDefault: isDefault)
-          cell.defaultButtonAction = { [weak self] in
-              self?.viewModel.setDefaultAddress(at: indexPath)
-          }
-          return cell
-      }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+           guard indexPath.row < viewModel.addresses.count else {
+               return UITableViewCell()
+           }
+           let cell = tableView.dequeueReusableCell(withIdentifier: "addressTableViewCell", for: indexPath) as! addressTableViewCell
+           let address = viewModel.addresses[indexPath.row]
+           let isDefault = address.id == viewModel.selectedDefaultAddressId
+           cell.configure(with: address, isDefault: isDefault)
+           cell.defaultButtonAction = { [weak self] in
+               self?.viewModel.setDefaultAddress(at: indexPath)
+           }
+           return cell
+       }
 
       func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
           viewModel.setDefaultAddress(at: indexPath)

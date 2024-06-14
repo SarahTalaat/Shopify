@@ -55,15 +55,7 @@ class PaymentViewController: UIViewController {
  
    
     @IBAction func continuePaymentBtn(_ sender: UIButton) {
-        let coupontUsVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "CouponViewController") as? CouponViewController
-         coupontUsVC?.subtotal = subtotal 
-         if let sheet = coupontUsVC?.sheetPresentationController{
-             sheet.detents = [.medium()]
-             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-             sheet.preferredCornerRadius = 40
-         }
-
-         present(coupontUsVC!, animated: true, completion: nil)
+       
     }
     @IBOutlet weak var cashView: UIView!
     

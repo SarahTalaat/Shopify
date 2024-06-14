@@ -23,24 +23,7 @@ class AddressViewModel {
             }
         }
     }
-    
-    func setDefaultAddress(at indexPath: IndexPath) {
-        guard indexPath.row < addresses.count else { return }
-        let previousDefaultIndex = addresses.firstIndex { $0.default == true }
-        for i in 0..<addresses.count {
-            addresses[i].default = false
-        }
-        addresses[indexPath.row].default = true
-        selectedDefaultAddressId = addresses[indexPath.row].id
-        TryAddressNetworkService.shared.updateAddress(address: addresses[indexPath.row]) { [weak self] result in
-            switch result {
-            case .success:
-                self?.onAddressesUpdated?()
-            case .failure(let error):
-                self?.onError?(error)
-            }
-        }
-    }
+
     
     func deleteAddress(at indexPath: IndexPath) {
         guard indexPath.row < addresses.count else { return }
@@ -57,4 +40,19 @@ class AddressViewModel {
             }
         }
     }
+    func setDefaultAddress(at indexPath: IndexPath) {
+            let selectedAddress = addresses[indexPath.row]
+            guard selectedAddress.id != selectedDefaultAddressId else { return }
+            
+        TryAddressNetworkService.shared.updateAddress(addressId: selectedAddress.id!, isDefault: true) { [weak self] result in
+                switch result {
+                case .success:
+                    self?.selectedDefaultAddressId = selectedAddress.id
+                    self?.addresses.indices.forEach { self?.addresses[$0].default = $0 == indexPath.row }
+                    self?.onAddressesUpdated?()
+                case .failure(let error):
+                    self?.onError?(error)
+                }
+            }
+        }
 }

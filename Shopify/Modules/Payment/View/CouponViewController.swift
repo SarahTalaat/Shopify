@@ -6,9 +6,12 @@
 //
 
 import UIKit
+protocol CouponViewControllerDelegate: AnyObject {
+    func updateGrandTotal(with amount: String)
+}
 
 class CouponViewController: UIViewController {
-    
+    weak var delegate: CouponViewControllerDelegate?
     private let viewModel = CouponsViewModel()
     var subtotal: String?
     override func viewDidLoad() {
@@ -66,6 +69,10 @@ class CouponViewController: UIViewController {
     
     
     @IBAction func placePaymentBtn(_ sender: UIButton) {
+        if let grandTotalAmount = grandTotal.text {
+                    delegate?.updateGrandTotal(with: grandTotalAmount)
+                }
+                dismiss(animated: true, completion: nil)
     }
   
 
