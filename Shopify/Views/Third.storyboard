@@ -420,14 +420,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Avaliable Currency:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5G0-KD-nUp">
-                                <rect key="frame" x="20" y="118" width="168" height="22"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="3i9-6V-Qe3">
-                                <rect key="frame" x="20" y="169" width="374" height="693"/>
+                                <rect key="frame" x="20" y="181" width="374" height="681"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CurrencyTableViewCell" id="uix-yN-eFs" customClass="CurrencyTableViewCell" customModule="Shopify" customModuleProvider="target">
@@ -440,20 +434,30 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <searchBar contentMode="redraw" placeholder="Search for Currency " translatesAutoresizingMaskIntoConstraints="NO" id="ken-DC-FVS">
+                                <rect key="frame" x="0.0" y="75" width="414" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="a6w-oU-3KO" id="OLY-zW-a1Z"/>
+                                </connections>
+                            </searchBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="GXx-tr-EZ3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="3i9-6V-Qe3" firstAttribute="top" secondItem="5G0-KD-nUp" secondAttribute="bottom" constant="29" id="601-uO-51f"/>
-                            <constraint firstItem="5G0-KD-nUp" firstAttribute="top" secondItem="GXx-tr-EZ3" secondAttribute="top" constant="70" id="9Vd-wr-0h2"/>
                             <constraint firstItem="3i9-6V-Qe3" firstAttribute="leading" secondItem="GXx-tr-EZ3" secondAttribute="leading" constant="20" id="M6R-6R-mFH"/>
                             <constraint firstItem="3i9-6V-Qe3" firstAttribute="bottom" secondItem="GXx-tr-EZ3" secondAttribute="bottom" id="Pj6-H5-DkA"/>
-                            <constraint firstItem="5G0-KD-nUp" firstAttribute="leading" secondItem="lvy-Vh-NTX" secondAttribute="leadingMargin" id="eaH-Us-8Ty"/>
+                            <constraint firstItem="ken-DC-FVS" firstAttribute="leading" secondItem="lvy-Vh-NTX" secondAttribute="leading" id="Q86-Bl-gFT"/>
+                            <constraint firstItem="GXx-tr-EZ3" firstAttribute="trailing" secondItem="ken-DC-FVS" secondAttribute="trailing" id="XaO-VE-YiN"/>
+                            <constraint firstItem="3i9-6V-Qe3" firstAttribute="top" secondItem="ken-DC-FVS" secondAttribute="bottom" constant="50" id="bsu-hK-VAs"/>
+                            <constraint firstItem="ken-DC-FVS" firstAttribute="top" secondItem="GXx-tr-EZ3" secondAttribute="top" constant="27" id="iHw-wQ-6jT"/>
                             <constraint firstItem="GXx-tr-EZ3" firstAttribute="trailing" secondItem="3i9-6V-Qe3" secondAttribute="trailing" constant="20" id="ql2-vT-3Fc"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="USDView" destination="ken-DC-FVS" id="dkm-VN-DLG"/>
                         <outlet property="currencyTableView" destination="3i9-6V-Qe3" id="F3M-KO-tVY"/>
+                        <outlet property="searchCurrency" destination="ken-DC-FVS" id="oXm-V0-0C0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xYN-GT-o88" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
