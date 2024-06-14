@@ -41,3 +41,7 @@ struct LineItemss: Encodable, Decodable {
     let total_discount: String?
 }
 
+struct CountResponse: Codable {
+    let count: Int
+}
+

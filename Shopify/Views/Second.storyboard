@@ -659,12 +659,6 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have 12 orders" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XfV-aU-1NN">
-                                        <rect key="frame" x="8" y="32" width="123" height="17"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gs8-66-z9k">
                                         <rect key="frame" x="336" y="9.5" width="40" height="34"/>
                                         <color key="tintColor" red="0.56884352299999996" green="0.570842976" blue="0.57684133510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -674,15 +668,22 @@
                                             <action selector="ordersBtn:" destination="JgX-LP-WUR" eventType="touchUpInside" id="hr6-G4-dv1"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have 12 orders" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XfV-aU-1NN">
+                                        <rect key="frame" x="8" y="32" width="123" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="vCs-UU-k4c" firstAttribute="top" secondItem="vQQ-Nq-Nxk" secondAttribute="top" constant="8" id="4H7-kM-84x"/>
-                                    <constraint firstItem="XfV-aU-1NN" firstAttribute="top" secondItem="vCs-UU-k4c" secondAttribute="bottom" id="BJU-MO-GwC"/>
                                     <constraint firstAttribute="trailing" secondItem="Gs8-66-z9k" secondAttribute="trailing" constant="6" id="MzP-pj-6pe"/>
-                                    <constraint firstItem="XfV-aU-1NN" firstAttribute="leading" secondItem="vQQ-Nq-Nxk" secondAttribute="leading" constant="8" id="XBn-Fu-p2j"/>
+                                    <constraint firstItem="XfV-aU-1NN" firstAttribute="leading" secondItem="vQQ-Nq-Nxk" secondAttribute="leading" constant="8" id="RP1-cX-Uuu"/>
                                     <constraint firstAttribute="height" constant="53" id="eUR-Os-Z7O"/>
+                                    <constraint firstAttribute="bottom" secondItem="XfV-aU-1NN" secondAttribute="bottom" constant="4" id="fHO-Wk-WEW"/>
                                     <constraint firstItem="vCs-UU-k4c" firstAttribute="leading" secondItem="vQQ-Nq-Nxk" secondAttribute="leading" constant="8" id="lNX-je-cRX"/>
+                                    <constraint firstItem="XfV-aU-1NN" firstAttribute="top" secondItem="vCs-UU-k4c" secondAttribute="bottom" id="qGX-rp-jad"/>
                                     <constraint firstItem="Gs8-66-z9k" firstAttribute="centerY" secondItem="vQQ-Nq-Nxk" secondAttribute="centerY" id="vpR-mQ-rm7"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -730,7 +731,9 @@
                                     <constraint firstItem="rqO-dW-YQH" firstAttribute="leading" secondItem="VKp-2E-rID" secondAttribute="leading" constant="8" id="IOn-JR-tPf"/>
                                     <constraint firstItem="K1N-RU-WZc" firstAttribute="centerY" secondItem="VKp-2E-rID" secondAttribute="centerY" id="QQf-hq-qhe"/>
                                     <constraint firstItem="wLf-Cg-uLX" firstAttribute="top" secondItem="rqO-dW-YQH" secondAttribute="bottom" id="Uyd-R6-zpR"/>
+                                    <constraint firstAttribute="bottom" secondItem="wLf-Cg-uLX" secondAttribute="bottom" constant="6" id="ZkZ-lG-jSE"/>
                                     <constraint firstAttribute="height" constant="55" id="aRk-mj-lTE"/>
+                                    <constraint firstItem="wLf-Cg-uLX" firstAttribute="top" secondItem="rqO-dW-YQH" secondAttribute="bottom" id="bgc-nU-GZA"/>
                                     <constraint firstItem="rqO-dW-YQH" firstAttribute="top" secondItem="VKp-2E-rID" secondAttribute="top" constant="8" id="dVh-DD-Q32"/>
                                     <constraint firstAttribute="trailing" secondItem="K1N-RU-WZc" secondAttribute="trailing" constant="6" id="iV1-LU-8Ps"/>
                                     <constraint firstItem="wLf-Cg-uLX" firstAttribute="leading" secondItem="VKp-2E-rID" secondAttribute="leading" constant="8" id="xza-Nh-L70"/>

@@ -21,6 +21,8 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var ordersView: UIView!
     @IBOutlet weak var wishlistView: UIView!
     
+    
+    let viewModel = UserProfileViewModel()
     let ordersViewModel = OrdersViewModel()
     var detailsModel = OrderDetailsViewModel()
     var sharedMethods: SharedMethods?
@@ -50,16 +52,30 @@ class ProfileViewController: UIViewController {
         register.isHidden = true
         
         guestMode()
-            ordersViewModel.bindAllOrders = {
-            self.updateCollection()
+        
+        ordersViewModel.bindAllOrders = {
+          self.updateCollection()
         }
-    }
-    
+        viewModel.getOrdersCount()
+           bindOrdersLabel()
+       }
+
+       func bindOrdersLabel() {
+           viewModel.bindOrdersCount = { [weak self] in
+               DispatchQueue.main.async {
+                   guard let self = self else { return }
+                   self.ordersLabel.text = "You have \(self.viewModel.ordersCount) orders"
+               }
+           }
+       }
+
     func updateCollection(){
             DispatchQueue.main.async { [weak self] in
                 self?.ordersCollectionView.reloadData()
             }
         }
+    
+ 
     
     private func bindViewModel() {
         userProfileViewModel.bindUserViewModelToController = { [weak self] in
@@ -160,8 +176,17 @@ class ProfileViewController: UIViewController {
                 //Need to be updated later on //
                 
                 let item = ordersViewModel.orders[indexPath.row]
-                cell.creationDate.text = item.created_at
-                cell.orderPrice.text = "\(item.total_price)$"
+                
+                let date = item.created_at
+                let datePart = date?.split(separator: "T").first.map(String.init)
+                cell.creationDate.text = "Created At: \(datePart ?? " ")"
+                
+                if let totalPrice = item.total_price {
+                            cell.orderPrice.text = "\(totalPrice)$"
+                        } else {
+                            cell.orderPrice.text = "0.00$"
+                        }
+
                 return cell
             } else {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WishlistCollectionViewCell", for: indexPath) as! WishlistCollectionViewCell

@@ -14,6 +14,9 @@ class OrderDetailsViewModel{
         }
     }
     
+    var src : String = ""
+    
+    
     var orders: [LineItemss] = [] {
         didSet {
             bindOrders()
@@ -26,8 +29,10 @@ class OrderDetailsViewModel{
         getOrderById()
     }
     
-  
-    
+//    func getProductById(){
+//        NetworkUtilities.fetchData(responseType: Product.self, endpoint: "produc", completion: <#T##(T?) -> Void#>)
+//    }
+//    
     func getOrderById(){
         NetworkUtilities.fetchData(responseType: OrdersSend.self, endpoint: "orders/\(id).json"){ order in
             self.orders = order?.order.line_items ?? []
