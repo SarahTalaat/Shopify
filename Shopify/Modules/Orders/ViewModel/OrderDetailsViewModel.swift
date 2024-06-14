@@ -14,32 +14,52 @@ class OrderDetailsViewModel{
         }
     }
     
-    var src : String = ""
-    
-    
     var orders: [LineItemss] = [] {
         didSet {
-            bindOrders()
+            getProducts()
+        }
+    }
+
+    var products: [Products] = []  {
+        didSet{
+            filterProductsByLineItems()
         }
     }
     
-    var bindOrders: (() -> ()) = {}
+    var filteredProducts: [Products] = [] {
+         didSet {
+             bindOrders()
+         }
+     }
     
+    
+    var bindOrders: (() -> ()) = {}
+    var bindFilteredProducts: (() -> ()) = {}
+
     init() {
         getOrderById()
     }
-    
-//    func getProductById(){
-//        NetworkUtilities.fetchData(responseType: Product.self, endpoint: "produc", completion: <#T##(T?) -> Void#>)
-//    }
-//    
+ 
     func getOrderById(){
         NetworkUtilities.fetchData(responseType: OrdersSend.self, endpoint: "orders/\(id).json"){ order in
             self.orders = order?.order.line_items ?? []
             
-            
         }
         print(id)
+    }
+    
+    func getProducts() {
+        NetworkUtilities.fetchData(responseType: ProductResponse.self, endpoint: "products.json") { product in
+            self.products = product?.products ?? []
+        }
+    }
+    
+    func filterProductsByLineItems() {
+        let lineItemTitles = orders.map { $0.title }
+        filteredProducts = products.filter { product in
+            return lineItemTitles.contains(product.title)
+        }
+        print(filteredProducts)
     }
     
    
