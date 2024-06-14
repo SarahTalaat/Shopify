@@ -8,6 +8,7 @@
 import Foundation
 import Alamofire
 class DraftOrderNetworkService {
+            
     let draftOrderId = SharedDataRepository.instance.draftOrderId
 
     func fetchDraftOrders(completion: @escaping (Result<DraftOrder, Error>) -> Void) {
@@ -36,19 +37,20 @@ class DraftOrderNetworkService {
             }
         }
     }
+    func updateDraftOrder(draftOrder: DraftOrder, completion: @escaping (Swift.Result<DraftOrder, Error>) -> Void) {
+            let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/1033025454241.json"
+            
+            let parameters: [String: Any] = [
+                "draft_order": [
+                    "line_items": draftOrder.line_items.map { [
+                        "title": $0.title,
+                        "variant_id": $0.variant_id,
+                        "variant_title": $0.variant_title,
+                        "quantity": $0.quantity,
+                        "price": $0.price
+                    ]}
+                ]
 
-    func updateDraftOrder(draftOrder: DraftOrder, completion: @escaping (Result<DraftOrder, Error>) -> Void) {
-        let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/1033025454241.json"
-        
-        let parameters: [String: Any] = [
-            "draft_order": [
-                "line_items": draftOrder.line_items.map { [
-                    "title": $0.title,
-                    "variant_id": $0.variant_id,
-                    "variant_title": $0.variant_title,
-                    "quantity": $0.quantity,
-                    "price": $0.price
-                ]}
             ]
         ]
         
