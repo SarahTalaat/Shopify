@@ -34,6 +34,9 @@ class DependencyProvider {
         return SettingsViewModel(authServiceProtocol: authServiceProtocol)
     }
     
+    static var productDetails: ProductDetailsViewModel{
+        return ProductDetailsViewModel()
+    }
     
 
 

@@ -25,6 +25,7 @@ class ProductViewModel{
     var filteredProducts: [Products] = [] {
         didSet {
             bindFilteredProducts()
+            ProductDetailsSharedData.instance.filteredProducts = filteredProducts
             print(filteredProducts)
         }
     }
@@ -83,6 +84,10 @@ class ProductViewModel{
             return false
         }
         filteredProducts = coloredProducts 
+    }
+    
+    func productIndexPath(index: Int){
+        ProductDetailsSharedData.instance.brandsProductIndex = index
     }
  
 }
