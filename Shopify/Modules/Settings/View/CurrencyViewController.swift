@@ -10,37 +10,65 @@ import UIKit
 class CurrencyViewController: UIViewController,UITableViewDelegate, UITableViewDataSource 
 {
     
-    let currency = ["USD", "EGP", "USA"]
     @IBOutlet weak var currencyTableView: UITableView!
   
+    var exchangeRateApiService = ExchangeRateApiService()
+       var currencies: [String] = []
     
     
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-           return currency.count
-       }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CurrencyTableViewCell", for: indexPath) as! CurrencyTableViewCell
-        cell.currency.text = currency[indexPath.row]
-        return cell
-    }
-    
-
     override func viewDidLoad() {
-        super.viewDidLoad()
-        let nib = UINib(nibName: "CurrencyTableViewCell", bundle: nil)
-        currencyTableView.register(nib, forCellReuseIdentifier: "CurrencyTableViewCell")
-        self.title = "Currency"
-        currencyTableView.delegate = self
-        currencyTableView.dataSource = self
-        currencyTableView.separatorStyle = .none
-      
-        currencyTableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
-                view.addSubview(currencyTableView)
-        currencyTableView.frame = view.bounds
-        currencyTableView.reloadData()
+            super.viewDidLoad()
+
+            let nib = UINib(nibName: "CurrencyTableViewCell", bundle: nil)
+            currencyTableView.register(nib, forCellReuseIdentifier: "CurrencyTableViewCell")
+            self.title = "Currency"
+            currencyTableView.delegate = self
+            currencyTableView.dataSource = self
+            currencyTableView.separatorStyle = .none
+            currencyTableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
+
+            fetchCurrencies()
+        }
+
+    func fetchCurrencies() {
+        exchangeRateApiService.getLatestRates { result in
+            switch result {
+            case .success(let response):
+                // Get all currencies from the response
+                let allCurrencies = Array(response.conversion_rates.keys)
+                // Ensure USD and EGP are included in the currencies
+                var selectedCurrencies = ["USD", "EGP"]
+                // Select 18 additional currencies randomly
+                while selectedCurrencies.count < 20 {
+                    if let randomCurrency = allCurrencies.randomElement(), !selectedCurrencies.contains(randomCurrency) {
+                        selectedCurrencies.append(randomCurrency)
+                    }
+                }
+                self.currencies = selectedCurrencies
+                DispatchQueue.main.async {
+                    self.currencyTableView.reloadData()
+                }
+            case .failure(let error):
+                print("Error fetching currencies: \(error.localizedDescription)")
+            }
+        }
     }
+
+        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            return currencies.count
+        }
+
+        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CurrencyTableViewCell", for: indexPath) as! CurrencyTableViewCell
+            cell.currency.text = currencies[indexPath.row]
+            return cell
+        }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            let selectedCurrency = currencies[indexPath.row]
+            UserDefaults.standard.set(selectedCurrency, forKey: "selectedCurrency")
+            navigationController?.popViewController(animated: true)
+        }
+    
     
     @IBOutlet weak var USDView: UIView!
     
