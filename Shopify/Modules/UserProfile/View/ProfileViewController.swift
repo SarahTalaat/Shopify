@@ -58,7 +58,10 @@ class ProfileViewController: UIViewController {
         }
         viewModel.getOrdersCount()
            bindOrdersLabel()
-       }
+
+    }
+    
+
 
        func bindOrdersLabel() {
            viewModel.bindOrdersCount = { [weak self] in
@@ -82,8 +85,16 @@ class ProfileViewController: UIViewController {
             DispatchQueue.main.async {
                 self?.welcomeLabel.text = "Welcome \(self?.userProfileViewModel?.name ?? "No valueeee for name!!!!!")"
                 print("Profile: View: name: \(self?.userProfileViewModel?.name ?? "Nope there is no value for name!!!")")
-                self?.usernameLabel.text = self?.userProfileViewModel?.name
-                self?.gmailLabel.text = self?.userProfileViewModel?.email
+                if self?.userProfileViewModel?.name == "Guest" {
+                    self?.usernameLabel.text  = "Join us to enjoy exclusive features!"
+                    
+                    self?.gmailLabel.text = "View and manage your orders,create a personalized wishlist and receive special offers and discounts"
+
+                }else{
+                    self?.usernameLabel.text = self?.userProfileViewModel?.name
+                    self?.gmailLabel.text = self?.userProfileViewModel?.email
+
+                }
             }
         }
     }
