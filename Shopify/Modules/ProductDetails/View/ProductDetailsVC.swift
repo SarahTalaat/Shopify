@@ -68,6 +68,12 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
                 
                 self?.brandNameLabel.text = self?.viewModel.customProductDetails?.vendor
                 self?.brandTitleLabel.text = self?.viewModel.customProductDetails?.title
+                self?.priceLabel.text = self?.viewModel.customProductDetails?.price
+                
+                print("V PD price:  \(self?.viewModel.customProductDetails?.price ?? "V No price")")
+                print("V PD title:  \(self?.viewModel.customProductDetails?.title ?? "V No title" )")
+                print("V PD vendor:  \(self?.viewModel.customProductDetails?.vendor ?? "V No vendor" )")
+                
                 
             }
         }

@@ -67,6 +67,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         
         customProductDetails = CustomProductDetails(images:images ?? [] , colour: colour ?? [], size: size ?? [], variant: variant ?? [], vendor: vendor ?? "No vendor", title: title ?? "No title", price: price ?? "No price", description: description ?? "No description")
     
+        bindCustomProductDetailsViewModelToController()
     }
     
     
