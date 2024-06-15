@@ -92,7 +92,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             size = Array(Set(variants.compactMap { $0.option1 }))
             price = variants.first?.price
             
-            
+             
             print("vm PD  variants.compactMap{ $0.option2} :\(variants.compactMap{ $0.option2} )")
             print("vm PD variants.compactMap { $0.option1 } :\(variants.compactMap { $0.option1 } )")
             print("vm PD variants.first?.price :\(variants.first?.price ?? "NOO PRICE")")
