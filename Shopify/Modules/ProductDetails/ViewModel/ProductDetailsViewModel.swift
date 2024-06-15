@@ -115,29 +115,6 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         }
 //        productModel = ProductDetailsSharedData.instance.filteredCategory
         
-        variantModel = productModel?.variants ?? []
-        if let variants = productModel?.variants {
-            colour = Array(Set(variants.compactMap { $0.option2 }))
-            size = Array(Set(variants.compactMap { $0.option1 }))
-            price = variants.first?.price
-            
-            
-            print("vm PD  variants.compactMap{ $0.option2} :\(variants.compactMap{ $0.option2} )")
-            print("vm PD variants.compactMap { $0.option1 } :\(variants.compactMap { $0.option1 } )")
-            print("vm PD variants.first?.price :\(variants.first?.price ?? "NOO PRICE")")
-        }
-        images = productModel?.images.compactMap{$0.src}
-        vendor = productModel?.vendor
-        title = productModel?.title
-        description = productModel?.body_html
-        print("vm PD categoryProdShared  :\(ProductDetailsSharedData.instance.filteredCategory)")
-        print("vm PD  product?.variants ?? [] :\(productModel?.variants ?? [])")
-
-        print("vm PD  product?.images.compactMap{$0.src} :\(productModel?.images.compactMap{$0.src} ?? [])")
-        print("vm PD  product?.vendor :\(productModel?.vendor ?? "NOO VEND")")
-        print("vm PD  product?.title :\(productModel?.title ?? "NOO TITl")")
-        print("vm PD  product?.body_html :\(productModel?.body_html ?? "NO DESC" )")
-        print("vm PD  index :\(ProductDetailsSharedData.instance.brandsProductIndex ?? 000)")
         
     }
     
@@ -215,7 +192,32 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     func useFetchedData() {
         if let data = ProductDetailsSharedData.instance.filteredCategory {
             print("Category Using data: \(data)")
+            productModel = ProductDetailsSharedData.instance.filteredCategory
+            print("Category productModel: \(productModel)")
             
+            variantModel = productModel?.variants ?? []
+            if let variants = productModel?.variants {
+                colour = Array(Set(variants.compactMap { $0.option2 }))
+                size = Array(Set(variants.compactMap { $0.option1 }))
+                price = variants.first?.price
+                
+                
+                print("vm PD  variants.compactMap{ $0.option2} :\(variants.compactMap{ $0.option2} )")
+                print("vm PD variants.compactMap { $0.option1 } :\(variants.compactMap { $0.option1 } )")
+                print("vm PD variants.first?.price :\(variants.first?.price ?? "NOO PRICE")")
+            }
+            images = productModel?.images.compactMap{$0.src}
+            vendor = productModel?.vendor
+            title = productModel?.title
+            description = productModel?.body_html
+            print("vm PD categoryProdShared  :\(ProductDetailsSharedData.instance.filteredCategory)")
+            print("vm PD  product?.variants ?? [] :\(productModel?.variants ?? [])")
+
+            print("vm PD  product?.images.compactMap{$0.src} :\(productModel?.images.compactMap{$0.src} ?? [])")
+            print("vm PD  product?.vendor :\(productModel?.vendor ?? "NOO VEND")")
+            print("vm PD  product?.title :\(productModel?.title ?? "NOO TITl")")
+            print("vm PD  product?.body_html :\(productModel?.body_html ?? "NO DESC" )")
+            print("vm PD  index :\(ProductDetailsSharedData.instance.brandsProductIndex ?? 000)")
         } else {
             print("Category Data not available")
         }
@@ -232,6 +234,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     @objc func dataDidUpdate() {
         if let data = ProductDetailsSharedData.instance.filteredCategory {
             // Use the data
+          
             print("SecondViewModel: Using data: \(data)")
         } else {
             print("SecondViewModel: Data not available")

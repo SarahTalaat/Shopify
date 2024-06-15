@@ -40,6 +40,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
         viewModel = DependencyProvider.productDetailsViewModel
         viewModel.getProduct()
+       
  
         priceLabel.text = viewModel.customProductDetails?.price
         brandNameLabel.text = viewModel.customProductDetails?.vendor
