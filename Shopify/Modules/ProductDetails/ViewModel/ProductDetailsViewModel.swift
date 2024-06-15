@@ -43,6 +43,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     var customProductDetails: CustomProductDetails? {
         didSet{
             self.bindCustomProductDetailsViewModelToController()
+            
         }
     }
     
@@ -55,6 +56,8 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     var title: String?
     var price: String?
     var description: String?
+    var isDataBound: Bool = false
+    var screenName: String?
     
     
     var bindCustomProductDetailsViewModelToController: (() -> ()) = {}
@@ -65,6 +68,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             brandsProducts()
             self.bindCustomProductDetailsViewModelToController()
         }else if(ProductDetailsSharedData.instance.screenName ==  "Category"){
+            screenName = "Category"
             categoryProducts()
         }else if(ProductDetailsSharedData.instance.screenName == "Search" ){
             searchProducts()
@@ -111,6 +115,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         let product = CustomProductDetails(images:images ?? [] , colour: colour ?? [], size: size ?? [], variant: variant ?? [], vendor: vendor ?? "No vendor", title: title ?? "No title", price: price ?? "No price", description: description ?? "No description")
     
         self.customProductDetails = product
+        self.isDataBound = true
         
     }
     
@@ -119,11 +124,46 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.useFetchedData()
             self.bindCustomProductDetailsViewModelToController()
+            self.isDataBound = true
         }
-//        productModel = ProductDetailsSharedData.instance.filteredCategory
 
     }
     
+    
+    
+    func addToCart() {
+        print("PD ScreenName: \(screenName)")
+        if(screenName=="Category"){
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.useFetchedData()
+                self.bindCustomProductDetailsViewModelToController()
+                print("PD VariantId in addToCart: \(self.customProductDetails?.variant?.first?.id)")
+                print("PD add to cart category")
+                self.postDraftOrder()
+                self.isDataBound = true
+                return
+            }
+        }
+        
+        print("PD VariantId: \(customProductDetails?.variant?.first?.id)")
+        guard isDataBound else {
+            print("PD Data not ready to post draft order")
+            return
+        }
+
+        guard let customProductDetails = customProductDetails else {
+            print("PD CustomProductDetails is nil")
+            return
+        }
+
+        guard let firstVariantId = customProductDetails.variant?.first?.id else {
+            print("PD No variant ID available")
+            return
+        }
+
+        print("PD VariantId2 : \(firstVariantId)")
+        postDraftOrder()
+    }
     
     func searchProducts(){
         filteredSearch = ProductDetailsSharedData.instance.filteredSearch ?? []
@@ -158,7 +198,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         let product = CustomProductDetails(images:images ?? [] , colour: colour ?? [], size: size ?? [], variant: variant ?? [], vendor: vendor ?? "No vendor", title: title ?? "No title", price: price ?? "No price", description: description ?? "No description")
     
         self.customProductDetails = product
-        
+        self.isDataBound = true
     
     }
     

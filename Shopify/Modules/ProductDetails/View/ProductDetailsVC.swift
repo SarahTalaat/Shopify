@@ -11,7 +11,7 @@ import Kingfisher
 class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource{
 
     @IBAction func addToCartButton(_ sender: CustomButton) {
-        viewModel.postDraftOrder()
+        viewModel.addToCart()
         
     }
     @IBOutlet weak var brandNameLabel: UILabel!
