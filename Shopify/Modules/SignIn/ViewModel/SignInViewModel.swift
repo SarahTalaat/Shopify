@@ -72,7 +72,7 @@ class SignInViewModel: SignInViewModelProtocol {
                     if let shoppingCartId = shoppingCartId {
                         DispatchQueue.main.async {
  
-                            SharedDataRepository.instance.setShoppingCartId(shoppingCartId)
+                            SharedDataRepository.instance.shoppingCartId = shoppingCartId
 
                             self?.useShoppingCartId(shoppingCartId)
                         }
