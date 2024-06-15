@@ -308,31 +308,47 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
                 
          
             } else {
-                print("shoppingCartId not found in UserDefaults")
+                print("xxx shoppingCartId not found in UserDefaults")
+                return
             }
       
             print("xxxx UD : \(UserDefaults.standard.string(forKey: Constants.shoppingCartId))")
             
-            let urlString = APIConfig.endPoint("draft_orders/\(shoppingCartId)").url
-            print("PD * ShoppingCartID * : \(shoppingCartId)")
-            print("xxx singleton shpid: \(SharedDataRepository.instance.shoppingCartId)")
             
+            var draftOrderID = UserDefaults.standard.string(forKey: Constants.shoppingCartId) ?? "0"
             
-            print("xxx getID: \(SharedDataRepository.instance.getShoppingCartId())")
-           
-            if let shoppingCartId = SharedDataRepository.instance.shoppingCartId,
-               let shoppingCartIdInt = Int(shoppingCartId) {
-                print("xxx singleton shpid: \(shoppingCartIdInt)")
+            guard let draftOrderIDString = UserDefaults.standard.string(forKey: Constants.shoppingCartId) else {
+                // Handle case where shoppingCartId is not available in UserDefaults
+                print("xxx ShoppingCartId not found in UserDefaults")
+                return
+            }
+
+            
+            if let draftOrderIDString = UserDefaults.standard.string(forKey: Constants.shoppingCartId) {
+              
+                let cleanedString = draftOrderIDString.replacingOccurrences(of: "Optional(", with: "").replacingOccurrences(of: ")", with: "")
+                
+               
+                if let draftOrderIDInt = Int(cleanedString) {
+                 
+                    print("xxx draftOrderInt: \(draftOrderIDInt)")
+                    
+                    let urlString = APIConfig.endPoint("draft_orders/\(shoppingCartId)").url
+
+                    let productDraftOrder = self.draftOrder(variantId: self.customProductDetails?.variant?.first?.id ?? 0, quantity: 1, draftOrderId: draftOrderIDInt)
+                        self.postDraftOrderNetwork(urlString: urlString, parameters: productDraftOrder)
+                   
+                } else {
+       
+                    print("xxx Failed to convert \(cleanedString) to Int")
+                }
             } else {
-                print("xxx singleton shpid: Invalid shoppingCartId")
+
+                print("xxx ShoppingCartId not found in UserDefaults")
             }
             
-         
-            
-            
-            let productDraftOrder = self.draftOrder(variantId: self.customProductDetails?.variant?.first?.id ?? 0, quantity: 1, draftOrderId: shoppingCartId ?? 0)
-                self.postDraftOrderNetwork(urlString: urlString, parameters: productDraftOrder)
-           
+
+
         }
 
 
