@@ -22,6 +22,6 @@ protocol ProductDetailsViewModelProtocol {
     var bindCustomProductDetailsViewModelToController: (() -> ()) {get set}
     func addToCart()
     func getProduct()
-    var screenName: String? {get set}
+    var isDataBound: Bool? {get set}
    
 }
