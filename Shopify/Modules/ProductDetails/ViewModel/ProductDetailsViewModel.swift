@@ -333,9 +333,12 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
                  
                     print("xxx draftOrderInt: \(draftOrderIDInt)")
                     
-                    let urlString = APIConfig.endPoint("draft_orders/\(shoppingCartId)").url
+                    let urlString = APIConfig.endPoint("draft_orders/\(draftOrderIDInt)").url
 
                     let productDraftOrder = self.draftOrder(variantId: self.customProductDetails?.variant?.first?.id ?? 0, quantity: 1, draftOrderId: draftOrderIDInt)
+                    
+                    print("yyy draftorderid: \(self.customProductDetails?.variant?.first?.id ?? 0)")
+                    
                         self.postDraftOrderNetwork(urlString: urlString, parameters: productDraftOrder)
                    
                 } else {
@@ -353,11 +356,11 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
 
     func postDraftOrderNetwork(urlString: String, parameters: [String:Any]) {
-       networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .put, model: parameters, completion: { [weak self] (result: Result<ModifiedDraftOrderResponse, Error>) in
+       networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .put, model: parameters, completion: { [weak self] (result: Result<DraftOrderResponsePUT, Error>) in
             switch result {
             case .success(let response):
                 print("PD Draft order posted successfully: \(response)")
-                ProductDetailsSharedData.instance.productVariantId = response.draft_order?.id
+                ProductDetailsSharedData.instance.productVariantId = response.draftOrder?.id
 
             case .failure(let error):
                 print("PD Failed to post draft order: \(error.localizedDescription)")

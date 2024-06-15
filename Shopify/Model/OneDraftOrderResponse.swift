@@ -29,7 +29,7 @@ struct OneDraftOrderResponseDetails: Codable {
     let completedAt: String?
     let name: String?
     let status: String?
-    let lineItems: [LineItemResponsePut]?
+    let lineItems: [LineItem]?
     let shippingAddress: String?
     let billingAddress: String?
     let invoiceUrl: String?
@@ -70,7 +70,7 @@ struct OneDraftOrderResponseDetails: Codable {
     }
 }
 
-struct LineItemResponsePut: Codable {
+struct LineItem: Codable {
     let id: Int?
     let variantId: Int?
     let productId: Int?
@@ -107,7 +107,7 @@ struct LineItemResponsePut: Codable {
     }
 }
 
-struct TaxLineResponsePut: Codable {
+struct TaxLine: Codable {
     let rate: Double?
     let title: String?
     let price: String?
