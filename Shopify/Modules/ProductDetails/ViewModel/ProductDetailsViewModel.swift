@@ -110,9 +110,10 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     func categoryProducts(){
         
-
-        print("PD FilterCategory product: \(filteredCategory)")
-        productModel = ProductDetailsSharedData.instance.filteredCategory
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.useFetchedData()
+        }
+//        productModel = ProductDetailsSharedData.instance.filteredCategory
         
         variantModel = productModel?.variants ?? []
         if let variants = productModel?.variants {
@@ -211,7 +212,29 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         })
     }
 
+    func useFetchedData() {
+        if let data = ProductDetailsSharedData.instance.filteredCategory {
+            print("Category Using data: \(data)")
+            
+        } else {
+            print("Category Data not available")
+        }
+    }
     
-    
-    
+    init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(dataDidUpdate), name: .filteredCategoryDidUpdate, object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .filteredCategoryDidUpdate, object: nil)
+    }
+
+    @objc func dataDidUpdate() {
+        if let data = ProductDetailsSharedData.instance.filteredCategory {
+            // Use the data
+            print("SecondViewModel: Using data: \(data)")
+        } else {
+            print("SecondViewModel: Data not available")
+        }
+    }
 }

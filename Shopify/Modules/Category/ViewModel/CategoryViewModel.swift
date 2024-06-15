@@ -78,30 +78,46 @@ class CategoryViewModel{
     
     }
     
-    func productIndexPath(index: Int){
-        print("category vm index: \(index)")
-        ProductDetailsSharedData.instance.brandsProductIndex = index
-        var product = category[index]
-        getSingleProductResponse(productId: product.id)
-        
-    }
+    func productIndexPath(index: Int) {
+         print("CategoryViewModel: category vm index: \(index)")
+         ProductDetailsSharedData.instance.brandsProductIndex = index
+         let product = category[index]
+         getSingleProductResponse(productId: product.id) { [weak self] product in
+             if let product = product {
+                 print("CategoryViewModel: Product received: \(product)")
+                 self?.handleReceivedProduct(product)
+             } else {
+                 print("CategoryViewModel: Failed to fetch product details.")
+             }
+         }
+     }
+
+     private func handleReceivedProduct(_ product: ProductModel) {
+         print("CategoryViewModel: Handling received product: \(product)")
+         DispatchQueue.main.async {
+             ProductDetailsSharedData.instance.filteredCategory = product
+         }
+     }
     
     func screenNamePassing(screenName: String){
         ProductDetailsSharedData.instance.screenName = screenName
     }
   
-    func getSingleProductResponse(productId: Int){
+    func getSingleProductResponse(productId: Int, completion: @escaping (ProductModel?) -> Void) {
         let urlString = APIConfig.endPoint("products/\(productId)").url
         networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .get, model: [:], completion: { [weak self] (result: Result<OneProductResponse, Error>) in
             switch result {
-            case.success(let response):
-                print("Category product response successfully: \(response)")
+            case .success(let response):
+                print("CategoryViewModel: Category product response successfully: \(response)")
                 self?.categoryProduct = response.product
-            case.failure(let error):
-                print("Category Failed to post draft order: \(error.localizedDescription)")
-             
+                ProductDetailsSharedData.instance.filteredCategory = response.product
+                completion(response.product)
+            case .failure(let error):
+                print("CategoryViewModel: Category Failed to post draft order: \(error.localizedDescription)")
+                completion(nil)
             }
         })
     }
+
     
 }
