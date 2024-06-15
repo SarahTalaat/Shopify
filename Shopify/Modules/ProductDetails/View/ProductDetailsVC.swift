@@ -34,14 +34,17 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     var isFavourite = false
     
     var viewModel: ProductDetailsViewModelProtocol!
+    var activityIndicator: UIActivityIndicatorView!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         viewModel = DependencyProvider.productDetailsViewModel
-        
-        bindViewModel()
+        addActivityIndicator()
         viewModel.getProduct()
+        bindViewModel()
+
         
         priceLabel.text = viewModel.customProductDetails?.price
         
@@ -50,6 +53,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         brandTitleLabel.text = viewModel.customProductDetails?.title
         descriptionLabel.text = viewModel.customProductDetails?.description
         
+    
         
         
         settingUpCollectionView()
@@ -69,9 +73,15 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
 
     }
-
+    func addActivityIndicator() {
+        activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.center = view.center
+        activityIndicator.hidesWhenStopped = true
+        view.addSubview(activityIndicator)
+    }
     
     func bindViewModel() {
+        activityIndicator.startAnimating()
         viewModel.bindCustomProductDetailsViewModelToController = { [weak self] in
             DispatchQueue.main.async {
                 self?.updateUI()
@@ -80,6 +90,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     }
     
     func updateUI() {
+        activityIndicator.stopAnimating()
         // Update UI elements with fetched data
         priceLabel.text = viewModel.customProductDetails?.price
         brandNameLabel.text = viewModel.customProductDetails?.vendor
@@ -264,7 +275,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
            let imageUrl = URL(string: imageUrlString) {
             cell.productImage.kf.setImage(with: imageUrl)
         } else {
-            cell.productImage.image = UIImage(named: "adidasBag.jpg")
+            cell.productImage.image = UIImage(named: "loading.png")
         }
     
      //   cell.productImage.layer.cornerRadius = 30
