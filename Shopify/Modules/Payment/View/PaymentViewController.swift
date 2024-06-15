@@ -12,7 +12,7 @@ class PaymentViewController: UIViewController {
     
     var subtotal: String?
        var defaultAddress: Address?
-    var lineItems: LineItems!
+    var lineItems: LineItems?
        
        override func viewDidLoad() {
            super.viewDidLoad()
@@ -58,7 +58,12 @@ class PaymentViewController: UIViewController {
  
    
     @IBAction func continuePaymentBtn(_ sender: UIButton) {
-       
+        guard let lineItems = lineItems else {
+                print("Line items are not set")
+                return
+            }
+            viewModel.setupOrder(lineItem: lineItems)
+            viewModel.postOrder()
     }
     @IBOutlet weak var cashView: UIView!
     

@@ -14,7 +14,7 @@ class OrderDetailsViewModel{
         }
     }
     
-    var orders: [LineItemss] = [] {
+    var orders: [LineItems] = [] {
         didSet {
             getProducts()
         }

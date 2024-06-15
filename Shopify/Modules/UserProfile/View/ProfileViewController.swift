@@ -134,7 +134,7 @@ class ProfileViewController: UIViewController {
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(60))
+                                                   heightDimension: .absolute(80))
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
@@ -172,8 +172,7 @@ class ProfileViewController: UIViewController {
             switch collectionView
             {
             case ordersCollectionView :
-                //return ordersViewModel.orders.count
-                return 2
+                return min(ordersViewModel.orders.count, 2)
             default:
                 return 2
             }

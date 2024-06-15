@@ -49,4 +49,47 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
         completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
     }
+    
+ 
+    private var lineItem: LineItemss?
+     private var order: Orders?
+     private var ordersSend: OrdersSend?
+
+    func setupOrder(lineItem:LineItems) {
+
+         order = Orders(
+             id: nil,
+             confirmation_number: nil,
+             confirmed: nil,
+             created_at: nil,
+             currency: "USD",
+             email: nil,
+             financial_status: nil,
+             order_number: nil,
+             source_name: nil,
+             tags: nil,
+             token: nil,
+             total_discounts: nil,
+             total_line_items_price: nil,
+             total_price: nil,
+             line_items: [lineItem]
+         )
+
+         ordersSend = OrdersSend(order: order!)
+     }
+     
+     func postOrder() {
+         guard let ordersSend = ordersSend else {
+             print("Order is not set up correctly")
+             return
+         }
+         
+         NetworkUtilities.postData(data: ordersSend, endpoint: "orders.json") { success in
+             if success {
+                 print("Order posted successfully!")
+             } else {
+                 print("Failed to post order.")
+             }
+         }
+     }
 }
