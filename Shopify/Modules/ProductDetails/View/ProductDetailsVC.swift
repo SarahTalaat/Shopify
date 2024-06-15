@@ -9,6 +9,11 @@ import UIKit
 import Kingfisher
 
 class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource{
+
+    @IBAction func addToCartButton(_ sender: CustomButton) {
+        viewModel.postDraftOrder()
+        
+    }
     @IBOutlet weak var brandNameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var ratingView: UIView!
@@ -41,7 +46,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         super.viewDidLoad()
 
         viewModel = DependencyProvider.productDetailsViewModel
-        addActivityIndicator()
+      //  addActivityIndicator()
         viewModel.getProduct()
         bindViewModel()
 
@@ -81,7 +86,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     }
     
     func bindViewModel() {
-        activityIndicator.startAnimating()
+     //   activityIndicator.startAnimating()
         viewModel.bindCustomProductDetailsViewModelToController = { [weak self] in
             DispatchQueue.main.async {
                 self?.updateUI()
@@ -90,7 +95,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     }
     
     func updateUI() {
-        activityIndicator.stopAnimating()
+    //    activityIndicator.stopAnimating()
         // Update UI elements with fetched data
         priceLabel.text = viewModel.customProductDetails?.price
         brandNameLabel.text = viewModel.customProductDetails?.vendor

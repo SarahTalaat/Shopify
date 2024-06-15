@@ -19,7 +19,12 @@ class ProductDetailsSharedData {
             NotificationCenter.default.post(name: .filteredCategoryDidUpdate, object: nil)
         }
     }
-
+    var productVariantId: Int? {
+        didSet {
+            print("ProductDetailsSharedData: productVariantId Set: \(String(describing: productVariantId))")
+            NotificationCenter.default.post(name: .productVariantIdDidUpdate, object: nil)
+        }
+    }
     var filteredProducts: [Products]?
 //    var filteredCategory: ProductModel?
     var filteredSearch: [Products]?
@@ -34,4 +39,8 @@ class ProductDetailsSharedData {
 
 extension Notification.Name {
     static let filteredCategoryDidUpdate = Notification.Name("filteredCategoryDidUpdate")
+}
+
+extension Notification.Name {
+    static let productVariantIdDidUpdate = Notification.Name("productVariantIdDidUpdate")
 }

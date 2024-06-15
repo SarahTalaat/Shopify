@@ -20,7 +20,7 @@ protocol ProductDetailsViewModelProtocol {
     var filteredProducts: [Products]? {get set}
     var customProductDetails: CustomProductDetails? {get set}
     var bindCustomProductDetailsViewModelToController: (() -> ()) {get set}
-    
+    func postDraftOrder()
     func getProduct()
    
 }

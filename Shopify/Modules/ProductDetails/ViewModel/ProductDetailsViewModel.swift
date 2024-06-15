@@ -111,6 +111,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         let product = CustomProductDetails(images:images ?? [] , colour: colour ?? [], size: size ?? [], variant: variant ?? [], vendor: vendor ?? "No vendor", title: title ?? "No title", price: price ?? "No price", description: description ?? "No description")
     
         self.customProductDetails = product
+        
     }
     
     func categoryProducts(){
@@ -157,6 +158,8 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         let product = CustomProductDetails(images:images ?? [] , colour: colour ?? [], size: size ?? [], variant: variant ?? [], vendor: vendor ?? "No vendor", title: title ?? "No title", price: price ?? "No price", description: description ?? "No description")
     
         self.customProductDetails = product
+        
+    
     }
     
     func favouriteProducts(){
@@ -164,20 +167,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     }
     
     
-    func draftOrder(variantId: Int, quantity: Int ) -> [String:Any] {
-        let draftOrder: [String:Any] = [
-            "draft_order": [
-                "line_items": [
-                    [
-                        "variant_id": variantId,
-                        "quantity": quantity
-                    ]
-                ]
-            ]
-        ]
-        
-        return draftOrder
-    }
+
     
     
     func postProduct(variantId: Int , quantity: Int){
@@ -228,6 +218,8 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             let product = CustomProductDetails(images:images ?? [] , colour: colour ?? [], size: size ?? [], variant: variant ?? [], vendor: vendor ?? "No vendor", title: title ?? "No title", price: price ?? "No price", description: description ?? "No description")
         
             self.customProductDetails = product
+
+            
             
         } else {
             print("Category Data not available")
@@ -255,4 +247,43 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             print("SecondViewModel: Data not available")
         }
    }
+    
+
+    func postDraftOrderNetwork(urlString: String, parameters: [String:Any]) {
+       networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
+            switch result {
+            case .success(let response):
+                print("PD Draft order posted successfully: \(response)")
+                ProductDetailsSharedData.instance.productVariantId = response.draftOrder?.id
+
+            case .failure(let error):
+                print("PD Failed to post draft order: \(error.localizedDescription)")
+            }
+        })
+    }
+    
+    
+    func postDraftOrder(){
+        let urlString = APIConfig.draft_orders.url
+        var productDraftOrder = self.draftOrder(variantId: self.customProductDetails?.variant?.first?.id ?? 0, quantity: 1)
+        postDraftOrderNetwork(urlString: urlString, parameters: productDraftOrder)
+    }
+    
+    
+    func draftOrder(variantId:Int, quantity: Int) -> [String:Any] {
+        let draftOrder: [String: Any] = [
+            "draft_order": [
+                "line_items": [
+                    [
+                        "variant_id": variantId,
+                        "quantity": quantity
+                    ]
+                ]
+            ]
+        ]
+        
+        return draftOrder
+    }
+    
+    
 }
