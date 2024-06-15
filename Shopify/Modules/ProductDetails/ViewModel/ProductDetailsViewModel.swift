@@ -302,7 +302,17 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         
         func postDraftOrder() {
 
+            if let savedShoppingCartId = UserDefaults.standard.string(forKey: Constants.shoppingCartId) {
+                // Use the saved shoppingCartId
+                print("xxx Retrieved shoppingCartId from UserDefaults: \(savedShoppingCartId)")
                 
+         
+            } else {
+                print("shoppingCartId not found in UserDefaults")
+            }
+      
+            print("xxxx UD : \(UserDefaults.standard.string(forKey: Constants.shoppingCartId))")
+            
             let urlString = APIConfig.endPoint("draft_orders/\(shoppingCartId)").url
             print("PD * ShoppingCartID * : \(shoppingCartId)")
             print("xxx singleton shpid: \(SharedDataRepository.instance.shoppingCartId)")

@@ -69,9 +69,12 @@ class SignInViewModel: SignInViewModelProtocol {
                 
                 
                 self?.postDraftOrderForShoppingCart(urlString: urlString, parameters: draftOrder1 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX") { [weak self] shoppingCartId in
+                    
+                    UserDefaults.standard.set(shoppingCartId, forKey: Constants.shoppingCartId)
+                    
                     if let shoppingCartId = shoppingCartId {
                         DispatchQueue.main.async {
- 
+
                             SharedDataRepository.instance.shoppingCartId = shoppingCartId
 
                             self?.useShoppingCartId(shoppingCartId)
