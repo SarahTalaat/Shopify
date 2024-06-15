@@ -187,3 +187,50 @@ class ProductViewController: UIViewController {
            navigationController?.pushViewController(productDetailsViewController, animated: true)
        }
    }
+
+    // MARK: - Collection View Methods
+
+    extension ProductViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+            return viewModel.filteredProducts.count
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+            
+            let item = viewModel.filteredProducts[indexPath.row]
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsCollectionViewCell", for: indexPath) as! ProductsCollectionViewCell
+            
+            cell.brandLabel.text = item.vendor
+            let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+                  let exchangeRate = viewModel.exchangeRates[selectedCurrency] ?? 1.0
+                  if let price = Double(item.variants.first?.price ?? "0") {
+                      let convertedPrice = price * exchangeRate
+                      cell.priceLabel.text = "\(String(format: "%.2f", convertedPrice)) \(selectedCurrency)"
+                  } else {
+                      cell.priceLabel.text = "Invalid price"
+                  }
+            if let range = item.title.range(of: "|") {
+                var truncatedString = String(item.title[range.upperBound...]).trimmingCharacters(in: .whitespaces)
+                
+                if let nextRange = truncatedString.range(of: "|") {
+                    truncatedString = String(truncatedString[..<nextRange.lowerBound]).trimmingCharacters(in: .whitespaces)
+                    cell.productNameLabel.text = truncatedString
+                }
+                cell.productNameLabel.text = truncatedString
+            }
+            
+            if let imageUrlString = item.images.first?.src, let imageURL = URL(string: imageUrlString) {
+                cell.productImage.kf.setImage(with: imageURL)
+            }
+          
+            return cell
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
+            navigationController?.pushViewController(brandsViewController, animated: true)
+          }
+ 
+    }
+
