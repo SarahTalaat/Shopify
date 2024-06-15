@@ -255,6 +255,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         
             self.customProductDetails = product
             
+
             
             if(isDataBound==true){
                 postDraftOrder()
@@ -370,19 +371,41 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     
     func draftOrder(variantId:Int, quantity: Int , draftOrderId: Int) -> [String:Any] {
-        let draftOrder: [String: Any] = [
-            "draft_order": [
-                "id":draftOrderId ,
-                "line_items": [
-                    [
-                        "variant_id": variantId,
-                        "quantity": quantity
+        
+        if(ProductDetailsSharedData.instance.screenName ==  "Category"){
+            
+            
+          var variantLineItemId = UserDefaults.standard.string(forKey: Constants.variantId)
+          print("zzz variantLineItemId: \(variantLineItemId)")
+            
+            let draftOrder: [String: Any] = [
+                "draft_order": [
+                    "id":draftOrderId ,
+                    "line_items": [
+                        [
+                            "variant_id": variantLineItemId,
+                            "quantity": quantity
+                        ]
                     ]
                 ]
             ]
-        ]
+            return draftOrder
+            
+        }else{
+            let draftOrder: [String: Any] = [
+                "draft_order": [
+                    "id":draftOrderId ,
+                    "line_items": [
+                        [
+                            "variant_id": variantId,
+                            "quantity": quantity
+                        ]
+                    ]
+                ]
+            ]
+            return draftOrder
+        }
         
-        return draftOrder
     }
     
     

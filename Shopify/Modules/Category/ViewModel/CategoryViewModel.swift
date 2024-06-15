@@ -110,6 +110,7 @@ class CategoryViewModel{
                 print("CategoryViewModel: Category product response successfully: \(response)")
                 self?.categoryProduct = response.product
                 ProductDetailsSharedData.instance.filteredCategory = response.product
+                UserDefaults.standard.set(response.product.variants.first?.id, forKey: Constants.variantId)
                 completion(response.product)
             case .failure(let error):
                 print("CategoryViewModel: Category Failed to post draft order: \(error.localizedDescription)")
