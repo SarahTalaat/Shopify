@@ -39,10 +39,13 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         super.viewDidLoad()
 
         viewModel = DependencyProvider.productDetailsViewModel
+        
+        bindViewModel()
         viewModel.getProduct()
-       
- 
+        
         priceLabel.text = viewModel.customProductDetails?.price
+        
+        print("PD View viewdidload: \(viewModel.customProductDetails?.price) ")
         brandNameLabel.text = viewModel.customProductDetails?.vendor
         brandTitleLabel.text = viewModel.customProductDetails?.title
         descriptionLabel.text = viewModel.customProductDetails?.description
@@ -66,7 +69,29 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
 
     }
+
     
+    func bindViewModel() {
+        viewModel.bindCustomProductDetailsViewModelToController = { [weak self] in
+            DispatchQueue.main.async {
+                self?.updateUI()
+            }
+        }
+    }
+    
+    func updateUI() {
+        // Update UI elements with fetched data
+        priceLabel.text = viewModel.customProductDetails?.price
+        brandNameLabel.text = viewModel.customProductDetails?.vendor
+        brandTitleLabel.text = viewModel.customProductDetails?.title
+        descriptionLabel.text = viewModel.customProductDetails?.description
+        print("PD View updateUI price: \(viewModel.customProductDetails?.price) ")
+        myCollectionView.reloadData() // Reload collection view if data for images has changed
+        
+        // Example: You may need to update dropdowns too
+        dropDowntableView1.reloadData()
+        dropDowntableView2.reloadData()
+    }
     
     func applyRoundedBorders(to textView: UITextView) {
         textView.layer.cornerRadius = 10

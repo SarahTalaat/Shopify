@@ -15,6 +15,8 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     init(networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol){
         self.networkServiceAuthenticationProtocol = networkServiceAuthenticationProtocol
+        
+        
     }
     
     var filteredProducts: [Products]? {
@@ -61,15 +63,18 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         
         if(ProductDetailsSharedData.instance.screenName == "Products"){
             brandsProducts()
+            self.bindCustomProductDetailsViewModelToController()
         }else if(ProductDetailsSharedData.instance.screenName ==  "Category"){
             categoryProducts()
         }else if(ProductDetailsSharedData.instance.screenName == "Search" ){
             searchProducts()
+            self.bindCustomProductDetailsViewModelToController()
         }else if(ProductDetailsSharedData.instance.screenName == "Favourite"){
             favouriteProducts()
+            self.bindCustomProductDetailsViewModelToController()
         }
         
-        self.bindCustomProductDetailsViewModelToController()
+    //    self.bindCustomProductDetailsViewModelToController()
 
     }
     
@@ -112,11 +117,12 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.useFetchedData()
+            self.bindCustomProductDetailsViewModelToController()
         }
 //        productModel = ProductDetailsSharedData.instance.filteredCategory
-        
-        
+
     }
+    
     
     func searchProducts(){
         filteredSearch = ProductDetailsSharedData.instance.filteredSearch ?? []
@@ -218,6 +224,11 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             print("vm PD  product?.title :\(productModel?.title ?? "NOO TITl")")
             print("vm PD  product?.body_html :\(productModel?.body_html ?? "NO DESC" )")
             print("vm PD  index :\(ProductDetailsSharedData.instance.brandsProductIndex ?? 000)")
+            
+            let product = CustomProductDetails(images:images ?? [] , colour: colour ?? [], size: size ?? [], variant: variant ?? [], vendor: vendor ?? "No vendor", title: title ?? "No title", price: price ?? "No price", description: description ?? "No description")
+        
+            self.customProductDetails = product
+            
         } else {
             print("Category Data not available")
         }
@@ -227,17 +238,21 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         NotificationCenter.default.addObserver(self, selector: #selector(dataDidUpdate), name: .filteredCategoryDidUpdate, object: nil)
     }
 
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: .filteredCategoryDidUpdate, object: nil)
-    }
 
-    @objc func dataDidUpdate() {
+
+    deinit {
+            NotificationCenter.default.removeObserver(self, name: .filteredCategoryDidUpdate, object: nil)
+        }
+        
+   @objc func dataDidUpdate() {
         if let data = ProductDetailsSharedData.instance.filteredCategory {
-            // Use the data
-          
+            // Use the data if needed
             print("SecondViewModel: Using data: \(data)")
+            
+            // Example: Update the productModel if needed
+            productModel = data
         } else {
             print("SecondViewModel: Data not available")
         }
-    }
+   }
 }
