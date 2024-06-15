@@ -15,8 +15,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     init(networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol){
         self.networkServiceAuthenticationProtocol = networkServiceAuthenticationProtocol
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(shoppingCartIdDidUpdate), name: .shoppingCartIdDidUpdate, object: nil)
+
     }
     
     var filteredProducts: [Products]? {
@@ -299,42 +298,31 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 //    }
     
     
-    @objc func shoppingCartIdDidUpdate() {
-            if let data = SharedDataRepository.instance.shoppingCartId {
-                print("SecondViewModel: Using shoppingCartId: \(data)")
-                shoppingCartId = Int(data)
-            } else {
-                print("SecondViewModel: ShoppingCartId not available")
-            }
-        }
-        
-        // New method to wait for shoppingCartId update
-        func waitForShoppingCartIdUpdate(completion: @escaping (Int?) -> Void) {
-            if let shoppingCartIdString = SharedDataRepository.instance.shoppingCartId, let shoppingCartId = Int(shoppingCartIdString) {
-                completion(shoppingCartId)
-            } else {
-                NotificationCenter.default.addObserver(forName: .shoppingCartIdDidUpdate, object: nil, queue: .main) { notification in
-                    if let shoppingCartIdString = SharedDataRepository.instance.shoppingCartId, let shoppingCartId = Int(shoppingCartIdString) {
-                        completion(shoppingCartId)
-                        NotificationCenter.default.removeObserver(self, name: .shoppingCartIdDidUpdate, object: nil)
-                    }
-                }
-            }
-        }
+
         
         func postDraftOrder() {
-            waitForShoppingCartIdUpdate { [weak self] shoppingCartId in
-                guard let self = self else { return }
-                guard let shoppingCartId = shoppingCartId else {
-                    print("PD * No shoppingCartID *")
-                    return
-                }
+
                 
-                let urlString = APIConfig.endPoint("draft_orders/\(shoppingCartId)").url
-                print("PD * ShoppingCartID * : \(shoppingCartId)")
-                let productDraftOrder = self.draftOrder(variantId: self.customProductDetails?.variant?.first?.id ?? 0, quantity: 1, draftOrderId: shoppingCartId)
-                self.postDraftOrderNetwork(urlString: urlString, parameters: productDraftOrder)
+            let urlString = APIConfig.endPoint("draft_orders/\(shoppingCartId)").url
+            print("PD * ShoppingCartID * : \(shoppingCartId)")
+            print("xxx singleton shpid: \(SharedDataRepository.instance.shoppingCartId)")
+            
+            
+            print("xxx getID: \(SharedDataRepository.instance.getShoppingCartId())")
+           
+            if let shoppingCartId = SharedDataRepository.instance.shoppingCartId,
+               let shoppingCartIdInt = Int(shoppingCartId) {
+                print("xxx singleton shpid: \(shoppingCartIdInt)")
+            } else {
+                print("xxx singleton shpid: Invalid shoppingCartId")
             }
+            
+         
+            
+            
+            let productDraftOrder = self.draftOrder(variantId: self.customProductDetails?.variant?.first?.id ?? 0, quantity: 1, draftOrderId: shoppingCartId ?? 0)
+                self.postDraftOrderNetwork(urlString: urlString, parameters: productDraftOrder)
+           
         }
 
 

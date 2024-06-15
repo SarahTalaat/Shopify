@@ -15,20 +15,22 @@ class SharedDataRepository{
     var customerName: String?
     var customerEmail: String?
     var customerId: String?
-    var shoppingCartId: String?{
-        didSet {
-            print("SharedDataRepository: shoppingCartId Set: \(String(describing: shoppingCartId))")
-            NotificationCenter.default.post(name: .shoppingCartIdDidUpdate, object: nil)
-        }
-    }
+    var shoppingCartId: String?
     var favouriteId: String?
     var isSignedIn: Bool = false
+    
+    func setShoppingCartId(_ id: String?) {
+        print("xxx SharedDataRepository: setting shoppingCartId to: \(String(describing: id))")
+        shoppingCartId = id
+        print("xxx SharedDataRepository: shoppingCartId Set: \(String(describing: shoppingCartId))")
+    }
+
+    func getShoppingCartId() -> String? {
+        return shoppingCartId
+    }
 }
 
 
-extension Notification.Name {
-    static let shoppingCartIdDidUpdate = Notification.Name("shoppingCartIdDidUpdate")
-}
 
 
 /*

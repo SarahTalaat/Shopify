@@ -16,7 +16,8 @@ enum AuthErrorCode: Error {
 }
 class SignInViewModel: SignInViewModelProtocol {
     
-  
+    static let sharedDataUpdateQueue = DispatchQueue(label: "com.Shopify.sharedDataUpdateQueue")
+
     let authServiceProtocol: AuthServiceProtocol
     let networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol
     var name: String?
@@ -54,7 +55,10 @@ class SignInViewModel: SignInViewModelProtocol {
     }
     
     func signIn(email: String, password: String) {
-        authServiceProtocol.signIn(email: email, password: password) { [weak self] result in
+        
+        SignInViewModel.sharedDataUpdateQueue.async {
+        
+            self.authServiceProtocol.signIn(email: email, password: password) { [weak self] result in
             switch result {
             case .success(let user):
                 self?.user = user
@@ -66,8 +70,12 @@ class SignInViewModel: SignInViewModelProtocol {
                 
                 self?.postDraftOrderForShoppingCart(urlString: urlString, parameters: draftOrder1 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX") { [weak self] shoppingCartId in
                     if let shoppingCartId = shoppingCartId {
-                        SharedDataRepository.instance.shoppingCartId = shoppingCartId // Update the singleton class property
-                        self?.useShoppingCartId(shoppingCartId)
+                        DispatchQueue.main.async {
+ 
+                            SharedDataRepository.instance.setShoppingCartId(shoppingCartId)
+
+                            self?.useShoppingCartId(shoppingCartId)
+                        }
                     }
                 }
             
@@ -91,6 +99,7 @@ class SignInViewModel: SignInViewModelProtocol {
                 }
             }
         }
+      }
     }
     
     private func fetchCustomerID(){
