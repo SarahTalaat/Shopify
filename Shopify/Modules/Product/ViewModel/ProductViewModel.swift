@@ -33,7 +33,7 @@ class ProductViewModel {
             applyFilters()
         }
     }
-
+    
     var minPrice: Float = 0
     var maxPrice: Float = 1000
     
@@ -65,7 +65,6 @@ class ProductViewModel {
         bindPriceRange()
     }
     
-
     func applyFilters() {
         filteredProducts = products
         
@@ -73,24 +72,6 @@ class ProductViewModel {
             filteredProducts = filteredProducts.filter { product in
                 if let productPrice = Float(product.variants.first?.price ?? "0") {
                     return productPrice <= maxPrice
-
-    func filterProducts() {
-            filteredProducts = products.filter { product in
-                if let productPrice = Float(product.variants.first?.price ?? "0") {
-                    let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
-                    let exchangeRate = exchangeRates[selectedCurrency] ?? 1.0
-                    let convertedPrice = productPrice * Float(exchangeRate)
-                    return convertedPrice <= currentMaxPrice
-                }
-                return false
-            }
-        }
-    func filterByColor(color: String) {
-        coloredProducts = products.filter { product in
-            for option in product.options where option.name == "Color" {
-                if option.values.contains(color) {
-                    return true
-
                 }
                 return false
             }
@@ -120,18 +101,17 @@ class ProductViewModel {
             }
         }
     }
-
+    
     private func fetchExchangeRates() {
-           let exchangeRateApiService = ExchangeRateApiService()
-           exchangeRateApiService.getLatestRates { [weak self] result in
-               switch result {
-               case .success(let response):
-                   self?.exchangeRates = response.conversion_rates
-               case .failure(let error):
-                   print("Error fetching exchange rates: \(error)")
-               }
-               self?.bindFilteredProducts()
-           }
-       }
-
+        let exchangeRateApiService = ExchangeRateApiService()
+        exchangeRateApiService.getLatestRates { [weak self] result in
+            switch result {
+            case .success(let response):
+                self?.exchangeRates = response.conversion_rates
+            case .failure(let error):
+                print("Error fetching exchange rates: \(error)")
+            }
+            self?.bindFilteredProducts()
+        }
+    }
 }

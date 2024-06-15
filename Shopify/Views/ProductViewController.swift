@@ -147,46 +147,6 @@ class ProductViewController: UIViewController {
        }
    }
 
-   // MARK: - Collection View Methods
-
-   extension ProductViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-       func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-           return viewModel.filteredProducts.count
-       }
-       
-       func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-           let item = viewModel.filteredProducts[indexPath.row]
-           let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsCollectionViewCell", for: indexPath) as! ProductsCollectionViewCell
-           
-           cell.brandLabel.text = item.vendor
-           if let price = item.variants.first?.price {
-               cell.priceLabel.text = "\(price)$"
-           }
-           
-           if let range = item.title.range(of: "|") {
-               var truncatedString = String(item.title[range.upperBound...]).trimmingCharacters(in: .whitespaces)
-               
-               if let nextRange = truncatedString.range(of: "|") {
-                   truncatedString = String(truncatedString[..<nextRange.lowerBound]).trimmingCharacters(in: .whitespaces)
-                   cell.productNameLabel.text = truncatedString
-               } else {
-                   cell.productNameLabel.text = truncatedString
-               }
-           }
-           
-           if let imageUrlString = item.images.first?.src, let imageURL = URL(string: imageUrlString) {
-               cell.productImage.kf.setImage(with: imageURL)
-           }
-           
-           return cell
-       }
-       
-       func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-           let storyboard = UIStoryboard(name: "Main", bundle: nil)
-           let productDetailsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
-           navigationController?.pushViewController(productDetailsViewController, animated: true)
-       }
-   }
 
     // MARK: - Collection View Methods
 

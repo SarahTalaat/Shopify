@@ -52,7 +52,7 @@ class DraftOrderNetworkService {
                 ]
 
             ]
-        ]
+        
         
         Alamofire.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default).responseData { response in
             switch response.result {

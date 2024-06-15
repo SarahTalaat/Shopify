@@ -12,7 +12,8 @@ class PaymentViewController: UIViewController {
     
     var subtotal: String?
        var defaultAddress: Address?
-
+    var lineItems: LineItems!
+       
        override func viewDidLoad() {
            super.viewDidLoad()
            if let subtotal = subtotal {
@@ -22,6 +23,8 @@ class PaymentViewController: UIViewController {
            setupGestures()
            self.title = "Choose Payment Method"
            fetchDefaultAddress()
+           print(lineItems!)
+                  
        }
        private func setupUI() {
            [cashView, applePayView,addressView].forEach { view in
