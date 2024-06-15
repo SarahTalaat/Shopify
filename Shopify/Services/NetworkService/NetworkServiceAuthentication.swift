@@ -25,6 +25,8 @@ enum HTTPMethod: String {
     case put = "PUT"
 }
 
+
+
 class NetworkServiceAuthentication: NetworkServiceAuthenticationProtocol {
     
     func requestFunction<T: Decodable>(urlString: String, method: HTTPMethod, model: [String: Any], completion: @escaping (Result<T, Error>) -> Void) {

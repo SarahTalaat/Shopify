@@ -119,7 +119,7 @@ class SignInViewModel: SignInViewModelProtocol {
             print("si: customerDataModel: \(customerDataModel ?? CustomerData(customerId: "NOOOID", name: "NOOOName", email: "NOOOEmail", favouriteId: "NOOOFavID", shoppingCartId: "NOOOShoppingID"))")
             SharedDataRepository.instance.customerName = customerDataModel?.name
             SharedDataRepository.instance.customerId = customerDataModel?.customerId
-            SharedDataRepository.instance.shoppingCartId = customerDataModel?.shoppingCartId
+            SharedDataRepository.instance.draftOrderId = customerDataModel?.shoppingCartId
             SharedDataRepository.instance.favouriteId = customerDataModel?.favouriteId
             
             
@@ -127,26 +127,38 @@ class SignInViewModel: SignInViewModelProtocol {
             print("si: inside email: \(SharedDataRepository.instance.customerEmail ?? "NOEMAIL")")
             print("si: inside: Cid: \(SharedDataRepository.instance.customerId ?? "NO CID")")
             print("si: inside: favId: \(SharedDataRepository.instance.favouriteId ?? "NO FID")")
-            print("si: inside: shoppingCartId: \(SharedDataRepository.instance.shoppingCartId ?? "NO ShopID")")
+            print("si: inside: shoppingCartId: \(SharedDataRepository.instance.draftOrderId ?? "NO ShopID")")
         }
         SharedDataRepository.instance.customerEmail = user?.email
         
         
     }
+
     
     func postDraftOrderForShoppingCart(urlString: String, parameters: [String:Any], name: String, email: String, completion: @escaping (String?) -> Void) {
         networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method:.post, model: parameters, completion: { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
+
+    func postDraftOrderForShoppingCart(urlString: String, parameters: [String: Any], name: String, email: String) {
+        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
+
             switch result {
             case.success(let response):
                 print("si Draft order posted successfully: \(response)")
+
                 let shoppingCartId = "\(response.draftOrder?.id)"
                 completion(shoppingCartId) // Call the completion handler with the shoppingCartId value
             case.failure(let error):
+
+                SharedDataRepository.instance.draftOrderId = "\(response.draftOrder?.id ?? 0)"
+                print("si: ShoppingCardId: \(SharedDataRepository.instance.draftOrderId)")
+            case .failure(let error):
+
                 print("si Failed to post draft order: \(error.localizedDescription)")
                 completion(nil)
             }
         })
     }
+
     func useShoppingCartId(_ shoppingCartId: String) {
         // Use the shoppingCartId value here
         SharedDataRepository.instance.shoppingCartId = shoppingCartId
@@ -154,6 +166,7 @@ class SignInViewModel: SignInViewModelProtocol {
         print("si: Using shoppingCartId: \(shoppingCartId)")
     }
     
+
     func postDraftOrderForFavourite(urlString: String, parameters: [String:Any], name: String , email: String) {
        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
             switch result {

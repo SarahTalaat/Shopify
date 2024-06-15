@@ -70,15 +70,21 @@ class OrdersViewController: UIViewController {
                    cell.clipsToBounds = true
                    
                    let date = item.created_at
-                   let datePart = date.split(separator: "T").first.map(String.init)
+                   let datePart = date?.split(separator: "T").first.map(String.init)
                    cell.creationDate.text = "Created At: \(datePart ?? " ")"
-                   cell.totalPrice.text = "Total Price: \(item.total_price)$"
+            
+                    if let totalPrice = item.total_price {
+                        cell.totalPrice.text = "\(totalPrice)$"
+                    } else {
+                        cell.totalPrice.text = "0.00$"
+                    }
+
                    return cell
         }
         
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
           
-            detailsModel.id = ordersViewModel.orders[indexPath.row].id
+            detailsModel.id = ordersViewModel.orders[indexPath.row].id ?? 0
              let storyboard = UIStoryboard(name: "Second", bundle: nil)
              let orderDetailsViewController = storyboard.instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
             orderDetailsViewController.viewModel = detailsModel

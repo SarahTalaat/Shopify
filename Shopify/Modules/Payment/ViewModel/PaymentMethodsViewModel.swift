@@ -15,6 +15,14 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     }
     
     var selectedPaymentMethod: PaymentMethod?
+    private var subtotal: String?
+    
+    func selectPaymentMethod(_ method: PaymentMethod) {
+        selectedPaymentMethod = method
+    }
+    func updatePaymentSummaryItems(subtotal: String) {
+        self.subtotal = subtotal
+    }
     
     var paymentRequest: PKPaymentRequest {
         let request = PKPaymentRequest()
@@ -24,7 +32,12 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         request.merchantCapabilities = .capability3DS
         request.countryCode = "EG"
         request.currencyCode = UserDefaults.standard.string(forKey: "Currency") == "EGP" ? "EGP" : "USD"
-        request.paymentSummaryItems = [PKPaymentSummaryItem(label: "T-shirt", amount: 1200)]
+        if let subtotal = subtotal {
+            let amount = NSDecimalNumber(string: subtotal)
+            request.paymentSummaryItems = [PKPaymentSummaryItem(label: "Total Order", amount: amount)]
+        } else {
+            request.paymentSummaryItems = [PKPaymentSummaryItem(label: "T-shirt", amount: 1200)]
+        }
         return request
     }
     
@@ -37,7 +50,46 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
     }
     
-    func selectPaymentMethod(_ method: PaymentMethod) {
-        selectedPaymentMethod = method
-    }
+ 
+    private var lineItem: LineItemss?
+     private var order: Orders?
+     private var ordersSend: OrdersSend?
+
+    func setupOrder(lineItem:LineItems) {
+
+         order = Orders(
+             id: nil,
+             confirmation_number: nil,
+             confirmed: nil,
+             created_at: nil,
+             currency: "USD",
+             email: nil,
+             financial_status: nil,
+             order_number: nil,
+             source_name: nil,
+             tags: nil,
+             token: nil,
+             total_discounts: nil,
+             total_line_items_price: nil,
+             total_price: nil,
+             line_items: [lineItem]
+         )
+
+         ordersSend = OrdersSend(order: order!)
+     }
+     
+     func postOrder() {
+         guard let ordersSend = ordersSend else {
+             print("Order is not set up correctly")
+             return
+         }
+         
+         NetworkUtilities.postData(data: ordersSend, endpoint: "orders.json") { success in
+             if success {
+                 print("Order posted successfully!")
+             } else {
+                 print("Failed to post order.")
+             }
+         }
+     }
 }
