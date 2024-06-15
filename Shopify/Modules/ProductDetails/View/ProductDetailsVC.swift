@@ -280,6 +280,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     
      //   cell.productImage.layer.cornerRadius = 30
         
+        
         return cell
     }
     
