@@ -13,7 +13,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var shoppingCartTableView: UITableView!
 
     let draftOrderService = DraftOrderNetworkService()
-       var draftOrder: DraftOrder?
+       var draftOrder: DraftOrderPUT?
        
        override func viewDidLoad() {
            super.viewDidLoad()

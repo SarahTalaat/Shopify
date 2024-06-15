@@ -54,7 +54,6 @@ class CategoryViewModel{
                 print("Fetched products: \(products.count)")
                 self.subCategory = products
                 self.category = products
-                
             } else {
                 print("No products fetched")
                 self.category = []

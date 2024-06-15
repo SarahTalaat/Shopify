@@ -16,7 +16,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     init(networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol){
         self.networkServiceAuthenticationProtocol = networkServiceAuthenticationProtocol
         
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(shoppingCartIdDidUpdate), name: .shoppingCartIdDidUpdate, object: nil)
     }
     
     var filteredProducts: [Products]? {
@@ -57,6 +57,8 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     var price: String?
     var description: String?
     var isDataBound: Bool? = false
+    
+    var shoppingCartId: Int?
 
     
     
@@ -205,9 +207,9 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
     
     
-    func postProduct(variantId: Int , quantity: Int){
+    func postProduct(variantId: Int , quantity: Int , draftOrderId: Int){
         let urlString = APIConfig.draft_orders.url
-        let draftOrder = draftOrder(variantId: variantId, quantity: quantity)
+        let draftOrder = draftOrder(variantId: variantId, quantity: quantity, draftOrderId: draftOrderId)
         
         networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: draftOrder, completion: { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
             switch result {
@@ -265,36 +267,83 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             print("Category Data not available")
         }
     }
-    
-    init() {
-        NotificationCenter.default.addObserver(self, selector: #selector(dataDidUpdate), name: .filteredCategoryDidUpdate, object: nil)
-    }
 
 
 
-    deinit {
-            NotificationCenter.default.removeObserver(self, name: .filteredCategoryDidUpdate, object: nil)
-        }
+
+//    deinit {
+//
+//        NotificationCenter.default.removeObserver(self, name: .shoppingCartIdDidUpdate, object: nil)
+//        }
         
    @objc func dataDidUpdate() {
         if let data = ProductDetailsSharedData.instance.filteredCategory {
-            // Use the data if needed
+       
             print("SecondViewModel: Using data: \(data)")
             
-            // Example: Update the productModel if needed
             productModel = data
         } else {
             print("SecondViewModel: Data not available")
         }
    }
     
+//    @objc func shoppingCartIdDidUpdate() {
+//        if let data = SharedDataRepository.instance.shoppingCartId {
+//
+//             print("SecondViewModel: Using shoppingCartId: \(data)")
+//
+//            shoppingCartId = Int(data)
+//         } else {
+//             print("SecondViewModel: ShoppingCartId not available")
+//         }
+//    }
+    
+    
+    @objc func shoppingCartIdDidUpdate() {
+            if let data = SharedDataRepository.instance.shoppingCartId {
+                print("SecondViewModel: Using shoppingCartId: \(data)")
+                shoppingCartId = Int(data)
+            } else {
+                print("SecondViewModel: ShoppingCartId not available")
+            }
+        }
+        
+        // New method to wait for shoppingCartId update
+        func waitForShoppingCartIdUpdate(completion: @escaping (Int?) -> Void) {
+            if let shoppingCartIdString = SharedDataRepository.instance.shoppingCartId, let shoppingCartId = Int(shoppingCartIdString) {
+                completion(shoppingCartId)
+            } else {
+                NotificationCenter.default.addObserver(forName: .shoppingCartIdDidUpdate, object: nil, queue: .main) { notification in
+                    if let shoppingCartIdString = SharedDataRepository.instance.shoppingCartId, let shoppingCartId = Int(shoppingCartIdString) {
+                        completion(shoppingCartId)
+                        NotificationCenter.default.removeObserver(self, name: .shoppingCartIdDidUpdate, object: nil)
+                    }
+                }
+            }
+        }
+        
+        func postDraftOrder() {
+            waitForShoppingCartIdUpdate { [weak self] shoppingCartId in
+                guard let self = self else { return }
+                guard let shoppingCartId = shoppingCartId else {
+                    print("PD * No shoppingCartID *")
+                    return
+                }
+                
+                let urlString = APIConfig.endPoint("draft_orders/\(shoppingCartId)").url
+                print("PD * ShoppingCartID * : \(shoppingCartId)")
+                let productDraftOrder = self.draftOrder(variantId: self.customProductDetails?.variant?.first?.id ?? 0, quantity: 1, draftOrderId: shoppingCartId)
+                self.postDraftOrderNetwork(urlString: urlString, parameters: productDraftOrder)
+            }
+        }
+
 
     func postDraftOrderNetwork(urlString: String, parameters: [String:Any]) {
-       networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
+       networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .put, model: parameters, completion: { [weak self] (result: Result<ModifiedDraftOrderResponse, Error>) in
             switch result {
             case .success(let response):
                 print("PD Draft order posted successfully: \(response)")
-                ProductDetailsSharedData.instance.productVariantId = response.draftOrder?.id
+                ProductDetailsSharedData.instance.productVariantId = response.draft_order?.id
 
             case .failure(let error):
                 print("PD Failed to post draft order: \(error.localizedDescription)")
@@ -303,16 +352,10 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     }
     
     
-    func postDraftOrder(){
-        let urlString = APIConfig.draft_orders.url
-        var productDraftOrder = self.draftOrder(variantId: self.customProductDetails?.variant?.first?.id ?? 0, quantity: 1)
-        postDraftOrderNetwork(urlString: urlString, parameters: productDraftOrder)
-    }
-    
-    
-    func draftOrder(variantId:Int, quantity: Int) -> [String:Any] {
+    func draftOrder(variantId:Int, quantity: Int , draftOrderId: Int) -> [String:Any] {
         let draftOrder: [String: Any] = [
             "draft_order": [
+                "id":draftOrderId ,
                 "line_items": [
                     [
                         "variant_id": variantId,
@@ -324,6 +367,22 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         
         return draftOrder
     }
+    
+    
+//    func postDraftOrder(){
+//
+//        let urlString = APIConfig.endPoint("draft_orders/\(SharedDataRepository.instance.shoppingCartId)").url
+//        print("PD * ShoppingCartID * : \(SharedDataRepository.instance.shoppingCartId)")
+//        var draftOrderId = Int(SharedDataRepository.instance.shoppingCartId ?? "*No shoppingCartID*")
+//        print("PD * ShoppingCartID * INT \(draftOrderId)")
+//        var productDraftOrder = self.draftOrder(variantId: self.customProductDetails?.variant?.first?.id ?? 0, quantity: 1 , draftOrderId: draftOrderId ?? 0)
+//        postDraftOrderNetwork(urlString: urlString, parameters: productDraftOrder)
+//    }
+    
+    
+
+
+
     
     
 }

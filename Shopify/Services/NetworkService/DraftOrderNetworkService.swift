@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 class DraftOrderNetworkService {
 
-    func fetchDraftOrders(completion: @escaping (Swift.Result<DraftOrder, Error>) -> Void) {
+    func fetchDraftOrders(completion: @escaping (Swift.Result<DraftOrderPUT, Error>) -> Void) {
         let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/1031695532193.json"
         
         Alamofire.request(url).responseData { response in
@@ -18,7 +18,7 @@ class DraftOrderNetworkService {
                 print("Response data: \(String(data: data, encoding: .utf8) ?? "No data")")
                 do {
                     let decoder = JSONDecoder()
-                    let draftOrderResponse = try decoder.decode([String: DraftOrder].self, from: data)
+                    let draftOrderResponse = try decoder.decode([String: DraftOrderPUT].self, from: data)
                     if let draftOrder = draftOrderResponse["draft_order"] {
                         completion(.success(draftOrder))
                     } else {
@@ -35,7 +35,7 @@ class DraftOrderNetworkService {
             }
         }
     }
-    func updateDraftOrder(draftOrder: DraftOrder, completion: @escaping (Swift.Result<DraftOrder, Error>) -> Void) {
+    func updateDraftOrder(draftOrder: DraftOrderPUT, completion: @escaping (Swift.Result<DraftOrderPUT, Error>) -> Void) {
             let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/\(draftOrder.id).json"
             
             let parameters: [String: Any] = [
@@ -56,7 +56,7 @@ class DraftOrderNetworkService {
                     print("Response data: \(String(data: data, encoding: .utf8) ?? "No data")")
                     do {
                         let decoder = JSONDecoder()
-                        let draftOrderResponse = try decoder.decode([String: DraftOrder].self, from: data)
+                        let draftOrderResponse = try decoder.decode([String: DraftOrderPUT].self, from: data)
                         if let draftOrder = draftOrderResponse["draft_order"] {
                             completion(.success(draftOrder))
                         } else {

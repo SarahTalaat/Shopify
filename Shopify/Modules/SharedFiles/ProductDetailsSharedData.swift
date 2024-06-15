@@ -25,15 +25,12 @@ class ProductDetailsSharedData {
             NotificationCenter.default.post(name: .productVariantIdDidUpdate, object: nil)
         }
     }
+    
     var filteredProducts: [Products]?
-//    var filteredCategory: ProductModel?
     var filteredSearch: [Products]?
 
-    
     var brandsProductIndex: Int?
     var screenName: String?
-    
-    
     
 }
 
