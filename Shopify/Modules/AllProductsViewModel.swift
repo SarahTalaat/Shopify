@@ -12,7 +12,9 @@ class AllProductsViewModel{
     
     var products: [Products] = [] {
         didSet {
+            ProductDetailsSharedData.instance.filteredSearch = products
             bindAllProducts()
+            
         }
     }
     
@@ -42,4 +44,15 @@ class AllProductsViewModel{
             }
         }
      
+    func productIndexPath(index: Int){
+        print("category vm index: \(index)")
+        ProductDetailsSharedData.instance.brandsProductIndex = index
+    }
+    
+    func screenNamePassing(screenName: String){
+        var x = SharedDataRepository.instance.shoppingCartId
+        print("Search: ShoppingCartId: \(x)")
+        ProductDetailsSharedData.instance.screenName = screenName
+    }
+    
 }

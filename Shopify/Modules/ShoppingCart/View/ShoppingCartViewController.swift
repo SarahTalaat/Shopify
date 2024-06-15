@@ -11,9 +11,16 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
    
     @IBOutlet weak var totalAmount: UILabel!
     @IBOutlet weak var shoppingCartTableView: UITableView!
+
+
+    let draftOrderService = DraftOrderNetworkService()
+       var draftOrder: DraftOrderPUT?
+       
+
     
     private let viewModel = ShoppingCartViewModel()
            
+
        override func viewDidLoad() {
            super.viewDidLoad()
            
