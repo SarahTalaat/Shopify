@@ -22,7 +22,7 @@ class Constants  {
     static let productTitle: String = "productTitle"
     static let productVendor: String = "productVendor"
     static let productImage: String = "productImage"
-    
+    static let customerEmail: String = "customerEmail"
     
 
 }

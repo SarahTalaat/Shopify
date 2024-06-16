@@ -132,6 +132,13 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         // Disable the button's adjustment when highlighted to remove the blue shadow
         sender.adjustsImageWhenHighlighted = false
         
+        
+        if isFavourite {
+            viewModel.addProductToFirebase()
+        }else{
+            viewModel.deleteProductFromFirebase()
+        }
+        
     }
     func setUpFavouriteButton(){
         // Make the button circular

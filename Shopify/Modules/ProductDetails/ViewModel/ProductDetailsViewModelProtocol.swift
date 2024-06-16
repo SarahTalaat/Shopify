@@ -23,5 +23,7 @@ protocol ProductDetailsViewModelProtocol {
     func addToCart()
     func getProduct()
     var isDataBound: Bool? {get set}
+    func addProductToFirebase()
+    func deleteProductFromFirebase()
    
 }

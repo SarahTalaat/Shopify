@@ -161,9 +161,10 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
     
-    func addProductToEncodedEmail(encodedEmail: String, productId: String, productTitle: String, productVendor: String, productImage: String) {
+    func addProductToEncodedEmail(email: String, productId: String, productTitle: String, productVendor: String, productImage: String) {
         let ref = Database.database().reference()
         let customersRef = ref.child("customers")
+        let encodedEmail = SharedMethods.encodeEmail(email)
         let customerRef = customersRef.child(encodedEmail)
         let productsRef = customerRef.child("products")
         

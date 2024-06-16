@@ -438,14 +438,19 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     func addProductToFirebase(){
         
-        var encodedEmail = retrieveStringFromUserDefaults(forKey: SharedDataRepository.instance.customerEmail ?? "NOO Emaill")
+        var encodedEmail = retrieveStringFromUserDefaults(forKey: Constants.customerEmail ?? "NOO Emaill")
         var productId = retrieveStringFromUserDefaults(forKey: Constants.productId)
         var productTitle = retrieveStringFromUserDefaults(forKey: Constants.productTitle)
         var productVendor = retrieveStringFromUserDefaults(forKey: Constants.productVendor)
         var productImage = retrieveStringFromUserDefaults(forKey: Constants.productImage)
         
+        print("xy encoded email: \(encodedEmail)")
+        print("xy productId: \(productId)")
+        print("xy productTitle: \(productTitle)")
+        print("xy productVendor: \(productVendor)")
+        print("xy productImage: \(productImage)")
         
-        authServiceProtocol.addProductToEncodedEmail(encodedEmail: encodedEmail ?? "NOOO Email", productId: productId ?? "NOO ProductId", productTitle: productTitle ?? "No ProductTitle", productVendor: productVendor ?? "NOOO ProductVendor", productImage: productImage ?? "NOOO ProductImage")
+        authServiceProtocol.addProductToEncodedEmail(email: encodedEmail ?? "NOOO Email", productId: productId ?? "NOO ProductId", productTitle: productTitle ?? "No ProductTitle", productVendor: productVendor ?? "NOOO ProductVendor", productImage: productImage ?? "NOOO ProductImage")
         
         
     }
@@ -466,6 +471,8 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     func addMultipleValuesToUserDefaults(productId: String, productTitle: String, productVendor:String, productImage: String){
         
+        print("xy email singleton: \(SharedDataRepository.instance.customerEmail ?? "No email")")
+        addValueToUserDefaults(value: SharedDataRepository.instance.customerEmail ?? "No email", forKey: Constants.customerEmail)
         addValueToUserDefaults(value: productId, forKey: Constants.productId)
         addValueToUserDefaults(value: productTitle, forKey: Constants.productTitle)
         addValueToUserDefaults(value: productVendor, forKey: Constants.productVendor)
@@ -479,6 +486,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
  
     func addValueToUserDefaults(value: Any, forKey key: String) {
         UserDefaults.standard.set(value, forKey: key)
+        UserDefaults.standard.synchronize()
     }
 
     func retrieveStringFromUserDefaults(forKey key: String) -> String? {

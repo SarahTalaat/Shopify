@@ -65,7 +65,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
                         ]
                     ]
                     
-
+                   
 
                     let urlString = APIConfig.customers.url
                     self?.postNewCustomer(urlString: urlString, parameters: createCustomer, name: firstName, email: email)
