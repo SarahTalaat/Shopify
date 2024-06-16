@@ -68,18 +68,31 @@ class SignInViewModel: SignInViewModelProtocol {
                 var draftOrder2 = self?.draftOrderDummyModel2()
                 
                 
-                self?.postDraftOrderForShoppingCart(urlString: urlString, parameters: draftOrder1 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX") { [weak self] shoppingCartId in
+                self?.postDraftOrderForShoppingCart(urlString: urlString, parameters: draftOrder1 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX") { [weak self] shoppingCartIdString in
                     
-                    UserDefaults.standard.set(shoppingCartId, forKey: Constants.shoppingCartId)
-                    
-                    if let shoppingCartId = shoppingCartId {
-                        DispatchQueue.main.async {
-
-                            SharedDataRepository.instance.shoppingCartId = shoppingCartId
-
-                            self?.useShoppingCartId(shoppingCartId)
+                    guard let shoppingCartIdString = shoppingCartIdString else {
+                        
+                            return
                         }
-                    }
+                        
+                        // Extract the actual shoppingCartId from the string representation
+                        if let range = shoppingCartIdString.range(of: "Optional(") {
+                            let shoppingCartId = shoppingCartIdString.replacingCharacters(in: range, with: "")
+                                .replacingOccurrences(of: ")", with: "")
+                                .trimmingCharacters(in: .whitespacesAndNewlines)
+                            
+                            UserDefaults.standard.set(shoppingCartId, forKey: Constants.shoppingCartId)
+                        }
+                    print("si: UD DrafId \(UserDefaults.standard.string(forKey: Constants.shoppingCartId ?? ""))")
+                    
+//                    if let shoppingCartId = shoppingCartId {
+//                        DispatchQueue.main.async {
+//
+//                            SharedDataRepository.instance.shoppingCartId = shoppingCartId
+//
+//                            self?.useShoppingCartId(shoppingCartId)
+//                        }
+//                    }
                 }
             
                 
