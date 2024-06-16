@@ -19,37 +19,42 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
     }
     
-    var productDetails: OneDraftOrderResponse? {
+    var draftOrderDetails: OneDraftOrderResponse? {
         didSet{
-            self.bindProductDetailsViewModelToController()
+           print("PD draftOrderDetails: \(draftOrderDetails)")
         }
     }
-
+    
+    var productDetails: GetProductResponse? {
+        didSet{
+            self.bindProductDetailsViewModelToController()
+            print("PD productDetails: \(productDetails)")
+        }
+    }
 
     var productId = UserDefaults.standard.string(forKey: Constants.productId)
     
     var bindProductDetailsViewModelToController: (() -> ()) = {}
 
 
-    func postProduct(variantId: Int){
-        let urlString = APIConfig.draft_orders.url
-        let draftOrder = draftOrder(variantId: variantId)
+    func getProductDetails(){
         
-        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: draftOrder, completion: { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
+        let productId = UserDefaults.standard.integer(forKey: Constants.productId)
+        print("pd productid: \(productId)")
+        let urlString = APIConfig.endPoint("products\(productId)").url
+        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .get, model: [:], completion: { [weak self] (result: Result<GetProductResponse, Error>) in
             switch result {
             case .success(let response):
+                print("PD product details get successfully: \(response)")
                 self?.productDetails = response
-                UserDefaults.standard.set(response.draftOrder, forKey: <#T##String#>)
+                UserDefaults.standard.set(response.product?.variants?.first?.id, forKey: Constants.variantIdInt)
+                print("PD variantId UD: \(UserDefaults.standard.integer(forKey: Constants.variantIdInt))")
+                print("PD variantId response: \(response.product?.variants?.first?.id ?? 0)")
             case .failure(let error):
-                print("PD Failed to post draft order: \(error.localizedDescription)")
+                print("PD Failed to product details get: \(error.localizedDescription)")
             }
         })
     }
-    
-//    func getProductDetails(){
-//        var productId = UserDefaults.standard.integer(forKey: Constants.productId)
-//        var urlString = APIConfig.endPoint("products\()")
-//    }
 
 
     func putDraftOrderNetwork(urlString: String, parameters: [String:Any]) {
@@ -65,7 +70,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     }
     
     
-    func draftOrder(variantId:Int) -> [String:Any] {
+    func draftOrder() -> [String:Any] {
         
         if let draftOrderIDString = UserDefaults.standard.string(forKey: Constants.shoppingCartId) {
                       
@@ -75,13 +80,14 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
                              
                 print("xxx draftOrderInt: \(draftOrderIDInt)")
                 UserDefaults.standard.set(draftOrderIDInt, forKey: Constants.draftOrderIdInt)
+                let productVariantId = UserDefaults.standard.integer(forKey: Constants.variantIdInt)
 
                 let draftOrder: [String: Any] = [
                         "draft_order": [
                             "id": draftOrderIDInt ,
                             "line_items": [
                                 [
-                                    "variant_id": variantId,
+                                    "variant_id": productVariantId,
                                     "quantity": 1
                                 ]
                             ]
@@ -95,20 +101,24 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
            print("xxx ShoppingCartId not found in UserDefaults")
         }
+        
+        return [:]
     }
         
             
 
     func addToCart() {
          
-        var variantId =
-        var draftOrderParameter = draftOrder(variantId:variantId)
         
-        var draftOrderIDInt = UserDefaults.standard.object(forKey: Constants.draftOrderIdInt)
+        let draftOrderParameter = draftOrder()
+        
+        let draftOrderIDInt: Int = UserDefaults.standard.integer(forKey: Constants.draftOrderIdInt)
         
         let urlString = APIConfig.endPoint("draft_orders/\(draftOrderIDInt)").url
             
-            postDraftOrderNetwork(urlString: <#T##String#>, parameters: <#T##[String : Any]#>)
+        putDraftOrderNetwork(urlString: urlString, parameters: draftOrderParameter)
+        deleteValueIfPresent(forKey: Constants.variantIdInt)
+        deleteValueIfPresent(forKey: Constants.productId)
         }
 
 
@@ -123,7 +133,12 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             }
         }
            
-        
+    func getColourArray(variants:[GetVariant])-> [String]{
+         return variants.compactMap { $0.option2 }.filter { !$0.isEmpty }
+    }
+    func getsizeArray(variants:[GetVariant])-> [String]{
+         return variants.compactMap { $0.option1 }.filter { !$0.isEmpty }
+    }
     }
 /*
  // Set an integer value

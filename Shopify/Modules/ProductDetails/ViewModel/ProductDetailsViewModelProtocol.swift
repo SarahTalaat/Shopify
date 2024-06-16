@@ -9,6 +9,12 @@ import Foundation
 
 
 protocol ProductDetailsViewModelProtocol {
-
+    var draftOrderDetails: OneDraftOrderResponse? {get set}
+    var productDetails: GetProductResponse? {get set}
+    var bindProductDetailsViewModelToController: (() -> ()) {get set}
+    func getProductDetails()
+    func addToCart()
+    func getColourArray(variants:[GetVariant])-> [String]
+    func getsizeArray(variants:[GetVariant])-> [String]
    
 }

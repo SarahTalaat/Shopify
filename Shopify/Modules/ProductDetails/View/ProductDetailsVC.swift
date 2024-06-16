@@ -11,7 +11,7 @@ import Kingfisher
 class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource{
 
     @IBAction func addToCartButton(_ sender: CustomButton) {
-        viewModel.isDataBound = true
+       
         viewModel.addToCart()
         
     }
@@ -48,19 +48,19 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
         viewModel = DependencyProvider.productDetailsViewModel
       //  addActivityIndicator()
-        viewModel.getProduct()
+        viewModel.getProductDetails()
         bindViewModel()
 
         
-        priceLabel.text = viewModel.customProductDetails?.price
-        
-        print("PD View viewdidload: \(viewModel.customProductDetails?.price) ")
-        brandNameLabel.text = viewModel.customProductDetails?.vendor
-        brandTitleLabel.text = viewModel.customProductDetails?.title
-        descriptionLabel.text = viewModel.customProductDetails?.description
-        
-    
-        
+//        priceLabel.text = viewModel.customProductDetails?.price
+//        
+//        print("PD View viewdidload: \(viewModel.customProductDetails?.price) ")
+//        brandNameLabel.text = viewModel.customProductDetails?.vendor
+//        brandTitleLabel.text = viewModel.customProductDetails?.title
+//        descriptionLabel.text = viewModel.customProductDetails?.description
+//        
+//    
+        self.updateUI()
         
         settingUpCollectionView()
 
@@ -88,7 +88,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     
     func bindViewModel() {
      //   activityIndicator.startAnimating()
-        viewModel.bindCustomProductDetailsViewModelToController = { [weak self] in
+        viewModel.bindProductDetailsViewModelToController = { [weak self] in
             DispatchQueue.main.async {
                 self?.updateUI()
             }
@@ -98,11 +98,11 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     func updateUI() {
     //    activityIndicator.stopAnimating()
         // Update UI elements with fetched data
-        priceLabel.text = viewModel.customProductDetails?.price
-        brandNameLabel.text = viewModel.customProductDetails?.vendor
-        brandTitleLabel.text = viewModel.customProductDetails?.title
-        descriptionLabel.text = viewModel.customProductDetails?.description
-        print("PD View updateUI price: \(viewModel.customProductDetails?.price) ")
+        priceLabel.text = viewModel.productDetails?.product?.variants?.first?.price
+        brandNameLabel.text = viewModel.productDetails?.product?.vendor
+        brandTitleLabel.text = viewModel.productDetails?.product?.title
+        descriptionLabel.text = viewModel.productDetails?.product?.bodyHtml
+        print("PD View updateUI price: \(viewModel.productDetails?.product?.variants?.first?.price) ")
         myCollectionView.reloadData() // Reload collection view if data for images has changed
         
         // Example: You may need to update dropdowns too
@@ -215,11 +215,11 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         
         switch(tableView){
         case dropDowntableView1:
-            return viewModel.customProductDetails?.colour?.count ?? 1
+            return viewModel.productDetails?.product?.variants?.compactMap { $0.option2 }.filter { !$0.isEmpty }.count ?? 1
         case dropDowntableView2:
-            return viewModel.customProductDetails?.size?.count ?? 1
+            return viewModel.productDetails?.product?.variants?.compactMap { $0.option1 }.filter { !$0.isEmpty }.count ?? 1
         default:
-            return viewModel.customProductDetails?.size?.count ?? 1
+            return viewModel.productDetails?.product?.variants?.compactMap { $0.option1 }.filter { !$0.isEmpty }.count ?? 1
         }
         
   // or dropdownItems2.count depending on the tableView
@@ -230,16 +230,16 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         if tableView == dropDowntableView1 {
             cell = tableView.dequeueReusableCell(withIdentifier: "dropdownCell1", for: indexPath)
             
-            if(indexPath.row < viewModel.customProductDetails?.size?.count ?? 1){
-                cell.textLabel?.text = viewModel.customProductDetails?.size?[indexPath.row]
+            if(indexPath.row < viewModel.productDetails?.product?.variants?.compactMap { $0.option1 }.filter { !$0.isEmpty }.count ?? 1){
+                cell.textLabel?.text = viewModel.productDetails?.product?.variants?.compactMap { $0.option1 }.filter { !$0.isEmpty }[indexPath.row] ?? "Large"
             }
 
         } else if tableView == dropDowntableView2 {
             cell = tableView.dequeueReusableCell(withIdentifier: "dropdownCell2", for: indexPath)
             
             
-            if(indexPath.row < viewModel.customProductDetails?.colour?.count ?? 1){
-                cell.textLabel?.text = viewModel.customProductDetails?.colour?[indexPath.row] ?? "Red"
+            if(indexPath.row < viewModel.productDetails?.product?.variants?.compactMap { $0.option2 }.filter { !$0.isEmpty }.count ?? 1){
+                cell.textLabel?.text = viewModel.productDetails?.product?.variants?.compactMap { $0.option2 }.filter { !$0.isEmpty }[indexPath.row] ?? "Red"
             }
 
         }
@@ -250,11 +250,11 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
         print("didSelectRowAt called")
         if tableView == dropDowntableView1 {
-            dropdownButton.setTitle(viewModel.customProductDetails?.size?[indexPath.row], for: .normal)
+            dropdownButton.setTitle(viewModel.productDetails?.product?.variants?.compactMap { $0.option1 }.filter { !$0.isEmpty }[indexPath.row] ?? "Large", for: .normal)
             isDropdownVisible = false
             dropDowntableView1.isHidden = true
         } else if tableView == dropDowntableView2 {
-            dropdownButton2.setTitle(viewModel.customProductDetails?.colour?[indexPath.row], for: .normal)
+            dropdownButton2.setTitle(viewModel.productDetails?.product?.variants?.compactMap { $0.option2 }.filter { !$0.isEmpty }[indexPath.row] ?? "Red", for: .normal)
             isDropdownVisible2 = false
             dropDowntableView2.isHidden = true
         }
@@ -270,14 +270,14 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.customProductDetails?.images?.count ?? 1
+        return viewModel.productDetails?.product?.images?.count ?? 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = myCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCollectionViewCell
         
-        if let imageUrlString = viewModel.customProductDetails?.images?[indexPath.row],
+        if let imageUrlString = viewModel.productDetails?.product?.images?[indexPath.row].src,
            let imageUrl = URL(string: imageUrlString) {
             cell.productImage.kf.setImage(with: imageUrl)
         } else {

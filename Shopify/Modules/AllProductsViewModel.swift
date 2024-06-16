@@ -30,16 +30,14 @@ class AllProductsViewModel{
             self.products = product?.products ?? []
         }
     }
-     
-    func productIndexPath(index: Int){
-        print("category vm index: \(index)")
-        ProductDetailsSharedData.instance.brandsProductIndex = index
+    
+    func productIndexPath(index: Int) {
+         print("CategoryViewModel: category vm index: \(index)")
+         let product = products[index]
+        UserDefaults.standard.set(product.id, forKey: Constants.productId)
+
     }
     
-    func screenNamePassing(screenName: String){
-        var x = SharedDataRepository.instance.shoppingCartId
-        print("Search: ShoppingCartId: \(x)")
-        ProductDetailsSharedData.instance.screenName = screenName
-    }
+
     
 }
