@@ -207,7 +207,7 @@ class FirebaseAuthService: AuthServiceProtocol {
         
         productsRef.observeSingleEvent(of: .value) { snapshot in
             var products: [ProductFromFirebase] = []
-            
+             
             for child in snapshot.children {
                 if let childSnapshot = child as? DataSnapshot,
                    let productData = childSnapshot.value as? [String: Any],
