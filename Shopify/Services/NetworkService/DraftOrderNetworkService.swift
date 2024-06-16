@@ -8,35 +8,44 @@
 import Foundation
 import Alamofire
 class DraftOrderNetworkService {
-
-    func fetchDraftOrders(completion: @escaping (Swift.Result<DraftOrderPUT, Error>) -> Void) {
-        let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/1031695532193.json"
-        
-        Alamofire.request(url).responseData { response in
-            switch response.result {
-            case .success(let data):
-                print("Response data: \(String(data: data, encoding: .utf8) ?? "No data")")
-                do {
-                    let decoder = JSONDecoder()
-                    let draftOrderResponse = try decoder.decode([String: DraftOrderPUT].self, from: data)
-                    if let draftOrder = draftOrderResponse["draft_order"] {
-                        completion(.success(draftOrder))
-                    } else {
-                        completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid response format"])))
+    let draftOrderId = UserDefaults.standard.string(forKey: Constants.shoppingCartId)
+   
+    func fetchDraftOrders(completion: @escaping (Swift.Result<OneDraftOrderResponse, Error>) -> Void) {
+        if let draftOrderId = draftOrderId, let unwrappedDraftOrderId = Int(draftOrderId) {
+            print("Unwrapped draftOrderId: \(unwrappedDraftOrderId)")
+            let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/\(unwrappedDraftOrderId).json"
+            
+            Alamofire.request(url).responseData { response in
+                switch response.result {
+                case .success(let data):
+                    print("Response data: \(String(data: data, encoding: .utf8) ?? "No data")")
+                    do {
+                        let decoder = JSONDecoder()
+                        
+                        if let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                           let error = jsonResponse["errors"] as? String {
+                            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: error])))
+                        } else {
+                            let draftOrderResponse = try decoder.decode(OneDraftOrderResponse.self, from: data)
+                            completion(.success(draftOrderResponse))
+                        }
+                    } catch {
+                        print("Decoding error: \(error)")
+                        completion(.failure(error))
                     }
-                } catch {
-                    print("Decoding error: \(error)")
+                    
+                case .failure(let error):
+                    print("Network request error: \(error)")
                     completion(.failure(error))
                 }
-                
-            case .failure(let error):
-                print("Network request error: \(error)")
-                completion(.failure(error))
             }
+        } else {
+            print("draftOrderId is nil")
+            // Handle the case where draftOrderId is nil
         }
     }
     func updateDraftOrder(draftOrder: DraftOrderPUT, completion: @escaping (Swift.Result<DraftOrderPUT, Error>) -> Void) {
-            let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/\(draftOrder.id).json"
+            let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/\(draftOrderId).json"
             
             let parameters: [String: Any] = [
                 "draft_order": [

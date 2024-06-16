@@ -13,7 +13,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var shoppingCartTableView: UITableView!
 
     let draftOrderService = DraftOrderNetworkService()
-       var draftOrder: DraftOrderPUT?
+       var draftOrder: OneDraftOrderResponse?
        
        override func viewDidLoad() {
            super.viewDidLoad()
@@ -49,7 +49,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
        
        func updateTotalAmount() {
            guard let draftOrder = draftOrder else { return }
-           totalAmount.text = draftOrder.subtotal_price
+           totalAmount.text = draftOrder.draftOrder?.subtotalPrice
        }
        
        func numberOfSections(in tableView: UITableView) -> Int {
@@ -57,19 +57,19 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
        }
        
        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-           return draftOrder?.line_items.count ?? 0
+           return draftOrder?.draftOrder?.lineItems.count ?? 0
        }
        
        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
            let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
-           if let lineItem = draftOrder?.line_items[indexPath.row] {
-               let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: .whitespaces) ?? ""
+           if let lineItem = draftOrder?.draftOrder?.lineItems[indexPath.row] {
+               let productName = lineItem.title!.split(separator: "|").last?.trimmingCharacters(in: .whitespaces) ?? ""
                        cell.productName.text = productName
-               let productColor = lineItem.variant_title.split(separator: "/").last?.trimmingCharacters(in: .whitespaces) ?? ""
+               let productColor = lineItem.variantTitle!.split(separator: "/").last?.trimmingCharacters(in: .whitespaces) ?? ""
                cell.productColor.text = productColor
                cell.productAmount.text = "\(lineItem.quantity)"
             
-               cell.productPrice.text = "\(lineItem.price)$"
+               cell.productPrice.text = "\(lineItem.price!)$"
                cell.delegate = self
            }
            return cell
@@ -102,21 +102,21 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
 
     func didTapPlusButton(on cell: CartTableViewCell) {
             guard let indexPath = shoppingCartTableView.indexPath(for: cell),
-                  var lineItem = draftOrder?.line_items[indexPath.row] else { return }
+                  var lineItem = draftOrder?.draftOrder?.lineItems[indexPath.row] else { return }
             
-            lineItem.quantity += 1
-            draftOrder?.line_items[indexPath.row] = lineItem
+        lineItem.quantity += 1
+        draftOrder?.draftOrder?.lineItems[indexPath.row] = lineItem
             updateTotalAmount()
             shoppingCartTableView.reloadRows(at: [indexPath], with: .automatic)
         }
         
         func didTapMinusButton(on cell: CartTableViewCell) {
             guard let indexPath = shoppingCartTableView.indexPath(for: cell),
-                  var lineItem = draftOrder?.line_items[indexPath.row] else { return }
+                  var lineItem = draftOrder?.draftOrder?.lineItems[indexPath.row] else { return }
             
             if lineItem.quantity > 1 {
                 lineItem.quantity -= 1
-                draftOrder?.line_items[indexPath.row] = lineItem
+                draftOrder?.draftOrder?.lineItems[indexPath.row] = lineItem
                 updateTotalAmount()
                 shoppingCartTableView.reloadRows(at: [indexPath], with: .automatic)
             }
@@ -125,19 +125,19 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
             guard let indexPath = shoppingCartTableView.indexPath(for: cell),
                   var draftOrder = draftOrder else { return }
             
-            draftOrder.line_items.remove(at: indexPath.row)
+        draftOrder.draftOrder?.lineItems.remove(at: indexPath.row)
             
-            draftOrderService.updateDraftOrder(draftOrder: draftOrder) { [weak self] result in
-                switch result {
-                case .success(let updatedDraftOrder):
-                    self?.draftOrder = updatedDraftOrder
-                    DispatchQueue.main.async {
-                        self?.shoppingCartTableView.reloadData()
-                        self?.updateTotalAmount()
-                    }
-                case .failure(let error):
-                    print("Failed to update draft order: \(error.localizedDescription)")
-                }
-            }
+//            draftOrderService.updateDraftOrder(draftOrder: draftOrder) { [weak self] result in
+//                switch result {
+//                case .success(let updatedDraftOrder):
+//                    self?.draftOrder = updatedDraftOrder
+//                    DispatchQueue.main.async {
+//                        self?.shoppingCartTableView.reloadData()
+//                        self?.updateTotalAmount()
+//                    }
+//                case .failure(let error):
+//                    print("Failed to update draft order: \(error.localizedDescription)")
+//                }
+//            }
         }
 }

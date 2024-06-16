@@ -83,7 +83,7 @@ class SignInViewModel: SignInViewModelProtocol {
                 }
             
                 
-                self?.postDraftOrderForFavourite(urlString: urlString, parameters: draftOrder2 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX")
+//                self?.postDraftOrderForFavourite(urlString: urlString, parameters: draftOrder2 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX")
                 
                 SharedDataRepository.instance.isSignedIn = true
                 print("si: firebase firebase id user idddd view model: \(self?.user?.uid)")

@@ -9,7 +9,7 @@ import Foundation
 
 
 struct OneDraftOrderResponse: Codable {
-    let draftOrder: OneDraftOrderResponseDetails?
+    var draftOrder: OneDraftOrderResponseDetails?
 
     enum CodingKeys: String, CodingKey {
         case draftOrder = "draft_order"
@@ -29,7 +29,7 @@ struct OneDraftOrderResponseDetails: Codable {
     let completedAt: String?
     let name: String?
     let status: String?
-    let lineItems: [LineItemResponsePut]?
+    var lineItems: [LineItemResponsePut]
     let shippingAddress: String?
     let billingAddress: String?
     let invoiceUrl: String?
@@ -78,7 +78,7 @@ struct LineItemResponsePut: Codable {
     let variantTitle: String?
     let sku: String?
     let vendor: String?
-    let quantity: Int?
+    var quantity: Int
     let requiresShipping: Bool?
     let taxable: Bool?
     let giftCard: Bool?
@@ -113,3 +113,8 @@ struct TaxLineResponsePut: Codable {
     let price: String?
 }
 
+struct TaxLine: Codable {
+    let rate: Double?
+    let title: String?
+    let price: String?
+}
