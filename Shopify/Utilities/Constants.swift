@@ -17,6 +17,13 @@ class Constants  {
     
     static let shoppingCartId: String = "shoppingCartId"
     static let variantId: String = "variantId"
+    
+    static let productId: String = "productId"
+    static let productTitle: String = "productTitle"
+    static let productVendor: String = "productVendor"
+    static let productImage: String = "productImage"
+    
+    
 
 }
 

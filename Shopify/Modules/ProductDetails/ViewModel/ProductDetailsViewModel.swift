@@ -10,11 +10,12 @@ import Foundation
 class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
  
-    var networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol!
+    var networkServiceAuthenticationProtocol:NetworkServiceAuthenticationProtocol!
+    var authServiceProtocol: AuthServiceProtocol!
     
-    
-    init(networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol){
+    init(networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol,authServiceProtocol: AuthServiceProtocol){
         self.networkServiceAuthenticationProtocol = networkServiceAuthenticationProtocol
+        self.authServiceProtocol = authServiceProtocol
 
     }
     
@@ -36,7 +37,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         }
     }
     
-    var product: Products?
+    var productFromArray: Products?
     var productModel: ProductModel?
     
     var customProductDetails: CustomProductDetails? {
@@ -98,10 +99,10 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     func brandsProducts(){
         filteredProducts = ProductDetailsSharedData.instance.filteredProducts ?? []
         print("PD FilterProducts count: \(filteredProducts?.count)")
-        product = filteredProducts?[ProductDetailsSharedData.instance.brandsProductIndex ?? 0]
+        productFromArray = filteredProducts?[ProductDetailsSharedData.instance.brandsProductIndex ?? 0]
         
-        variant = product?.variants ?? []
-        if let variants = product?.variants {
+        variant = productFromArray?.variants ?? []
+        if let variants = productFromArray?.variants {
             colour = Array(Set(variants.compactMap { $0.option2 }))
             size = Array(Set(variants.compactMap { $0.option1 }))
             price = variants.first?.price
@@ -111,17 +112,17 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             print("vm PD variants.compactMap { $0.option1 } :\(variants.compactMap { $0.option1 } )")
             print("vm PD variants.first?.price :\(variants.first?.price ?? "NOO PRICE")")
         }
-        images = product?.images.compactMap{$0.src}
-        vendor = product?.vendor
-        title = product?.title
-        description = product?.body_html
+        images = productFromArray?.images.compactMap{$0.src}
+        vendor = productFromArray?.vendor
+        title = productFromArray?.title
+        description = productFromArray?.body_html
         print("vm PD filteredProdShared  :\(ProductDetailsSharedData.instance.filteredProducts ?? [])")
-        print("vm PD  product?.variants ?? [] :\(product?.variants ?? [])")
+        print("vm PD  product?.variants ?? [] :\(productFromArray?.variants ?? [])")
 
-        print("vm PD  product?.images.compactMap{$0.src} :\(product?.images.compactMap{$0.src} ?? [])")
-        print("vm PD  product?.vendor :\(product?.vendor ?? "NOO VEND")")
-        print("vm PD  product?.title :\(product?.title ?? "NOO TITl")")
-        print("vm PD  product?.body_html :\(product?.body_html ?? "NO DESC" )")
+        print("vm PD  product?.images.compactMap{$0.src} :\(productFromArray?.images.compactMap{$0.src} ?? [])")
+        print("vm PD  product?.vendor :\(productFromArray?.vendor ?? "NOO VEND")")
+        print("vm PD  product?.title :\(productFromArray?.title ?? "NOO TITl")")
+        print("vm PD  product?.body_html :\(productFromArray?.body_html ?? "NO DESC" )")
         print("vm PD  index :\(ProductDetailsSharedData.instance.brandsProductIndex ?? 000)")
         
         
@@ -129,6 +130,16 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
         self.customProductDetails = product
         
+        guard let productId = productFromArray?.id,
+              let productTitle = productFromArray?.title,
+              let productVendor = productFromArray?.vendor,
+              let productImage = productFromArray?.images.first?.src else {
+         
+            return
+        }
+
+        
+       addMultipleValuesToUserDefaults(productId: "\(productId)", productTitle: productTitle, productVendor: productVendor, productImage: productImage)
         
     }
     
@@ -177,10 +188,10 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     func searchProducts(){
         filteredSearch = ProductDetailsSharedData.instance.filteredSearch ?? []
         print("PD FilterSearch count: \(filteredSearch?.count)")
-        product = filteredSearch?[ProductDetailsSharedData.instance.brandsProductIndex ?? 0]
+        productFromArray = filteredSearch?[ProductDetailsSharedData.instance.brandsProductIndex ?? 0]
         
-        variant = product?.variants ?? []
-        if let variants = product?.variants {
+        variant = productFromArray?.variants ?? []
+        if let variants = productFromArray?.variants {
             colour = Array(Set(variants.compactMap { $0.option2 }))
             size = Array(Set(variants.compactMap { $0.option1 }))
             price = variants.first?.price
@@ -190,17 +201,17 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             print("vm PD variants.compactMap { $0.option1 } :\(variants.compactMap { $0.option1 } )")
             print("vm PD variants.first?.price :\(variants.first?.price ?? "NOO PRICE")")
         }
-        images = product?.images.compactMap{$0.src}
-        vendor = product?.vendor
-        title = product?.title
-        description = product?.body_html
+        images = productFromArray?.images.compactMap{$0.src}
+        vendor = productFromArray?.vendor
+        title = productFromArray?.title
+        description = productFromArray?.body_html
         print("vm PD filteredProdShared  :\(ProductDetailsSharedData.instance.filteredSearch ?? [])")
-        print("vm PD  product?.variants ?? [] :\(product?.variants ?? [])")
+        print("vm PD  product?.variants ?? [] :\(productFromArray?.variants ?? [])")
 
-        print("vm PD  product?.images.compactMap{$0.src} :\(product?.images.compactMap{$0.src} ?? [])")
-        print("vm PD  product?.vendor :\(product?.vendor ?? "NOO VEND")")
-        print("vm PD  product?.title :\(product?.title ?? "NOO TITl")")
-        print("vm PD  product?.body_html :\(product?.body_html ?? "NO DESC" )")
+        print("vm PD  product?.images.compactMap{$0.src} :\(productFromArray?.images.compactMap{$0.src} ?? [])")
+        print("vm PD  product?.vendor :\(productFromArray?.vendor ?? "NOO VEND")")
+        print("vm PD  product?.title :\(productFromArray?.title ?? "NOO TITl")")
+        print("vm PD  product?.body_html :\(productFromArray?.body_html ?? "NO DESC" )")
         print("vm PD  index :\(ProductDetailsSharedData.instance.brandsProductIndex ?? 000)")
         
         
@@ -208,7 +219,16 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
         self.customProductDetails = product
        
-    
+        guard let productId = productFromArray?.id,
+              let productTitle = productFromArray?.title,
+              let productVendor = productFromArray?.vendor,
+              let productImage = productFromArray?.images.first?.src else {
+         
+            return
+        }
+
+        
+       addMultipleValuesToUserDefaults(productId: "\(productId)", productTitle: productTitle, productVendor: productVendor, productImage: productImage)
     }
     
     func favouriteProducts(){
@@ -268,7 +288,16 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         
             self.customProductDetails = product
             
+            guard let productId = productFromArray?.id,
+                  let productTitle = productFromArray?.title,
+                  let productVendor = productFromArray?.vendor,
+                  let productImage = productFromArray?.images.first?.src else {
+             
+                return
+            }
 
+            
+           addMultipleValuesToUserDefaults(productId: "\(productId)", productTitle: productTitle, productVendor: productVendor, productImage: productImage)
             
             if(isDataBound==true){
                 postDraftOrder()
@@ -284,11 +313,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
 
 
-//    deinit {
-//
-//        NotificationCenter.default.removeObserver(self, name: .shoppingCartIdDidUpdate, object: nil)
-//        }
-        
+
    @objc func dataDidUpdate() {
         if let data = ProductDetailsSharedData.instance.filteredCategory {
        
@@ -299,74 +324,63 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             print("SecondViewModel: Data not available")
         }
    }
+
     
-//    @objc func shoppingCartIdDidUpdate() {
-//        if let data = SharedDataRepository.instance.shoppingCartId {
-//
-//             print("SecondViewModel: Using shoppingCartId: \(data)")
-//
-//            shoppingCartId = Int(data)
-//         } else {
-//             print("SecondViewModel: ShoppingCartId not available")
-//         }
-//    }
+
     
-    
+    func postDraftOrder() {
+
+        if let savedShoppingCartId = UserDefaults.standard.string(forKey: Constants.shoppingCartId) {
+            // Use the saved shoppingCartId
+            print("xxx Retrieved shoppingCartId from UserDefaults: \(savedShoppingCartId)")
+            
+     
+        } else {
+            print("xxx shoppingCartId not found in UserDefaults")
+            return
+        }
+  
+        print("xxxx UD : \(UserDefaults.standard.string(forKey: Constants.shoppingCartId))")
+        
+        
+        var draftOrderID = UserDefaults.standard.string(forKey: Constants.shoppingCartId) ?? "0"
+        
+        guard let draftOrderIDString = UserDefaults.standard.string(forKey: Constants.shoppingCartId) else {
+            // Handle case where shoppingCartId is not available in UserDefaults
+            print("xxx ShoppingCartId not found in UserDefaults")
+            return
+        }
 
         
-        func postDraftOrder() {
-
-            if let savedShoppingCartId = UserDefaults.standard.string(forKey: Constants.shoppingCartId) {
-                // Use the saved shoppingCartId
-                print("xxx Retrieved shoppingCartId from UserDefaults: \(savedShoppingCartId)")
+        if let draftOrderIDString = UserDefaults.standard.string(forKey: Constants.shoppingCartId) {
+          
+            let cleanedString = draftOrderIDString.replacingOccurrences(of: "Optional(", with: "").replacingOccurrences(of: ")", with: "")
+            
+           
+            if let draftOrderIDInt = Int(cleanedString) {
+             
+                print("xxx draftOrderInt: \(draftOrderIDInt)")
                 
-         
-            } else {
-                print("xxx shoppingCartId not found in UserDefaults")
-                return
-            }
-      
-            print("xxxx UD : \(UserDefaults.standard.string(forKey: Constants.shoppingCartId))")
-            
-            
-            var draftOrderID = UserDefaults.standard.string(forKey: Constants.shoppingCartId) ?? "0"
-            
-            guard let draftOrderIDString = UserDefaults.standard.string(forKey: Constants.shoppingCartId) else {
-                // Handle case where shoppingCartId is not available in UserDefaults
-                print("xxx ShoppingCartId not found in UserDefaults")
-                return
-            }
+                let urlString = APIConfig.endPoint("draft_orders/\(draftOrderIDInt)").url
 
-            
-            if let draftOrderIDString = UserDefaults.standard.string(forKey: Constants.shoppingCartId) {
-              
-                let cleanedString = draftOrderIDString.replacingOccurrences(of: "Optional(", with: "").replacingOccurrences(of: ")", with: "")
+                let productDraftOrder = self.draftOrder(variantId: self.customProductDetails?.variant?.first?.id ?? 0, quantity: 1, draftOrderId: draftOrderIDInt)
                 
+                print("yyy draftorderid: \(self.customProductDetails?.variant?.first?.id ?? 0)")
+                
+                    self.postDraftOrderNetwork(urlString: urlString, parameters: productDraftOrder)
                
-                if let draftOrderIDInt = Int(cleanedString) {
-                 
-                    print("xxx draftOrderInt: \(draftOrderIDInt)")
-                    
-                    let urlString = APIConfig.endPoint("draft_orders/\(draftOrderIDInt)").url
-
-                    let productDraftOrder = self.draftOrder(variantId: self.customProductDetails?.variant?.first?.id ?? 0, quantity: 1, draftOrderId: draftOrderIDInt)
-                    
-                    print("yyy draftorderid: \(self.customProductDetails?.variant?.first?.id ?? 0)")
-                    
-                        self.postDraftOrderNetwork(urlString: urlString, parameters: productDraftOrder)
-                   
-                } else {
-       
-                    print("xxx Failed to convert \(cleanedString) to Int")
-                }
             } else {
-
-                print("xxx ShoppingCartId not found in UserDefaults")
+   
+                print("xxx Failed to convert \(cleanedString) to Int")
             }
-            
+        } else {
 
-
+            print("xxx ShoppingCartId not found in UserDefaults")
         }
+        
+
+
+    }
 
 
     func postDraftOrderNetwork(urlString: String, parameters: [String:Any]) {
@@ -422,17 +436,47 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     }
     
     
-//    func postDraftOrder(){
-//
-//        let urlString = APIConfig.endPoint("draft_orders/\(SharedDataRepository.instance.shoppingCartId)").url
-//        print("PD * ShoppingCartID * : \(SharedDataRepository.instance.shoppingCartId)")
-//        var draftOrderId = Int(SharedDataRepository.instance.shoppingCartId ?? "*No shoppingCartID*")
-//        print("PD * ShoppingCartID * INT \(draftOrderId)")
-//        var productDraftOrder = self.draftOrder(variantId: self.customProductDetails?.variant?.first?.id ?? 0, quantity: 1 , draftOrderId: draftOrderId ?? 0)
-//        postDraftOrderNetwork(urlString: urlString, parameters: productDraftOrder)
-//    }
+    func addProductToFirebase(endcondedEmail:String, productId: String, productTitle: String, productVendor: String, productImage: String){
+        authServiceProtocol.addProductToEncodedEmail(encodedEmail: endcondedEmail, productId: productId, productTitle: productTitle, productVendor: productVendor, productImage: productImage)
+        
+        deleteMultipleValuesFromUserDefaults()
+        
+    }
     
+    func deleteProductFromFirebase(){
+        var encodedEmail =  SharedMethods.encodeEmail(SharedDataRepository.instance.customerEmail ?? "No email")
+        var productId = retrieveStringFromUserDefaults(forKey: Constants.productId) ?? "No productId"
+        authServiceProtocol.deleteProductFromEncodedEmail(encodedEmail: encodedEmail, productId: productId)
+    }
+
+
+    func deleteMultipleValuesFromUserDefaults(){
+        deleteValueFromUserDefaults(forKey: Constants.productId)
+        deleteValueFromUserDefaults(forKey: Constants.productTitle)
+        deleteValueFromUserDefaults(forKey: Constants.productVendor)
+        deleteValueFromUserDefaults(forKey: Constants.productImage)
+    }
     
+    func addMultipleValuesToUserDefaults(productId: String, productTitle: String, productVendor:String, productImage: String){
+        
+        addValueToUserDefaults(value: productId, forKey: Constants.productId)
+        addValueToUserDefaults(value: productTitle, forKey: Constants.productTitle)
+        addValueToUserDefaults(value: productVendor, forKey: Constants.productVendor)
+        addValueToUserDefaults(value: productImage, forKey: Constants.productImage)
+    }
+
+    
+    func deleteValueFromUserDefaults(forKey key: String) {
+        UserDefaults.standard.removeObject(forKey: key)
+    }
+ 
+    func addValueToUserDefaults(value: Any, forKey key: String) {
+        UserDefaults.standard.set(value, forKey: key)
+    }
+
+    func retrieveStringFromUserDefaults(forKey key: String) -> String? {
+        return UserDefaults.standard.string(forKey: key)
+    }
 
 
 

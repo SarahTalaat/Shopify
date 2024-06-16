@@ -38,7 +38,7 @@ class DependencyProvider {
     
 
     static var productDetailsViewModel: ProductDetailsViewModel{
-        return ProductDetailsViewModel(networkServiceAuthenticationProtocol: networkServiceAuthenticationProtocol)
+        return ProductDetailsViewModel(networkServiceAuthenticationProtocol: networkServiceAuthenticationProtocol, authServiceProtocol: authServiceProtocol)
     }
 
 
