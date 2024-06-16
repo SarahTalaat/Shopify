@@ -212,6 +212,7 @@ class FirebaseAuthService: AuthServiceProtocol {
                 if let childSnapshot = child as? DataSnapshot,
                    let productData = childSnapshot.value as? [String: Any],
                    let productId = productData["productId"] as? String,
+                   productId != "-1", // Check if productId is not "-1"
                    let productTitle = productData["productTitle"] as? String,
                    let productVendor = productData["productVendor"] as? String,
                    let productImage = productData["productImage"] as? String {
@@ -230,6 +231,7 @@ class FirebaseAuthService: AuthServiceProtocol {
             completion(products)
         }
     }
+
 
 
     func fetchCustomerDataFromRealTimeDatabase(forEmail email: String, completion: @escaping (CustomerData?) -> Void) {
