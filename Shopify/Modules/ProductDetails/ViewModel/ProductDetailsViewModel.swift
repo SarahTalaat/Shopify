@@ -436,10 +436,17 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     }
     
     
-    func addProductToFirebase(endcondedEmail:String, productId: String, productTitle: String, productVendor: String, productImage: String){
-        authServiceProtocol.addProductToEncodedEmail(encodedEmail: endcondedEmail, productId: productId, productTitle: productTitle, productVendor: productVendor, productImage: productImage)
+    func addProductToFirebase(){
         
-        deleteMultipleValuesFromUserDefaults()
+        var encodedEmail = retrieveStringFromUserDefaults(forKey: SharedDataRepository.instance.customerEmail ?? "NOO Emaill")
+        var productId = retrieveStringFromUserDefaults(forKey: Constants.productId)
+        var productTitle = retrieveStringFromUserDefaults(forKey: Constants.productTitle)
+        var productVendor = retrieveStringFromUserDefaults(forKey: Constants.productVendor)
+        var productImage = retrieveStringFromUserDefaults(forKey: Constants.productImage)
+        
+        
+        authServiceProtocol.addProductToEncodedEmail(encodedEmail: encodedEmail ?? "NOOO Email", productId: productId ?? "NOO ProductId", productTitle: productTitle ?? "No ProductTitle", productVendor: productVendor ?? "NOOO ProductVendor", productImage: productImage ?? "NOOO ProductImage")
+        
         
     }
     
@@ -450,12 +457,12 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     }
 
 
-    func deleteMultipleValuesFromUserDefaults(){
-        deleteValueFromUserDefaults(forKey: Constants.productId)
-        deleteValueFromUserDefaults(forKey: Constants.productTitle)
-        deleteValueFromUserDefaults(forKey: Constants.productVendor)
-        deleteValueFromUserDefaults(forKey: Constants.productImage)
-    }
+//    func deleteMultipleValuesFromUserDefaults(){
+//        deleteValueFromUserDefaults(forKey: Constants.productId)
+//        deleteValueFromUserDefaults(forKey: Constants.productTitle)
+//        deleteValueFromUserDefaults(forKey: Constants.productVendor)
+//        deleteValueFromUserDefaults(forKey: Constants.productImage)
+//    }
     
     func addMultipleValuesToUserDefaults(productId: String, productTitle: String, productVendor:String, productImage: String){
         
@@ -466,9 +473,9 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     }
 
     
-    func deleteValueFromUserDefaults(forKey key: String) {
-        UserDefaults.standard.removeObject(forKey: key)
-    }
+//    func deleteValueFromUserDefaults(forKey key: String) {
+//        UserDefaults.standard.removeObject(forKey: key)
+//    }
  
     func addValueToUserDefaults(value: Any, forKey key: String) {
         UserDefaults.standard.set(value, forKey: key)
