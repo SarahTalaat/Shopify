@@ -223,7 +223,7 @@ class CategoryViewController: UIViewController {
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             
             viewModel.productIndexPath(index: indexPath.row)
-            viewModel.screenNamePassing(screenName: "Category")
+           
              let storyboard = UIStoryboard(name: "Main", bundle: nil)
              let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
              navigationController?.pushViewController(brandsViewController, animated: true)

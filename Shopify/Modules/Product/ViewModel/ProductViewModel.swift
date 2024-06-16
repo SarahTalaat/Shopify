@@ -87,12 +87,13 @@ class ProductViewModel{
     }
     
     func productIndexPath(index: Int){
-        print("prod vm index: \(index)")
-        ProductDetailsSharedData.instance.brandsProductIndex = index
-    }
+            print("prod vm index: \(index)")
+            ProductDetailsSharedData.instance.brandsProductIndex = index
+            let productId = filteredProducts[index].id
+            UserDefaults.standard.set(productId, forKey: Constants.productId)
+           
+        }
     
-    func screenNamePassing(screenName: String){
-        ProductDetailsSharedData.instance.screenName = screenName
-    }
+
  
 }

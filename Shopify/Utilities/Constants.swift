@@ -16,7 +16,10 @@ class Constants  {
     static let credentials = "\(apiKey):\(password)"
     
     static let shoppingCartId: String = "shoppingCartId"
+    static let draftOrderIdInt: String = "draftOrderInt"
     static let variantId: String = "variantId"
+    static let variantIdInt: String = "variantIdInt"
+    static let productId: String = "productId"
 
 }
 

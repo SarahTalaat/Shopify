@@ -98,9 +98,7 @@ class CategoryViewModel{
          }
      }
     
-    func screenNamePassing(screenName: String){
-        ProductDetailsSharedData.instance.screenName = screenName
-    }
+
   
     func getSingleProductResponse(productId: Int, completion: @escaping (ProductModel?) -> Void) {
         let urlString = APIConfig.endPoint("products/\(productId)").url
