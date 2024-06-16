@@ -20,19 +20,19 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     var filteredProducts: [Products]? {
         didSet{
-            self.bindCustomProductDetailsViewModelToController()
+            self.checkAndBindData()
         }
     }
     
     var filteredCategory: ProductModel? {
         didSet{
-            self.bindCustomProductDetailsViewModelToController()
+            self.checkAndBindData()
         }
     }
     
     var filteredSearch: [Products]? {
         didSet{
-            self.bindCustomProductDetailsViewModelToController()
+            self.checkAndBindData()
         }
     }
     
@@ -41,7 +41,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     var customProductDetails: CustomProductDetails? {
         didSet{
-            self.bindCustomProductDetailsViewModelToController()
+            self.checkAndBindData()
             
         }
     }
@@ -63,6 +63,19 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     var bindCustomProductDetailsViewModelToController: (() -> ()) = {}
 
+    
+    private func checkAndBindData() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            if self.filteredProducts != nil || self.filteredCategory != nil || self.filteredSearch != nil {
+                self.bindCustomProductDetailsViewModelToController()
+            } else {
+                self.checkAndBindData()
+            }
+        }
+    }
+    
+    
+    
     func getProduct(){
         
         if(ProductDetailsSharedData.instance.screenName == "Products"){

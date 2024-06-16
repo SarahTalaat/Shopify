@@ -20,9 +20,7 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         super.viewDidLoad()
         
         settingUpFavouriteTableView()
-        
-        
-        
+
         
     }
 
