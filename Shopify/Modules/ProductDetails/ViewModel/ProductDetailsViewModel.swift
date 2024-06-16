@@ -77,6 +77,8 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     
     
+    
+    
     func getProduct(){
         
         if(ProductDetailsSharedData.instance.screenName == "Products"){

@@ -14,13 +14,17 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var window: UIWindow?
     let cellSpacingHeight: CGFloat = 30
     
-    
+    var viewModel: FavouriteViewModelProtocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         settingUpFavouriteTableView()
-
+        viewModel = DependencyProvider.favouriteViewModel
+        
+        viewModel.retriveProducts()
+        
+        favouriteTableView.reloadData()
         
     }
 
@@ -43,14 +47,14 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return viewModel.products?.count ?? 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = favouriteTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! FavouritesCustomCell
         
-        cell.productPrice.text = "32 $"
-        cell.productSize.text = "Medium"
+
+        cell.productSize.text = viewModel.products?[indexPath.row].productVendor
         cell.productType.text = "Shirt"
         
 
