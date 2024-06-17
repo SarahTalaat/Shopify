@@ -49,6 +49,9 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         bindViewModel()
         viewModel.getProductDetails()
         
+
+        
+        
         settingUpCollectionView()
 
         settingUpDropdown(dropDowntableView: dropDowntableView1, cellIdentifier: "dropdownCell1")
@@ -167,6 +170,11 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
                 self?.myCollectionView.reloadData()
                 self?.dropDowntableView1.reloadData()
                 self?.dropDowntableView2.reloadData()
+                
+                self?.brandNameLabel.text = self?.viewModel.product?.product?.vendor
+                self?.brandTitleLabel.text = self?.viewModel.product?.product?.title
+                self?.priceLabel.text = self?.viewModel.product?.product?.variants?.first?.price
+                self?.descriptionLabel.text = self?.viewModel.product?.product?.body_html
             }
         }
     }
