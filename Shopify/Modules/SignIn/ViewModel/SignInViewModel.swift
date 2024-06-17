@@ -62,7 +62,8 @@ class SignInViewModel: SignInViewModelProtocol {
             case .success(let user):
                 self?.user = user
                 self?.fetchCustomerID()
-
+                SharedDataRepository.instance.customerEmail = email
+                self?.addValueToUserDefaults(value: email, forKey: Constants.customerEmail)
                 print("ddd 1.")
                 self?.checkEmailSignInStatus(email:email)
                 print("ddd 2.")
@@ -126,6 +127,7 @@ class SignInViewModel: SignInViewModelProtocol {
                     print("si: UD DrafId \(UserDefaults.standard.string(forKey: Constants.shoppingCartId ?? ""))")
                 }//post
                 self.updateSignInStatus(email: email)
+                
 
             }//else isSignedIn false
             
@@ -227,7 +229,10 @@ class SignInViewModel: SignInViewModelProtocol {
         
         return draftOrder
     }
-
+    func addValueToUserDefaults(value: Any, forKey key: String) {
+        UserDefaults.standard.set(value, forKey: key)
+        UserDefaults.standard.synchronize()
+    }
 
 }
 
