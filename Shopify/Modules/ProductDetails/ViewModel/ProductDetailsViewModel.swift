@@ -79,19 +79,22 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     func addToCart(){
         var draftOrder = draftOrder()
-        var urlString = APIConfig.draft_orders.url
-        postDraftOrderNetwork(urlString: urlString, parameters: draftOrder)
+        if let draftOrderId = UserDefaults.standard.string(forKey: Constants.shoppingCartId) {
+            var urlString = APIConfig.endPoint("draft_orders\(draftOrderId)").url
+            updateDraftOrderNetwork(urlString: urlString, parameters: draftOrder)
+        }
+
     }
 
-    func postDraftOrderNetwork(urlString: String, parameters: [String:Any]) {
+    func updateDraftOrderNetwork(urlString: String, parameters: [String:Any]) {
        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .put, model: parameters, completion: { [weak self] (result: Result<DraftOrderResponsePUT, Error>) in
             switch result {
             case .success(let response):
-                print("PD Draft order posted successfully: \(response)")
+                print("PD Draft order updated successfully: \(response)")
                 ProductDetailsSharedData.instance.productVariantId = response.draftOrder?.id
 
             case .failure(let error):
-                print("PD Failed to post draft order: \(error.localizedDescription)")
+                print("PD Failed to updated draft order: \(error.localizedDescription)")
             }
         })
     }
@@ -99,22 +102,26 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     func draftOrder() -> [String:Any] {
         var variantLineItemId = UserDefaults.standard.string(forKey: Constants.variantId)
-        var draftOrderId = UserDefaults.standard.string(forKey: Constants.shoppingCartId)
-          
-
-        let draftOrder: [String: Any] = [
-            "draft_order": [
-                "id":draftOrderId ,
-                "line_items": [
-                    [
-                        "variant_id": variantLineItemId,
-                        "quantity": 1
+        if let draftOrderId = UserDefaults.standard.string(forKey: Constants.shoppingCartId) {
+            print("kkk draftOrderId: \(draftOrderId)")
+            let draftOrder: [String: Any] = [
+                "draft_order": [
+                    "id":draftOrderId ,
+                    "line_items": [
+                        [
+                            "variant_id": variantLineItemId,
+                            "quantity": 1
+                        ]
                     ]
                 ]
             ]
-        ]
-        
-            return draftOrder
+            
+                return draftOrder
+        } else {
+            print("kkk Constants.shoppingCartId does not exist in UserDefaults")
+            return [:]
+        }
+
     }
     
     
