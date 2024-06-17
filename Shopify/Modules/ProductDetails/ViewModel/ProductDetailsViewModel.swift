@@ -124,7 +124,16 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     func brandsProducts(){
         filteredProducts = ProductDetailsSharedData.instance.filteredProducts ?? []
         print("PD FilterProducts count: \(filteredProducts?.count)")
-        productFromArray = filteredProducts?[ProductDetailsSharedData.instance.brandsProductIndex ?? 0]
+//        productFromArray = filteredProducts?[ProductDetailsSharedData.instance.brandsProductIndex ?? 0]
+        
+        if let filteredProducts = filteredProducts,
+           let index = ProductDetailsSharedData.instance.brandsProductIndex,
+           index < filteredProducts.count {
+            productFromArray = filteredProducts[index]
+        }else{
+            return
+        }
+
         
         variant = productFromArray?.variants ?? []
         if let variants = productFromArray?.variants {
@@ -205,7 +214,16 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     func searchProducts(){
         filteredSearch = ProductDetailsSharedData.instance.filteredSearch ?? []
         print("PD FilterSearch count: \(filteredSearch?.count)")
-        productFromArray = filteredSearch?[ProductDetailsSharedData.instance.brandsProductIndex ?? 0]
+//        productFromArray = filteredSearch?[ProductDetailsSharedData.instance.brandsProductIndex ?? 0]
+//
+        
+        if let filteredSearch = filteredSearch,
+           let index = ProductDetailsSharedData.instance.brandsProductIndex,
+           index < filteredSearch.count {
+            productFromArray = filteredSearch[index]
+        }else{
+            return
+        }
         
         variant = productFromArray?.variants ?? []
         if let variants = productFromArray?.variants {
@@ -310,7 +328,9 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             
             
         } else {
+            
             print("Category Data not available")
+            return
         }
     }
 
