@@ -26,5 +26,5 @@ protocol ProductDetailsViewModelProtocol {
     func addProductToFirebase()
     func deleteProductFromFirebase()
     func checkProductExistance()
-    var isFavourite: Bool { get set }
+  
 }

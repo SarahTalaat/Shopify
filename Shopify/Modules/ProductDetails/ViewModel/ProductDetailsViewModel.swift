@@ -9,7 +9,7 @@ import Foundation
 
 class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
-    var isFavourite: Bool
+ 
     
     var networkServiceAuthenticationProtocol:NetworkServiceAuthenticationProtocol!
     var authServiceProtocol: AuthServiceProtocol!
@@ -65,18 +65,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     var bindCustomProductDetailsViewModelToController: (() -> ()) = {}
 
-    func toggleFavouriteState() {
-        isFavourite.toggle()
-        saveFavouriteState()
-    }
 
-    func saveFavouriteState() {
-        UserDefaults.standard.set(isFavourite, forKey: UserDefaults.isFavouriteKey)
-    }
-
-    func retrieveFavouriteState() {
-        isFavourite = UserDefaults.standard.bool(forKey: UserDefaults.isFavouriteKey)
-    }
     
     private func checkAndBindData() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
