@@ -125,7 +125,13 @@ class SignUpVC: UIViewController {
               let email = emailCustomTextField.text,
               let password = passwordCustomTextField.text else { return }
         viewModel.signUp(email: email, password: password, firstName: firstName)
-        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+          tapGesture.cancelsTouchesInView = false
+          view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     private func bindViewModel() {
