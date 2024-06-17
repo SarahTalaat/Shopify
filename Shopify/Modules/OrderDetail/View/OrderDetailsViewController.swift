@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class OrderDetailsViewController: UIViewController {
     
@@ -68,6 +69,10 @@ class OrderDetailsViewController: UIViewController {
             cell.numOfUnit.text = "Quantity:\(item.quantity)"
             cell.unitPrice.text = "\(item.price)$"
             cell.productName.text = item.title
+            
+            let url = viewModel.filteredProducts[indexPath.row].images[0].src
+            let imageURL = URL(string: url)
+            cell.productImage.kf.setImage(with: imageURL)
       
             return cell
         }

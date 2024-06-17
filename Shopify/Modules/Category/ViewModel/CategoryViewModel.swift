@@ -40,12 +40,18 @@ class CategoryViewModel{
     var productId: Int?
     
     var bindCategory : (()->()) = {}
+
     
     var networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol!
     
     init(networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol){
         self.networkServiceAuthenticationProtocol = networkServiceAuthenticationProtocol
+
+    var exchangeRates: [String: Double] = [:]
+    init(){
+
         getCategory(id: .women )
+        fetchExchangeRates()
     }
 
     func getCategory(id:CategoryID) {
@@ -76,6 +82,7 @@ class CategoryViewModel{
         }
     
     }
+
     
     func productIndexPath(index: Int) {
          print("CategoryViewModel: category vm index: \(index)")
@@ -101,6 +108,20 @@ class CategoryViewModel{
     func screenNamePassing(screenName: String){
         ProductDetailsSharedData.instance.screenName = screenName
     }
+
+    func fetchExchangeRates() {
+            let exchangeRateApiService = ExchangeRateApiService()
+            exchangeRateApiService.getLatestRates { [weak self] result in
+                switch result {
+                case .success(let response):
+                    self?.exchangeRates = response.conversion_rates
+                case .failure(let error):
+                    print("Error fetching exchange rates: \(error)")
+                }
+                self?.bindCategory()
+            }
+        }
+
   
     func getSingleProductResponse(productId: Int, completion: @escaping (ProductModel?) -> Void) {
         let urlString = APIConfig.endPoint("products/\(productId)").url

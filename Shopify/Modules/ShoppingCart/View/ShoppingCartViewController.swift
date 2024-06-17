@@ -7,14 +7,20 @@
 
 import UIKit
 
-class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,CartTableViewCellDelegate{
+class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,CartTableViewCellDelegate{
    
     @IBOutlet weak var totalAmount: UILabel!
     @IBOutlet weak var shoppingCartTableView: UITableView!
 
+
     let draftOrderService = DraftOrderNetworkService()
        var draftOrder: DraftOrderPUT?
        
+
+    
+    private let viewModel = ShoppingCartViewModel()
+           
+
        override func viewDidLoad() {
            super.viewDidLoad()
            
@@ -29,46 +35,40 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
            shoppingCartTableView.rowHeight = 100
            shoppingCartTableView.sectionHeaderHeight = 16
            
-           fetchDraftOrders()
+           bindViewModel()
+           viewModel.fetchDraftOrders()
        }
        
-       func fetchDraftOrders() {
-           draftOrderService.fetchDraftOrders { [weak self] result in
-               switch result {
-               case .success(let draftOrder):
-                   self?.draftOrder = draftOrder
-                   DispatchQueue.main.async {
-                       self?.shoppingCartTableView.reloadData()
-                       self?.updateTotalAmount()
-                   }
-               case .failure(let error):
-                   print("Failed to fetch draft orders: \(error.localizedDescription)")
+       private func bindViewModel() {
+           viewModel.onDraftOrderUpdated = { [weak self] in
+               DispatchQueue.main.async {
+                   self?.shoppingCartTableView.reloadData()
+               }
+           }
+           
+           viewModel.onTotalAmountUpdated = { [weak self] in
+               DispatchQueue.main.async {
+                   self?.totalAmount.text = self?.viewModel.totalAmount
                }
            }
        }
        
-       func updateTotalAmount() {
-           guard let draftOrder = draftOrder else { return }
-           totalAmount.text = draftOrder.subtotal_price
-       }
-       
        func numberOfSections(in tableView: UITableView) -> Int {
-           return draftOrder == nil ? 0 : 1
+           return viewModel.draftOrder == nil ? 0 : 1
        }
        
        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-           return draftOrder?.line_items.count ?? 0
+           return viewModel.draftOrder?.line_items.count ?? 0
        }
        
        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
            let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
-           if let lineItem = draftOrder?.line_items[indexPath.row] {
+           if let lineItem = viewModel.draftOrder?.line_items[indexPath.row] {
                let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: .whitespaces) ?? ""
-                       cell.productName.text = productName
+               cell.productName.text = productName
                let productColor = lineItem.variant_title.split(separator: "/").last?.trimmingCharacters(in: .whitespaces) ?? ""
                cell.productColor.text = productColor
                cell.productAmount.text = "\(lineItem.quantity)"
-            
                cell.productPrice.text = "\(lineItem.price)$"
                cell.delegate = self
            }
@@ -92,52 +92,32 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
            footerView.backgroundColor = .clear
            return footerView
        }
+       
+       @IBAction func processedToPaymentBtn(_ sender: UIButton) {
+           let storyboard = UIStoryboard(name: "Third", bundle: nil)
+              if let paymentVC = storyboard.instantiateViewController(withIdentifier: "PaymentVC") as? PaymentViewController {
+                  if let firstLineItem = viewModel.draftOrder?.line_items.first {
+                      paymentVC.lineItems = firstLineItem
+                  } else {
+                      // Handle the case where draftOrder or line_items is nil
+                  }
+                  navigationController?.pushViewController(paymentVC, animated: true)
+              }
+       }
 
+       func didTapPlusButton(on cell: CartTableViewCell) {
+           guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
+           viewModel.incrementQuantity(at: indexPath.row)
+       }
+       
+       func didTapMinusButton(on cell: CartTableViewCell) {
+           guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
+           viewModel.decrementQuantity(at: indexPath.row)
+       }
+       
+       func didTapDeleteButton(on cell: CartTableViewCell) {
+           guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
+           viewModel.deleteItem(at: indexPath.row)
+       }
     
-    @IBAction func processedToPaymentBtn(_ sender: UIButton) {
-        let sb = UIStoryboard(name: "Third", bundle: nil)
-        let paymentVC = sb.instantiateViewController(withIdentifier: "PaymentVC") as! PaymentViewController
-        navigationController?.pushViewController(paymentVC , animated: true)
-    }
-
-    func didTapPlusButton(on cell: CartTableViewCell) {
-            guard let indexPath = shoppingCartTableView.indexPath(for: cell),
-                  var lineItem = draftOrder?.line_items[indexPath.row] else { return }
-            
-            lineItem.quantity += 1
-            draftOrder?.line_items[indexPath.row] = lineItem
-            updateTotalAmount()
-            shoppingCartTableView.reloadRows(at: [indexPath], with: .automatic)
-        }
-        
-        func didTapMinusButton(on cell: CartTableViewCell) {
-            guard let indexPath = shoppingCartTableView.indexPath(for: cell),
-                  var lineItem = draftOrder?.line_items[indexPath.row] else { return }
-            
-            if lineItem.quantity > 1 {
-                lineItem.quantity -= 1
-                draftOrder?.line_items[indexPath.row] = lineItem
-                updateTotalAmount()
-                shoppingCartTableView.reloadRows(at: [indexPath], with: .automatic)
-            }
-        }
-    func didTapDeleteButton(on cell: CartTableViewCell) {
-            guard let indexPath = shoppingCartTableView.indexPath(for: cell),
-                  var draftOrder = draftOrder else { return }
-            
-            draftOrder.line_items.remove(at: indexPath.row)
-            
-            draftOrderService.updateDraftOrder(draftOrder: draftOrder) { [weak self] result in
-                switch result {
-                case .success(let updatedDraftOrder):
-                    self?.draftOrder = updatedDraftOrder
-                    DispatchQueue.main.async {
-                        self?.shoppingCartTableView.reloadData()
-                        self?.updateTotalAmount()
-                    }
-                case .failure(let error):
-                    print("Failed to update draft order: \(error.localizedDescription)")
-                }
-            }
-        }
 }
