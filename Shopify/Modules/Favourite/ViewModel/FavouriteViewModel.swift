@@ -27,7 +27,8 @@ class FavouriteViewModel: FavouriteViewModelProtocol {
     var bindProducts:(()->()) = {}
     
     func retriveProducts(){
-        authServiceProtocol.retrieveAllProductsFromEncodedEmail(encodedEmail: SharedDataRepository.instance.customerEmail ?? "No email"){ [weak self] products in
+        authServiceProtocol.retrieveAllProductsFromEncodedEmail(email: SharedDataRepository.instance.customerEmail ?? "No email"){ [weak self] products in
+            print("aaa products: \(products)")
             self?.products = products
             
         }

@@ -10,5 +10,5 @@ protocol AuthServiceProtocol  {
     func signOut(completion: @escaping (Result<Void, Error>) -> Void)
     func addProductToEncodedEmail(email: String, productId: String, productTitle: String, productVendor: String, productImage: String)
     func deleteProductFromEncodedEmail(encodedEmail: String, productId: String)
-    func retrieveAllProductsFromEncodedEmail(encodedEmail: String, completion: @escaping ([ProductFromFirebase]) -> Void) 
+    func retrieveAllProductsFromEncodedEmail(email: String, completion: @escaping ([ProductFromFirebase]) -> Void) 
 }

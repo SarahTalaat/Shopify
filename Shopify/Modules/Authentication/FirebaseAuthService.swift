@@ -199,9 +199,10 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
 
-    func retrieveAllProductsFromEncodedEmail(encodedEmail: String, completion: @escaping ([ProductFromFirebase]) -> Void) {
+    func retrieveAllProductsFromEncodedEmail(email: String, completion: @escaping ([ProductFromFirebase]) -> Void) {
         let ref = Database.database().reference()
         let customersRef = ref.child("customers")
+        let encodedEmail = SharedMethods.encodeEmail(email)
         let customerRef = customersRef.child(encodedEmail)
         let productsRef = customerRef.child("products")
         
