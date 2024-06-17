@@ -64,8 +64,8 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         let cell = favouriteTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! FavouritesCustomCell
         
 
-        cell.productSize.text = viewModel.products?[indexPath.row].productVendor
-        cell.productType.text = "Shirt"
+        cell.titleLabel.text = viewModel.products?[indexPath.row].productVendor
+        cell.vendorLabel.text = "Shirt"
         
 
         cell.layer.cornerRadius = 8
