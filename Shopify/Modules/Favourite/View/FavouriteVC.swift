@@ -24,10 +24,20 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         viewModel.retriveProducts()
         
+        bindViewModel()
+        
         favouriteTableView.reloadData()
         
     }
 
+    func bindViewModel(){
+        viewModel.bindProducts = { [weak self] in
+            DispatchQueue.main.async {
+                self?.favouriteTableView.reloadData()
+            }
+        }
+    }
+    
     
     func settingUpFavouriteTableView(){
         // Register the custom cell
