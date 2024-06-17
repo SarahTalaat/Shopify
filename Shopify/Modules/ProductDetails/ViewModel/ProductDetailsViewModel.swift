@@ -155,16 +155,8 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
         self.customProductDetails = product
         
-        guard let productId = productFromArray?.id,
-              let productTitle = productFromArray?.title,
-              let productVendor = productFromArray?.vendor,
-              let productImage = productFromArray?.images.first?.src else {
-         
-            return
-        }
-
         
-       addMultipleValuesToUserDefaults(productId: "\(productId)", productTitle: productTitle, productVendor: productVendor, productImage: productImage)
+        addMultipleValuesToUserDefaults(productId: "\(productFromArray?.id ?? 0)", productTitle: productFromArray?.title ?? "No title", productVendor: productFromArray?.vendor ?? "No vendor" , productImage: productFromArray?.images.first?.src ?? "No image")
         
     }
     
@@ -244,16 +236,9 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
         self.customProductDetails = product
        
-        guard let productId = productFromArray?.id,
-              let productTitle = productFromArray?.title,
-              let productVendor = productFromArray?.vendor,
-              let productImage = productFromArray?.images.first?.src else {
-         
-            return
-        }
 
         
-       addMultipleValuesToUserDefaults(productId: "\(productId)", productTitle: productTitle, productVendor: productVendor, productImage: productImage)
+        addMultipleValuesToUserDefaults(productId: "\(productFromArray?.id ?? 0)", productTitle: productFromArray?.title ?? "No title", productVendor: productFromArray?.vendor ?? "No vendor" , productImage: productFromArray?.images.first?.src ?? "No image")
     }
     
     func favouriteProducts(){
@@ -313,16 +298,10 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         
             self.customProductDetails = product
             
-            guard let productId = productFromArray?.id,
-                  let productTitle = productFromArray?.title,
-                  let productVendor = productFromArray?.vendor,
-                  let productImage = productFromArray?.images.first?.src else {
-             
-                return
-            }
+
 
             
-           addMultipleValuesToUserDefaults(productId: "\(productId)", productTitle: productTitle, productVendor: productVendor, productImage: productImage)
+            addMultipleValuesToUserDefaults(productId: "\(productModel?.id ?? 0)", productTitle: productModel?.title ?? "No title", productVendor: productModel?.vendor ?? "No vendor" , productImage: productModel?.images.first?.src ?? "No image")
             
             if(isDataBound==true){
                 postDraftOrder()

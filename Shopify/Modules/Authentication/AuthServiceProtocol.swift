@@ -11,5 +11,6 @@ protocol AuthServiceProtocol  {
     func addProductToEncodedEmail(email: String, productId: String, productTitle: String, productVendor: String, productImage: String)
     func deleteProductFromEncodedEmail(encodedEmail: String, productId: String)
     func retrieveAllProductsFromEncodedEmail(email: String, completion: @escaping ([ProductFromFirebase]) -> Void)
-    func checkProductExists(email: String, productId: String, completion: @escaping (Bool, Error?) -> Void) 
+    func checkProductExists(email: String, productId: String, completion: @escaping (Bool, Error?) -> Void)
+    
 }

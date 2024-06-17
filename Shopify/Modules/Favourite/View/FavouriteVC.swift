@@ -86,6 +86,16 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         return 250
     }
 
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            
+            viewModel.deleteProductFromFirebase(index: indexPath.row)
+            viewModel.products?.remove(at: indexPath.row)
+
+        
+        }
+    }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
             // Reset the background color for every cell
