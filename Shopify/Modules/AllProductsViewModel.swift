@@ -28,18 +28,17 @@ class AllProductsViewModel{
     func getProducts() {
         NetworkUtilities.fetchData(responseType: ProductResponse.self, endpoint: "products.json") { product in
             self.products = product?.products ?? []
+
         }
     }
-     
-    func productIndexPath(index: Int){
-        print("category vm index: \(index)")
-        ProductDetailsSharedData.instance.brandsProductIndex = index
+    
+    func addValueToUserDefaults(value: Any, forKey key: String) {
+        UserDefaults.standard.set(value, forKey: key)
+        UserDefaults.standard.synchronize()
     }
     
-    func screenNamePassing(screenName: String){
-        var x = SharedDataRepository.instance.shoppingCartId
-        print("Search: ShoppingCartId: \(x)")
-        ProductDetailsSharedData.instance.screenName = screenName
+    func getproductId(index: Int){
+        var productId = products[index].id
+        addValueToUserDefaults(value: productId, forKey: Constants.productId)
     }
-    
 }

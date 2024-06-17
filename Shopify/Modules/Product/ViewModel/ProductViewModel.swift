@@ -86,13 +86,14 @@ class ProductViewModel{
         filteredProducts = coloredProducts 
     }
     
-    func productIndexPath(index: Int){
-        print("prod vm index: \(index)")
-        ProductDetailsSharedData.instance.brandsProductIndex = index
+    func addValueToUserDefaults(value: Any, forKey key: String) {
+        UserDefaults.standard.set(value, forKey: key)
+        UserDefaults.standard.synchronize()
     }
     
-    func screenNamePassing(screenName: String){
-        ProductDetailsSharedData.instance.screenName = screenName
+    func getproductId(index: Int){
+        var productId = filteredProducts[index].id
+        addValueToUserDefaults(value: productId, forKey: Constants.productId)
     }
- 
+
 }

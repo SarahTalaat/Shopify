@@ -11,7 +11,6 @@ import Kingfisher
 class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource{
 
     @IBAction func addToCartButton(_ sender: CustomButton) {
-        viewModel.isDataBound = true
         viewModel.addToCart()
         
     }
@@ -47,20 +46,8 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         super.viewDidLoad()
 
         viewModel = DependencyProvider.productDetailsViewModel
-      //  addActivityIndicator()
-        viewModel.getProduct()
         bindViewModel()
-
-        
-        priceLabel.text = viewModel.customProductDetails?.price
-        
-        print("PD View viewdidload: \(viewModel.customProductDetails?.price) ")
-        brandNameLabel.text = viewModel.customProductDetails?.vendor
-        brandTitleLabel.text = viewModel.customProductDetails?.title
-        descriptionLabel.text = viewModel.customProductDetails?.description
-        
-    
-        
+        viewModel.getProductDetails()
         
         settingUpCollectionView()
 
@@ -85,30 +72,9 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         activityIndicator.hidesWhenStopped = true
         view.addSubview(activityIndicator)
     }
+
     
-    func bindViewModel() {
-     //   activityIndicator.startAnimating()
-        viewModel.bindCustomProductDetailsViewModelToController = { [weak self] in
-            DispatchQueue.main.async {
-                self?.updateUI()
-            }
-        }
-    }
-    
-    func updateUI() {
-    //    activityIndicator.stopAnimating()
-        // Update UI elements with fetched data
-        priceLabel.text = viewModel.customProductDetails?.price
-        brandNameLabel.text = viewModel.customProductDetails?.vendor
-        brandTitleLabel.text = viewModel.customProductDetails?.title
-        descriptionLabel.text = viewModel.customProductDetails?.description
-        print("PD View updateUI price: \(viewModel.customProductDetails?.price) ")
-        myCollectionView.reloadData() // Reload collection view if data for images has changed
-        
-        // Example: You may need to update dropdowns too
-        dropDowntableView1.reloadData()
-        dropDowntableView2.reloadData()
-    }
+
     
     func applyRoundedBorders(to textView: UITextView) {
         textView.layer.cornerRadius = 10
@@ -195,6 +161,15 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
     }
 
+    func bindViewModel() {
+        viewModel.bindProductDetailsViewModelToController = { [weak self] in
+            DispatchQueue.main.async {
+                self?.myCollectionView.reloadData()
+                self?.dropDowntableView1.reloadData()
+                self?.dropDowntableView2.reloadData()
+            }
+        }
+    }
     
     func setupDropdownTableView1(dropDowntableView: UITableView) {
         dropDowntableView.layer.borderWidth = 1.0
@@ -222,14 +197,17 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         
         switch(tableView){
         case dropDowntableView1:
-            return viewModel.customProductDetails?.colour?.count ?? 1
+          //color
+            return viewModel.getSizeCount()
         case dropDowntableView2:
-            return viewModel.customProductDetails?.size?.count ?? 1
+          //size
+            return viewModel.getColoursCount()
         default:
-            return viewModel.customProductDetails?.size?.count ?? 1
+          //size
+            return viewModel.getSizeCount()
+            
         }
-        
-  // or dropdownItems2.count depending on the tableView
+
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -237,16 +215,16 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         if tableView == dropDowntableView1 {
             cell = tableView.dequeueReusableCell(withIdentifier: "dropdownCell1", for: indexPath)
             
-            if(indexPath.row < viewModel.customProductDetails?.size?.count ?? 1){
-                cell.textLabel?.text = viewModel.customProductDetails?.size?[indexPath.row]
+            if(indexPath.row < viewModel.getSizeCount()){
+                cell.textLabel?.text = viewModel.getColour(index: indexPath.row)
             }
 
         } else if tableView == dropDowntableView2 {
             cell = tableView.dequeueReusableCell(withIdentifier: "dropdownCell2", for: indexPath)
             
             
-            if(indexPath.row < viewModel.customProductDetails?.colour?.count ?? 1){
-                cell.textLabel?.text = viewModel.customProductDetails?.colour?[indexPath.row] ?? "Red"
+            if(indexPath.row < viewModel.getColoursCount()){
+                cell.textLabel?.text = viewModel.getsize(index: indexPath.row)
             }
 
         }
@@ -257,17 +235,15 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
         print("didSelectRowAt called")
         if tableView == dropDowntableView1 {
-            dropdownButton.setTitle(viewModel.customProductDetails?.size?[indexPath.row], for: .normal)
+            dropdownButton.setTitle(viewModel.getsize(index: indexPath.row), for: .normal)
             isDropdownVisible = false
             dropDowntableView1.isHidden = true
         } else if tableView == dropDowntableView2 {
-            dropdownButton2.setTitle(viewModel.customProductDetails?.colour?[indexPath.row], for: .normal)
+            dropdownButton2.setTitle(viewModel.getColour(index: indexPath.row), for: .normal)
             isDropdownVisible2 = false
             dropDowntableView2.isHidden = true
         }
     }
-
-
 
     
 
@@ -277,14 +253,14 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.customProductDetails?.images?.count ?? 1
+        return viewModel.product?.product?.images?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = myCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCollectionViewCell
         
-        if let imageUrlString = viewModel.customProductDetails?.images?[indexPath.row],
+        if let imageUrlString = viewModel.product?.product?.images?[indexPath.row].src,
            let imageUrl = URL(string: imageUrlString) {
             cell.productImage.kf.setImage(with: imageUrl)
         } else {

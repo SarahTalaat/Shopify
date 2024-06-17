@@ -15,36 +15,23 @@ class CategoryViewModel{
             bindCategory()
         }
     }
-    
-//    var categoryProduct: ProductModel? {
-//        didSet {
-//
-//            ProductDetailsSharedData.instance.filteredCategory = categoryProduct
-//            print("Category categoryproductArray: \(categoryProduct)")
-//
-//
-//        }
-//    }
-    
+
     var categoryProduct: ProductModel? {
         didSet {
           
-            ProductDetailsSharedData.instance.filteredCategory = self.categoryProduct
             print("Category categoryProductArray: \(String(describing: self.categoryProduct))")
             
         }
     }
 
     
-    
     var productId: Int?
     
     var bindCategory : (()->()) = {}
+
     
-    var networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol!
-    
-    init(networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol){
-        self.networkServiceAuthenticationProtocol = networkServiceAuthenticationProtocol
+    init(){
+
         getCategory(id: .women )
     }
 
@@ -52,6 +39,7 @@ class CategoryViewModel{
         NetworkUtilities.fetchData(responseType: CategoryResponse.self, endpoint: "collections/\(id.rawValue)/products.json") { product in
             if let products = product?.products {
                 print("Fetched products: \(products.count)")
+                
                 self.subCategory = products
                 self.category = products
             } else {
@@ -77,47 +65,16 @@ class CategoryViewModel{
     
     }
     
-    func productIndexPath(index: Int) {
-         print("CategoryViewModel: category vm index: \(index)")
-         ProductDetailsSharedData.instance.brandsProductIndex = index
-         let product = category[index]
-         getSingleProductResponse(productId: product.id) { [weak self] product in
-             if let product = product {
-                 print("CategoryViewModel: Product received: \(product)")
-                 self?.handleReceivedProduct(product)
-             } else {
-                 print("CategoryViewModel: Failed to fetch product details.")
-             }
-         }
-     }
 
-     private func handleReceivedProduct(_ product: ProductModel) {
-         print("CategoryViewModel: Handling received product: \(product)")
-         DispatchQueue.main.async {
-             ProductDetailsSharedData.instance.filteredCategory = product
-         }
-     }
-    
-    func screenNamePassing(screenName: String){
-        ProductDetailsSharedData.instance.screenName = screenName
-    }
   
-    func getSingleProductResponse(productId: Int, completion: @escaping (ProductModel?) -> Void) {
-        let urlString = APIConfig.endPoint("products/\(productId)").url
-        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .get, model: [:], completion: { [weak self] (result: Result<OneProductResponse, Error>) in
-            switch result {
-            case .success(let response):
-                print("CategoryViewModel: Category product response successfully: \(response)")
-                self?.categoryProduct = response.product
-                ProductDetailsSharedData.instance.filteredCategory = response.product
-                UserDefaults.standard.set(response.product.variants.first?.id, forKey: Constants.variantId)
-                completion(response.product)
-            case .failure(let error):
-                print("CategoryViewModel: Category Failed to post draft order: \(error.localizedDescription)")
-                completion(nil)
-            }
-        })
+    func addValueToUserDefaults(value: Any, forKey key: String) {
+        UserDefaults.standard.set(value, forKey: key)
+        UserDefaults.standard.synchronize()
     }
-
+    
+    func getproductId(index: Int){
+        var productId = category[index].id
+        addValueToUserDefaults(value: productId, forKey: Constants.productId)
+    }
     
 }
