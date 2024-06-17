@@ -9,7 +9,8 @@ import Foundation
 
 class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
- 
+    var isFavourite: Bool
+    
     var networkServiceAuthenticationProtocol:NetworkServiceAuthenticationProtocol!
     var authServiceProtocol: AuthServiceProtocol!
     
@@ -64,6 +65,18 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     var bindCustomProductDetailsViewModelToController: (() -> ()) = {}
 
+    func toggleFavouriteState() {
+        isFavourite.toggle()
+        saveFavouriteState()
+    }
+
+    func saveFavouriteState() {
+        UserDefaults.standard.set(isFavourite, forKey: UserDefaults.isFavouriteKey)
+    }
+
+    func retrieveFavouriteState() {
+        isFavourite = UserDefaults.standard.bool(forKey: UserDefaults.isFavouriteKey)
+    }
     
     private func checkAndBindData() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
@@ -75,7 +88,28 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         }
     }
     
-    
+    func checkProductExistance() {
+        guard let productId = retrieveStringFromUserDefaults(forKey: Constants.productId) else {
+            print("Error: Product ID not found in UserDefaults")
+            return
+        }
+        let email = SharedDataRepository.instance.customerEmail
+        authServiceProtocol.checkProductExists(email: email ?? "No email", productId: productId) { exists, error in
+            if let error = error {
+                print("Error checking product existence: \(error.localizedDescription)")
+                // Handle error condition
+                return
+            }
+            
+            if exists {
+                print("Product with ID \(productId) exists for customer with email \(email)")
+                // Product exists, handle accordingly
+            } else {
+                print("Product with ID \(productId) does not exist for customer with email \(email)")
+                // Product does not exist, handle accordingly
+            }
+        }
+    }
     
     
     

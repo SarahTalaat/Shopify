@@ -25,5 +25,6 @@ protocol ProductDetailsViewModelProtocol {
     var isDataBound: Bool? {get set}
     func addProductToFirebase()
     func deleteProductFromFirebase()
-   
+    func checkProductExistance()
+    var isFavourite: Bool { get set }
 }

@@ -233,7 +233,21 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
 
-
+    func checkProductExists(email: String, productId: String, completion: @escaping (Bool, Error?) -> Void) {
+        var encodedEmail = SharedMethods.encodeEmail(email)
+        let ref = Database.database().reference()
+        let productsRef = ref.child("customers").child(encodedEmail).child("products").child(productId)
+        
+        productsRef.observeSingleEvent(of: .value, with: { snapshot in
+            if snapshot.exists() {
+                completion(true, nil) // Product exists
+            } else {
+                completion(false, nil) // Product does not exist
+            }
+        }) { error in
+            completion(false, error) // Error occurred
+        }
+    }
 
     func fetchCustomerDataFromRealTimeDatabase(forEmail email: String, completion: @escaping (CustomerData?) -> Void) {
         let ref = Database.database().reference()
