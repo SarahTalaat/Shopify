@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -310,20 +311,20 @@
                                                     <action selector="dropdownButtopTapped2:" destination="Zlb-F3-WcO" eventType="touchUpInside" id="enl-YO-rix"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="H&amp;M" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kcU-Oo-n38">
-                                                <rect key="frame" x="16" y="837" width="83" height="33.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="H&amp;M" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kcU-Oo-n38">
+                                                <rect key="frame" x="16" y="837" width="250" height="34"/>
                                                 <color key="backgroundColor" systemColor="secondarySystemGroupedBackgroundColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Short black dress" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="xn0-QI-sKj">
-                                                <rect key="frame" x="16" y="880.5" width="143" height="19.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Short black dress" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="xn0-QI-sKj">
+                                                <rect key="frame" x="16" y="876" width="313" height="19.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <color key="highlightedColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$ 19.99" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Fi-V9-xR1">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$ 19.99" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="8Fi-V9-xR1">
                                                 <rect key="frame" x="327" y="842" width="77" height="27.5"/>
                                                 <color key="backgroundColor" systemColor="secondarySystemGroupedBackgroundColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
@@ -331,7 +332,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Yg-6e-cnq">
-                                                <rect key="frame" x="32" y="910" width="206" height="51"/>
+                                                <rect key="frame" x="32" y="905.5" width="206" height="51"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             </view>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="S75-xb-dGm">
@@ -385,7 +386,7 @@
                                                 </connections>
                                             </button>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="IpG-f2-T0r">
-                                                <rect key="frame" x="10" y="981" width="394" height="307"/>
+                                                <rect key="frame" x="10" y="976.5" width="394" height="307"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                 <color key="textColor" systemColor="labelColor"/>
@@ -393,39 +394,52 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="________________________________________________" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Vpg-R2-mjX">
-                                                <rect key="frame" x="0.0" y="1298" width="414" height="21"/>
+                                                <rect key="frame" x="0.0" y="1293.5" width="414" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" systemColor="systemGray5Color"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reviews" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V02-Ib-1bQ">
-                                                <rect key="frame" x="20" y="1339" width="144" height="27.5"/>
+                                                <rect key="frame" x="20" y="1334.5" width="144" height="27.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="10p-Hd-3k4">
-                                                <rect key="frame" x="10" y="1386.5" width="394" height="160.5"/>
+                                                <rect key="frame" x="10" y="1382" width="394" height="183.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                <string key="text">I recently purchased this product and I am absolutely thrilled with it. The quality is outstanding, and it exceeded all my expectations. The design is sleek and modern, making it a great addition to my home. It was easy to set up and use right out of the box. The performance is top-notch and it has made my daily routine so much easier. Customer service was also very responsive and helpful when I had a few initial questions. I highly recommend this product to anyone looking for something reliable and well-made.</string>
                                                 <color key="textColor" systemColor="labelColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="___________________________________________________________________" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="joN-TH-lrW">
-                                                <rect key="frame" x="0.0" y="1557" width="414" height="21"/>
+                                                <rect key="frame" x="0.0" y="1552.5" width="414" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.92840564520000002" green="0.94042191559999999" blue="0.93215036650000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cEj-gK-rrH">
-                                                <rect key="frame" x="10" y="1588" width="394" height="183.5"/>
+                                                <rect key="frame" x="10" y="1583.5" width="394" height="183.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                <string key="text">I have been using this product for a few weeks now, and I am very satisfied with my purchase. It offers great value for the price, with features that are typically found in more expensive models. The build quality is solid, and it feels durable and well-constructed. The only reason I am giving it four stars instead of five is because I experienced a slight delay in shipping, but the product itself is fantastic. It has performed well in all aspects and has met my needs perfectly. Overall, I would definitely recommend it to others looking for a budget-friendly yet high-quality option.</string>
                                                 <color key="textColor" systemColor="labelColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k9c-9i-JyH" customClass="CustomButton" customModule="Shopify" customModuleProvider="target">
+                                                <rect key="frame" x="52" y="1849" width="310" height="39.5"/>
+                                                <color key="tintColor" red="1" green="0.085469850700000002" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" imagePlacement="trailing" title="Add to cart" imagePadding="20">
+                                                    <imageReference key="image" image="cart.badge.plus.fill" catalog="system" symbolScale="large"/>
+                                                    <fontDescription key="titleFontDescription" type="system" pointSize="21"/>
+                                                    <color key="baseBackgroundColor" red="1" green="0.085469850700000002" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="addToCartButton:" destination="Zlb-F3-WcO" eventType="touchUpInside" id="9cM-jF-Xby"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <viewLayoutGuide key="safeArea" id="tT5-gO-aGG"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -451,29 +465,32 @@
                                             <constraint firstItem="9Yg-6e-cnq" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="32" id="NJn-wM-Zl7"/>
                                             <constraint firstItem="VhD-OC-Gly" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.3" id="OWQ-ac-y8b"/>
                                             <constraint firstItem="4vf-1K-nTz" firstAttribute="leading" secondItem="70L-FJ-uMv" secondAttribute="trailing" constant="10" id="OsP-ez-Lb0"/>
+                                            <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="k9c-9i-JyH" secondAttribute="trailing" constant="52" id="PQI-c1-dgX"/>
                                             <constraint firstItem="FdZ-h1-fmC" firstAttribute="top" secondItem="4vf-1K-nTz" secondAttribute="bottom" constant="4" id="PkJ-lM-TyW"/>
                                             <constraint firstItem="FdZ-h1-fmC" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.15" id="PoN-5K-p8A"/>
                                             <constraint firstItem="Vpg-R2-mjX" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" id="Pqt-CQ-dTF"/>
+                                            <constraint firstItem="k9c-9i-JyH" firstAttribute="centerX" secondItem="tT5-gO-aGG" secondAttribute="centerX" id="S31-bl-KyU"/>
                                             <constraint firstItem="V02-Ib-1bQ" firstAttribute="top" secondItem="Vpg-R2-mjX" secondAttribute="bottom" constant="20" id="Up9-Br-4y1"/>
                                             <constraint firstItem="joN-TH-lrW" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" id="V5A-ot-gl3"/>
                                             <constraint firstItem="mEQ-44-4E3" firstAttribute="leading" secondItem="4vf-1K-nTz" secondAttribute="trailing" constant="10" id="WFf-lz-R48"/>
-                                            <constraint firstItem="xn0-QI-sKj" firstAttribute="top" secondItem="kcU-Oo-n38" secondAttribute="bottom" constant="10" id="WRt-Un-O1T"/>
+                                            <constraint firstItem="xn0-QI-sKj" firstAttribute="top" secondItem="kcU-Oo-n38" secondAttribute="bottom" constant="7.5" id="WRt-Un-O1T"/>
                                             <constraint firstItem="S75-xb-dGm" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.15" id="XQG-aN-N9V"/>
                                             <constraint firstItem="10p-Hd-3k4" firstAttribute="top" secondItem="V02-Ib-1bQ" secondAttribute="bottom" constant="20" id="Z0N-Rk-xlP"/>
                                             <constraint firstItem="mEQ-44-4E3" firstAttribute="top" secondItem="VhD-OC-Gly" secondAttribute="bottom" constant="5" id="bFc-zD-nXf"/>
                                             <constraint firstItem="kcU-Oo-n38" firstAttribute="top" secondItem="70L-FJ-uMv" secondAttribute="bottom" constant="20" id="dCO-jC-VIp"/>
                                             <constraint firstItem="70L-FJ-uMv" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.05" id="eOc-sv-8pl"/>
                                             <constraint firstItem="IpG-f2-T0r" firstAttribute="top" secondItem="9Yg-6e-cnq" secondAttribute="bottom" constant="20" id="eXX-V5-2WF"/>
+                                            <constraint firstItem="k9c-9i-JyH" firstAttribute="top" secondItem="cEj-gK-rrH" secondAttribute="bottom" constant="82" id="ejC-Yf-wQ9"/>
                                             <constraint firstItem="joN-TH-lrW" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" id="fAG-V6-ZvQ"/>
                                             <constraint firstItem="S75-xb-dGm" firstAttribute="width" secondItem="70L-FJ-uMv" secondAttribute="width" id="fEh-vX-UPg"/>
                                             <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="Vpg-R2-mjX" secondAttribute="trailing" id="fH3-ey-Arj"/>
                                             <constraint firstItem="FdZ-h1-fmC" firstAttribute="trailing" secondItem="4vf-1K-nTz" secondAttribute="trailing" id="fHe-PS-yUJ"/>
-                                            <constraint firstItem="10p-Hd-3k4" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.07" id="gT0-vO-s2W"/>
+                                            <constraint firstItem="10p-Hd-3k4" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.07" constant="23.129999999999995" id="gT0-vO-s2W"/>
                                             <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="10p-Hd-3k4" secondAttribute="trailing" constant="10" id="gaz-ji-mXy"/>
                                             <constraint firstItem="kcU-Oo-n38" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="16" id="hHw-Jd-qXm"/>
                                             <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="V02-Ib-1bQ" secondAttribute="trailing" constant="250" id="jJj-io-ro1"/>
                                             <constraint firstItem="tT5-gO-aGG" firstAttribute="leading" secondItem="S75-xb-dGm" secondAttribute="leading" constant="-10" id="kZa-L6-9so"/>
-                                            <constraint firstItem="kcU-Oo-n38" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" multiplier="0.2" id="mNT-qP-8yd"/>
+                                            <constraint firstItem="kcU-Oo-n38" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" multiplier="0.2" constant="167.19999999999999" id="mNT-qP-8yd"/>
                                             <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="8Fi-V9-xR1" secondAttribute="trailing" constant="10" id="mVb-99-i6c"/>
                                             <constraint firstItem="V02-Ib-1bQ" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="20" id="nRa-Gy-AaE"/>
                                             <constraint firstItem="70L-FJ-uMv" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="10" id="oeo-IA-bxL"/>
@@ -481,12 +498,13 @@
                                             <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="mEQ-44-4E3" secondAttribute="trailing" constant="12.5" id="poj-DP-ga0"/>
                                             <constraint firstItem="xn0-QI-sKj" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="16" id="q8U-un-mVl"/>
                                             <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="9Yg-6e-cnq" secondAttribute="trailing" constant="176" id="txM-TG-MNU"/>
-                                            <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="xn0-QI-sKj" secondAttribute="trailing" constant="255" id="u3g-WY-oM5"/>
+                                            <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="xn0-QI-sKj" secondAttribute="trailing" constant="85" id="u3g-WY-oM5"/>
                                             <constraint firstItem="Vpg-R2-mjX" firstAttribute="top" secondItem="IpG-f2-T0r" secondAttribute="bottom" constant="10" id="uVz-vz-pkl"/>
                                             <constraint firstItem="IpG-f2-T0r" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="10" id="ucA-4J-bp1"/>
                                             <constraint firstItem="FdZ-h1-fmC" firstAttribute="width" secondItem="4vf-1K-nTz" secondAttribute="width" id="w0u-Rb-y9C"/>
                                             <constraint firstItem="VhD-OC-Gly" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" id="wXj-FT-lv7"/>
-                                            <constraint firstItem="joN-TH-lrW" firstAttribute="top" secondItem="10p-Hd-3k4" secondAttribute="bottom" constant="10" id="xPC-Ea-8Nv"/>
+                                            <constraint firstItem="joN-TH-lrW" firstAttribute="top" secondItem="10p-Hd-3k4" secondAttribute="bottom" constant="-13" id="xPC-Ea-8Nv"/>
+                                            <constraint firstItem="k9c-9i-JyH" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="52" id="xzS-6Y-17r"/>
                                             <constraint firstItem="Vpg-R2-mjX" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" id="yl8-3r-lNO"/>
                                         </constraints>
                                     </view>
@@ -515,12 +533,17 @@
                     </view>
                     <size key="freeformSize" width="414" height="1869"/>
                     <connections>
+                        <outlet property="brandNameLabel" destination="kcU-Oo-n38" id="h3u-dk-Mg3"/>
+                        <outlet property="brandTitleLabel" destination="xn0-QI-sKj" id="Fa8-DX-CSx"/>
+                        <outlet property="descriptionLabel" destination="IpG-f2-T0r" id="oOe-yF-F2Q"/>
                         <outlet property="dropDowntableView1" destination="S75-xb-dGm" id="eJv-eA-mBo"/>
                         <outlet property="dropDowntableView2" destination="FdZ-h1-fmC" id="MSp-lE-6s1"/>
                         <outlet property="dropdownButton" destination="70L-FJ-uMv" id="9Sj-Bi-E7R"/>
                         <outlet property="dropdownButton2" destination="4vf-1K-nTz" id="RuS-ei-ts1"/>
                         <outlet property="favouriteButton" destination="mEQ-44-4E3" id="RYS-Yr-okN"/>
                         <outlet property="myCollectionView" destination="VhD-OC-Gly" id="YtC-xO-7pJ"/>
+                        <outlet property="priceLabel" destination="8Fi-V9-xR1" id="Vj8-hm-FBM"/>
+                        <outlet property="ratingView" destination="9Yg-6e-cnq" id="c5n-h5-Aad"/>
                         <outlet property="reviewTextView1" destination="10p-Hd-3k4" id="dBW-Im-UOh"/>
                         <outlet property="reviewTextView2" destination="cEj-gK-rrH" id="ZHe-AA-8cI"/>
                     </connections>
@@ -697,6 +720,25 @@
         </scene>
     </scenes>
     <designables>
+        <designable name="Alf-15-BzH">
+            <size key="intrinsicContentSize" width="24" height="17"/>
+        </designable>
+        <designable name="Cdy-VQ-kEt">
+            <size key="intrinsicContentSize" width="24" height="18.5"/>
+        </designable>
+        <designable name="OPE-rW-ysb">
+            <size key="intrinsicContentSize" width="24" height="18.5"/>
+        </designable>
+        <designable name="PvZ-G9-Gt1">
+            <size key="intrinsicContentSize" width="24" height="17"/>
+        </designable>
+        <designable name="Yi8-RZ-ayL">
+            <size key="intrinsicContentSize" width="24" height="18.5"/>
+        </designable>
+        <designable name="k9c-9i-JyH">
+            <size key="intrinsicContentSize" width="170.5" height="39.5"/>
+        </designable>
+        <designable name="oL7-YE-7Z8"/>
         <designable name="wQJ-gb-1pY">
             <size key="intrinsicContentSize" width="138.5" height="41.5"/>
         </designable>
@@ -704,6 +746,7 @@
     <resources>
         <image name="Sale" width="1200" height="675"/>
         <image name="arrow.right" catalog="system" width="128" height="98"/>
+        <image name="cart.badge.plus.fill" catalog="system" width="128" height="106"/>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="logo" width="816" height="816"/>

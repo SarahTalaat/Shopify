@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -14,18 +15,30 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var window: UIWindow?
     let cellSpacingHeight: CGFloat = 30
     
-    
+    var viewModel: FavouriteViewModelProtocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         settingUpFavouriteTableView()
+        viewModel = DependencyProvider.favouriteViewModel
         
+        viewModel.retriveProducts()
         
+        bindViewModel()
         
+        favouriteTableView.reloadData()
         
     }
 
+    func bindViewModel(){
+        viewModel.bindProducts = { [weak self] in
+            DispatchQueue.main.async {
+                self?.favouriteTableView.reloadData()
+            }
+        }
+    }
+    
     
     func settingUpFavouriteTableView(){
         // Register the custom cell
@@ -45,15 +58,21 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return viewModel.products?.count ?? 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = favouriteTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! FavouritesCustomCell
         
-        cell.productPrice.text = "32 $"
-        cell.productSize.text = "Medium"
-        cell.productType.text = "Shirt"
+
+        cell.vendorLabel.text = viewModel.products?[indexPath.row].productVendor
+        cell.titleLabel.text = viewModel.products?[indexPath.row].productTitle
+        
+        if let imageUrl = URL(string:viewModel.products?[indexPath.row].productImage ?? "https://m.media-amazon.com/images/I/81H0Mn0kaNL._AC_SL1500_.jpg" ) {
+            cell.productImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "placeholderImage"))
+        } else {
+            cell.productImage.image = UIImage(named: "imageplaceholder.jpg")
+        }
         
 
         cell.layer.cornerRadius = 8
@@ -67,6 +86,16 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         return 250
     }
 
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            
+            viewModel.deleteProductFromFirebase(index: indexPath.row)
+            viewModel.products?.remove(at: indexPath.row)
+
+        
+        }
+    }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
             // Reset the background color for every cell

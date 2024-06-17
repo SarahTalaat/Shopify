@@ -9,10 +9,11 @@ import UIKit
 
 class FavouritesCustomCell: UITableViewCell {
 
-    @IBOutlet var productSize: UILabel!
-    @IBOutlet var productPrice: UILabel!
-    @IBOutlet var productType: UILabel!
-
+    @IBOutlet weak var productImage: UIImageView!
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    @IBOutlet weak var vendorLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         

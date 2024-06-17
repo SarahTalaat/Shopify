@@ -16,7 +16,8 @@ enum AuthErrorCode: Error {
 }
 class SignInViewModel: SignInViewModelProtocol {
     
-  
+    static let sharedDataUpdateQueue = DispatchQueue(label: "com.Shopify.sharedDataUpdateQueue")
+
     let authServiceProtocol: AuthServiceProtocol
     let networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol
     var name: String?
@@ -54,23 +55,20 @@ class SignInViewModel: SignInViewModelProtocol {
     }
     
     func signIn(email: String, password: String) {
-        authServiceProtocol.signIn(email: email, password: password) { [weak self] result in
+        
+        
+            self.authServiceProtocol.signIn(email: email, password: password) { [weak self] result in
             switch result {
             case .success(let user):
                 self?.user = user
                 self?.fetchCustomerID()
-                let urlString = APIConfig.draft_orders.url
-                var draftOrder1 = self?.draftOrderDummyModel1()
-                var draftOrder2 = self?.draftOrderDummyModel2()
+
+                print("ddd 1.")
+                self?.checkEmailSignInStatus(email:email)
+                print("ddd 2.")
+               // self?.updateSignInStatus(email: email)
+                print("ddd 3.")
                 
-                
-                self?.postDraftOrderForShoppingCart(urlString: urlString, parameters: draftOrder1 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX")
-            
-                
-                self?.postDraftOrderForFavourite(urlString: urlString, parameters: draftOrder2 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX")
-                
-                SharedDataRepository.instance.isSignedIn = true
-                print("si: firebase firebase id user idddd view model: \(self?.user?.uid)")
             case .failure(let error):
                 if let authError = error as? AuthErrorCode {
                     switch authError {
@@ -86,6 +84,55 @@ class SignInViewModel: SignInViewModelProtocol {
                 }
             }
         }
+      
+    }
+    func updateSignInStatus(email:String){
+        authServiceProtocol.updateSignInStatus(email: email, isSignedIn: "\(true)") { success in
+            if success {
+                print("Sign-in status updated successfully.")
+            } else {
+                print("Failed to update sign-in status.")
+            }
+        }
+        
+    }
+    
+    func checkEmailSignInStatus(email:String){
+
+        authServiceProtocol.checkEmailSignInStatus(email:email) { isSignedIn in
+            if isSignedIn == true {
+                print("Email is signed in no post will happen for draft order: \(isSignedIn)")
+
+            } else {
+                
+                let urlString = APIConfig.draft_orders.url
+                let draftOrder1 = self.draftOrderDummyModel1()
+                
+                self.postDraftOrderForShoppingCart(urlString: urlString, parameters: draftOrder1 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX") { [weak self] shoppingCartIdString in
+                    
+                    guard let shoppingCartIdString = shoppingCartIdString else {
+                        
+                            return
+                        }
+                        
+                        // Extract the actual shoppingCartId from the string representation
+                        if let range = shoppingCartIdString.range(of: "Optional(") {
+                            let shoppingCartId = shoppingCartIdString.replacingCharacters(in: range, with: "")
+                                .replacingOccurrences(of: ")", with: "")
+                                .trimmingCharacters(in: .whitespacesAndNewlines)
+                            
+                            UserDefaults.standard.set(shoppingCartId, forKey: Constants.shoppingCartId)
+                        }
+                    print("si: UD DrafId \(UserDefaults.standard.string(forKey: Constants.shoppingCartId ?? ""))")
+                }//post
+                self.updateSignInStatus(email: email)
+
+            }//else isSignedIn false
+            
+            SharedDataRepository.instance.isSignedIn = true
+            print("si: firebase firebase id user idddd view model: \(self.user?.uid)")
+        }//signin
+        
     }
     
     private func fetchCustomerID(){
@@ -116,18 +163,34 @@ class SignInViewModel: SignInViewModelProtocol {
         
         
     }
+
+    
+   
+
     func postDraftOrderForShoppingCart(urlString: String, parameters: [String: Any], name: String, email: String) {
         networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
+
             switch result {
-            case .success(let response):
+            case.success(let response):
                 print("si Draft order posted successfully: \(response)")
-                SharedDataRepository.instance.draftOrderId = "\(response.draftOrder?.id ?? 0)"
-                print("si: ShoppingCardId: \(SharedDataRepository.instance.draftOrderId)")
+                let shoppingCartId = "\(response.draftOrder?.id)"
+                completion(shoppingCartId) // Call the completion handler with the shoppingCartId value
             case .failure(let error):
                 print("si Failed to post draft order: \(error.localizedDescription)")
+                completion(nil)
             }
         })
     }
+
+    func useShoppingCartId(_ shoppingCartId: String) {
+        // Use the shoppingCartId value here
+        SharedDataRepository.instance.shoppingCartId = shoppingCartId
+        print("si useShop: \(SharedDataRepository.instance.shoppingCartId)")
+        print("si: Using shoppingCartId: \(shoppingCartId)")
+    }
+    
+
+
     func postDraftOrderForFavourite(urlString: String, parameters: [String:Any], name: String , email: String) {
        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
             switch result {

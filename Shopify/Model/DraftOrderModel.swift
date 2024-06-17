@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DraftOrder: Codable  {
+struct DraftOrderPUT: Codable  {
     let id: Int
     let email: String?
     let currency: String

@@ -25,6 +25,10 @@ class ProductViewModel {
     var filteredProducts: [Products] = [] {
         didSet {
             bindFilteredProducts()
+
+            ProductDetailsSharedData.instance.filteredProducts = filteredProducts
+            print(filteredProducts)
+
         }
     }
     
@@ -114,4 +118,15 @@ class ProductViewModel {
             self?.bindFilteredProducts()
         }
     }
+
+    
+    func productIndexPath(index: Int){
+        print("prod vm index: \(index)")
+        ProductDetailsSharedData.instance.brandsProductIndex = index
+    }
+    
+    func screenNamePassing(screenName: String){
+        ProductDetailsSharedData.instance.screenName = screenName
+    }
+
 }

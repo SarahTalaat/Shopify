@@ -24,7 +24,7 @@ class CategoryViewController: UIViewController {
     var sharedMethods: SharedMethods?
     var selectedButton: UIButton?
     var isSearch = false
-    let viewModel = CategoryViewModel()
+    let viewModel = CategoryViewModel(networkServiceAuthenticationProtocol: DependencyProvider.networkServiceAuthenticationProtocol)
     
     
     override func viewDidLoad() {
@@ -226,9 +226,12 @@ class CategoryViewController: UIViewController {
         }
         
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                         let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
-                         navigationController?.pushViewController(brandsViewController, animated: true)
+            
+            viewModel.productIndexPath(index: indexPath.row)
+            viewModel.screenNamePassing(screenName: "Category")
+             let storyboard = UIStoryboard(name: "Main", bundle: nil)
+             let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
+             navigationController?.pushViewController(brandsViewController, animated: true)
           }
     }
         

@@ -182,11 +182,16 @@ class ProductViewController: UIViewController {
             if let imageUrlString = item.images.first?.src, let imageURL = URL(string: imageUrlString) {
                 cell.productImage.kf.setImage(with: imageURL)
             }
+            
+            
           
             return cell
         }
         
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            
+            viewModel.productIndexPath(index: indexPath.row)
+            viewModel.screenNamePassing(screenName: "Products")
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
             navigationController?.pushViewController(brandsViewController, animated: true)
