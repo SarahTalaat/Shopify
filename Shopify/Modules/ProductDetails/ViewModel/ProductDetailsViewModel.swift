@@ -80,7 +80,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     func addToCart(){
         var draftOrder = draftOrder()
         if let draftOrderId = UserDefaults.standard.string(forKey: Constants.shoppingCartId) {
-            var urlString = APIConfig.endPoint("draft_orders\(draftOrderId)").url
+            var urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
             updateDraftOrderNetwork(urlString: urlString, parameters: draftOrder)
         }
 
@@ -102,26 +102,35 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     func draftOrder() -> [String:Any] {
         var variantLineItemId = UserDefaults.standard.string(forKey: Constants.variantId)
-        if let draftOrderId = UserDefaults.standard.string(forKey: Constants.shoppingCartId) {
-            print("kkk draftOrderId: \(draftOrderId)")
-            let draftOrder: [String: Any] = [
-                "draft_order": [
-                    "id":draftOrderId ,
-                    "line_items": [
-                        [
-                            "variant_id": variantLineItemId,
-                            "quantity": 1
+        print("kkk 1. variantID: \(variantLineItemId)")
+        
+        
+        if let variantLineItemId = UserDefaults.standard.string(forKey: Constants.variantId) {
+            
+            print("kkk 2. variantID: \(variantLineItemId)")
+            if let draftOrderId = UserDefaults.standard.string(forKey: Constants.shoppingCartId) {
+                print("kkk draftOrderId: \(draftOrderId)")
+                let draftOrder: [String: Any] = [
+                    "draft_order": [
+                        "id":draftOrderId ,
+                        "line_items": [
+                            [
+                                "variant_id": variantLineItemId,
+                                "quantity": 1
+                            ]
                         ]
                     ]
                 ]
-            ]
-            
-                return draftOrder
-        } else {
-            print("kkk Constants.shoppingCartId does not exist in UserDefaults")
-            return [:]
-        }
+                
+                    return draftOrder
+            } else {
+                print("kkk Constants.shoppingCartId does not exist in UserDefaults")
+                return [:]
+            }
 
+        }
+        return [:]
+        
     }
     
     
