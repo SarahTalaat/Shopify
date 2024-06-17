@@ -20,10 +20,12 @@ protocol ProductDetailsViewModelProtocol {
     var filteredProducts: [Products]? {get set}
     var customProductDetails: CustomProductDetails? {get set}
     var bindCustomProductDetailsViewModelToController: (() -> ()) {get set}
+    var favoriteStateDidChange: ((Bool) -> Void)? {get set}
     func addToCart()
     func getProduct()
     var isDataBound: Bool? {get set}
     func addProductToFirebase()
     func deleteProductFromFirebase()
-   
+    func toggleFavorite()
+    var isFavourite: Bool? {get set}
 }

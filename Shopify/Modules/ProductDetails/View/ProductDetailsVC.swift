@@ -37,7 +37,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     var colourArray: [String] = ["Item1","Item2","Item3","Item4","Item5"]
     var isDropdownVisible = false
     var isDropdownVisible2 = false
-    var isFavourite = false
+    var isFavourite: Bool? = false
     
     var viewModel: ProductDetailsViewModelProtocol!
     var activityIndicator: UIActivityIndicatorView!
@@ -50,6 +50,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
       //  addActivityIndicator()
         viewModel.getProduct()
         bindViewModel()
+        setUpFavouriteButton()
 
         
         priceLabel.text = viewModel.customProductDetails?.price
@@ -60,7 +61,9 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         descriptionLabel.text = viewModel.customProductDetails?.description
         
     
-        
+//        let imageName = isFavourite ? "heart.fill" : "heart"
+//        let image = UIImage(systemName: imageName)
+//        favouriteButton.setImage(image, for: .normal)
         
         settingUpCollectionView()
 
@@ -77,7 +80,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         applyRoundedBorders(to: reviewTextView2)
         applyRoundedBorders(to: descriptionLabel)
 
-
+        updateFavoriteUI(isFavorite: viewModel.isFavourite ?? false)
     }
     func addActivityIndicator() {
         activityIndicator = UIActivityIndicatorView(style: .medium)
@@ -93,8 +96,18 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
                 self?.updateUI()
             }
         }
+        
+        viewModel.favoriteStateDidChange = { [weak self] isFavorite in
+            self?.updateFavoriteUI(isFavorite: isFavorite)
+        }
     }
     
+    func updateFavoriteUI(isFavorite: Bool) {
+        let imageName = isFavorite ? "heart.fill" : "heart"
+        let image = UIImage(systemName: imageName)
+        favouriteButton.setImage(image, for: .normal)
+        favouriteButton.adjustsImageWhenHighlighted = false
+    }
     func updateUI() {
     //    activityIndicator.stopAnimating()
         // Update UI elements with fetched data
@@ -121,23 +134,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
     @IBAction func favouriteButtonTapped(_ sender: UIButton) {
 
-        // Toggle the state
-        isFavourite.toggle()
-        
-        // Set the image for the button based on the state
-        let imageName = isFavourite ? "heart.fill" : "heart"
-        let image = UIImage(systemName: imageName)
-        sender.setImage(image, for: .normal)
-        
-        // Disable the button's adjustment when highlighted to remove the blue shadow
-        sender.adjustsImageWhenHighlighted = false
-        
-        
-        if isFavourite {
-            viewModel.addProductToFirebase()
-        }else{
-            viewModel.deleteProductFromFirebase()
-        }
+        viewModel.toggleFavorite()
         
     }
     func setUpFavouriteButton(){

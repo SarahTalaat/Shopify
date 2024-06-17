@@ -24,6 +24,7 @@ class Constants  {
     static let productImage: String = "productImage"
     static let customerEmail: String = "customerEmail"
     
+    static let isFavouriteKey: String = "isFavouriteKey"
 
 }
 

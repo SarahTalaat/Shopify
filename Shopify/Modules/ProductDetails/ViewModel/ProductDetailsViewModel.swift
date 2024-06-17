@@ -9,13 +9,16 @@ import Foundation
 
 class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
- 
+
+    
+
     var networkServiceAuthenticationProtocol:NetworkServiceAuthenticationProtocol!
     var authServiceProtocol: AuthServiceProtocol!
     
     init(networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol,authServiceProtocol: AuthServiceProtocol){
         self.networkServiceAuthenticationProtocol = networkServiceAuthenticationProtocol
         self.authServiceProtocol = authServiceProtocol
+        self.isFavourite = UserDefaults.standard.bool(forKey: Constants.isFavouriteKey)
 
     }
     
@@ -36,6 +39,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             self.checkAndBindData()
         }
     }
+
     
     var productFromArray: Products?
     var productModel: ProductModel?
@@ -47,6 +51,15 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         }
     }
     
+    var isFavourite: Bool? {
+        didSet {
+        
+            favoriteStateDidChange?(isFavourite ?? false)
+            
+        }
+    }
+    
+    var favoriteStateDidChange: ((Bool) -> Void)?
     var images: [String]?
     var colour : [String]? = []
     var size: [String]? = []
@@ -63,7 +76,19 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     
     var bindCustomProductDetailsViewModelToController: (() -> ()) = {}
+    
+    func toggleFavorite() {
+        isFavourite = !(isFavourite ?? false)
+        
+        if isFavourite ?? false {
+            addProductToFirebase()
+        } else {
+            deleteProductFromFirebase()
+        }
 
+        UserDefaults.standard.set(isFavourite, forKey: Constants.isFavouriteKey)
+        UserDefaults.standard.synchronize()
+    }
     
     private func checkAndBindData() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
