@@ -56,69 +56,19 @@ class SignInViewModel: SignInViewModelProtocol {
     
     func signIn(email: String, password: String) {
         
-        SignInViewModel.sharedDataUpdateQueue.async {
         
             self.authServiceProtocol.signIn(email: email, password: password) { [weak self] result in
             switch result {
             case .success(let user):
                 self?.user = user
                 self?.fetchCustomerID()
-                let urlString = APIConfig.draft_orders.url
-                var draftOrder1 = self?.draftOrderDummyModel1()
-                var draftOrder2 = self?.draftOrderDummyModel2()
-                
-                
-                self?.postDraftOrderForShoppingCart(urlString: urlString, parameters: draftOrder1 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX") { [weak self] shoppingCartIdString in
-                    
-                    guard let shoppingCartIdString = shoppingCartIdString else {
-                        
-                            return
-                        }
-                        
-                        // Extract the actual shoppingCartId from the string representation
-                        if let range = shoppingCartIdString.range(of: "Optional(") {
-                            let shoppingCartId = shoppingCartIdString.replacingCharacters(in: range, with: "")
-                                .replacingOccurrences(of: ")", with: "")
-                                .trimmingCharacters(in: .whitespacesAndNewlines)
-                            
-                            UserDefaults.standard.set(shoppingCartId, forKey: Constants.shoppingCartId)
-                        }
-                    print("si: UD DrafId \(UserDefaults.standard.string(forKey: Constants.shoppingCartId ?? ""))")
-                    
-//                    if let shoppingCartId = shoppingCartId {
-//                        DispatchQueue.main.async {
-//
-//                            SharedDataRepository.instance.shoppingCartId = shoppingCartId
-//
-//                            self?.useShoppingCartId(shoppingCartId)
-//                        }
-//                    }
-                }
-                
-                self?.authServiceProtocol.updateSignInStatus(email: email, isSignedIn: "\(true)") { success in
-                    if success {
-                        print("Sign-in status updated successfully.")
-                    } else {
-                        print("Failed to update sign-in status.")
-                    }
-                }
-            
-                self?.authServiceProtocol.checkEmailSignInStatus(email:email) { isSignedIn in
-                    if let isSignedIn = isSignedIn {
-                        print("Email is signed in no post will happen for draft order: \(isSignedIn)")
 
-                    } else {
-                        self?.postDraftOrderForFavourite(urlString: urlString, parameters: draftOrder2 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX")
-                        print("Email already signed in.")
-                        
-
-                    }
-                }
+                print("ddd 1.")
+                self?.checkEmailSignInStatus(email:email)
+                print("ddd 2.")
+               // self?.updateSignInStatus(email: email)
+                print("ddd 3.")
                 
-
-                
-                SharedDataRepository.instance.isSignedIn = true
-                print("si: firebase firebase id user idddd view model: \(self?.user?.uid)")
             case .failure(let error):
                 if let authError = error as? AuthErrorCode {
                     switch authError {
@@ -134,10 +84,56 @@ class SignInViewModel: SignInViewModelProtocol {
                 }
             }
         }
-      }
+      
+    }
+    func updateSignInStatus(email:String){
+        authServiceProtocol.updateSignInStatus(email: email, isSignedIn: "\(true)") { success in
+            if success {
+                print("Sign-in status updated successfully.")
+            } else {
+                print("Failed to update sign-in status.")
+            }
+        }
+        
     }
     
-    
+    func checkEmailSignInStatus(email:String){
+
+        authServiceProtocol.checkEmailSignInStatus(email:email) { isSignedIn in
+            if isSignedIn == true {
+                print("Email is signed in no post will happen for draft order: \(isSignedIn)")
+
+            } else {
+                
+                let urlString = APIConfig.draft_orders.url
+                let draftOrder1 = self.draftOrderDummyModel1()
+                
+                self.postDraftOrderForShoppingCart(urlString: urlString, parameters: draftOrder1 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX") { [weak self] shoppingCartIdString in
+                    
+                    guard let shoppingCartIdString = shoppingCartIdString else {
+                        
+                            return
+                        }
+                        
+                        // Extract the actual shoppingCartId from the string representation
+                        if let range = shoppingCartIdString.range(of: "Optional(") {
+                            let shoppingCartId = shoppingCartIdString.replacingCharacters(in: range, with: "")
+                                .replacingOccurrences(of: ")", with: "")
+                                .trimmingCharacters(in: .whitespacesAndNewlines)
+                            
+                            UserDefaults.standard.set(shoppingCartId, forKey: Constants.shoppingCartId)
+                        }
+                    print("si: UD DrafId \(UserDefaults.standard.string(forKey: Constants.shoppingCartId ?? ""))")
+                }//post
+                self.updateSignInStatus(email: email)
+
+            }//else isSignedIn false
+            
+            SharedDataRepository.instance.isSignedIn = true
+            print("si: firebase firebase id user idddd view model: \(self.user?.uid)")
+        }//signin
+        
+    }
     
     private func fetchCustomerID(){
         
