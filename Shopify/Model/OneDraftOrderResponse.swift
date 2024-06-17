@@ -9,7 +9,7 @@ import Foundation
 
 
 struct OneDraftOrderResponse: Codable {
-    let draftOrder: OneDraftOrderResponseDetails?
+    var draftOrder: OneDraftOrderResponseDetails?
 
     enum CodingKeys: String, CodingKey {
         case draftOrder = "draft_order"
@@ -29,7 +29,7 @@ struct OneDraftOrderResponseDetails: Codable {
     let completedAt: String?
     let name: String?
     let status: String?
-    var lineItems: [LineItem]?
+    var lineItems: [LineItem]
     let shippingAddress: String?
     let billingAddress: String?
     let invoiceUrl: String?
@@ -39,8 +39,8 @@ struct OneDraftOrderResponseDetails: Codable {
     let taxLines: [TaxLine]?
     let tags: String?
     let noteAttributes: [String]?
-    let totalPrice: String?
-    let subtotalPrice: String?
+    let totalPrice: String
+    let subtotalPrice: String
     let totalTax: String?
     let paymentTerms: String?
     let adminGraphqlApiId: String?
@@ -74,8 +74,8 @@ struct LineItem: Codable {
     let id: Int?
     let variantId: Int?
     let productId: Int?
-    let title: String?
-    let variantTitle: String?
+    let title: String
+    let variantTitle: String
     let sku: String?
     let vendor: String?
     var quantity: Int
@@ -89,7 +89,7 @@ struct LineItem: Codable {
     let name: String?
     let properties: [String]?
     let custom: Bool?
-    let price: String?
+    let price: String
     let adminGraphqlApiId: String?
     
     enum CodingKeys: String, CodingKey {

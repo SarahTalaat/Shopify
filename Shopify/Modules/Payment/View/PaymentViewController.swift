@@ -11,8 +11,8 @@ class PaymentViewController: UIViewController {
     private var viewModel = PaymentMethodsViewModel()
     
     var subtotal: String?
-       var defaultAddress: Address?
-    var lineItems: LineItems?
+    var defaultAddress: Address?
+    var lineItems: LineItem?
        
        override func viewDidLoad() {
            super.viewDidLoad()

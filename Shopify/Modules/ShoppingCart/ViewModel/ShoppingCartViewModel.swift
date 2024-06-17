@@ -8,7 +8,7 @@
 import Foundation
 class ShoppingCartViewModel {
     private let draftOrderService = DraftOrderNetworkService()
-    var draftOrder: DraftOrder? {
+    var draftOrder: OneDraftOrderResponse? {
         didSet {
             updateTotalAmount()
         }
@@ -32,27 +32,27 @@ class ShoppingCartViewModel {
     
     private func updateTotalAmount() {
         guard let draftOrder = draftOrder else { return }
-        totalAmount = draftOrder.subtotal_price
+        totalAmount = draftOrder.draftOrder?.totalPrice ?? "total price"
         onTotalAmountUpdated?()
     }
     
     func incrementQuantity(at index: Int) {
-        guard var lineItem = draftOrder?.line_items[index] else { return }
+        guard var lineItem = draftOrder?.draftOrder?.lineItems[index] else { return }
         lineItem.quantity += 1
-        draftOrder?.line_items[index] = lineItem
+        draftOrder?.draftOrder?.lineItems[index] = lineItem
         onDraftOrderUpdated?()
     }
     
     func decrementQuantity(at index: Int) {
-        guard var lineItem = draftOrder?.line_items[index], lineItem.quantity > 1 else { return }
+        guard var lineItem = draftOrder?.draftOrder?.lineItems[index], lineItem.quantity > 1 else { return }
         lineItem.quantity -= 1
-        draftOrder?.line_items[index] = lineItem
+        draftOrder?.draftOrder?.lineItems[index] = lineItem
         onDraftOrderUpdated?()
     }
     
     func deleteItem(at index: Int) {
         guard var draftOrder = draftOrder else { return }
-        draftOrder.line_items.remove(at: index)
+        draftOrder.draftOrder?.lineItems.remove(at: index)
         
         draftOrderService.updateDraftOrder(draftOrder: draftOrder) { [weak self] result in
             switch result {

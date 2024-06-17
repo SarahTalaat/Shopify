@@ -29,7 +29,7 @@ struct Orders: Encodable, Decodable {
     let total_discounts: String?
     let total_line_items_price: String?
     let total_price: String?
-    let line_items: [LineItems]
+    let line_items: [LineItem]
 }
 
 struct LineItemss: Encodable, Decodable {

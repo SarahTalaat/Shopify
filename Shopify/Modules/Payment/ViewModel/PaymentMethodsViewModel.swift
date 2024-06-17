@@ -51,11 +51,11 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     }
     
  
-    private var lineItem: LineItemss?
+    private var lineItem: LineItem?
      private var order: Orders?
      private var ordersSend: OrdersSend?
 
-    func setupOrder(lineItem:LineItems) {
+    func setupOrder(lineItem:LineItem) {
 
          order = Orders(
              id: nil,

@@ -58,22 +58,27 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
        }
        
        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-           return viewModel.draftOrder?.line_items.count ?? 0
+           return viewModel.draftOrder?.draftOrder?.lineItems.count ?? 0
        }
        
-       func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-           let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
-           if let lineItem = viewModel.draftOrder?.line_items[indexPath.row] {
-               let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: .whitespaces) ?? ""
-               cell.productName.text = productName
-               let productColor = lineItem.variant_title.split(separator: "/").last?.trimmingCharacters(in: .whitespaces) ?? ""
-               cell.productColor.text = productColor
-               cell.productAmount.text = "\(lineItem.quantity)"
-               cell.productPrice.text = "\(lineItem.price)$"
-               cell.delegate = self
-           }
-           return cell
-       }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
+        
+        if let lineItem = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row] {
+            let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
+            cell.productName.text = productName
+            
+            let productColor = lineItem.variantTitle.split(separator: "/").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
+            cell.productColor.text = productColor
+            
+            cell.productAmount.text = "\(lineItem.quantity)"
+            cell.productPrice.text = "\(lineItem.price)$"
+            
+            cell.delegate = self
+        }
+        
+        return cell
+    }
        
        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
            return 100
@@ -96,7 +101,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
        @IBAction func processedToPaymentBtn(_ sender: UIButton) {
            let storyboard = UIStoryboard(name: "Third", bundle: nil)
               if let paymentVC = storyboard.instantiateViewController(withIdentifier: "PaymentVC") as? PaymentViewController {
-                  if let firstLineItem = viewModel.draftOrder?.line_items.first {
+                  if let firstLineItem = viewModel.draftOrder?.draftOrder?.lineItems.first {
                       paymentVC.lineItems = firstLineItem
                   } else {
                       // Handle the case where draftOrder or line_items is nil
