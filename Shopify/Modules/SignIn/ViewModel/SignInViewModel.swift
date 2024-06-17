@@ -94,9 +94,28 @@ class SignInViewModel: SignInViewModelProtocol {
 //                        }
 //                    }
                 }
-            
                 
-                self?.postDraftOrderForFavourite(urlString: urlString, parameters: draftOrder2 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX")
+                self?.authServiceProtocol.updateSignInStatus(email: email, isSignedIn: "\(true)") { success in
+                    if success {
+                        print("Sign-in status updated successfully.")
+                    } else {
+                        print("Failed to update sign-in status.")
+                    }
+                }
+            
+                self?.authServiceProtocol.checkEmailSignInStatus(email:email) { isSignedIn in
+                    if let isSignedIn = isSignedIn {
+                        print("Email is signed in no post will happen for draft order: \(isSignedIn)")
+
+                    } else {
+                        self?.postDraftOrderForFavourite(urlString: urlString, parameters: draftOrder2 ?? [:], name: SharedDataRepository.instance.customerName ?? "NameXX", email: SharedDataRepository.instance.customerEmail ?? "EmailXX")
+                        print("Email already signed in.")
+                        
+
+                    }
+                }
+                
+
                 
                 SharedDataRepository.instance.isSignedIn = true
                 print("si: firebase firebase id user idddd view model: \(self?.user?.uid)")
@@ -117,6 +136,8 @@ class SignInViewModel: SignInViewModelProtocol {
         }
       }
     }
+    
+    
     
     private func fetchCustomerID(){
         

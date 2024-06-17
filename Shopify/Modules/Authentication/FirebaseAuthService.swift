@@ -128,7 +128,7 @@ class FirebaseAuthService: AuthServiceProtocol {
 //        }
 //    }
     
-    func saveCustomerId(name: String, email: String, id: String, favouriteId: String, shoppingCartId: String, productId: String, productTitle: String, productVendor: String, productImage: String) {
+    func saveCustomerId(name: String, email: String, id: String, favouriteId: String, shoppingCartId: String, productId: String, productTitle: String, productVendor: String, productImage: String, isSignedIn: String) {
         let ref = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
         let customersRef = ref.child("customers")
@@ -145,6 +145,7 @@ class FirebaseAuthService: AuthServiceProtocol {
             "customerId": id,
             "email": email,
             "name": name,
+            "isSignedIn": isSignedIn ,
             "favouriteId": favouriteId,
             "shoppingCartId": shoppingCartId,
             "products": [
@@ -249,6 +250,49 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
 
+   
+
+    func checkEmailSignInStatus(email: String, completion: @escaping (Bool?) -> Void) {
+        let ref = Database.database().reference()
+        let encodedEmail = SharedMethods.encodeEmail(email)
+        let customerRef = ref.child("customers").child(encodedEmail)
+        
+        customerRef.observeSingleEvent(of: .value) { snapshot in
+            guard let customerData = snapshot.value as? [String: Any],
+                  let isSignedIn = customerData["isSignedIn"] as? String else {
+                completion(nil)
+                return
+            }
+            completion(isSignedIn.lowercased() == "true")
+        } withCancel: { error in
+            print("Error fetching data from Firebase: \(error.localizedDescription)")
+            completion(nil)
+        }
+    }
+
+    
+
+    func updateSignInStatus(email: String, isSignedIn: String, completion: @escaping (Bool) -> Void) {
+        let ref = Database.database().reference()
+        let encodedEmail = SharedMethods.encodeEmail(email)
+        let customerRef = ref.child("customers").child(encodedEmail)
+        
+        // Convert the isSignedIn String to Bool
+        let isSignedInBool = isSignedIn.lowercased() == "true"
+        
+        customerRef.updateChildValues(["isSignedIn": isSignedInBool ? "true" : "false"]) { error, _ in
+            if let error = error {
+                print("Error updating sign-in status in Firebase: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                print("Sign-in status updated successfully in Firebase")
+                completion(true)
+            }
+        }
+    }
+
+
+    
     func fetchCustomerDataFromRealTimeDatabase(forEmail email: String, completion: @escaping (CustomerData?) -> Void) {
         let ref = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)

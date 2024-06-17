@@ -123,7 +123,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
             case .success(let response):
                 print("vm Customer data posted successfully: \(response)")
 
-                self?.authServiceProtocol.saveCustomerId(name: name, email: email, id: "\(response.customer.id)", favouriteId: "", shoppingCartId: "", productId: "-1", productTitle: "", productVendor: "" , productImage: "")
+                self?.authServiceProtocol.saveCustomerId(name: name, email: email, id: "\(response.customer.id)", favouriteId: "", shoppingCartId: "", productId: "-1", productTitle: "", productVendor: "" , productImage: "", isSignedIn: "\(false)")
             case .failure(let error):
                 print("vm Failed to post customer data: \(error.localizedDescription)")
             }
