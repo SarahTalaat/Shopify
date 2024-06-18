@@ -104,13 +104,19 @@ extension ProductViewModel {
             return
         }
         
-        FirebaseAuthService().toggleFavorite(email: email, productId: productId, isFavorite: !isFavorite) { [weak self] error in
-            if error == nil {
-                // Update local state or perform any additional actions upon successful toggle
-                self?.updateFavoriteState(productId: productId, isFavorite: !isFavorite)
+        for product in filteredProducts {
+            if product.id == Int(productId){
+                FirebaseAuthService().toggleFavorite(email: email, productId: productId, productTitle: product.title, productVendor: product.vendor, productImage: product.images.first?.src ?? "https://static.vecteezy.com/system/resources/previews/006/059/989/non_2x/crossed-camera-icon-avoid-taking-photos-image-is-not-available-illustration-free-vector.jpg", isFavorite: !isFavorite){ [weak self] error in
+                    if error == nil {
+                        // Update local state or perform any additional actions upon successful toggle
+                        self?.updateFavoriteState(productId: productId, isFavorite: !isFavorite)
+                    }
+                    completion(error)
+                }
             }
-            completion(error)
         }
+        
+
     }
     
     func isProductFavorite(productId: String) -> Bool {

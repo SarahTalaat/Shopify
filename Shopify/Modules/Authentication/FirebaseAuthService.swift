@@ -234,18 +234,20 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
 
-    func toggleFavorite(email:String,productId: String, isFavorite: Bool, completion: @escaping (Error?) -> Void) {
+    func toggleFavorite(email:String,productId: String,productTitle:String, productVendor:String,productImage:String ,isFavorite: Bool, completion: @escaping (Error?) -> Void) {
         let databaseRef = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
         let productRef = databaseRef.child("customers").child(encodedEmail).child("products").child(productId)
-        if isFavorite {
+        if !isFavorite {
             productRef.removeValue { error, _ in
                 completion(error)
             }
         } else {
             let productData: [String: Any] = [
                 "productId": productId,
-                // Add other necessary data like productTitle, productVendor, productImage
+                "productTitle": productTitle,
+                "productVendor": productVendor,
+                "productImage": productImage
             ]
             productRef.setValue(productData) { error, _ in
                 completion(error)
