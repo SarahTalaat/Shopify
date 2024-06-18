@@ -53,9 +53,7 @@ class ShoppingCartViewModel {
     }
     
     func deleteItem(at index: Int) {
-        guard var draftOrder = draftOrder else { return }
-        draftOrder.draftOrder?.lineItems.remove(at: index)
-        self.draftOrder = draftOrder
+        draftOrder?.draftOrder?.lineItems.remove(at: index)
         onDraftOrderUpdated?()
         updateDraftOrder()
     }

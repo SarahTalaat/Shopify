@@ -110,20 +110,20 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
               }
        }
 
-       func didTapPlusButton(on cell: CartTableViewCell) {
-           guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
-           viewModel.incrementQuantity(at: indexPath.row)
-       }
-       
-       func didTapMinusButton(on cell: CartTableViewCell) {
-           guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
-           viewModel.decrementQuantity(at: indexPath.row)
-       }
-       
-       func didTapDeleteButton(on cell: CartTableViewCell) {
-           guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
-           viewModel.deleteItem(at: indexPath.row)
-       }
+    func didTapPlusButton(on cell: CartTableViewCell) {
+            guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
+            viewModel.incrementQuantity(at: indexPath.row)
+        }
+        
+    func didTapMinusButton(on cell: CartTableViewCell) {
+            guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
+            viewModel.decrementQuantity(at: indexPath.row)
+        }
+        
+    func didTapDeleteButton(on cell: CartTableViewCell) {
+            guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
+            viewModel.deleteItem(at: indexPath.row)
+        }
     
     
     @IBAction func addCouponBtn(_ sender: UIButton) {
