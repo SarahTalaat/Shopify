@@ -12,7 +12,7 @@ class PaymentViewController: UIViewController {
     
     var subtotal: String?
     var defaultAddress: Address?
-    var lineItems: LineItem?
+    var lineItems: [LineItem]?
        
        override func viewDidLoad() {
            super.viewDidLoad()
@@ -23,7 +23,9 @@ class PaymentViewController: UIViewController {
            setupGestures()
            self.title = "Choose Payment Method"
            fetchDefaultAddress()
-           print(lineItems!)
+           if let lineItems = lineItems {
+               viewModel.setupOrder(lineItem: lineItems)
+                  }
                   
        }
        private func setupUI() {
@@ -62,7 +64,6 @@ class PaymentViewController: UIViewController {
                 print("Line items are not set")
                 return
             }
-            viewModel.setupOrder(lineItem: lineItems)
             viewModel.postOrder()
     }
     @IBOutlet weak var cashView: UIView!

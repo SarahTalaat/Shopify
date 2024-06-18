@@ -26,12 +26,20 @@ class UserProfileViewModel: UserProfileViewModelProfileProtocol {
         }
     }
     
+    var orders: [Orders] = [] {
+        didSet {
+            self.ordersCount = orders.count
+            bindAllOrders()
+        }
+    }
+    
+    var bindAllOrders: (() -> ()) = {}
     var bindOrdersCount: (() -> ()) = {}
-
     var bindUserViewModelToController: (() -> ()) = {}
     
     init(){
-        getOrdersCount()
+        getOrders()
+
     }
     
     func userPersonalData(){
@@ -52,15 +60,24 @@ class UserProfileViewModel: UserProfileViewModelProfileProtocol {
         print("Profile: shoppingCartId: \(SharedDataRepository.instance.draftOrderId ?? "NO ShopID")")
     }
     
-    func getOrdersCount() {
-        NetworkUtilities.fetchData(responseType: CountResponse.self, endpoint: "orders/count.json") { response in
-            if let orders = response {
-                self.ordersCount = orders.count
-                print(self.ordersCount)
-            } else {
-                self.ordersCount = 0
+
+    
+
+    func getOrders() {
+            guard let email = SharedDataRepository.instance.customerEmail else {
+                print("Customer email is nil")
+                return
+            }
+            
+            NetworkUtilities.fetchData(responseType: OrdersResponse.self, endpoint: "orders.json") { item in
+                if let allOrders = item?.orders {
+                    self.orders = allOrders.filter { $0.email == email }
+                } else {
+                    self.orders = []
+                }
+                print(self.orders)
             }
         }
-    }
+    
     
 }

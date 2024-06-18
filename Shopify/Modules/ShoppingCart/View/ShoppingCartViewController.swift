@@ -68,7 +68,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
             let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
             cell.productName.text = productName
             
-            let productColor = lineItem.variantTitle.split(separator: "/").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
+            let productColor = lineItem.variantTitle?.split(separator: "/").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
             cell.productColor.text = productColor
             
             cell.productAmount.text = "\(lineItem.quantity)"
@@ -101,7 +101,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
        @IBAction func processedToPaymentBtn(_ sender: UIButton) {
            let storyboard = UIStoryboard(name: "Third", bundle: nil)
               if let paymentVC = storyboard.instantiateViewController(withIdentifier: "PaymentVC") as? PaymentViewController {
-                  if let firstLineItem = viewModel.draftOrder?.draftOrder?.lineItems.first {
+                  if let firstLineItem = viewModel.draftOrder?.draftOrder?.lineItems {
                       paymentVC.lineItems = firstLineItem
                   } else {
                       // Handle the case where draftOrder or line_items is nil

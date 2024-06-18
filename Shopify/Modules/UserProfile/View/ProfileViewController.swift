@@ -23,7 +23,6 @@ class ProfileViewController: UIViewController {
     
     
     let viewModel = UserProfileViewModel()
-    let ordersViewModel = OrdersViewModel()
     var detailsModel = OrderDetailsViewModel()
     var sharedMethods: SharedMethods?
     var userProfileViewModel: UserProfileViewModelProfileProtocol!
@@ -53,7 +52,7 @@ class ProfileViewController: UIViewController {
         
         guestMode()
         
-        ordersViewModel.bindAllOrders = {
+        viewModel.bindAllOrders = {
           self.updateCollection()
         }
         viewModel.getOrdersCount()
@@ -134,7 +133,7 @@ class ProfileViewController: UIViewController {
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(80))
+                                                   heightDimension: .absolute(60))
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
@@ -172,7 +171,7 @@ class ProfileViewController: UIViewController {
             switch collectionView
             {
             case ordersCollectionView :
-                return min(ordersViewModel.orders.count, 2)
+                return min(viewModel.orders.count, 2)
             default:
                 return 2
             }
@@ -183,9 +182,8 @@ class ProfileViewController: UIViewController {
             if collectionView == ordersCollectionView {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OrderCollectionViewCell", for: indexPath) as! OrderCollectionViewCell
                 
-                //Need to be updated later on //
                 
-                let item = ordersViewModel.orders[indexPath.row]
+                let item = viewModel.orders[indexPath.row]
                 
                 let date = item.created_at
                 let datePart = date?.split(separator: "T").first.map(String.init)
@@ -207,7 +205,7 @@ class ProfileViewController: UIViewController {
         
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             if collectionView == ordersCollectionView {
-                detailsModel.id = ordersViewModel.orders[indexPath.row].id ?? 0
+                detailsModel.id = viewModel.orders[indexPath.row].id ?? 0
                  let storyboard = UIStoryboard(name: "Second", bundle: nil)
                  let orderDetailsViewController = storyboard.instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
                 orderDetailsViewController.viewModel = detailsModel

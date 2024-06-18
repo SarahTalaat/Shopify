@@ -16,6 +16,10 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     
     var selectedPaymentMethod: PaymentMethod?
     private var subtotal: String?
+    private var lineItem: LineItem?
+     private var order: Orders?
+     private var ordersSend: OrdersSend?
+    var defCurrency : String = "EGP"
     
     func selectPaymentMethod(_ method: PaymentMethod) {
         selectedPaymentMethod = method
@@ -51,28 +55,57 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     }
     
  
-    private var lineItem: LineItem?
-     private var order: Orders?
-     private var ordersSend: OrdersSend?
 
-    func setupOrder(lineItem:LineItem) {
 
+
+    func setupOrder(lineItem:[LineItem]) {
+        
+        if let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") {
+            defCurrency = selectedCurrency
+        } else {
+            defCurrency = "USD"
+        }
+        
+        guard let email = SharedDataRepository.instance.customerEmail else {
+                 print("Customer email is nil")
+                 return
+             }
+        
+        let unwrappedLineItems = lineItem.map { lineItem in
+                  LineItem(
+                      id: lineItem.id,
+                      variantId: lineItem.variantId,
+                      productId: lineItem.productId,
+                      title: lineItem.title,
+                      variantTitle: lineItem.variantTitle ?? "",
+                      sku: lineItem.sku ?? "",
+                      vendor: lineItem.vendor ?? "",
+                      quantity: lineItem.quantity,
+                      requiresShipping: lineItem.requiresShipping ?? false,
+                      taxable: lineItem.taxable ?? false,
+                      giftCard: lineItem.giftCard ?? false,
+                      fulfillmentService: lineItem.fulfillmentService ?? "",
+                      grams: lineItem.grams ?? 0,
+                      taxLines: lineItem.taxLines ?? [],
+                      appliedDiscount: lineItem.appliedDiscount ?? "",
+                      name: lineItem.name ?? "",
+                      properties: lineItem.properties ?? [],
+                      custom: lineItem.custom ?? false,
+                      price: lineItem.price,
+                      adminGraphqlApiId: lineItem.adminGraphqlApiId ?? ""
+                  )
+              }
+        print(email)
+        print(defCurrency)
+        print(unwrappedLineItems)
+        
          order = Orders(
              id: nil,
-             confirmation_number: nil,
-             confirmed: nil,
              created_at: nil,
-             currency: "USD",
-             email: nil,
-             financial_status: nil,
-             order_number: nil,
-             source_name: nil,
-             tags: nil,
-             token: nil,
-             total_discounts: nil,
-             total_line_items_price: nil,
+             currency: defCurrency,
+             email: email,
              total_price: nil,
-             line_items: [lineItem]
+             line_items: unwrappedLineItems
          )
 
          ordersSend = OrdersSend(order: order!)

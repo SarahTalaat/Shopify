@@ -21,12 +21,20 @@ class OrdersViewModel{
     }
     
     func getOrders() {
-        NetworkUtilities.fetchData(responseType: OrdersResponse.self, endpoint: "orders.json?status=any") { item in
-            self.orders = item?.orders ?? []
+            guard let email = SharedDataRepository.instance.customerEmail else {
+                print("Customer email is nil")
+                return
+            }
+            
+            NetworkUtilities.fetchData(responseType: OrdersResponse.self, endpoint: "orders.json") { item in
+                if let allOrders = item?.orders {
+                    self.orders = allOrders.filter { $0.email == email }
+                } else {
+                    self.orders = []
+                }
+                print(self.orders)
+            }
         }
-        print(orders)
-    }
-    
      
 }
 

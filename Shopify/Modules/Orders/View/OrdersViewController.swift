@@ -57,7 +57,7 @@ class OrdersViewController: UIViewController {
         }
         
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return min(2, ordersViewModel.orders.count)
+            return ordersViewModel.orders.count
 
         }
         
