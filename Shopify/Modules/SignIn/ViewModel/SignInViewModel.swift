@@ -241,6 +241,32 @@ class SignInViewModel: SignInViewModelProtocol {
         UserDefaults.standard.set(value, forKey: key)
         UserDefaults.standard.synchronize()
     }
+    
+    
+    func setDraftOrderId(email:String, shoppingCartID:String){
+        authServiceProtocol.setShoppingCartId(email: email, shoppingCartId: shoppingCartID) { error in
+            if let error = error {
+                print("Failed to set shopping cart ID: \(error.localizedDescription)")
+            } else {
+                print("Shopping cart ID set successfully!")
+            }
+        }
+    }
+    
+    func getDraftOrderID(email:String){
+        authServiceProtocol.getShoppingCartId(email: email) { shoppingCartId, error in
+            if let error = error {
+                print("Failed to retrieve shopping cart ID: \(error.localizedDescription)")
+            } else if let shoppingCartId = shoppingCartId {
+                print("Shopping cart ID found: \(shoppingCartId)")
+            } else {
+                print("No shopping cart ID found for this user.")
+            }
+        }
+    }
+    
+    
+    
 
 }
 
