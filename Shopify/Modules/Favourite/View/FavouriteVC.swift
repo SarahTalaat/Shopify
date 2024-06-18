@@ -127,6 +127,13 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 cell.contentView.addSubview(spacerView)
             }
         }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.getproductId(index: indexPath.row)
+         let storyboard = UIStoryboard(name: "Main", bundle: nil)
+         let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
+         navigationController?.pushViewController(brandsViewController, animated: true)
+    }
 
     
 }

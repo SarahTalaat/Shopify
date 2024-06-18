@@ -130,7 +130,7 @@ class SignUpVC: UIViewController {
     
     private func bindViewModel() {
         viewModel.bindUserViewModelToController = {
-            self.showSignSuccessfulAlert(title: "Success", message: "You have created an account successfully , you will receive a verification email , you have to get verified first to be able to sign in", button1Title: "Ok") {
+            self.showSignSuccessfulAlert(title: "Alert!", message: "You have to check your email to verify your account in order to be able to sign in", button1Title: "Ok") {
                 self.navToSignIn()
             }
         }

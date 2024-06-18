@@ -57,4 +57,9 @@ class FavouriteViewModel: FavouriteViewModelProtocol {
         return UserDefaults.standard.string(forKey: key)
     }
     
+    func getproductId(index: Int){
+        let productId = products?[index].productId
+        addValueToUserDefaults(value: productId, forKey: Constants.productId)
+    }
+    
 }

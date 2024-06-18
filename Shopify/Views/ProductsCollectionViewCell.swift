@@ -60,10 +60,24 @@ class ProductsCollectionViewCell: UICollectionViewCell {
         delegate?.productsCollectionViewCellDidToggleFavorite(at: indexPath?.row ?? 0)
     }
     
-    private func updateFavoriteUI(isFavorite: Bool) {
+//    private func updateFavoriteUI(isFavorite: Bool) {
+//        let imageName = isFavorite ? "heart.fill" : "heart"
+//        favBtn.setImage(UIImage(systemName: imageName), for: .normal)
+//    }
+    func updateFavoriteUI(isFavorite: Bool) {
         let imageName = isFavorite ? "heart.fill" : "heart"
-        favBtn.setImage(UIImage(systemName: imageName), for: .normal)
-    }
+        let image = UIImage(systemName: imageName)
 
+        if isFavorite {
+            favBtn.tintColor = .red
+        } else {
+            let config = UIImage.SymbolConfiguration(weight: .light)
+            let outlinedImage = image?.withConfiguration(config)
+            favBtn.setImage(outlinedImage, for: .normal)
+            favBtn.tintColor = .red
+        }
+
+        favBtn.setImage(image, for: .normal)
+    }
 
 }

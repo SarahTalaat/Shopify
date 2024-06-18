@@ -40,7 +40,7 @@ class FirebaseAuthService: AuthServiceProtocol {
 //            }
 //        }
 //    }
-    
+//
     func signOut(completion: @escaping (Result<Void, Error>) -> Void) {
         do {
             try Auth.auth().signOut()
@@ -364,8 +364,8 @@ class FirebaseAuthService: AuthServiceProtocol {
             Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
                 self?.handleAuthResult(result: result, error: error, completion: completion)
             }
-    
-    
+
+
         }
     
         func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
