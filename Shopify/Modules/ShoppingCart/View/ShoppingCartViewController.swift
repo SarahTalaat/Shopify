@@ -39,19 +39,19 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
            viewModel.fetchDraftOrders()
        }
        
-       private func bindViewModel() {
-           viewModel.onDraftOrderUpdated = { [weak self] in
-               DispatchQueue.main.async {
-                   self?.shoppingCartTableView.reloadData()
-               }
-           }
-           
-           viewModel.onTotalAmountUpdated = { [weak self] in
-               DispatchQueue.main.async {
-                   self?.totalAmount.text = self?.viewModel.totalAmount
-               }
-           }
-       }
+    private func bindViewModel() {
+        viewModel.onDraftOrderUpdated = { [weak self] in
+            DispatchQueue.main.async {
+                self?.shoppingCartTableView.reloadData()
+            }
+        }
+
+        viewModel.onTotalAmountUpdated = { [weak self] in
+            DispatchQueue.main.async {
+                self?.totalAmount.text = self?.viewModel.totalAmount
+            }
+        }
+    }
        
        func numberOfSections(in tableView: UITableView) -> Int {
            return viewModel.draftOrder == nil ? 0 : 1
@@ -109,27 +109,37 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
                   navigationController?.pushViewController(paymentVC, animated: true)
               }
        }
-
     func didTapPlusButton(on cell: CartTableViewCell) {
-            guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
-            viewModel.incrementQuantity(at: indexPath.row)
-        }
-        
+        guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
+        viewModel.incrementQuantity(at: indexPath.row)
+        // No need to reload the whole table view, just reload the affected row
+        shoppingCartTableView.reloadRows(at: [indexPath], with: .none)
+    }
+
     func didTapMinusButton(on cell: CartTableViewCell) {
-            guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
-            viewModel.decrementQuantity(at: indexPath.row)
-        }
-        
+        guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
+        viewModel.decrementQuantity(at: indexPath.row)
+        // No need to reload the whole table view, just reload the affected row
+        shoppingCartTableView.reloadRows(at: [indexPath], with: .none)
+    }
+
     func didTapDeleteButton(on cell: CartTableViewCell) {
-            guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
-            viewModel.deleteItem(at: indexPath.row)
-        }
-    
+        guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
+        viewModel.deleteItem(at: indexPath.row)
+        // No need to reload the whole table view, just delete the row
+        shoppingCartTableView.deleteRows(at: [indexPath], with: .automatic)
+    }
     
     @IBAction func addCouponBtn(_ sender: UIButton) {
-        let couponVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "CouponViewController") as! CouponViewController
-     
-       navigationController?.pushViewController(couponVC, animated: true)
+        let coupontUsVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "CouponViewController") as? CouponViewController
+               if let sheet = coupontUsVC?.sheetPresentationController{
+                   sheet.detents = [.medium()]
+                   sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+                   sheet.preferredCornerRadius = 40
+                   
+               }
+         
+              present(coupontUsVC!, animated: true, completion: nil)
         
     }
     

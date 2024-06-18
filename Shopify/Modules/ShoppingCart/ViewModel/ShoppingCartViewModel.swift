@@ -17,7 +17,7 @@ class ShoppingCartViewModel {
     
     var onDraftOrderUpdated: (() -> Void)?
     var onTotalAmountUpdated: (() -> Void)?
-    
+
     func fetchDraftOrders() {
         draftOrderService.fetchDraftOrders { [weak self] result in
             switch result {
@@ -53,7 +53,9 @@ class ShoppingCartViewModel {
     }
     
     func deleteItem(at index: Int) {
-        draftOrder?.draftOrder?.lineItems.remove(at: index)
+        guard var draftOrder = draftOrder else { return }
+        draftOrder.draftOrder?.lineItems.remove(at: index)
+        self.draftOrder = draftOrder
         onDraftOrderUpdated?()
         updateDraftOrder()
     }
