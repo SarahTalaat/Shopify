@@ -224,7 +224,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
             cell = tableView.dequeueReusableCell(withIdentifier: "dropdownCell1", for: indexPath)
             
             if(indexPath.row < viewModel.getSizeCount()){
-                cell.textLabel?.text = viewModel.getColour(index: indexPath.row)
+                cell.textLabel?.text = viewModel.getSize(index: indexPath.row)
             }
 
         } else if tableView == dropDowntableView2 {
@@ -232,7 +232,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
             
             
             if(indexPath.row < viewModel.getColoursCount()){
-                cell.textLabel?.text = viewModel.getsize(index: indexPath.row)
+                cell.textLabel?.text = viewModel.getColour(index: indexPath.row)
             }
 
         }
@@ -243,7 +243,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
         print("didSelectRowAt called")
         if tableView == dropDowntableView1 {
-            dropdownButton.setTitle(viewModel.getsize(index: indexPath.row), for: .normal)
+            dropdownButton.setTitle(viewModel.getSize(index: indexPath.row), for: .normal)
             isDropdownVisible = false
             dropDowntableView1.isHidden = true
         } else if tableView == dropDowntableView2 {

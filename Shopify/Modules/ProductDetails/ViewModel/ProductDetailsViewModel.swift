@@ -28,27 +28,47 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     
     var bindProductDetailsViewModelToController: (() -> ()) = {}
+    
+
+    func getSizeCount() -> Int {
+        guard let variants = product?.product?.variants else { return 0 }
+        
+        // Filter out nils and duplicates using a Set
+        let uniqueSizes = Set(variants.compactMap { $0.option1 })
+        
+        return uniqueSizes.count
+    }
+
 
     
-    func getColoursCount()->Int{
-        return  Set(product?.product?.variants?.compactMap { $0.option2 } ?? []).count
+    func getColoursCount() -> Int {
+        guard let variants = product?.product?.variants else { return 0 }
+        
+        // Filter out nils and duplicates using a Set
+        let uniqueColors = Set(variants.compactMap { $0.option2 })
+        
+        return uniqueColors.count
     }
+
     
-    func getSizeCount()->Int{
-        return Set(product?.product?.variants?.compactMap { $0.option1 } ?? []).count
+    func getColour(index: Int) -> String? {
+        guard let variants = product?.product?.variants else { return nil }
+        
+        // Ensure index is within bounds
+        guard index < variants.count else { return nil }
+        
+        return variants[index].option2
     }
-    
-    func getColour(index:Int) -> String{
-        var colourArray = Array(product?.product?.variants?.compactMap { $0.option2 } ?? [])
-        var colour = colourArray[index]
-        return colour
+    func getSize(index: Int) -> String? {
+        guard let variants = product?.product?.variants else { return nil }
+        
+        // Ensure index is within bounds
+        guard index < variants.count else { return nil }
+        
+        return variants[index].option1
     }
-    
-    func getsize(index:Int) -> String{
-        var sizeArray = Array(product?.product?.variants?.compactMap { $0.option1 } ?? [])
-        var size = sizeArray[index]
-        return size
-    }
+
+
 
     func getProductDetails() {
         guard let productIdString = retrieveStringFromUserDefaults(forKey: Constants.productId) else { return }

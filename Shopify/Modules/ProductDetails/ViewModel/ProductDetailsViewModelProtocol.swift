@@ -16,9 +16,9 @@ protocol ProductDetailsViewModelProtocol {
     func addToCart()
     func addProductToFirebase()
     func deleteProductFromFirebase()
-    func getSizeCount()->Int
-    func getColoursCount()->Int
-    func getColour(index:Int) -> String
-    func getsize(index:Int) -> String
+    func getSizeCount() -> Int
+    func getColoursCount() -> Int
+    func getColour(index: Int) -> String?
+    func getSize(index: Int) -> String?
     
 }
