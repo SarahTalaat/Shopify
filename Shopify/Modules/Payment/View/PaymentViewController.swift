@@ -23,7 +23,7 @@ class PaymentViewController: UIViewController {
            setupGestures()
            self.title = "Choose Payment Method"
            fetchDefaultAddress()
-           print(lineItems!)
+          
                   
        }
        private func setupUI() {

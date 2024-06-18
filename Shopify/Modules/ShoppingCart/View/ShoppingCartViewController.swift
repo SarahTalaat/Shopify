@@ -68,7 +68,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
             let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
             cell.productName.text = productName
             
-            let productColor = lineItem.variantTitle.split(separator: "/").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
+            let productColor = lineItem.variantTitle?.split(separator: "/").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
             cell.productColor.text = productColor
             
             cell.productAmount.text = "\(lineItem.quantity)"
@@ -124,5 +124,13 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
            guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
            viewModel.deleteItem(at: indexPath.row)
        }
+    
+    
+    @IBAction func addCouponBtn(_ sender: UIButton) {
+        let couponVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "CouponViewController") as! CouponViewController
+     
+       navigationController?.pushViewController(couponVC, animated: true)
+        
+    }
     
 }

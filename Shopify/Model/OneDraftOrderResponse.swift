@@ -75,7 +75,7 @@ struct LineItem: Codable {
     let variantId: Int?
     let productId: Int?
     let title: String
-    let variantTitle: String
+    let variantTitle: String?
     let sku: String?
     let vendor: String?
     var quantity: Int
@@ -112,4 +112,3 @@ struct TaxLine: Codable {
     let title: String?
     let price: String?
 }
-

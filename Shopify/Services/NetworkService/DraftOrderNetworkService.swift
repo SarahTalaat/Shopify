@@ -11,6 +11,7 @@ class DraftOrderNetworkService {
     let draftOrderId = UserDefaults.standard.string(forKey: Constants.shoppingCartId)
  
     func fetchDraftOrders(completion: @escaping (Swift.Result<OneDraftOrderResponse, Error>) -> Void) {
+        print("mmm:\(draftOrderId)")
         // Check if draftOrderId is not nil and try to remove "Optional(" and ")" from the string
         if let draftOrderId = draftOrderId?.replacingOccurrences(of: "Optional(", with: "").replacingOccurrences(of: ")", with: ""),
            let unwrappedDraftOrderId = Int(draftOrderId) {
