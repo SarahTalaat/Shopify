@@ -20,5 +20,10 @@ protocol ProductDetailsViewModelProtocol {
     func getColoursCount() -> Int
     func getColour(index: Int) -> String?
     func getSize(index: Int) -> String?
+    func loadFavoriteProducts()
+    func saveFavoriteProducts()
+    func checkIfFavorited() -> Bool
+    func toggleFavorite()
+    var isFavorited: Bool {get set}
     
 }

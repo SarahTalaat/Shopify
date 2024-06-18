@@ -8,7 +8,7 @@
 import Foundation
 
 class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
-    
+
 
     var networkServiceAuthenticationProtocol:NetworkServiceAuthenticationProtocol!
     var authServiceProtocol: AuthServiceProtocol!
@@ -19,6 +19,8 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
     }
     
+    var favoriteProducts: Set<Int> = []
+    
     var product: ProductResponseFromApi? {
         didSet{
             self.bindProductDetailsViewModelToController()
@@ -26,6 +28,70 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         }
     }
     
+    var isFavorited: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: Constants.isFavoritedKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.isFavoritedKey)
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
+    func toggleFavorite() {
+        guard let productIdString = retrieveStringFromUserDefaults(forKey: Constants.productId) else { return }
+        guard let productIdInt = Int(productIdString) else { return }
+        var email = retrieveStringFromUserDefaults(forKey:Constants.customerEmail) ?? "Nooo email"
+        var encodedEmail = SharedMethods.encodeEmail(email)
+        
+        print("vvv encoded email \(encodedEmail)")
+        var productTitle = retrieveStringFromUserDefaults(forKey: Constants.productTitle)
+        var productId = retrieveStringFromUserDefaults(forKey: Constants.productId)
+        var productVendor = retrieveStringFromUserDefaults(forKey: Constants.productVendor)
+        var productImage = retrieveStringFromUserDefaults(forKey: Constants.productImage)
+        
+        guard let title = productTitle else {
+            fatalError("Failed to retrieve product title from UserDefaults")
+        }
+        guard let id = productId else {
+            fatalError("Failed to retrieve product ID from UserDefaults")
+        }
+        guard let vendor = productVendor else {
+            fatalError("Failed to retrieve product vendor from UserDefaults")
+        }
+        guard let image = productImage else {
+            fatalError("Failed to retrieve product image from UserDefaults")
+        }
+        
+        if favoriteProducts.contains(productIdInt) {
+            favoriteProducts.remove(productIdInt)
+
+            authServiceProtocol.deleteProductFromEncodedEmail(encodedEmail: encodedEmail, productId: "\(productIdInt)")
+        } else {
+            favoriteProducts.insert(productIdInt)
+            authServiceProtocol.addProductToEncodedEmail(email: encodedEmail, productId: id, productTitle: title, productVendor: vendor, productImage: image)
+        }
+        saveFavoriteProducts()
+    }
+    
+    func checkIfFavorited() -> Bool {
+        var productId = retrieveStringFromUserDefaults(forKey: Constants.productId)
+        guard let id = productId else {
+            fatalError("Failed to retrieve product ID from UserDefaults")
+        }
+        return favoriteProducts.contains(Int(id) ?? 0)
+    }
+    
+    func saveFavoriteProducts() {
+        UserDefaults.standard.set(Array(favoriteProducts), forKey: "FavoriteProducts")
+        UserDefaults.standard.synchronize()
+    }
+    
+    func loadFavoriteProducts() {
+        if let savedFavorites = UserDefaults.standard.array(forKey: "FavoriteProducts") as? [Int] {
+            favoriteProducts = Set(savedFavorites)
+        }
+    }
     
     var bindProductDetailsViewModelToController: (() -> ()) = {}
     

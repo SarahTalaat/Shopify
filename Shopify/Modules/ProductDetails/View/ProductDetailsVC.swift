@@ -40,7 +40,6 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     
     var viewModel: ProductDetailsViewModelProtocol!
     var activityIndicator: UIActivityIndicatorView!
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +48,9 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         bindViewModel()
         viewModel.getProductDetails()
         
-
+        viewModel.loadFavoriteProducts()
+        
+        updateFavoriteButton()
         
         
         settingUpCollectionView()
@@ -89,26 +90,20 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
 
     @IBAction func favouriteButtonTapped(_ sender: UIButton) {
+        
+        viewModel.toggleFavorite()
+        updateFavoriteButton()
 
-        // Toggle the state
-        isFavourite.toggle()
-        
-        // Set the image for the button based on the state
-        let imageName = isFavourite ? "heart.fill" : "heart"
-        let image = UIImage(systemName: imageName)
-        sender.setImage(image, for: .normal)
-        
-        // Disable the button's adjustment when highlighted to remove the blue shadow
-        sender.adjustsImageWhenHighlighted = false
-        
-        
-        if isFavourite {
-            viewModel.addProductToFirebase()
-        }else{
-            viewModel.deleteProductFromFirebase()
-        }
         
     }
+    
+    func updateFavoriteButton() {
+        let isFavorited = viewModel.checkIfFavorited()
+        let imageName = isFavorited ? "heart.fill" : "heart"
+        let image = UIImage(systemName: imageName)
+        favouriteButton.setImage(image, for: .normal)
+    }
+    
     func setUpFavouriteButton(){
         // Make the button circular
         favouriteButton.layer.cornerRadius = favouriteButton.bounds.width / 2
