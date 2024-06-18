@@ -55,25 +55,13 @@ class ProfileViewController: UIViewController {
         viewModel.bindAllOrders = {
           self.updateCollection()
         }
-        viewModel.getOrdersCount()
-           bindOrdersLabel()
-
     }
     
-
-
-       func bindOrdersLabel() {
-           viewModel.bindOrdersCount = { [weak self] in
-               DispatchQueue.main.async {
-                   guard let self = self else { return }
-                   self.ordersLabel.text = "You have \(self.viewModel.ordersCount) orders"
-               }
-           }
-       }
 
     func updateCollection(){
             DispatchQueue.main.async { [weak self] in
                 self?.ordersCollectionView.reloadData()
+                self?.ordersLabel.text = "You have \(self?.viewModel.orders.count) orders"
             }
         }
     
@@ -124,6 +112,21 @@ class ProfileViewController: UIViewController {
     }
     
     
+    @IBAction func loginButton(_ sender: UIButton) {
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let signInVC = sb.instantiateViewController(withIdentifier: "SignInVC") as! SignInVC
+        navigationController?.pushViewController(signInVC, animated: true)
+
+    }
+    
+    
+    
+    @IBAction func registerButton(_ sender: UIButton) {
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let signUpVC = sb.instantiateViewController(withIdentifier: "SignUpVC") as! SignUpVC
+        navigationController?.pushViewController(signUpVC, animated: true)
+
+    }
     
     // MARK: - Collection View Layout Drawing
     
@@ -133,7 +136,7 @@ class ProfileViewController: UIViewController {
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(60))
+                                                   heightDimension: .absolute(80))
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)

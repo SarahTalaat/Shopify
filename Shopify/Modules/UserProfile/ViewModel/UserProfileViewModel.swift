@@ -20,21 +20,13 @@ class UserProfileViewModel: UserProfileViewModelProfileProtocol {
     }
 
     
-    var ordersCount: Int = 0 {
-        didSet {
-                self.bindOrdersCount()
-        }
-    }
-    
     var orders: [Orders] = [] {
         didSet {
-            self.ordersCount = orders.count
             bindAllOrders()
         }
     }
     
     var bindAllOrders: (() -> ()) = {}
-    var bindOrdersCount: (() -> ()) = {}
     var bindUserViewModelToController: (() -> ()) = {}
     
     init(){
