@@ -41,6 +41,7 @@ class ShoppingCartViewModel {
         lineItem.quantity += 1
         draftOrder?.draftOrder?.lineItems[index] = lineItem
         onDraftOrderUpdated?()
+        updateDraftOrder()
     }
     
     func decrementQuantity(at index: Int) {
@@ -48,12 +49,19 @@ class ShoppingCartViewModel {
         lineItem.quantity -= 1
         draftOrder?.draftOrder?.lineItems[index] = lineItem
         onDraftOrderUpdated?()
+        updateDraftOrder()
     }
     
     func deleteItem(at index: Int) {
         guard var draftOrder = draftOrder else { return }
         draftOrder.draftOrder?.lineItems.remove(at: index)
-        
+        self.draftOrder = draftOrder
+        onDraftOrderUpdated?()
+        updateDraftOrder()
+    }
+    
+    func updateDraftOrder() {
+        guard let draftOrder = draftOrder else { return }
         draftOrderService.updateDraftOrder(draftOrder: draftOrder) { [weak self] result in
             switch result {
             case .success(let updatedDraftOrder):
