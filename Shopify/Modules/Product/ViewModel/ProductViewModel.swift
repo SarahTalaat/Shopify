@@ -99,7 +99,12 @@ extension ProductViewModel {
     func toggleFavorite(productId: String, completion: @escaping (Error?) -> Void) {
         let isFavorite = isProductFavorite(productId: productId)
         
-        FirebaseAuthService().toggleFavorite(productId: productId, isFavorite: !isFavorite) { [weak self] error in
+        guard let email = retrieveStringFromUserDefaults(forKey: Constants.customerEmail) else {
+            completion(nil) // Handle error or return if email is not available
+            return
+        }
+        
+        FirebaseAuthService().toggleFavorite(email: email, productId: productId, isFavorite: !isFavorite) { [weak self] error in
             if error == nil {
                 // Update local state or perform any additional actions upon successful toggle
                 self?.updateFavoriteState(productId: productId, isFavorite: !isFavorite)
@@ -137,5 +142,8 @@ extension ProductViewModel {
         }
     }
 
+    func retrieveStringFromUserDefaults(forKey key: String) -> String? {
+        return UserDefaults.standard.string(forKey: key)
+    }
     
 }

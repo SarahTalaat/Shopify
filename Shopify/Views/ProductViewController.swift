@@ -186,10 +186,11 @@ class ProductViewController: UIViewController {
                 cell.productImage.kf.setImage(with: imageURL)
             }
             
-            cell.configure(with: "\(viewModel.filteredProducts[indexPath.row].id)", isFavorite:  viewModel.isProductFavorite(productId: "\(viewModel.filteredProducts[indexPath.row].id)"), index: indexPath.item)
-            
             let isFavorite = viewModel.isProductFavorite(productId: "\(viewModel.filteredProducts[indexPath.row].id)")
+            
+
             cell.configure(with: "\(viewModel.filteredProducts[indexPath.row].id)", isFavorite: isFavorite, index: indexPath.row)
+            
             cell.delegate = self
             cell.indexPath = indexPath
 
