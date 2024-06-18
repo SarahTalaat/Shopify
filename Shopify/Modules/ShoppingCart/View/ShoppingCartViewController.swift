@@ -23,7 +23,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
 
        override func viewDidLoad() {
            super.viewDidLoad()
-           
+        
            let nib = UINib(nibName: "CartTableViewCell", bundle: nil)
            shoppingCartTableView.register(nib, forCellReuseIdentifier: "CartTableViewCell")
            
@@ -112,23 +112,42 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
     func didTapPlusButton(on cell: CartTableViewCell) {
         guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
         viewModel.incrementQuantity(at: indexPath.row)
-        // No need to reload the whole table view, just reload the affected row
         shoppingCartTableView.reloadRows(at: [indexPath], with: .none)
+        updateTotalAmount()
     }
 
     func didTapMinusButton(on cell: CartTableViewCell) {
         guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
         viewModel.decrementQuantity(at: indexPath.row)
-        // No need to reload the whole table view, just reload the affected row
-        shoppingCartTableView.reloadRows(at: [indexPath], with: .none)
+        let quantity = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row].quantity ?? 0
+        if quantity < 1 {
+            let alert = UIAlertController(title: "Delete Item", message: "Are you sure you want to delete this item?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                self.viewModel.deleteItem(at: indexPath.row)
+                self.shoppingCartTableView.deleteRows(at: [indexPath], with: .automatic)
+                self.updateTotalAmount()
+            }))
+            present(alert, animated: true, completion: nil)
+        } else {
+            shoppingCartTableView.reloadRows(at: [indexPath], with: .none)
+        }
+        updateTotalAmount()
     }
-
     func didTapDeleteButton(on cell: CartTableViewCell) {
         guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
-        viewModel.deleteItem(at: indexPath.row)
-        // No need to reload the whole table view, just delete the row
-        shoppingCartTableView.deleteRows(at: [indexPath], with: .automatic)
+        let alert = UIAlertController(title: "Delete Item", message: "Are you sure you want to delete this item?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+            self.viewModel.deleteItem(at: indexPath.row)
+            self.shoppingCartTableView.deleteRows(at: [indexPath], with: .automatic)
+            self.updateTotalAmount()
+        }))
+        present(alert, animated: true, completion: nil)
     }
+    private func updateTotalAmount() {
+            totalAmount.text = viewModel.totalAmount
+        }
     
     @IBAction func addCouponBtn(_ sender: UIButton) {
         let coupontUsVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "CouponViewController") as? CouponViewController
