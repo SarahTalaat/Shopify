@@ -24,14 +24,6 @@ struct Orders: Encodable, Decodable {
     let line_items: [LineItem]
 }
 
-//struct LineItemss: Encodable, Decodable {
-//    let id: Int
-//    let name: String?
-//    let price: String
-//    let quantity: Int
-//    let title: String
-//    let total_discount: String?
-//}
 
 struct CountResponse: Codable {
     let count: Int

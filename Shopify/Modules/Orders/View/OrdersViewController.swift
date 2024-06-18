@@ -74,7 +74,7 @@ class OrdersViewController: UIViewController {
                    cell.creationDate.text = "Created At: \(datePart ?? " ")"
             
                     if let totalPrice = item.total_price {
-                        cell.totalPrice.text = "\(totalPrice)$"
+                        cell.totalPrice.text = "\(totalPrice) \(item.currency)"
                     } else {
                         cell.totalPrice.text = "0.00$"
                     }
@@ -85,6 +85,7 @@ class OrdersViewController: UIViewController {
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
           
             detailsModel.id = ordersViewModel.orders[indexPath.row].id ?? 0
+            detailsModel.currency = ordersViewModel.orders[indexPath.row].currency
              let storyboard = UIStoryboard(name: "Second", bundle: nil)
              let orderDetailsViewController = storyboard.instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
             orderDetailsViewController.viewModel = detailsModel

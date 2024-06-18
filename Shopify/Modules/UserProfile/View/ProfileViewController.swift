@@ -193,9 +193,9 @@ class ProfileViewController: UIViewController {
                 cell.creationDate.text = "Created At: \(datePart ?? " ")"
                 
                 if let totalPrice = item.total_price {
-                            cell.orderPrice.text = "\(totalPrice)$"
+                    cell.orderPrice.text = "\(totalPrice) \(item.currency)"
                         } else {
-                            cell.orderPrice.text = "0.00$"
+                            cell.orderPrice.text = "0.00 USD"
                         }
 
                 return cell
