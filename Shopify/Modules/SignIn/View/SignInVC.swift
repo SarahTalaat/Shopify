@@ -14,6 +14,7 @@ class SignInVC: UIViewController {
         viewModel = DependencyProvider.signInViewModel
         setUpSignInScreenUI()
         bindViewModel()
+       
         
         print("Sign in view controller")
     }
@@ -21,6 +22,7 @@ class SignInVC: UIViewController {
     @IBAction func signInButton(_ sender: UIButton) {
         guard let email = emailCustomTextField.text, let password = passwordCustomTextField.text else { return }
         viewModel.signIn(email: email, password: password)
+        
     }
     
     func setUpSignInScreenUI() {

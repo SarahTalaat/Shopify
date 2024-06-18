@@ -373,6 +373,41 @@ class FirebaseAuthService: AuthServiceProtocol {
                 self?.handleAuthResult(result: result, error: error, completion: completion)
             }
         }
+    
+    func setShoppingCartId(email: String, shoppingCartId: String, completion: @escaping (Error?) -> Void) {
+            let ref = Database.database().reference()
+            let encodedEmail = SharedMethods.encodeEmail(email)
+            print("qa encodedEmail: \(encodedEmail)")
+            let customerRef = ref.child("customers").child(encodedEmail)
+            
+            customerRef.updateChildValues(["shoppingCartId": shoppingCartId]) { error, _ in
+                if let error = error {
+                    print("Error setting shoppingCartId: \(error.localizedDescription)")
+                    completion(error)
+                } else {
+                    print("shoppingCartId set successfully")
+                    completion(nil)
+                }
+            }
+        }
+    func getShoppingCartId(email: String, completion: @escaping (String?, Error?) -> Void) {
+            let ref = Database.database().reference()
+            let encodedEmail = SharedMethods.encodeEmail(email)
+            let customerRef = ref.child("customers").child(encodedEmail).child("shoppingCartId")
+            
+            customerRef.observeSingleEvent(of: .value) { snapshot in
+                if let shoppingCartId = snapshot.value as? String {
+                    print("shoppingCartId retrieved successfully: \(shoppingCartId)")
+                    completion(shoppingCartId, nil)
+                } else {
+                    print("No shoppingCartId found for this user")
+                    completion(nil, nil)
+                }
+            } withCancel: { error in
+                print("Error retrieving shoppingCartId: \(error.localizedDescription)")
+                completion(nil, error)
+            }
+        }
 
 }
 

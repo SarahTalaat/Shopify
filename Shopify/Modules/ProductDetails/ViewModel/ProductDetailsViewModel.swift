@@ -137,6 +137,13 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
 
     func getProductDetails() {
+        
+        
+        
+        var draftOrderIdOptional = UserDefaults.standard.string(forKey: Constants.draftOrderId)
+        
+        print("eee draftOrderIdOptional: \(draftOrderIdOptional)")
+        
         guard let productIdString = retrieveStringFromUserDefaults(forKey: Constants.productId) else { return }
         guard let productIdInt = Int(productIdString) else { return }
         

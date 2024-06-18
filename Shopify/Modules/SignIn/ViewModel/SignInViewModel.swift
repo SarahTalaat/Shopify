@@ -15,6 +15,8 @@ enum AuthErrorCode: Error {
     case emailNotVerified
 }
 class SignInViewModel: SignInViewModelProtocol {
+
+    
     
     static let sharedDataUpdateQueue = DispatchQueue(label: "com.Shopify.sharedDataUpdateQueue")
 
@@ -170,8 +172,14 @@ class SignInViewModel: SignInViewModelProtocol {
         networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method:.post, model: parameters, completion: { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
             switch result {
             case.success(let response):
-                print("si Draft order posted successfully: \(response)")
+                print("MAIN response id: \(response.draftOrder?.id) ")
                 let shoppingCartId = "\(response.draftOrder?.id)"
+                if let draftOrerId = response.draftOrder?.id {
+                    let draftOrderIdString = "\(draftOrerId)"
+                    UserDefaults.standard.set( draftOrderIdString, forKey: Constants.draftOrderId)
+                    UserDefaults.standard.synchronize()
+                    
+                }
                 completion(shoppingCartId) // Call the completion handler with the shoppingCartId value
             case.failure(let error):
                 print("si Failed to post draft order: \(error.localizedDescription)")

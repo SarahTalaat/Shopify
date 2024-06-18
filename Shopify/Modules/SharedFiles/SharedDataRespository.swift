@@ -15,6 +15,7 @@ class SharedDataRepository{
     static let instance = SharedDataRepository()
     private init() {}
     
+    var draftOrderId: String?
     var customerName: String?
     var customerEmail: String?
     var customerId: String?
