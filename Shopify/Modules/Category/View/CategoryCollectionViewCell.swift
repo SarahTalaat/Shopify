@@ -16,13 +16,23 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var productPrice: UILabel!
     @IBOutlet weak var favBtn: UIButton!
     
+    var productId: String?
+    var delegate: ProductsTableViewCellDelegate?
+    var indexPath: IndexPath?
+    
     @IBAction func addToFav(_ sender: UIButton) {
+        if let indexPath = indexPath {
+            delegate?.didTapFavoriteButtons(index: indexPath.row)
+            print("kjkj addToFavButton index: \(indexPath.row)")
+        }
     }
     
     private let bottomBorder = UIView()
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        favBtn.addTarget(self, action: #selector(toggleFavorite), for: .touchUpInside)
         categoryImage.layer.cornerRadius = 16
         categoryImage.clipsToBounds = true
         setupImageViewShadow()
@@ -49,4 +59,19 @@ class CategoryCollectionViewCell: UICollectionViewCell {
                bottomBorder.heightAnchor.constraint(equalToConstant: 1)
            ])
        }
+        
+    func configure(with productId: String, isFavorite: Bool, index: Int) {
+        self.productId = productId
+        updateFavoriteUI(isFavorite: isFavorite)
+    }
+    
+    @objc private func toggleFavorite() {
+        guard let productId = productId else { return }
+        delegate?.productsTableViewCellDidToggleFavorite(at: indexPath?.row ?? 0)
+    }
+    
+    private func updateFavoriteUI(isFavorite: Bool) {
+        let imageName = isFavorite ? "heart.fill" : "heart"
+        favBtn.setImage(UIImage(systemName: imageName), for: .normal)
+    }
 }

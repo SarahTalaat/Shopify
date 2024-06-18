@@ -217,6 +217,16 @@ class CategoryViewController: UIViewController {
             let imageURL = URL(string: item.image.src)
             cell.categoryImage.kf.setImage(with: imageURL)
             
+            
+            let isFavorite = viewModel.isProductFavorite(productId: "\(viewModel.category[indexPath.row].id)")
+            
+
+            cell.configure(with: "\(viewModel.category[indexPath.row].id)", isFavorite: isFavorite, index: indexPath.row)
+            
+            cell.delegate = self
+            cell.indexPath = indexPath
+            
+            
             return cell
         }
         
@@ -254,3 +264,32 @@ class CategoryViewController: UIViewController {
             }
         }
     }
+
+
+extension CategoryViewController: ProductsTableViewCellDelegate{
+
+    
+    
+    func didTapFavoriteButtons(index: Int) {
+        viewModel.getproductId(index: index)
+        print("yyy index: \(index)")
+        collectionView.reloadData()
+    }
+    
+    
+    func productsTableViewCellDidToggleFavorite(at index: Int) {
+        guard index < viewModel.category.count else { return }
+        
+        viewModel.toggleFavorite(productId:  "\(viewModel.category[index].id)") { error in
+            if let error = error {
+                print("Error toggling favorite status: \(error.localizedDescription)")
+                // Handle error if needed
+            } else {
+                // Update UI or perform any post-toggle actions
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
+    }
+}

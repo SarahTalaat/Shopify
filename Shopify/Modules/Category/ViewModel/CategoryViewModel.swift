@@ -15,7 +15,7 @@ class CategoryViewModel{
             bindCategory()
         }
     }
-
+    var productsFromFirebase: [ProductFromFirebase] = []
     var categoryProduct: ProductModel? {
         didSet {
           
@@ -65,8 +65,47 @@ class CategoryViewModel{
     
     }
     
+    
 
-  
+    
+}
+
+
+extension CategoryViewModel {
+    
+    func toggleFavorite(productId: String, completion: @escaping (Error?) -> Void) {
+        let isFavorite = isProductFavorite(productId: productId)
+        
+        guard let email = retrieveStringFromUserDefaults(forKey: Constants.customerEmail) else {
+            completion(nil) // Handle error or return if email is not available
+            return
+        }
+        
+        for product in category {
+            if product.id == Int(productId){
+                FirebaseAuthService().toggleFavorite(email: email, productId: productId, productTitle: product.title, productVendor: product.vendor, productImage: product.image.src , isFavorite: !isFavorite){ [weak self] error in
+                    if error == nil {
+                        // Update local state or perform any additional actions upon successful toggle
+                        self?.updateFavoriteState(productId: productId, isFavorite: !isFavorite)
+                    }
+                    completion(error)
+                }
+            }
+        }
+        
+
+    }
+    
+    func isProductFavorite(productId: String) -> Bool {
+        return UserDefaults.standard.bool(forKey: productId)
+    }
+    
+    func updateFavoriteState(productId: String, isFavorite: Bool) {
+        UserDefaults.standard.set(isFavorite, forKey: productId)
+        UserDefaults.standard.synchronize()
+    }
+    
+
     func addValueToUserDefaults(value: Any, forKey key: String) {
         UserDefaults.standard.set(value, forKey: key)
         UserDefaults.standard.synchronize()
@@ -77,4 +116,16 @@ class CategoryViewModel{
         addValueToUserDefaults(value: productId, forKey: Constants.productId)
     }
     
+    func retrieveAllProductsFromEncodedEmail(email: String, completion: @escaping ([ProductFromFirebase]) -> Void) {
+        FirebaseAuthService().retrieveAllProductsFromEncodedEmail(email: email) { products in
+            self.productsFromFirebase = products
+            completion(products)
+        }
+    }
+
+    func retrieveStringFromUserDefaults(forKey key: String) -> String? {
+        return UserDefaults.standard.string(forKey: key)
+    }
+    
 }
+

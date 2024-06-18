@@ -21,6 +21,7 @@ class ProductsCollectionViewCell: UICollectionViewCell {
    
     var productId: String?
     weak var delegate: ProductsCollectionViewCellDelegate?
+    var indexPath: IndexPath?
     
     @IBAction func addToFav(_ sender: UIButton) {
         if let indexPath = indexPath {
@@ -31,7 +32,7 @@ class ProductsCollectionViewCell: UICollectionViewCell {
     
     
  
-    var indexPath: IndexPath?
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
