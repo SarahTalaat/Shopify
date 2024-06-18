@@ -133,4 +133,6 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
         
     }
     
+    @IBOutlet weak var couponView: UIView!
+    
 }

@@ -939,9 +939,6 @@ We’ll be happy to help you</string>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="5Bx-CU-pQ8">
                                 <rect key="frame" x="16" y="99" width="382" height="473"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="473" id="fzr-KS-hKh"/>
-                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CartTableViewCell" id="Zlu-ST-J0v" customClass="CartTableViewCell" customModule="Shopify" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="382" height="43.5"/>
@@ -1016,6 +1013,7 @@ We’ll be happy to help you</string>
                         <viewLayoutGuide key="safeArea" id="Tfd-X5-Hc3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="1hI-QL-hG1" firstAttribute="top" secondItem="5Bx-CU-pQ8" secondAttribute="bottom" constant="58" id="566-Rs-MbY"/>
                             <constraint firstItem="5Bx-CU-pQ8" firstAttribute="leading" secondItem="Tfd-X5-Hc3" secondAttribute="leading" constant="16" id="AzK-yu-1e2"/>
                             <constraint firstItem="Tfd-X5-Hc3" firstAttribute="trailing" secondItem="krh-2N-KKB" secondAttribute="trailing" constant="20" id="EZK-jQ-q5F"/>
                             <constraint firstItem="Tfd-X5-Hc3" firstAttribute="trailing" secondItem="5Bx-CU-pQ8" secondAttribute="trailing" constant="16" id="Hmf-re-kGs"/>
@@ -1039,6 +1037,7 @@ We’ll be happy to help you</string>
                     </view>
                     <navigationItem key="navigationItem" id="QD2-DO-CIx"/>
                     <connections>
+                        <outlet property="couponView" destination="1hI-QL-hG1" id="ysb-H3-30f"/>
                         <outlet property="shoppingCartTableView" destination="5Bx-CU-pQ8" id="hSq-lP-esC"/>
                         <outlet property="totalAmount" destination="krh-2N-KKB" id="bms-eh-1cG"/>
                     </connections>
