@@ -234,6 +234,24 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
 
+    func toggleFavorite(productId: String, isFavorite: Bool, completion: @escaping (Error?) -> Void) {
+        let databaseRef = Database.database().reference()
+        let productRef = databaseRef.child("customers").child("products").child(productId)
+        if isFavorite {
+            productRef.removeValue { error, _ in
+                completion(error)
+            }
+        } else {
+            let productData: [String: Any] = [
+                "productId": productId,
+                // Add other necessary data like productTitle, productVendor, productImage
+            ]
+            productRef.setValue(productData) { error, _ in
+                completion(error)
+            }
+        }
+    }
+    
     func checkProductExists(email: String, productId: String, completion: @escaping (Bool, Error?) -> Void) {
         var encodedEmail = SharedMethods.encodeEmail(email)
         let ref = Database.database().reference()

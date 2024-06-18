@@ -9,6 +9,8 @@ import UIKit
 import Kingfisher
 
 class ProductViewController: UIViewController {
+
+    
     
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -184,10 +186,18 @@ class ProductViewController: UIViewController {
                 cell.productImage.kf.setImage(with: imageURL)
             }
             
+            cell.configure(with: "\(viewModel.filteredProducts[indexPath.row].id)", isFavorite:  viewModel.isProductFavorite(productId: "\(viewModel.filteredProducts[indexPath.row].id)"), index: indexPath.item)
             
+            let isFavorite = viewModel.isProductFavorite(productId: "\(viewModel.filteredProducts[indexPath.row].id)")
+            cell.configure(with: "\(viewModel.filteredProducts[indexPath.row].id)", isFavorite: isFavorite, index: indexPath.row)
+            cell.delegate = self
+            cell.indexPath = indexPath
+
           
             return cell
         }
+        
+
         
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             
@@ -198,3 +208,33 @@ class ProductViewController: UIViewController {
           }
  
     }
+
+
+
+extension ProductViewController: ProductsCollectionViewCellDelegate{
+
+    
+    
+    func didTapFavoriteButton(index: Int) {
+        viewModel.getproductId(index: index)
+        print("fff index: \(index)")
+        collectionView.reloadData()
+    }
+    
+    
+    func productsCollectionViewCellDidToggleFavorite(at index: Int) {
+        guard index < viewModel.filteredProducts.count else { return }
+        
+        viewModel.toggleFavorite(productId:  "\(viewModel.filteredProducts[index].id)") { error in
+            if let error = error {
+                print("Error toggling favorite status: \(error.localizedDescription)")
+                // Handle error if needed
+            } else {
+                // Update UI or perform any post-toggle actions
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
+    }
+}

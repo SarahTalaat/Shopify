@@ -14,4 +14,5 @@ protocol AuthServiceProtocol  {
     func checkProductExists(email: String, productId: String, completion: @escaping (Bool, Error?) -> Void)
     func checkEmailSignInStatus(email: String, completion: @escaping (Bool?) -> Void)
     func updateSignInStatus(email: String, isSignedIn: String, completion: @escaping (Bool) -> Void)
+    func toggleFavorite(productId: String, isFavorite: Bool, completion: @escaping (Error?) -> Void)
 }

@@ -8,6 +8,10 @@
 import Foundation
 
 class ProductViewModel{
+
+    
+    
+    var productsFromFirebase: [ProductFromFirebase] = []
     
     var brandID: Int = 0 {
         didSet {
@@ -86,6 +90,34 @@ class ProductViewModel{
         filteredProducts = coloredProducts 
     }
     
+
+
+}
+
+extension ProductViewModel {
+    
+    func toggleFavorite(productId: String, completion: @escaping (Error?) -> Void) {
+        let isFavorite = isProductFavorite(productId: productId)
+        
+        FirebaseAuthService().toggleFavorite(productId: productId, isFavorite: !isFavorite) { [weak self] error in
+            if error == nil {
+                // Update local state or perform any additional actions upon successful toggle
+                self?.updateFavoriteState(productId: productId, isFavorite: !isFavorite)
+            }
+            completion(error)
+        }
+    }
+    
+    func isProductFavorite(productId: String) -> Bool {
+        return UserDefaults.standard.bool(forKey: productId)
+    }
+    
+    func updateFavoriteState(productId: String, isFavorite: Bool) {
+        UserDefaults.standard.set(isFavorite, forKey: productId)
+        UserDefaults.standard.synchronize()
+    }
+    
+
     func addValueToUserDefaults(value: Any, forKey key: String) {
         UserDefaults.standard.set(value, forKey: key)
         UserDefaults.standard.synchronize()
@@ -94,6 +126,16 @@ class ProductViewModel{
     func getproductId(index: Int){
         var productId = filteredProducts[index].id
         addValueToUserDefaults(value: productId, forKey: Constants.productId)
+        print("fff getProductId")
+        print("fff productID \(productId)")
+    }
+    
+    func retrieveAllProductsFromEncodedEmail(email: String, completion: @escaping ([ProductFromFirebase]) -> Void) {
+        FirebaseAuthService().retrieveAllProductsFromEncodedEmail(email: email) { products in
+            self.productsFromFirebase = products
+            completion(products)
+        }
     }
 
+    
 }
