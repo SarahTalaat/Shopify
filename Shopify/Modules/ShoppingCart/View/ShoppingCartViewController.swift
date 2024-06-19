@@ -97,7 +97,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
            let storyboard = UIStoryboard(name: "Third", bundle: nil)
                if let paymentVC = storyboard.instantiateViewController(withIdentifier: "PaymentVC") as? PaymentViewController {
                    paymentVC.totalAmount = viewModel.totalAmount // Pass the total amount here
-                   if let firstLineItem = viewModel.draftOrder?.draftOrder?.lineItems.first {
+                   if let firstLineItem = viewModel.draftOrder?.draftOrder?.lineItems {
                        paymentVC.lineItems = firstLineItem
                    } else {
                        // Handle the case where draftOrder or line_items is nil
