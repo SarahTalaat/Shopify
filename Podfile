@@ -8,7 +8,9 @@ target 'Shopify' do
   pod 'lottie-ios'
   pod 'Kingfisher'
   pod 'Alamofire'
-
+  pod 'RxSwift', '6.5.0'
+  pod 'RxCocoa', '6.5.0'
+  pod 'Cosmos'
 
   # Pods for Shopify
 

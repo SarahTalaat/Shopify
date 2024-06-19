@@ -9,6 +9,7 @@
 import Foundation
 import FirebaseAuth
 
+
 enum AuthErrorCode: Error {
     case wrongPassword
     case userNotFound
