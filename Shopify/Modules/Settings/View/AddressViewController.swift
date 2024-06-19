@@ -6,13 +6,14 @@
 //
 
 import UIKit
-protocol AddressViewControllerDelegate: AnyObject {
-    func didSelectDefaultAddress(_ address: Address)
+protocol AddressSelectionDelegate: AnyObject {
+    func didSelectAddress(_ address: Address, completion: @escaping () -> Void)
 }
 class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource  {
     
     
-        weak var delegate: AddressViewControllerDelegate?
+    weak var selectionDelegate: AddressSelectionDelegate?
+
         var viewModel = AddressViewModel()
         var addresses: [Address] = []
         var selectedDefaultAddressId: Int?
@@ -88,7 +89,16 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
        }
 
       func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-          viewModel.setDefaultAddress(at: indexPath)
+          let selectedAddress = viewModel.addresses[indexPath.row]
+            viewModel.setDefaultAddress(at: indexPath) // Update the default address
+            selectionDelegate?.didSelectAddress(selectedAddress) {
+                // Pop back to PaymentViewController
+                if let paymentViewController = self.navigationController?.viewControllers.first(where: { $0 is PaymentViewController }) as? PaymentViewController {
+                    paymentViewController.defaultAddress = selectedAddress
+                    paymentViewController.updateAddressLabel()
+                    self.navigationController?.popToViewController(paymentViewController, animated: true)
+                }
+            }
       }
 
       func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

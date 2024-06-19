@@ -10,14 +10,14 @@ import PassKit
 class PaymentViewController: UIViewController {
     private var viewModel = PaymentMethodsViewModel()
     
-    var subtotal: String?
+    var totalAmount: String?
     var defaultAddress: Address?
     var lineItems: [LineItem]?
        
        override func viewDidLoad() {
            super.viewDidLoad()
-           if let subtotal = subtotal {
-               viewModel.updatePaymentSummaryItems(subtotal: subtotal)
+           if let subtotal = totalAmount {
+               viewModel.updatePaymentSummaryItems(totalAmount: subtotal)
            }
            setupUI()
            setupGestures()
@@ -26,6 +26,7 @@ class PaymentViewController: UIViewController {
            if let lineItems = lineItems {
                viewModel.setupOrder(lineItem: lineItems)
                   }
+
                   
        }
        private func setupUI() {
@@ -76,8 +77,8 @@ class PaymentViewController: UIViewController {
     
     @IBAction func changeAddressBtn(_ sender: UIButton) {
         let addressVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "addressViewController") as! AddressViewController
-     
-       navigationController?.pushViewController(addressVC, animated: true)
+            addressVC.selectionDelegate = self
+            navigationController?.pushViewController(addressVC, animated: true)
     }
     @IBAction func unCheckedCashBtn(_ sender: UIButton) {
         selectPaymentMethod(.cash)
@@ -123,7 +124,7 @@ class PaymentViewController: UIViewController {
            }
        }
 
-       private func updateAddressLabel() {
+        func updateAddressLabel() {
            if let defaultAddress = defaultAddress {
                customerPaymentAddress.text = "\(defaultAddress.first_name ) \(defaultAddress.address1), \(defaultAddress.city), \(defaultAddress.country) "
            } else {
@@ -132,10 +133,10 @@ class PaymentViewController: UIViewController {
        }
    }
 
-   extension PaymentViewController: AddressViewControllerDelegate {
-       func didSelectDefaultAddress(_ address: Address) {
-           self.defaultAddress = address
-           updateAddressLabel()
-       }
-   }
-
+extension PaymentViewController: AddressSelectionDelegate {
+    func didSelectAddress(_ address: Address, completion: @escaping () -> Void) {
+        defaultAddress = address
+        updateAddressLabel()
+        completion()
+    }
+}

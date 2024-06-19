@@ -20,12 +20,13 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
      private var order: Orders?
      private var ordersSend: OrdersSend?
     var defCurrency : String = "EGP"
+    private var totalAmount: String?
     
     func selectPaymentMethod(_ method: PaymentMethod) {
         selectedPaymentMethod = method
     }
-    func updatePaymentSummaryItems(subtotal: String) {
-        self.subtotal = subtotal
+    func updatePaymentSummaryItems(totalAmount: String) {
+        self.totalAmount = totalAmount
     }
     
     var paymentRequest: PKPaymentRequest {
@@ -36,8 +37,8 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         request.merchantCapabilities = .capability3DS
         request.countryCode = "EG"
         request.currencyCode = UserDefaults.standard.string(forKey: "Currency") == "EGP" ? "EGP" : "USD"
-        if let subtotal = subtotal {
-            let amount = NSDecimalNumber(string: subtotal)
+        if let total = totalAmount {
+            let amount = NSDecimalNumber(string: total)
             request.paymentSummaryItems = [PKPaymentSummaryItem(label: "Total Order", amount: amount)]
         } else {
             request.paymentSummaryItems = [PKPaymentSummaryItem(label: "T-shirt", amount: 1200)]

@@ -112,4 +112,3 @@ struct TaxLine: Codable {
     let title: String?
     let price: String?
 }
-

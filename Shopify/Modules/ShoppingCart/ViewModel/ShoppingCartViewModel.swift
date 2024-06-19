@@ -30,7 +30,7 @@ class ShoppingCartViewModel {
         }
     }
     
-    private func updateTotalAmount() {
+    func updateTotalAmount() {
         guard let draftOrder = draftOrder else { return }
         totalAmount = draftOrder.draftOrder?.totalPrice ?? "total price"
         onTotalAmountUpdated?()
@@ -39,8 +39,11 @@ class ShoppingCartViewModel {
     func incrementQuantity(at index: Int) {
         guard var lineItem = draftOrder?.draftOrder?.lineItems[index] else { return }
         lineItem.quantity += 1
-        draftOrder?.draftOrder?.lineItems[index] = lineItem
+        var updatedLineItems = draftOrder?.draftOrder?.lineItems ?? []
+        updatedLineItems[index] = lineItem
+        draftOrder?.draftOrder?.lineItems = updatedLineItems
         onDraftOrderUpdated?()
+        updateDraftOrder()
     }
     
     func decrementQuantity(at index: Int) {
@@ -48,12 +51,17 @@ class ShoppingCartViewModel {
         lineItem.quantity -= 1
         draftOrder?.draftOrder?.lineItems[index] = lineItem
         onDraftOrderUpdated?()
+        updateDraftOrder()
     }
     
     func deleteItem(at index: Int) {
-        guard var draftOrder = draftOrder else { return }
-        draftOrder.draftOrder?.lineItems.remove(at: index)
-        
+        draftOrder?.draftOrder?.lineItems.remove(at: index)
+        onDraftOrderUpdated?()
+        updateDraftOrder()
+    }
+    
+    func updateDraftOrder() {
+        guard let draftOrder = draftOrder else { return }
         draftOrderService.updateDraftOrder(draftOrder: draftOrder) { [weak self] result in
             switch result {
             case .success(let updatedDraftOrder):
