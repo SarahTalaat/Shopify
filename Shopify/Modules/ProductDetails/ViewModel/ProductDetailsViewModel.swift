@@ -178,7 +178,13 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         }
 
     }
+    func deleteFromCart(){
+       let draftOrderId = 1034569318561
+        var urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
+        deleteDraftOrderNetwork(urlString: urlString, parameters: [:])
+  
 
+    }
     func updateDraftOrderNetwork(urlString: String, parameters: [String:Any]) {
        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .put, model: parameters, completion: { [weak self] (result: Result<DraftOrderResponsePUT, Error>) in
             switch result {
@@ -188,6 +194,18 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
             case .failure(let error):
                 print("PD Failed to updated draft order: \(error.localizedDescription)")
+            }
+        })
+    }
+    
+    func deleteDraftOrderNetwork(urlString: String, parameters: [String:Any]) {
+        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .delete, model: parameters, completion: { [weak self] (result: Result<EmptyResponse, Error>) in
+            switch result {
+            case .success(let response):
+                print("PD Draft order deleted successfully: \(response)")
+
+            case .failure(let error):
+                print("PD Failed to delete draft order: \(error.localizedDescription)")
             }
         })
     }

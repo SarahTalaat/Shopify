@@ -12,6 +12,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
     @IBAction func addToCartButton(_ sender: CustomButton) {
         viewModel.addToCart()
+        viewModel.deleteFromCart()
         
     }
     @IBOutlet weak var brandNameLabel: UILabel!
