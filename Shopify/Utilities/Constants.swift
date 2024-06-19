@@ -14,6 +14,16 @@ class Constants  {
     static let version = "2022-01"
     static let password = "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"
     static let credentials = "\(apiKey):\(password)"
+    
+    static let shoppingCartId: String = "shoppingCartId"
+    static let variantId: String = "variantId"
+    
+    static let productId: String = "productId"
+    static let productTitle: String = "productTitle"
+    static let productVendor: String = "productVendor"
+    static let productImage: String = "productImage"
+    static let customerEmail: String = "customerEmail"
+    
 
 }
 

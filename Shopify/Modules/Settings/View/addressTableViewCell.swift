@@ -46,18 +46,16 @@ class addressTableViewCell: UITableViewCell {
 
        
     }
-    func configure(with address: Address, isDefault: Bool) {
-        userName.text = address.first_name
-        addressDetails.text = "\(address.address1), \(address.city), \(address.country)"
-        defaultButton.isHidden = !isDefault
-                let image = isDefault ? UIImage(named: "radio") : UIImage(named: "unRadio")
-        checked.setBackgroundImage(image, for: .normal)
-    }
-    
+    func configure(with address: Address, isDefault: Bool?) {
+            userName.text = address.first_name
+            addressDetails.text = "\(address.address1), \(address.city), \(address.country)"
+            defaultButton.isHidden = !(isDefault ?? false)
+            let image = (isDefault ?? false) ? UIImage(named: "radio") : UIImage(named: "unRadio")
+            checked.setBackgroundImage(image, for: .normal)
+        }
     
     @IBAction func checkedBtn(_ sender: UIButton) {
         defaultButtonAction?()
-        print("ch")
     }
    
 }

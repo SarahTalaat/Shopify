@@ -8,6 +8,8 @@
  request.setValue("application/json", forHTTPHeaderField: "Content-Type")
  request.setValue("application/json", forHTTPHeaderField: "Accept")
  */
+
+
 import Foundation
 import Alamofire
 
@@ -22,6 +24,8 @@ enum HTTPMethod: String {
     case delete = "DELETE"
     case put = "PUT"
 }
+
+
 
 class NetworkServiceAuthentication: NetworkServiceAuthenticationProtocol {
     

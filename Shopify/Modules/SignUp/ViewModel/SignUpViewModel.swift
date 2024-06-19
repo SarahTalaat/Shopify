@@ -65,7 +65,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
                         ]
                     ]
                     
-
+                   
 
                     let urlString = APIConfig.customers.url
                     self?.postNewCustomer(urlString: urlString, parameters: createCustomer, name: firstName, email: email)
@@ -122,7 +122,8 @@ class SignUpViewModel: SignUpViewModelProtocol {
             switch result {
             case .success(let response):
                 print("vm Customer data posted successfully: \(response)")
-                self?.authServiceProtocol.saveCustomerId(name: name, email: email, id: "\(response.customer.id)", favouriteId: "", shoppingCartId: "")
+
+                self?.authServiceProtocol.saveCustomerId(name: name, email: email, id: "\(response.customer.id)", favouriteId: "", shoppingCartId: "", productId: "-1", productTitle: "", productVendor: "" , productImage: "", isSignedIn: "\(false)")
             case .failure(let error):
                 print("vm Failed to post customer data: \(error.localizedDescription)")
             }
