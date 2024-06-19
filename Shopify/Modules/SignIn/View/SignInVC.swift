@@ -17,7 +17,15 @@ class SignInVC: UIViewController {
        
         
         print("Sign in view controller")
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+          tapGesture.cancelsTouchesInView = false
+          view.addGestureRecognizer(tapGesture)
     }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     
     @IBAction func signInButton(_ sender: UIButton) {
         guard let email = emailCustomTextField.text, let password = passwordCustomTextField.text else { return }

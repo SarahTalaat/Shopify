@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import Kingfisher
 
 class OrderDetailsViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     var viewModel = OrderDetailsViewModel()
+    var currency = "USD"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +20,9 @@ class OrderDetailsViewController: UIViewController {
         self.title = "Order Details"
         
         viewModel.bindOrders = {
+            self.updateCollection()
+        }
+        viewModel.bindCurrency = {
             self.updateCollection()
         }
 
@@ -66,8 +71,12 @@ class OrderDetailsViewController: UIViewController {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OrderDetailsCell", for: indexPath) as! OrderDetailsCell
             let item = viewModel.orders[indexPath.row]
             cell.numOfUnit.text = "Quantity:\(item.quantity)"
-            cell.unitPrice.text = "\(item.price)$"
+            cell.unitPrice.text = "\(item.price) \(viewModel.currency)"
             cell.productName.text = item.title
+            
+            let url = viewModel.filteredProducts[indexPath.row].images[0].src
+            let imageURL = URL(string: url)
+            cell.productImage.kf.setImage(with: imageURL)
       
             return cell
         }

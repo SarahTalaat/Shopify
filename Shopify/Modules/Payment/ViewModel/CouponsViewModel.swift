@@ -7,13 +7,21 @@
 
 import Foundation
 class CouponsViewModel {
-    let staticSubTotal: Double = 100.00
+    
+    let network = NetworkServiceAuthentication()
     private(set) var discountCodes: [String] = []
 
-    var subTotal: String {
-        return String(format: "$%.2f", staticSubTotal)
-    }
 
+
+    var staticSubTotal: Double = 100.00
+
+    var subTotal: String = String(format: "$%.2f", 100.00) {
+           didSet {
+               if let subTotalValue = Double(subTotal.replacingOccurrences(of: "$", with: "")) {
+                   staticSubTotal = subTotalValue
+               }
+           }
+       }
     func validateCoupon(_ couponCode: String, completion: @escaping (Double?) -> Void) {
         let discountAmount: Double? = {
             if couponCode == "SUMMERSALE20OFF" {
@@ -44,4 +52,6 @@ class CouponsViewModel {
         let usedCoupons = UserDefaults.standard.array(forKey: "usedCoupons") as? [String] ?? []
         return usedCoupons.contains(couponCode)
     }
-}
+    
+  
+ }

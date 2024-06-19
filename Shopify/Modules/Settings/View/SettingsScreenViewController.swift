@@ -91,10 +91,11 @@ class SettingsScreenViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-          super.viewWillAppear(animated)
-          fetchDefaultAddress()
+        super.viewWillAppear(animated)
+        fetchDefaultAddress()
+        updateCurrentCurrencyLabel()
         self.tabBarController?.tabBar.isHidden = true
-      }
+    }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.tabBarController?.tabBar.isHidden = false
@@ -113,6 +114,13 @@ class SettingsScreenViewController: UIViewController {
           self.currentAddress.text = city
       }
       
+    private func updateCurrentCurrencyLabel() {
+        if let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") {
+            currentCurrency.text = selectedCurrency
+        } else {
+            currentCurrency.text = "No Currency Selected"
+        }
+    }
       private func fetchDefaultAddress() {
           TryAddressNetworkService.shared.getAddresses { result in
               switch result {

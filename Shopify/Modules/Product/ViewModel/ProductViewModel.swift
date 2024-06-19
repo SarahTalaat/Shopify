@@ -7,38 +7,39 @@
 
 import Foundation
 
-class ProductViewModel{
 
-    
-    
-    var productsFromFirebase: [ProductFromFirebase] = []
-    
+class ProductViewModel {
+
+     var productsFromFirebase: [ProductFromFirebase] = []
     var brandID: Int = 0 {
         didSet {
             getProducts()
         }
     }
-    
+    var exchangeRates: [String: Double] = [:]
     var products: [Products] = [] {
         didSet {
             calculatePriceRange()
-            filterProducts()
+            applyFilters()
         }
     }
     
     var filteredProducts: [Products] = [] {
         didSet {
             bindFilteredProducts()
+
             ProductDetailsSharedData.instance.filteredProducts = filteredProducts
             print(filteredProducts)
+
         }
     }
     
-    var coloredProducts: [Products] = [] {
+    var currentFilters: (price: Float?, color: String?, size: (type: String, value: String)?) = (nil, nil, nil) {
         didSet {
-            bindFilteredProducts()
+            applyFilters()
         }
     }
+    
     var minPrice: Float = 0
     var maxPrice: Float = 1000
     
@@ -47,12 +48,13 @@ class ProductViewModel{
     
     var currentMaxPrice: Float = 1000 {
         didSet {
-            filterProducts()
+            currentFilters.price = currentMaxPrice
         }
     }
     
     init() {
         getProducts()
+        fetchExchangeRates()
     }
     
     func getProducts() {
@@ -63,32 +65,62 @@ class ProductViewModel{
     
     func calculatePriceRange() {
         let prices = products.compactMap { Float($0.variants.first?.price ?? "0") }
-        minPrice =  0
+        minPrice = 0
         maxPrice = prices.max() ?? 1000
         currentMaxPrice = maxPrice
         bindPriceRange()
     }
     
-    func filterProducts() {
-        filteredProducts = products.filter { product in
-            if let productPrice = Float(product.variants.first?.price ?? "0") {
-                return productPrice <= currentMaxPrice
+    func applyFilters() {
+        filteredProducts = products
+        
+        if let maxPrice = currentFilters.price {
+            filteredProducts = filteredProducts.filter { product in
+                if let productPrice = Float(product.variants.first?.price ?? "0") {
+                    return productPrice <= maxPrice
+                }
+                return false
             }
-            return false
+        }
+        
+        if let color = currentFilters.color, color != "All" {
+            filteredProducts = filteredProducts.filter { product in
+                for option in product.options where option.name == "Color" {
+                    if option.values.contains(color) {
+                        return true
+                    }
+                }
+                return false
+            }
+        }
+        
+        if let size = currentFilters.size, size.value != "All" {
+            filteredProducts = filteredProducts.filter { product in
+                if product.product_type == size.type {
+                    for option in product.options where option.name == "Size" {
+                        if option.values.contains(size.value) {
+                            return true
+                        }
+                    }
+                }
+                return false
+            }
         }
     }
     
-    func filterByColor(color: String) {
-        coloredProducts = products.filter { product in
-            for option in product.options where option.name == "Color" {
-                if option.values.contains(color) {
-                    return true
-                }
+    private func fetchExchangeRates() {
+        let exchangeRateApiService = ExchangeRateApiService()
+        exchangeRateApiService.getLatestRates { [weak self] result in
+            switch result {
+            case .success(let response):
+                self?.exchangeRates = response.conversion_rates
+            case .failure(let error):
+                print("Error fetching exchange rates: \(error)")
             }
-            return false
+            self?.bindFilteredProducts()
         }
-        filteredProducts = coloredProducts 
     }
+
     
 
 
@@ -152,4 +184,5 @@ extension ProductViewModel {
         return UserDefaults.standard.string(forKey: key)
     }
     
+
 }

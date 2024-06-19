@@ -13,13 +13,17 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     @IBOutlet weak var addToCartUI: CustomButton!
     @IBAction func addToCartButton(_ sender: CustomButton) {
 
-        
+
+    if SharedDataRepository.instance.customerEmail == nil {
+            showGuestAlert()
+    }else{
+//             viewModel.isDataBound = true
+//             viewModel.addToCart()
         if addToCartUI.isAddedToCart {
             removeFromCart()
         } else {
             addToCart()
         }
-        
     }
     @IBOutlet weak var brandNameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!

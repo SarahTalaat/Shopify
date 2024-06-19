@@ -271,10 +271,6 @@ class SignInViewModel: SignInViewModelProtocol {
 }
 
 
-
-
-
-
 /*
  let json: [String: Any] = [
      "draft_order": [

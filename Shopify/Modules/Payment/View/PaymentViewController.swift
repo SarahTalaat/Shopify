@@ -10,15 +10,25 @@ import PassKit
 class PaymentViewController: UIViewController {
     private var viewModel = PaymentMethodsViewModel()
     
-    
-    override func viewDidLoad() {
+    var totalAmount: String?
+    var defaultAddress: Address?
+    var lineItems: [LineItem]?
+       
+       override func viewDidLoad() {
            super.viewDidLoad()
-           
+           if let subtotal = totalAmount {
+               viewModel.updatePaymentSummaryItems(totalAmount: subtotal)
+           }
            setupUI()
            setupGestures()
            self.title = "Choose Payment Method"
+           fetchDefaultAddress()
+           if let lineItems = lineItems {
+               viewModel.setupOrder(lineItem: lineItems)
+                  }
+
+                  
        }
-       
        private func setupUI() {
            [cashView, applePayView,addressView].forEach { view in
                view?.layer.shadowRadius = 4.0
@@ -51,15 +61,11 @@ class PaymentViewController: UIViewController {
  
    
     @IBAction func continuePaymentBtn(_ sender: UIButton) {
-        let coupontUsVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "CouponViewController") as? CouponViewController
-        if let sheet = coupontUsVC?.sheetPresentationController{
-            sheet.detents = [.medium()]
-            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-            sheet.preferredCornerRadius = 40
-            
-        }
-  
-       present(coupontUsVC!, animated: true, completion: nil)
+        guard let lineItems = lineItems else {
+                print("Line items are not set")
+                return
+            }
+            viewModel.postOrder()
     }
     @IBOutlet weak var cashView: UIView!
     
@@ -71,8 +77,8 @@ class PaymentViewController: UIViewController {
     
     @IBAction func changeAddressBtn(_ sender: UIButton) {
         let addressVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "addressViewController") as! AddressViewController
-     
-       navigationController?.pushViewController(addressVC, animated: true)
+            addressVC.selectionDelegate = self
+            navigationController?.pushViewController(addressVC, animated: true)
     }
     @IBAction func unCheckedCashBtn(_ sender: UIButton) {
         selectPaymentMethod(.cash)
@@ -84,7 +90,6 @@ class PaymentViewController: UIViewController {
     
     @IBOutlet weak var unCheckedApplePay: UIButton!
     @IBOutlet weak var unCheckedCash: UIButton!
-    
     private func selectPaymentMethod(_ method: PaymentMethodsViewModel.PaymentMethod) {
            viewModel.selectPaymentMethod(method)
            switch method {
@@ -96,13 +101,42 @@ class PaymentViewController: UIViewController {
                unCheckedApplePay.setImage(UIImage(named: "checked.png"), for: .normal)
            }
        }
-       
+
        @objc private func cashViewTapped() {
            selectPaymentMethod(.cash)
        }
-       
+
        @objc private func applePayViewTapped() {
            selectPaymentMethod(.applePay)
        }
-}
 
+       private func fetchDefaultAddress() {
+           TryAddressNetworkService.shared.getAddresses { result in
+               switch result {
+               case .success(let addresses):
+                   if let defaultAddress = addresses.first(where: { $0.default == true }) {
+                       self.defaultAddress = defaultAddress
+                       self.updateAddressLabel()
+                   }
+               case .failure(let error):
+                   print("Failed to fetch addresses: \(error)")
+               }
+           }
+       }
+
+        func updateAddressLabel() {
+           if let defaultAddress = defaultAddress {
+               customerPaymentAddress.text = "\(defaultAddress.first_name ) \(defaultAddress.address1), \(defaultAddress.city), \(defaultAddress.country) "
+           } else {
+               customerPaymentAddress.text = "No address selected"
+           }
+       }
+   }
+
+extension PaymentViewController: AddressSelectionDelegate {
+    func didSelectAddress(_ address: Address, completion: @escaping () -> Void) {
+        defaultAddress = address
+        updateAddressLabel()
+        completion()
+    }
+}

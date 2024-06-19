@@ -8,7 +8,8 @@
 import Foundation
 
 class HomeViewModel{
-  
+    private let networkService = NetworkServiceAuthentication()
+
     var brands : [SmartCollection] = [] {
         didSet{
             self.bindBrandsData()
@@ -44,6 +45,9 @@ class HomeViewModel{
         bindCouponsData?()
 
     }
+    
+    
+    
     
     func postDiscountCodes() {
         let discountCodes = ["SUMMERSALE20OFF", "SUMMERSALE10OFF"]

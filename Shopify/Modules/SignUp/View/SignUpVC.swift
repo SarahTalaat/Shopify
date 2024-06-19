@@ -118,7 +118,15 @@ class SignUpVC: UIViewController {
         makeCircularImage()
         viewModel = DependencyProvider.signUpViewModel
         bindViewModel()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+          tapGesture.cancelsTouchesInView = false
+          view.addGestureRecognizer(tapGesture)
     }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     
     @IBAction private func signUpButton(_ sender: UIButton) {
         guard let firstName = firstNameCustomTextField.text,

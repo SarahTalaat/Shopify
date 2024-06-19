@@ -25,14 +25,13 @@ class NetworkUtilities{
         let headers: HTTPHeaders = ["Authorization": "Basic \(base64Credentials)"]
         
         let url = "https://\(shopName)/admin/api/2022-01/\(endpoint)"
-        
         Alamofire.request(url, headers: headers).validate().responseData { response in
             switch response.result {
             case .success(let data):
                 do {
                     let decodedData = try JSONDecoder().decode(T.self, from: data)
                     completion(decodedData)
-                    //print(decodedData)
+                   // print(decodedData)
                 } catch {
                     print("Error decoding data")
                     print(String(describing: error))
@@ -73,11 +72,15 @@ extension NetworkUtilities {
                         completion(true)
                     case .failure(let error):
                         print("Error posting data: \(error)")
+                        print(String(describing: error))
+
                         completion(false)
                     }
                 }
         } catch {
             print("Error encoding data: \(error)")
+            print(String(describing: error))
+
             completion(false)
         }
     }

@@ -19,7 +19,20 @@ class UserProfileViewModel: UserProfileViewModelProfileProtocol {
         }
     }
 
+    
+    var orders: [Orders] = [] {
+        didSet {
+            bindAllOrders()
+        }
+    }
+    
+    var bindAllOrders: (() -> ()) = {}
     var bindUserViewModelToController: (() -> ()) = {}
+    
+    init(){
+        getOrders()
+
+    }
     
     func userPersonalData(){
         
@@ -36,7 +49,27 @@ class UserProfileViewModel: UserProfileViewModelProfileProtocol {
         print("Profile: email: \(SharedDataRepository.instance.customerEmail ?? "NOEMAIL")")
         print("Profile: Cid: \(SharedDataRepository.instance.customerId ?? "NO CID")")
         print("Profile: favId: \(SharedDataRepository.instance.favouriteId ?? "NO FID")")
-        print("Profile: shoppingCartId: \(SharedDataRepository.instance.shoppingCartId ?? "NO ShopID")")
+        print("Profile: shoppingCartId: \(SharedDataRepository.instance.draftOrderId ?? "NO ShopID")")
     }
+    
+
+    
+
+    func getOrders() {
+            guard let email = SharedDataRepository.instance.customerEmail else {
+                print("Customer email is nil")
+                return
+            }
+            
+            NetworkUtilities.fetchData(responseType: OrdersResponse.self, endpoint: "orders.json") { item in
+                if let allOrders = item?.orders {
+                    self.orders = allOrders.filter { $0.email == email }
+                } else {
+                    self.orders = []
+                }
+                print(self.orders)
+            }
+        }
+    
     
 }
