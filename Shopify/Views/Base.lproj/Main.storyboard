@@ -541,6 +541,7 @@
                     </view>
                     <size key="freeformSize" width="414" height="1869"/>
                     <connections>
+                        <outlet property="addToCartUI" destination="k9c-9i-JyH" id="Da5-tc-pZT"/>
                         <outlet property="brandNameLabel" destination="kcU-Oo-n38" id="h3u-dk-Mg3"/>
                         <outlet property="brandTitleLabel" destination="xn0-QI-sKj" id="Fa8-DX-CSx"/>
                         <outlet property="descriptionLabel" destination="IpG-f2-T0r" id="oOe-yF-F2Q"/>

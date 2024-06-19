@@ -10,9 +10,16 @@ import Kingfisher
 
 class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource{
 
+    @IBOutlet weak var addToCartUI: CustomButton!
     @IBAction func addToCartButton(_ sender: CustomButton) {
         viewModel.addToCart()
         viewModel.deleteFromCart()
+        
+        if addToCartUI.isAddedToCart {
+            removeFromCart()
+        } else {
+            addToCart()
+        }
         
     }
     @IBOutlet weak var brandNameLabel: UILabel!
@@ -53,7 +60,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         
         updateFavoriteButton()
         
-        
+        addToCartUI.isAddedToCart = false
         settingUpCollectionView()
 
         settingUpDropdown(dropDowntableView: dropDowntableView1, cellIdentifier: "dropdownCell1")
@@ -70,14 +77,31 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
 
     }
+    
+    func showAlert(message: String) {
+        let alert = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
     func addActivityIndicator() {
         activityIndicator = UIActivityIndicatorView(style: .medium)
         activityIndicator.center = view.center
         activityIndicator.hidesWhenStopped = true
         view.addSubview(activityIndicator)
     }
+    func addToCart() {
 
+        viewModel.addToCart()
+        addToCartUI.isAddedToCart = true
+        showAlert(message: "Product added to cart successfully!")
+    }
     
+    func removeFromCart() {
+
+        viewModel.deleteFromCart()
+        addToCartUI.isAddedToCart = false
+        showAlert(message: "Product removed from cart successfully!")
+    }
 
     
     func applyRoundedBorders(to textView: UITextView) {

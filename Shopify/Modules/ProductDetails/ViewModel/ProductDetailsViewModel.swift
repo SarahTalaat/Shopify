@@ -179,7 +179,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
     }
     func deleteFromCart(){
-       let draftOrderId = 1034569318561
+       let draftOrderId = 1034577543329
         var urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
         deleteDraftOrderNetwork(urlString: urlString, parameters: [:])
   
@@ -197,6 +197,8 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             }
         })
     }
+    
+    
     
     func deleteDraftOrderNetwork(urlString: String, parameters: [String:Any]) {
         networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .delete, model: parameters, completion: { [weak self] (result: Result<EmptyResponse, Error>) in
