@@ -859,7 +859,7 @@
                                 </connections>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xEC-Pu-Vul">
-                                <rect key="frame" x="65" y="427.5" width="284" height="50"/>
+                                <rect key="frame" x="20.5" y="423.5" width="373" height="58"/>
                                 <color key="tintColor" red="1" green="0.32833661019999999" blue="0.2354005324" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" title="Register"/>
@@ -868,7 +868,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LLN-Js-QQf">
-                                <rect key="frame" x="65" y="367.5" width="284" height="50"/>
+                                <rect key="frame" x="20.5" y="355" width="373" height="58.5"/>
                                 <color key="tintColor" red="1" green="0.32833661019999999" blue="0.2354005324" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Login"/>
@@ -884,7 +884,7 @@
                             <constraint firstItem="shB-cC-cmm" firstAttribute="leading" secondItem="a8W-x6-kQ0" secondAttribute="leading" constant="16" id="3bZ-g0-iBd"/>
                             <constraint firstItem="aZS-9J-q3O" firstAttribute="leading" secondItem="a8W-x6-kQ0" secondAttribute="leading" constant="16" id="7QU-43-qnT"/>
                             <constraint firstItem="dYr-VO-HoT" firstAttribute="width" secondItem="C0Y-cD-FXV" secondAttribute="width" multiplier="0.8" id="871-4d-gja"/>
-                            <constraint firstItem="LLN-Js-QQf" firstAttribute="width" secondItem="C0Y-cD-FXV" secondAttribute="width" multiplier="0.68599" id="9iR-QC-QgH"/>
+                            <constraint firstItem="LLN-Js-QQf" firstAttribute="width" secondItem="C0Y-cD-FXV" secondAttribute="width" multiplier="0.9" id="9iR-QC-QgH"/>
                             <constraint firstItem="VKp-2E-rID" firstAttribute="leading" secondItem="a8W-x6-kQ0" secondAttribute="leading" constant="16" id="GAB-9X-V9J"/>
                             <constraint firstItem="a8W-x6-kQ0" firstAttribute="trailing" secondItem="5EK-z3-4w8" secondAttribute="trailing" constant="16" id="Gg3-NU-Ntu"/>
                             <constraint firstItem="LLN-Js-QQf" firstAttribute="bottom" secondItem="xEC-Pu-Vul" secondAttribute="top" constant="-10" id="Hp2-ii-UiX"/>
@@ -903,12 +903,12 @@
                             <constraint firstItem="dYr-VO-HoT" firstAttribute="leading" secondItem="a8W-x6-kQ0" secondAttribute="leading" constant="16" id="bL1-sE-HD4"/>
                             <constraint firstItem="aZS-9J-q3O" firstAttribute="top" secondItem="a8W-x6-kQ0" secondAttribute="top" constant="9" id="gnP-s7-yvV"/>
                             <constraint firstItem="LLN-Js-QQf" firstAttribute="centerX" secondItem="xEC-Pu-Vul" secondAttribute="centerX" id="hzF-Gd-fPU"/>
-                            <constraint firstItem="LLN-Js-QQf" firstAttribute="height" secondItem="C0Y-cD-FXV" secondAttribute="height" multiplier="0.0558036" id="ixa-SW-NuO"/>
+                            <constraint firstItem="LLN-Js-QQf" firstAttribute="height" secondItem="C0Y-cD-FXV" secondAttribute="height" multiplier="0.065" id="ixa-SW-NuO"/>
                             <constraint firstItem="ZAO-1a-ZGq" firstAttribute="height" secondItem="C0Y-cD-FXV" secondAttribute="height" multiplier="0.0267857" id="k9t-g8-BLt"/>
                             <constraint firstItem="a8W-x6-kQ0" firstAttribute="trailing" secondItem="VKp-2E-rID" secondAttribute="trailing" constant="16" id="kaW-Jz-r2P"/>
                             <constraint firstItem="ZAO-1a-ZGq" firstAttribute="width" secondItem="C0Y-cD-FXV" secondAttribute="width" multiplier="0.8" id="oIp-IH-4B1"/>
-                            <constraint firstItem="xEC-Pu-Vul" firstAttribute="height" secondItem="C0Y-cD-FXV" secondAttribute="height" multiplier="0.0558036" id="oLb-Dn-t7J"/>
-                            <constraint firstItem="xEC-Pu-Vul" firstAttribute="width" secondItem="C0Y-cD-FXV" secondAttribute="width" multiplier="0.68599" id="yeW-8k-Z0V"/>
+                            <constraint firstItem="xEC-Pu-Vul" firstAttribute="height" secondItem="C0Y-cD-FXV" secondAttribute="height" multiplier="0.065" id="oLb-Dn-t7J"/>
+                            <constraint firstItem="xEC-Pu-Vul" firstAttribute="width" secondItem="C0Y-cD-FXV" secondAttribute="width" multiplier="0.9" id="yeW-8k-Z0V"/>
                             <constraint firstItem="vQQ-Nq-Nxk" firstAttribute="leading" secondItem="a8W-x6-kQ0" secondAttribute="leading" constant="16" id="yuj-Ld-7gf"/>
                             <constraint firstItem="vQQ-Nq-Nxk" firstAttribute="top" secondItem="a8W-x6-kQ0" secondAttribute="top" constant="132" id="ze7-ZF-EDd"/>
                         </constraints>
