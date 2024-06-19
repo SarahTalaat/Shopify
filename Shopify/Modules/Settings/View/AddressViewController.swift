@@ -90,9 +90,15 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
 
       func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
           let selectedAddress = viewModel.addresses[indexPath.row]
-              selectionDelegate?.didSelectAddress(selectedAddress) {
-                  self.navigationController?.popViewController(animated: true) // Pop the AddressViewController to go back to PaymentViewController
-              }
+            viewModel.setDefaultAddress(at: indexPath) // Update the default address
+            selectionDelegate?.didSelectAddress(selectedAddress) {
+                // Pop back to PaymentViewController
+                if let paymentViewController = self.navigationController?.viewControllers.first(where: { $0 is PaymentViewController }) as? PaymentViewController {
+                    paymentViewController.defaultAddress = selectedAddress
+                    paymentViewController.updateAddressLabel()
+                    self.navigationController?.popToViewController(paymentViewController, animated: true)
+                }
+            }
       }
 
       func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -122,7 +122,7 @@ class PaymentViewController: UIViewController {
            }
        }
 
-       private func updateAddressLabel() {
+        func updateAddressLabel() {
            if let defaultAddress = defaultAddress {
                customerPaymentAddress.text = "\(defaultAddress.first_name ) \(defaultAddress.address1), \(defaultAddress.city), \(defaultAddress.country) "
            } else {
