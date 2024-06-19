@@ -11,8 +11,12 @@ import Kingfisher
 class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource{
 
     @IBAction func addToCartButton(_ sender: CustomButton) {
-        viewModel.isDataBound = true
-        viewModel.addToCart()
+        if SharedDataRepository.instance.customerEmail == nil {
+            showGuestAlert()
+        }else{
+            viewModel.isDataBound = true
+            viewModel.addToCart()
+        }
         
     }
     @IBOutlet weak var brandNameLabel: UILabel!

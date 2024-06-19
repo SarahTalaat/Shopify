@@ -23,7 +23,6 @@ class ProfileViewController: UIViewController {
     
     
     let viewModel = UserProfileViewModel()
-    let ordersViewModel = OrdersViewModel()
     var detailsModel = OrderDetailsViewModel()
     var sharedMethods: SharedMethods?
     var userProfileViewModel: UserProfileViewModelProfileProtocol!
@@ -53,28 +52,33 @@ class ProfileViewController: UIViewController {
         
         guestMode()
         
-        ordersViewModel.bindAllOrders = {
+        viewModel.bindAllOrders = {
           self.updateCollection()
         }
-        viewModel.getOrdersCount()
-           bindOrdersLabel()
+        ordersLabel.text = "You have \(viewModel.orders.count) order"
 
+        print(viewModel.orders.count)
     }
-    
 
-
-       func bindOrdersLabel() {
-           viewModel.bindOrdersCount = { [weak self] in
-               DispatchQueue.main.async {
-                   guard let self = self else { return }
-                   self.ordersLabel.text = "You have \(self.viewModel.ordersCount) orders"
-               }
-           }
-       }
-
+    override func viewWillAppear(_ animated: Bool) {
+          super.viewWillAppear(animated)
+          viewModel.getOrders()
+          updateCollection()
+        initializeButtonStyles()
+        }
+        
+        func initializeButtonStyles() {
+            login.setTitleColor(.customColor, for: .normal)
+            login.tintColor = .customBackgroundColor
+            
+            register.setTitleColor(.customColor, for: .normal)
+            register.tintColor = .customBackgroundColor
+        }
+        
     func updateCollection(){
             DispatchQueue.main.async { [weak self] in
                 self?.ordersCollectionView.reloadData()
+                self?.ordersLabel.text = "You have \(self?.viewModel.orders.count ?? 5) order"
             }
         }
     
@@ -83,12 +87,13 @@ class ProfileViewController: UIViewController {
     private func bindViewModel() {
         userProfileViewModel.bindUserViewModelToController = { [weak self] in
             DispatchQueue.main.async {
-                self?.welcomeLabel.text = "Welcome \(self?.userProfileViewModel?.name ?? "No valueeee for name!!!!!")"
-                print("Profile: View: name: \(self?.userProfileViewModel?.name ?? "Nope there is no value for name!!!")")
+                self?.welcomeLabel.text = "Welcome \(self?.userProfileViewModel?.name ?? "No value for name!")"
+                print("Profile: View: name: \(self?.userProfileViewModel?.name ?? "there is no value for name!!")")
+                
                 if self?.userProfileViewModel?.name == "Guest" {
                     self?.usernameLabel.text  = "Join us to enjoy exclusive features!"
                     
-                    self?.gmailLabel.text = "View and manage your orders,create a personalized wishlist and receive special offers and discounts"
+                    self?.gmailLabel.text = "View your orders,create a personalized wishlist and receive discounts"
 
                 }else{
                     self?.usernameLabel.text = self?.userProfileViewModel?.name
@@ -125,6 +130,21 @@ class ProfileViewController: UIViewController {
     }
     
     
+    @IBAction func loginButton(_ sender: UIButton) {
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let signInVC = sb.instantiateViewController(withIdentifier: "SignInVC") as! SignInVC
+        navigationController?.pushViewController(signInVC, animated: true)
+
+    }
+    
+    
+    
+    @IBAction func registerButton(_ sender: UIButton) {
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let signUpVC = sb.instantiateViewController(withIdentifier: "SignUpVC") as! SignUpVC
+        navigationController?.pushViewController(signUpVC, animated: true)
+
+    }
     
     // MARK: - Collection View Layout Drawing
     
@@ -172,7 +192,7 @@ class ProfileViewController: UIViewController {
             switch collectionView
             {
             case ordersCollectionView :
-                return min(ordersViewModel.orders.count, 2)
+                return min(viewModel.orders.count, 2)
             default:
                 return 2
             }
@@ -183,18 +203,17 @@ class ProfileViewController: UIViewController {
             if collectionView == ordersCollectionView {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OrderCollectionViewCell", for: indexPath) as! OrderCollectionViewCell
                 
-                //Need to be updated later on //
                 
-                let item = ordersViewModel.orders[indexPath.row]
+                let item = viewModel.orders[indexPath.row]
                 
                 let date = item.created_at
                 let datePart = date?.split(separator: "T").first.map(String.init)
                 cell.creationDate.text = "Created At: \(datePart ?? " ")"
                 
                 if let totalPrice = item.total_price {
-                            cell.orderPrice.text = "\(totalPrice)$"
+                    cell.orderPrice.text = "\(totalPrice) \(item.currency)"
                         } else {
-                            cell.orderPrice.text = "0.00$"
+                            cell.orderPrice.text = "0.00 USD"
                         }
 
                 return cell
@@ -207,7 +226,8 @@ class ProfileViewController: UIViewController {
         
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             if collectionView == ordersCollectionView {
-                detailsModel.id = ordersViewModel.orders[indexPath.row].id ?? 0
+                detailsModel.id = viewModel.orders[indexPath.row].id ?? 0
+                detailsModel.currency = viewModel.orders[indexPath.row].currency
                  let storyboard = UIStoryboard(name: "Second", bundle: nil)
                  let orderDetailsViewController = storyboard.instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
                 orderDetailsViewController.viewModel = detailsModel
@@ -251,3 +271,7 @@ class ProfileViewController: UIViewController {
         }
     }
 
+extension UIColor {
+    static let customColor = UIColor.white // Custom color set to white
+    static let customBackgroundColor = UIColor(red: 219/255, green: 48/255, blue: 34/255, alpha: 1.0) // Custom background color set to (219, 48, 34)
+}

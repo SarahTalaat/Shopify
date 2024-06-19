@@ -72,11 +72,15 @@ extension NetworkUtilities {
                         completion(true)
                     case .failure(let error):
                         print("Error posting data: \(error)")
+                        print(String(describing: error))
+
                         completion(false)
                     }
                 }
         } catch {
             print("Error encoding data: \(error)")
+            print(String(describing: error))
+
             completion(false)
         }
     }

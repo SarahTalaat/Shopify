@@ -55,20 +55,28 @@ class HomeViewController: UIViewController {
     // MARK: - Navigation Bar Items 
     
     @objc func navToCart(){
-        print("Cart ")
-        
-        let storyboard = UIStoryboard(name: "Third", bundle: nil)
-        let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ShoppingCartVC") as! ShoppingCartViewController
-        navigationController?.pushViewController(brandsViewController, animated: true)
+        if SharedDataRepository.instance.customerEmail == nil{
+            showGuestAlert()
+        }else{
+            print("Cart ")
+            
+            let storyboard = UIStoryboard(name: "Third", bundle: nil)
+            let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ShoppingCartVC") as! ShoppingCartViewController
+            navigationController?.pushViewController(brandsViewController, animated: true)
+        }
         
     }
     
     @objc func navToFav(){
-        print("Favourite ")
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let favouriteVC = storyboard.instantiateViewController(withIdentifier: "FavouriteVC") as! FavouriteVC
-        navigationController?.pushViewController(favouriteVC, animated: true)
+        if SharedDataRepository.instance.customerEmail == nil {
+            showGuestAlert()
+        }else{
+            print("Favourite ")
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let favouriteVC = storyboard.instantiateViewController(withIdentifier: "FavouriteVC") as! FavouriteVC
+            navigationController?.pushViewController(favouriteVC, animated: true)
+        }
         
     }
     
@@ -185,17 +193,21 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             navigationController?.pushViewController(brandsViewController, animated: true)
             
         default:
+            if SharedDataRepository.instance.customerEmail == nil {
+                showGuestAlert()
+            }else{
             let item = indexPath.row
             let couponId = viewModel.coupons[item].id
-            viewModel.getDiscountCode(id: couponId) { discountCode in
-                guard let discountCode = discountCode else {
-                    print("Failed to fetch discount code")
-                    return
+                viewModel.getDiscountCode(id: couponId) { discountCode in
+                    guard let discountCode = discountCode else {
+                        print("Failed to fetch discount code")
+                        return
+                    }
+                    
+                    let discountMessage = item == 0 ? "You have just won a 20% discount coupon, copy this coupon and use it in the checkout process" : "You have just won a 10% discount coupon, copy this coupon and use it in the checkout process"
+                    
+                    self.showAlertWithTextField(title: "Congratulations!", message: discountMessage, discountCode: discountCode)
                 }
-                
-                let discountMessage = item == 0 ? "You have just won a 20% discount coupon, copy this coupon and use it in the checkout process" : "You have just won a 10% discount coupon, copy this coupon and use it in the checkout process"
-                
-                self.showAlertWithTextField(title: "Congratulations!", message: discountMessage, discountCode: discountCode)
             }
         }
     }
@@ -225,4 +237,12 @@ extension UIViewController {
         
         self.present(alertController, animated: true, completion: nil)
     }
+    
+     func showGuestAlert() {
+           let alert = UIAlertController(title: "Guest Access Restricted", message: "Please sign in to access this feature.", preferredStyle: .alert)
+           let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+           alert.addAction(okAction)
+           
+           self.present(alert, animated: true, completion: nil)
+       }
 }

@@ -14,6 +14,11 @@ class OrderDetailsViewModel{
         }
     }
     
+    var currency: String = "USD"{
+        didSet {
+            bindCurrency()
+        }
+    }
     var orders: [LineItem] = [] {
         didSet {
             getProducts()
@@ -34,6 +39,7 @@ class OrderDetailsViewModel{
     
     
     var bindOrders: (() -> ()) = {}
+    var bindCurrency: (() -> ()) = {}
     var bindFilteredProducts: (() -> ()) = {}
 
     init() {
