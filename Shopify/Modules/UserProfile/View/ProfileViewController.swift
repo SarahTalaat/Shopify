@@ -24,6 +24,7 @@ class ProfileViewController: UIViewController {
     var sharedMethods: SharedMethods?
     
     var userProfileViewModel: UserProfileViewModelProfileProtocol!
+    var favouriteViewModel: FavouriteViewModelProtocol!
     
     @IBAction func ordersBtn(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Second", bundle: nil)
@@ -47,10 +48,25 @@ class ProfileViewController: UIViewController {
         wishlistCollectionView.collectionViewLayout = wishlistCollectionViewLayout()
         sharedMethods = SharedMethods(viewController: self)
         
+        
 
+        wishlistCollectionView.reloadData()
+       
         
         print("Profile View Controller ViewDidLoad")
         userProfileViewModel = DependencyProvider.userProfileViewModel
+        favouriteViewModel = DependencyProvider.favouriteViewModel
+        favouriteViewModel.retriveProducts()
+        
+        func bindViewModel(){
+            favouriteViewModel.bindProducts = { [weak self] in
+                DispatchQueue.main.async {
+                    self?.wishlistCollectionView.reloadData()
+                }
+            }
+        }
+        
+        
         bindViewModel()
         userProfileViewModel.userPersonalData()
         print("Profile: test name : \(userProfileViewModel.name)")
@@ -158,7 +174,14 @@ class ProfileViewController: UIViewController {
                 return cell
             } else {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WishlistCollectionViewCell", for: indexPath) as! WishlistCollectionViewCell
-                cell.productName.text = "Black Dress"
+                
+                if indexPath.row < 2 {
+                    if favouriteViewModel.products?[indexPath.row] != nil {
+                    
+                        cell.productName.text = favouriteViewModel.products?[indexPath.row].productTitle
+                    }
+                }
+
                 return cell
             }
         }
@@ -169,9 +192,10 @@ class ProfileViewController: UIViewController {
                          let orders = storyboard.instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
                          navigationController?.pushViewController(orders, animated: true)
             } else {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let favouriteVC = storyboard.instantiateViewController(withIdentifier: "FavouriteVC") as! FavouriteVC
-            navigationController?.pushViewController(favouriteVC, animated: true)
+                favouriteViewModel.getproductId(index: indexPath.row)
+                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                 let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
+                 navigationController?.pushViewController(brandsViewController, animated: true)
                 }
             }
         }

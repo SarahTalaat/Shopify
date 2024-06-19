@@ -92,6 +92,7 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
             
             viewModel.deleteProductFromFirebase(index: indexPath.row)
             viewModel.products?.remove(at: indexPath.row)
+            favouriteTableView.reloadData()
 
         
         }
