@@ -34,10 +34,20 @@ class AllProductsViewModel{
 
         }
     }
+    private func fetchExchangeRates() {
+            let exchangeRateApiService = ExchangeRateApiService()
+            exchangeRateApiService.getLatestRates { [weak self] result in
+                switch result {
+                case .success(let response):
+                    self?.exchangeRates = response.conversion_rates
+                case .failure(let error):
+                    print("Error fetching exchange rates: \(error)")
+                }
+                self?.bindAllProducts()
+            }
+        }
 
     
-    
-   
 }
 
 extension AllProductsViewModel {
@@ -78,20 +88,8 @@ extension AllProductsViewModel {
     func addValueToUserDefaults(value: Any, forKey key: String) {
         UserDefaults.standard.set(value, forKey: key)
         UserDefaults.standard.synchronize()
+    }
 
-    private func fetchExchangeRates() {
-            let exchangeRateApiService = ExchangeRateApiService()
-            exchangeRateApiService.getLatestRates { [weak self] result in
-                switch result {
-                case .success(let response):
-                    self?.exchangeRates = response.conversion_rates
-                case .failure(let error):
-                    print("Error fetching exchange rates: \(error)")
-                }
-                self?.bindAllProducts()
-            }
-        }
-     
     func productIndexPath(index: Int){
         print("category vm index: \(index)")
         ProductDetailsSharedData.instance.brandsProductIndex = index

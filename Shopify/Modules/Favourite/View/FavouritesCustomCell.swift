@@ -9,8 +9,8 @@ import UIKit
 
 class FavouritesCustomCell: UITableViewCell {
 
-    @IBOutlet weak var productImage: UIImageView!
     
+    @IBOutlet weak var favImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var vendorLabel: UILabel!

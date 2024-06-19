@@ -8,21 +8,21 @@
 import UIKit
 import Kingfisher
 
-class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource{
+class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource {
 
     @IBOutlet weak var addToCartUI: CustomButton!
     @IBAction func addToCartButton(_ sender: CustomButton) {
-
-
-    if SharedDataRepository.instance.customerEmail == nil {
+        
+        if SharedDataRepository.instance.customerEmail == nil {
             showGuestAlert()
-    }else{
-//             viewModel.isDataBound = true
-//             viewModel.addToCart()
-        if addToCartUI.isAddedToCart {
-            removeFromCart()
-        } else {
-            addToCart()
+        }else{
+            //             viewModel.isDataBound = true
+            //             viewModel.addToCart()
+            if addToCartUI.isAddedToCart {
+                removeFromCart()
+            } else {
+                addToCart()
+            }
         }
     }
     @IBOutlet weak var brandNameLabel: UILabel!

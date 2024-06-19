@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -67,6 +68,11 @@
                     <constraint firstItem="64I-IU-F5B" firstAttribute="centerY" secondItem="6hx-eg-EDa" secondAttribute="centerY" id="ygJ-fD-0GX"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="favImage" destination="QbF-hP-3dm" id="Jcm-eU-mJA"/>
+                <outlet property="titleLabel" destination="64I-IU-F5B" id="173-dp-2Qo"/>
+                <outlet property="vendorLabel" destination="gUY-h9-V0u" id="hrF-Z3-1IK"/>
+            </connections>
             <point key="canvasLocation" x="131.8840579710145" y="221.98660714285714"/>
         </tableViewCell>
     </objects>

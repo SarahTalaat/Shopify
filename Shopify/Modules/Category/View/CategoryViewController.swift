@@ -212,7 +212,7 @@ class CategoryViewController: UIViewController {
             }
 
         }
-    }
+    
 
 
 extension CategoryViewController: ProductsTableViewCellDelegate{
@@ -243,27 +243,28 @@ extension CategoryViewController: ProductsTableViewCellDelegate{
     }
 }
 
-      }
       // MARK: - Button Design
    
-      extension UIButton {
-          func applyShadow() {
-              layer.shadowOpacity = 0.6
-          }
-          func addBottomBorder(withColor color: UIColor, andWidth borderWidth: CGFloat) {
-              let border = CALayer()
-              border.backgroundColor = color.cgColor
-              border.frame = CGRect(x: 0, y: self.frame.size.height - borderWidth, width: self.frame.size.width, height: borderWidth)
-              border.name = "bottomBorder"
-              self.layer.addSublayer(border)
-          }
-          func removeBottomBorder() {
-              if let sublayers = self.layer.sublayers {
-                  for layer in sublayers {
-                      if layer.name == "bottomBorder" {
-                          layer.removeFromSuperlayer()
-                      }
-                  }
-              }
-          }
+extension UIButton {
+    func applyShadow() {
+        layer.shadowOpacity = 0.6
+    }
+    func addBottomBorder(withColor color: UIColor, andWidth borderWidth: CGFloat) {
+        let border = CALayer()
+        border.backgroundColor = color.cgColor
+        border.frame = CGRect(x: 0, y: self.frame.size.height - borderWidth, width: self.frame.size.width, height: borderWidth)
+        border.name = "bottomBorder"
+        self.layer.addSublayer(border)
+    }
+    
+    func removeBottomBorder() {
+        if let sublayers = self.layer.sublayers {
+            for layer in sublayers {
+                if layer.name == "bottomBorder" {
+                    layer.removeFromSuperlayer()
+                }
+            }
+        }
+    }
+}
 

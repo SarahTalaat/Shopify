@@ -117,7 +117,7 @@ class ProfileViewController: UIViewController {
                 self?.welcomeLabel.text = "Welcome \(self?.userProfileViewModel?.name ?? "No value for name!")"
                 print("Profile: View: name: \(self?.userProfileViewModel?.name ?? "there is no value for name!!")")
                 
-                if self?.userProfileViewModel?.name == "Guest" {
+                if SharedDataRepository.instance.customerEmail == nil {
                     self?.usernameLabel.text  = "Join us to enjoy exclusive features!"
                     
                     self?.gmailLabel.text = "View your orders,create a personalized wishlist and receive discounts"
@@ -131,7 +131,7 @@ class ProfileViewController: UIViewController {
         }
     }
     func guestMode(){
-        if userProfileViewModel.name == "Guest"{
+        if SharedDataRepository.instance.customerEmail == nil{
             login.isHidden = false
             register.isHidden = false
             ordersCollectionView.isHidden = true

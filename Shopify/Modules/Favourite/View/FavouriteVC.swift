@@ -69,9 +69,9 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         cell.titleLabel.text = viewModel.products?[indexPath.row].productTitle
         
         if let imageUrl = URL(string:viewModel.products?[indexPath.row].productImage ?? "https://m.media-amazon.com/images/I/81H0Mn0kaNL._AC_SL1500_.jpg" ) {
-            cell.productImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "placeholderImage"))
+            cell.favImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "placeholderImage"))
         } else {
-            cell.productImage.image = UIImage(named: "imageplaceholder.jpg")
+            cell.favImage.image = UIImage(named: "imageplaceholder.jpg")
         }
         
 
