@@ -65,8 +65,6 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
         settingUpDropdown(dropDowntableView: dropDowntableView1, cellIdentifier: "dropdownCell1")
         settingUpDropdown(dropDowntableView: dropDowntableView2, cellIdentifier: "dropdownCell2")
-        setupDropdownButton(dropdownButton: dropdownButton, buttonTitle: "Size", imageName: "chevron.down")
-        setupDropdownButton(dropdownButton: dropdownButton2, buttonTitle: "Colour", imageName: "chevron.down")
         setupDropdownTableView1(dropDowntableView: dropDowntableView1)
         setupDropdownTableView1(dropDowntableView: dropDowntableView2)
         
@@ -77,7 +75,10 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
 
     }
-    
+    func setupDropdownButtons() {
+        setupDropdownButton(dropdownButton: dropdownButton, buttonTitle: viewModel.getSize(index: 0) ?? "Size N/A", imageName: "chevron.down")
+        setupDropdownButton(dropdownButton: dropdownButton2, buttonTitle: viewModel.getColour(index: 0) ?? "Colour N/A", imageName: "chevron.down")
+    }
     func showAlert(message: String) {
         let alert = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -194,6 +195,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
                 self?.brandTitleLabel.text = self?.viewModel.product?.product?.title
                 self?.priceLabel.text = self?.viewModel.product?.product?.variants?.first?.price
                 self?.descriptionLabel.text = self?.viewModel.product?.product?.body_html
+                self?.setupDropdownButtons()
             }
         }
     }
