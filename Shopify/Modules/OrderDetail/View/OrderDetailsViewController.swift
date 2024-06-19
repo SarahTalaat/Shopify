@@ -23,7 +23,7 @@ class OrderDetailsViewController: UIViewController {
             self.updateCollection()
         }
         viewModel.bindCurrency = {
-            self.currency = self.viewModel.currency
+            self.updateCollection()
         }
 
     }
@@ -71,7 +71,7 @@ class OrderDetailsViewController: UIViewController {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OrderDetailsCell", for: indexPath) as! OrderDetailsCell
             let item = viewModel.orders[indexPath.row]
             cell.numOfUnit.text = "Quantity:\(item.quantity)"
-            cell.unitPrice.text = "\(item.price) \(currency)"
+            cell.unitPrice.text = "\(item.price) \(viewModel.currency)"
             cell.productName.text = item.title
             
             let url = viewModel.filteredProducts[indexPath.row].images[0].src

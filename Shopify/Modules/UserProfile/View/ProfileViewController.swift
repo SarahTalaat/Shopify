@@ -55,13 +55,21 @@ class ProfileViewController: UIViewController {
         viewModel.bindAllOrders = {
           self.updateCollection()
         }
+        ordersLabel.text = "You have \(viewModel.orders.count) order"
+
+        print(viewModel.orders.count)
     }
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+          super.viewWillAppear(animated)
+          viewModel.getOrders()
+          updateCollection()
+      }
 
     func updateCollection(){
             DispatchQueue.main.async { [weak self] in
                 self?.ordersCollectionView.reloadData()
-                self?.ordersLabel.text = "You have \(self?.viewModel.orders.count) orders"
+                self?.ordersLabel.text = "You have \(self?.viewModel.orders.count ?? 5) order"
             }
         }
     
@@ -209,6 +217,7 @@ class ProfileViewController: UIViewController {
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             if collectionView == ordersCollectionView {
                 detailsModel.id = viewModel.orders[indexPath.row].id ?? 0
+                detailsModel.currency = viewModel.orders[indexPath.row].currency
                  let storyboard = UIStoryboard(name: "Second", bundle: nil)
                  let orderDetailsViewController = storyboard.instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
                 orderDetailsViewController.viewModel = detailsModel

@@ -19,7 +19,7 @@ class SharedMethods{
     }
     
     @objc func navToCart() {
-        if SharedDataRepository.instance.customerName == "Guest"{
+        if DependencyProvider.userProfileViewModel.name == "Guest"{
             showGuestAlert()
         }else{
             print("Cart ")
@@ -35,7 +35,7 @@ class SharedMethods{
     }
     
     @objc func navToFav() {
-        if SharedDataRepository.instance.customerName == "Guest"{
+        if DependencyProvider.userProfileViewModel.name == "Guest"{
             showGuestAlert()
         }else{
             print("Favourite ")
@@ -49,7 +49,7 @@ class SharedMethods{
         }
     }
     @objc func navToSettings() {
-        if SharedDataRepository.instance.customerName == "Guest"{
+        if  DependencyProvider.userProfileViewModel.name == "Guest"{
             showGuestAlert()
         }else{
             guard let viewController = viewController else {

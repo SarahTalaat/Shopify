@@ -668,9 +668,8 @@
                                             <action selector="ordersBtn:" destination="JgX-LP-WUR" eventType="touchUpInside" id="hr6-G4-dv1"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You have 12 orders" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XfV-aU-1NN">
-                                        <rect key="frame" x="108" y="13" width="267.5" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have 1 order" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XfV-aU-1NN">
+                                        <rect key="frame" x="8" y="32" width="107" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -679,7 +678,9 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="vCs-UU-k4c" firstAttribute="top" secondItem="vQQ-Nq-Nxk" secondAttribute="top" constant="8" id="4H7-kM-84x"/>
+                                    <constraint firstItem="XfV-aU-1NN" firstAttribute="leading" secondItem="vCs-UU-k4c" secondAttribute="leading" id="7wg-d2-vNV"/>
                                     <constraint firstAttribute="trailing" secondItem="Gs8-66-z9k" secondAttribute="trailing" constant="6" id="MzP-pj-6pe"/>
+                                    <constraint firstItem="XfV-aU-1NN" firstAttribute="top" secondItem="vCs-UU-k4c" secondAttribute="bottom" id="XED-CF-v4w"/>
                                     <constraint firstAttribute="height" constant="53" id="eUR-Os-Z7O"/>
                                     <constraint firstItem="vCs-UU-k4c" firstAttribute="leading" secondItem="vQQ-Nq-Nxk" secondAttribute="leading" constant="8" id="lNX-je-cRX"/>
                                     <constraint firstItem="Gs8-66-z9k" firstAttribute="centerY" secondItem="vQQ-Nq-Nxk" secondAttribute="centerY" id="vpR-mQ-rm7"/>
@@ -862,6 +863,9 @@
                                 <color key="tintColor" red="1" green="0.32833661019999999" blue="0.2354005324" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" title="Register"/>
+                                <connections>
+                                    <action selector="registerButton:" destination="JgX-LP-WUR" eventType="touchUpInside" id="7kq-dC-hPJ"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LLN-Js-QQf">
                                 <rect key="frame" x="65" y="367.5" width="284" height="50"/>
@@ -1314,7 +1318,7 @@
         <image name="gearshape" catalog="system" width="128" height="123"/>
         <image name="handbag.fill" catalog="system" width="128" height="116"/>
         <image name="hanger" catalog="system" width="128" height="99"/>
-        <image name="heart" catalog="system" width="128" height="107"/>
+        <image name="heart" catalog="system" width="32" height="32"/>
         <image name="heart.fill" catalog="system" width="128" height="107"/>
         <image name="house" catalog="system" width="128" height="104"/>
         <image name="line.3.horizontal.decrease.circle" catalog="system" width="128" height="123"/>
