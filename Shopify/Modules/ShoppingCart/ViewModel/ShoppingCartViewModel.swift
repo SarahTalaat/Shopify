@@ -17,7 +17,6 @@ class ShoppingCartViewModel {
     
     var onDraftOrderUpdated: (() -> Void)?
     var onTotalAmountUpdated: (() -> Void)?
-    private var draftOrderUpdateWorkItem: DispatchWorkItem?
     
     func fetchDraftOrders() {
         draftOrderService.fetchDraftOrders { [weak self] result in
@@ -31,7 +30,7 @@ class ShoppingCartViewModel {
         }
     }
     
-   func updateTotalAmount() {
+    func updateTotalAmount() {
         guard let draftOrder = draftOrder else { return }
         totalAmount = draftOrder.draftOrder?.totalPrice ?? "total price"
         onTotalAmountUpdated?()
@@ -40,9 +39,11 @@ class ShoppingCartViewModel {
     func incrementQuantity(at index: Int) {
         guard var lineItem = draftOrder?.draftOrder?.lineItems[index] else { return }
         lineItem.quantity += 1
-        draftOrder?.draftOrder?.lineItems[index] = lineItem
+        var updatedLineItems = draftOrder?.draftOrder?.lineItems ?? []
+        updatedLineItems[index] = lineItem
+        draftOrder?.draftOrder?.lineItems = updatedLineItems
         onDraftOrderUpdated?()
-        scheduleDraftOrderUpdate()
+        updateDraftOrder()
     }
     
     func decrementQuantity(at index: Int) {
@@ -50,21 +51,13 @@ class ShoppingCartViewModel {
         lineItem.quantity -= 1
         draftOrder?.draftOrder?.lineItems[index] = lineItem
         onDraftOrderUpdated?()
-        scheduleDraftOrderUpdate()
+        updateDraftOrder()
     }
     
     func deleteItem(at index: Int) {
         draftOrder?.draftOrder?.lineItems.remove(at: index)
         onDraftOrderUpdated?()
-        scheduleDraftOrderUpdate()
-    }
-    
-    private func scheduleDraftOrderUpdate() {
-        draftOrderUpdateWorkItem?.cancel()
-        draftOrderUpdateWorkItem = DispatchWorkItem { [weak self] in
-            self?.updateDraftOrder()
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: draftOrderUpdateWorkItem!) // Adjust the delay as needed
+        updateDraftOrder()
     }
     
     func updateDraftOrder() {

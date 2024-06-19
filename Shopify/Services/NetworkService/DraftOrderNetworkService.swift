@@ -95,4 +95,33 @@ class DraftOrderNetworkService {
                }
            }
        }
+    func fetchProductInventory(productId: Int, completion: @escaping (Result<Int, Error>) -> Void) {
+            let endpoint = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/products/\(productId)"
+            guard let url = URL(string: endpoint) else {
+                completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
+                return
+            }
+
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+
+                guard let data = data else {
+                    completion(.failure(NSError(domain: "No data", code: -1, userInfo: nil)))
+                    return
+                }
+
+                do {
+                    let productResponse = try JSONDecoder().decode(OneProductResponse.self, from: data)
+                    let inventoryQuantity = productResponse.product.variants.first?.inventory_quantity ?? 0
+                    completion(.success(inventoryQuantity))
+                } catch {
+                    completion(.failure(error))
+                }
+            }
+
+            task.resume()
+        }
 }
