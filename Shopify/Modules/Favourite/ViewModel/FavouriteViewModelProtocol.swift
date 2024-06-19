@@ -13,4 +13,5 @@ protocol FavouriteViewModelProtocol {
     var bindProducts:(()->()) {get set}
     var products: [ProductFromFirebase]? {get set}
     func deleteProductFromFirebase(index: Int)
+    func getproductId(index: Int)
 }

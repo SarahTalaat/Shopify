@@ -10,14 +10,20 @@ import Kingfisher
 
 class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource{
 
+    @IBOutlet weak var addToCartUI: CustomButton!
     @IBAction func addToCartButton(_ sender: CustomButton) {
-        if SharedDataRepository.instance.customerEmail == nil {
+
+
+    if SharedDataRepository.instance.customerEmail == nil {
             showGuestAlert()
-        }else{
-            viewModel.isDataBound = true
-            viewModel.addToCart()
+    }else{
+//             viewModel.isDataBound = true
+//             viewModel.addToCart()
+        if addToCartUI.isAddedToCart {
+            removeFromCart()
+        } else {
+            addToCart()
         }
-        
     }
     @IBOutlet weak var brandNameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
@@ -45,43 +51,41 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     
     var viewModel: ProductDetailsViewModelProtocol!
     var activityIndicator: UIActivityIndicatorView!
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         viewModel = DependencyProvider.productDetailsViewModel
-      //  addActivityIndicator()
-        viewModel.getProduct()
         bindViewModel()
-
+        viewModel.getProductDetails()
         
-        priceLabel.text = viewModel.customProductDetails?.price
+        viewModel.loadFavoriteProducts()
         
-        print("PD View viewdidload: \(viewModel.customProductDetails?.price) ")
-        brandNameLabel.text = viewModel.customProductDetails?.vendor
-        brandTitleLabel.text = viewModel.customProductDetails?.title
-        descriptionLabel.text = viewModel.customProductDetails?.description
+        updateFavoriteButton()
         
-    
-        
-        
+        addToCartUI.isAddedToCart = false
         settingUpCollectionView()
 
         settingUpDropdown(dropDowntableView: dropDowntableView1, cellIdentifier: "dropdownCell1")
         settingUpDropdown(dropDowntableView: dropDowntableView2, cellIdentifier: "dropdownCell2")
-        setupDropdownButton(dropdownButton: dropdownButton, buttonTitle: "Size", imageName: "chevron.down")
-        setupDropdownButton(dropdownButton: dropdownButton2, buttonTitle: "Colour", imageName: "chevron.down")
         setupDropdownTableView1(dropDowntableView: dropDowntableView1)
         setupDropdownTableView1(dropDowntableView: dropDowntableView2)
         
         setUpFavouriteButton()
         
-        applyRoundedBorders(to: reviewTextView1)
-        applyRoundedBorders(to: reviewTextView2)
+
         applyRoundedBorders(to: descriptionLabel)
 
 
+    }
+    func setupDropdownButtons() {
+        setupDropdownButton(dropdownButton: dropdownButton, buttonTitle: viewModel.getSize(index: 0) ?? "Size N/A", imageName: "chevron.down")
+        setupDropdownButton(dropdownButton: dropdownButton2, buttonTitle: viewModel.getColour(index: 0) ?? "Colour N/A", imageName: "chevron.down")
+    }
+    func showAlert(message: String) {
+        let alert = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     func addActivityIndicator() {
         activityIndicator = UIActivityIndicatorView(style: .medium)
@@ -89,30 +93,20 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         activityIndicator.hidesWhenStopped = true
         view.addSubview(activityIndicator)
     }
-    
-    func bindViewModel() {
-     //   activityIndicator.startAnimating()
-        viewModel.bindCustomProductDetailsViewModelToController = { [weak self] in
-            DispatchQueue.main.async {
-                self?.updateUI()
-            }
-        }
+    func addToCart() {
+
+        viewModel.addToCart()
+        addToCartUI.isAddedToCart = true
+        showAlert(message: "Product added to cart successfully!")
     }
     
-    func updateUI() {
-    //    activityIndicator.stopAnimating()
-        // Update UI elements with fetched data
-        priceLabel.text = viewModel.customProductDetails?.price
-        brandNameLabel.text = viewModel.customProductDetails?.vendor
-        brandTitleLabel.text = viewModel.customProductDetails?.title
-        descriptionLabel.text = viewModel.customProductDetails?.description
-        print("PD View updateUI price: \(viewModel.customProductDetails?.price) ")
-        myCollectionView.reloadData() // Reload collection view if data for images has changed
-        
-        // Example: You may need to update dropdowns too
-        dropDowntableView1.reloadData()
-        dropDowntableView2.reloadData()
+    func removeFromCart() {
+
+        viewModel.deleteFromCart()
+        addToCartUI.isAddedToCart = false
+        showAlert(message: "Product removed from cart successfully!")
     }
+
     
     func applyRoundedBorders(to textView: UITextView) {
         textView.layer.cornerRadius = 10
@@ -124,26 +118,20 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
 
     @IBAction func favouriteButtonTapped(_ sender: UIButton) {
+        
+        viewModel.toggleFavorite()
+        updateFavoriteButton()
 
-        // Toggle the state
-        isFavourite.toggle()
-        
-        // Set the image for the button based on the state
-        let imageName = isFavourite ? "heart.fill" : "heart"
-        let image = UIImage(systemName: imageName)
-        sender.setImage(image, for: .normal)
-        
-        // Disable the button's adjustment when highlighted to remove the blue shadow
-        sender.adjustsImageWhenHighlighted = false
-        
-        
-        if isFavourite {
-            viewModel.addProductToFirebase()
-        }else{
-            viewModel.deleteProductFromFirebase()
-        }
         
     }
+    
+    func updateFavoriteButton() {
+        let isFavorited = viewModel.checkIfFavorited()
+        let imageName = isFavorited ? "heart.fill" : "heart"
+        let image = UIImage(systemName: imageName)
+        favouriteButton.setImage(image, for: .normal)
+    }
+    
     func setUpFavouriteButton(){
         // Make the button circular
         favouriteButton.layer.cornerRadius = favouriteButton.bounds.width / 2
@@ -199,6 +187,21 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
     }
 
+    func bindViewModel() {
+        viewModel.bindProductDetailsViewModelToController = { [weak self] in
+            DispatchQueue.main.async {
+                self?.myCollectionView.reloadData()
+                self?.dropDowntableView1.reloadData()
+                self?.dropDowntableView2.reloadData()
+                
+                self?.brandNameLabel.text = self?.viewModel.product?.product?.vendor
+                self?.brandTitleLabel.text = self?.viewModel.product?.product?.title
+                self?.priceLabel.text = self?.viewModel.product?.product?.variants?.first?.price
+                self?.descriptionLabel.text = self?.viewModel.product?.product?.body_html
+                self?.setupDropdownButtons()
+            }
+        }
+    }
     
     func setupDropdownTableView1(dropDowntableView: UITableView) {
         dropDowntableView.layer.borderWidth = 1.0
@@ -226,14 +229,17 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         
         switch(tableView){
         case dropDowntableView1:
-            return viewModel.customProductDetails?.colour?.count ?? 1
+          //color
+            return viewModel.getSizeCount()
         case dropDowntableView2:
-            return viewModel.customProductDetails?.size?.count ?? 1
+          //size
+            return viewModel.getColoursCount()
         default:
-            return viewModel.customProductDetails?.size?.count ?? 1
+          //size
+            return viewModel.getSizeCount()
+            
         }
-        
-  // or dropdownItems2.count depending on the tableView
+
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -241,16 +247,16 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         if tableView == dropDowntableView1 {
             cell = tableView.dequeueReusableCell(withIdentifier: "dropdownCell1", for: indexPath)
             
-            if(indexPath.row < viewModel.customProductDetails?.size?.count ?? 1){
-                cell.textLabel?.text = viewModel.customProductDetails?.size?[indexPath.row]
+            if(indexPath.row < viewModel.getSizeCount()){
+                cell.textLabel?.text = viewModel.getSize(index: indexPath.row)
             }
 
         } else if tableView == dropDowntableView2 {
             cell = tableView.dequeueReusableCell(withIdentifier: "dropdownCell2", for: indexPath)
             
             
-            if(indexPath.row < viewModel.customProductDetails?.colour?.count ?? 1){
-                cell.textLabel?.text = viewModel.customProductDetails?.colour?[indexPath.row] ?? "Red"
+            if(indexPath.row < viewModel.getColoursCount()){
+                cell.textLabel?.text = viewModel.getColour(index: indexPath.row)
             }
 
         }
@@ -261,17 +267,15 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
         print("didSelectRowAt called")
         if tableView == dropDowntableView1 {
-            dropdownButton.setTitle(viewModel.customProductDetails?.size?[indexPath.row], for: .normal)
+            dropdownButton.setTitle(viewModel.getSize(index: indexPath.row), for: .normal)
             isDropdownVisible = false
             dropDowntableView1.isHidden = true
         } else if tableView == dropDowntableView2 {
-            dropdownButton2.setTitle(viewModel.customProductDetails?.colour?[indexPath.row], for: .normal)
+            dropdownButton2.setTitle(viewModel.getColour(index: indexPath.row), for: .normal)
             isDropdownVisible2 = false
             dropDowntableView2.isHidden = true
         }
     }
-
-
 
     
 
@@ -281,14 +285,14 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.customProductDetails?.images?.count ?? 1
+        return viewModel.product?.product?.images?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = myCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCollectionViewCell
         
-        if let imageUrlString = viewModel.customProductDetails?.images?[indexPath.row],
+        if let imageUrlString = viewModel.product?.product?.images?[indexPath.row].src,
            let imageUrl = URL(string: imageUrlString) {
             cell.productImage.kf.setImage(with: imageUrl)
         } else {

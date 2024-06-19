@@ -26,6 +26,7 @@ class ProfileViewController: UIViewController {
     var detailsModel = OrderDetailsViewModel()
     var sharedMethods: SharedMethods?
     var userProfileViewModel: UserProfileViewModelProfileProtocol!
+    var favouriteViewModel: FavouriteViewModelProtocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,12 +34,38 @@ class ProfileViewController: UIViewController {
         wishlistCollectionView.collectionViewLayout = wishlistCollectionViewLayout()
         sharedMethods = SharedMethods(viewController: self)
         
+
+        
+
+        wishlistCollectionView.reloadData()
+       
+
         print("Profile View Controller ViewDidLoad")
         userProfileViewModel = DependencyProvider.userProfileViewModel
-        bindViewModel()
+        favouriteViewModel = DependencyProvider.favouriteViewModel
+        favouriteViewModel.retriveProducts()
+        
+        bindViewModel2()
         userProfileViewModel.userPersonalData()
         print("Profile: test name : \(userProfileViewModel.name)")
         print("Profile: test email : \(userProfileViewModel.email)")
+
+        
+        
+        
+        func bindViewModel(){
+            favouriteViewModel.bindProducts = { [weak self] in
+                DispatchQueue.main.async {
+                    self?.wishlistCollectionView.reloadData()
+                }
+            }
+        }
+        
+        
+
+        
+        
+        let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
 
         let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
 
@@ -84,7 +111,7 @@ class ProfileViewController: UIViewController {
     
  
     
-    private func bindViewModel() {
+    private func bindViewModel2() {
         userProfileViewModel.bindUserViewModelToController = { [weak self] in
             DispatchQueue.main.async {
                 self?.welcomeLabel.text = "Welcome \(self?.userProfileViewModel?.name ?? "No value for name!")"
@@ -219,7 +246,14 @@ class ProfileViewController: UIViewController {
                 return cell
             } else {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WishlistCollectionViewCell", for: indexPath) as! WishlistCollectionViewCell
-                cell.productName.text = "Black Dress"
+                
+                if indexPath.row < 2 {
+                    if favouriteViewModel.products?[indexPath.row] != nil {
+                    
+                        cell.productName.text = favouriteViewModel.products?[indexPath.row].productTitle
+                    }
+                }
+
                 return cell
             }
         }
@@ -234,9 +268,10 @@ class ProfileViewController: UIViewController {
 
                  navigationController?.pushViewController(orderDetailsViewController, animated: true)
             } else {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let favouriteVC = storyboard.instantiateViewController(withIdentifier: "FavouriteVC") as! FavouriteVC
-            navigationController?.pushViewController(favouriteVC, animated: true)
+                favouriteViewModel.getproductId(index: indexPath.row)
+                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                 let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
+                 navigationController?.pushViewController(brandsViewController, animated: true)
                 }
             }
         }

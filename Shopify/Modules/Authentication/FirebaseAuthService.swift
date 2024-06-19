@@ -40,7 +40,7 @@ class FirebaseAuthService: AuthServiceProtocol {
 //            }
 //        }
 //    }
-    
+//
     func signOut(completion: @escaping (Result<Void, Error>) -> Void) {
         do {
             try Auth.auth().signOut()
@@ -234,6 +234,27 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
 
+    func toggleFavorite(email:String,productId: String,productTitle:String, productVendor:String,productImage:String ,isFavorite: Bool, completion: @escaping (Error?) -> Void) {
+        let databaseRef = Database.database().reference()
+        let encodedEmail = SharedMethods.encodeEmail(email)
+        let productRef = databaseRef.child("customers").child(encodedEmail).child("products").child(productId)
+        if !isFavorite {
+            productRef.removeValue { error, _ in
+                completion(error)
+            }
+        } else {
+            let productData: [String: Any] = [
+                "productId": productId,
+                "productTitle": productTitle,
+                "productVendor": productVendor,
+                "productImage": productImage
+            ]
+            productRef.setValue(productData) { error, _ in
+                completion(error)
+            }
+        }
+    }
+    
     func checkProductExists(email: String, productId: String, completion: @escaping (Bool, Error?) -> Void) {
         var encodedEmail = SharedMethods.encodeEmail(email)
         let ref = Database.database().reference()
@@ -343,13 +364,48 @@ class FirebaseAuthService: AuthServiceProtocol {
             Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
                 self?.handleAuthResult(result: result, error: error, completion: completion)
             }
-    
-    
+
+
         }
     
         func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
             Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
                 self?.handleAuthResult(result: result, error: error, completion: completion)
+            }
+        }
+    
+    func setShoppingCartId(email: String, shoppingCartId: String, completion: @escaping (Error?) -> Void) {
+            let ref = Database.database().reference()
+            let encodedEmail = SharedMethods.encodeEmail(email)
+            print("qa encodedEmail: \(encodedEmail)")
+            let customerRef = ref.child("customers").child(encodedEmail)
+            
+            customerRef.updateChildValues(["shoppingCartId": shoppingCartId]) { error, _ in
+                if let error = error {
+                    print("Error setting shoppingCartId: \(error.localizedDescription)")
+                    completion(error)
+                } else {
+                    print("shoppingCartId set successfully")
+                    completion(nil)
+                }
+            }
+        }
+    func getShoppingCartId(email: String, completion: @escaping (String?, Error?) -> Void) {
+            let ref = Database.database().reference()
+            let encodedEmail = SharedMethods.encodeEmail(email)
+            let customerRef = ref.child("customers").child(encodedEmail).child("shoppingCartId")
+            
+            customerRef.observeSingleEvent(of: .value) { snapshot in
+                if let shoppingCartId = snapshot.value as? String {
+                    print("shoppingCartId retrieved successfully: \(shoppingCartId)")
+                    completion(shoppingCartId, nil)
+                } else {
+                    print("No shoppingCartId found for this user")
+                    completion(nil, nil)
+                }
+            } withCancel: { error in
+                print("Error retrieving shoppingCartId: \(error.localizedDescription)")
+                completion(nil, error)
             }
         }
 

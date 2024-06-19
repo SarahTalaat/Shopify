@@ -140,4 +140,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
     private func handleSignUpError(_ error: Error) {
         errorMessage = error.localizedDescription
     }
+    
+
+
 }

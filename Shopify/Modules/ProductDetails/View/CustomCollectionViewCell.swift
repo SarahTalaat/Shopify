@@ -14,6 +14,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         configureCellAppearance()
+        
     }
     
     private func configureCellAppearance() {
@@ -34,5 +35,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
         productImage.heightAnchor.constraint(equalToConstant: 300).isActive = true
    
     }
+    
+
     
 }

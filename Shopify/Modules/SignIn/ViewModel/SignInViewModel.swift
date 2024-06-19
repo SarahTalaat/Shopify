@@ -15,6 +15,8 @@ enum AuthErrorCode: Error {
     case emailNotVerified
 }
 class SignInViewModel: SignInViewModelProtocol {
+
+    
     
     static let sharedDataUpdateQueue = DispatchQueue(label: "com.Shopify.sharedDataUpdateQueue")
 
@@ -62,7 +64,8 @@ class SignInViewModel: SignInViewModelProtocol {
             case .success(let user):
                 self?.user = user
                 self?.fetchCustomerID()
-
+                SharedDataRepository.instance.customerEmail = email
+                self?.addValueToUserDefaults(value: email, forKey: Constants.customerEmail)
                 print("ddd 1.")
                 self?.checkEmailSignInStatus(email:email)
                 print("ddd 2.")
@@ -126,6 +129,7 @@ class SignInViewModel: SignInViewModelProtocol {
                     print("si: UD DrafId \(UserDefaults.standard.string(forKey: Constants.shoppingCartId ?? ""))")
                 }//post
                 self.updateSignInStatus(email: email)
+                
 
             }//else isSignedIn false
             
@@ -168,8 +172,14 @@ class SignInViewModel: SignInViewModelProtocol {
         networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method:.post, model: parameters, completion: { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
             switch result {
             case.success(let response):
-                print("si Draft order posted successfully: \(response)")
+                print("MAIN response id: \(response.draftOrder?.id) ")
                 let shoppingCartId = "\(response.draftOrder?.id)"
+                if let draftOrerId = response.draftOrder?.id {
+                    let draftOrderIdString = "\(draftOrerId)"
+                    UserDefaults.standard.set( draftOrderIdString, forKey: Constants.draftOrderId)
+                    UserDefaults.standard.synchronize()
+                    
+                }
                 completion(shoppingCartId) // Call the completion handler with the shoppingCartId value
             case.failure(let error):
                 print("si Failed to post draft order: \(error.localizedDescription)")
@@ -227,7 +237,36 @@ class SignInViewModel: SignInViewModelProtocol {
         
         return draftOrder
     }
-
+    func addValueToUserDefaults(value: Any, forKey key: String) {
+        UserDefaults.standard.set(value, forKey: key)
+        UserDefaults.standard.synchronize()
+    }
+    
+    
+    func setDraftOrderId(email:String, shoppingCartID:String){
+        authServiceProtocol.setShoppingCartId(email: email, shoppingCartId: shoppingCartID) { error in
+            if let error = error {
+                print("Failed to set shopping cart ID: \(error.localizedDescription)")
+            } else {
+                print("Shopping cart ID set successfully!")
+            }
+        }
+    }
+    
+    func getDraftOrderID(email:String){
+        authServiceProtocol.getShoppingCartId(email: email) { shoppingCartId, error in
+            if let error = error {
+                print("Failed to retrieve shopping cart ID: \(error.localizedDescription)")
+            } else if let shoppingCartId = shoppingCartId {
+                print("Shopping cart ID found: \(shoppingCartId)")
+            } else {
+                print("No shopping cart ID found for this user.")
+            }
+        }
+    }
+    
+    
+    
 
 }
 

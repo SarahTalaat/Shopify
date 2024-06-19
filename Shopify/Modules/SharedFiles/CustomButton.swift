@@ -9,7 +9,12 @@ import UIKit
 
 class CustomButton: UIButton {
 
-
+    var isAddedToCart: Bool = false {
+        didSet {
+            updateButtonAppearance()
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupButton()
@@ -19,7 +24,17 @@ class CustomButton: UIButton {
         super.init(coder: coder)
         setupButton()
     }
-
+    func updateButtonAppearance() {
+        if isAddedToCart {
+            setTitle("Remove from Cart", for: .normal)
+            setImage(UIImage(systemName: "cart.fill.badge.minus"), for: .normal)
+            tintColor = .red
+        } else {
+            setTitle("Add to Cart", for: .normal)
+            setImage(UIImage(systemName: "cart.badge.plus"), for: .normal)
+            tintColor = .systemBlue
+        }
+    }
     
     func setupButton(){
         CustomButton.buttonRoundedCorner(button: self)

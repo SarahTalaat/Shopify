@@ -18,42 +18,48 @@ class CategoryViewController: UIViewController {
     @IBOutlet weak var women: UIButton!
 
     var shoesButtonCenter: CGPoint!
-      var bagsButtonCenter: CGPoint!
-      var clothButtonCenter: CGPoint!
-      var isButtonMenuOpen = false
-      var sharedMethods: SharedMethods?
-      var selectedButton: UIButton?
-      var isSearch = false
-      let viewModel = CategoryViewModel()
+    var bagsButtonCenter: CGPoint!
+    var clothButtonCenter: CGPoint!
+    var isButtonMenuOpen = false
+    var sharedMethods: SharedMethods?
+    var selectedButton: UIButton?
+    var isSearch = false
+    let viewModel = CategoryViewModel()
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        search.isHidden = false
+        collectionView.collectionViewLayout = productCollectionViewLayout()
+        sharedMethods = SharedMethods(viewController: self)
+        
+        shoesButtonCenter = shoesBtn.center
+        bagsButtonCenter = bagsBtn.center
+        clothButtonCenter = clothBtn.center
 
-      override func viewDidLoad() {
-          super.viewDidLoad()
-          search.isHidden = false
-          collectionView.collectionViewLayout = productCollectionViewLayout()
-          sharedMethods = SharedMethods(viewController: self)
-          shoesButtonCenter = shoesBtn.center
-          bagsButtonCenter = bagsBtn.center
-          clothButtonCenter = clothBtn.center
-   
-          shoesBtn.center = allBtn.center
-          bagsBtn.center = allBtn.center
-          clothBtn.center = allBtn.center
-   
-          shoesBtn.alpha = 0
-          bagsBtn.alpha = 0
-          clothBtn.alpha = 0
-   
-          
-          shoesBtn.applyShadow()
-          bagsBtn.applyShadow()
-          clothBtn.applyShadow()
-          setNavBarItems()
-          women.addBottomBorder(withColor: UIColor.red, andWidth: 2)
-          selectedButton = women
-          viewModel.bindCategory = {
-              self.updateCollection()
-          }
-      }
+        shoesBtn.center = allBtn.center
+        bagsBtn.center = allBtn.center
+        clothBtn.center = allBtn.center
+
+        shoesBtn.alpha = 0
+        bagsBtn.alpha = 0
+        clothBtn.alpha = 0
+
+        
+        shoesBtn.applyShadow()
+        bagsBtn.applyShadow()
+        clothBtn.applyShadow()
+        setNavBarItems()
+       
+        women.addBottomBorder(withColor: UIColor.red, andWidth: 2)
+        selectedButton = women
+        
+        viewModel.bindCategory = {
+            self.updateCollection()
+        }
+    }
+    
+     
       func updateButton(_ sender: UIButton,id:CategoryID) {
             selectedButton?.removeBottomBorder()
             sender.addBottomBorder(withColor: UIColor.red, andWidth: 2)
@@ -189,13 +195,54 @@ class CategoryViewController: UIViewController {
               }
               let imageURL = URL(string: item.image.src)
               cell.categoryImage.kf.setImage(with: imageURL)
+              let isFavorite = viewModel.isProductFavorite(productId: "\(viewModel.category[indexPath.row].id)")
+            
+
+            cell.configure(with: "\(viewModel.category[indexPath.row].id)", isFavorite: isFavorite, index: indexPath.row)
+            
+            cell.delegate = self
+            cell.indexPath = indexPath
               return cell
           }
           func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-                  let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                           let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
-                           navigationController?.pushViewController(brandsViewController, animated: true)
+            viewModel.getproductId(index: indexPath.row)
+             let storyboard = UIStoryboard(name: "Main", bundle: nil)
+             let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
+             navigationController?.pushViewController(brandsViewController, animated: true)
             }
+
+        }
+    }
+
+
+extension CategoryViewController: ProductsTableViewCellDelegate{
+
+    
+    
+    func didTapFavoriteButtons(index: Int) {
+        viewModel.getproductId(index: index)
+        print("yyy index: \(index)")
+        collectionView.reloadData()
+    }
+    
+    
+    func productsTableViewCellDidToggleFavorite(at index: Int) {
+        guard index < viewModel.category.count else { return }
+        
+        viewModel.toggleFavorite(productId:  "\(viewModel.category[index].id)") { error in
+            if let error = error {
+                print("Error toggling favorite status: \(error.localizedDescription)")
+                // Handle error if needed
+            } else {
+                // Update UI or perform any post-toggle actions
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
+    }
+}
+
       }
       // MARK: - Button Design
    
@@ -219,4 +266,4 @@ class CategoryViewController: UIViewController {
                   }
               }
           }
-      }
+

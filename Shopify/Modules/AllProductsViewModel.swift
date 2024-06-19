@@ -10,6 +10,8 @@ import Foundation
 
 class AllProductsViewModel{
     
+    var productsFromFirebase: [ProductFromFirebase] = []
+    
     var products: [Products] = [] {
         didSet {
             ProductDetailsSharedData.instance.filteredSearch = products
@@ -29,8 +31,54 @@ class AllProductsViewModel{
     func getProducts() {
         NetworkUtilities.fetchData(responseType: ProductResponse.self, endpoint: "products.json") { product in
             self.products = product?.products ?? []
+
         }
     }
+
+    
+    
+   
+}
+
+extension AllProductsViewModel {
+    
+    func toggleFavorite(productId: String, completion: @escaping (Error?) -> Void) {
+        let isFavorite = isProductFavorite(productId: productId)
+        
+        guard let email = retrieveStringFromUserDefaults(forKey: Constants.customerEmail) else {
+            completion(nil) // Handle error or return if email is not available
+            return
+        }
+        
+        for product in products {
+            if product.id == Int(productId){
+                FirebaseAuthService().toggleFavorite(email: email, productId: productId, productTitle: product.title, productVendor: product.vendor, productImage: product.images.first?.src ?? "https://static.vecteezy.com/system/resources/previews/006/059/989/non_2x/crossed-camera-icon-avoid-taking-photos-image-is-not-available-illustration-free-vector.jpg", isFavorite: !isFavorite){ [weak self] error in
+                    if error == nil {
+                        // Update local state or perform any additional actions upon successful toggle
+                        self?.updateFavoriteState(productId: productId, isFavorite: !isFavorite)
+                    }
+                    completion(error)
+                }
+            }
+        }
+        
+
+    }
+    
+    func isProductFavorite(productId: String) -> Bool {
+        return UserDefaults.standard.bool(forKey: productId)
+    }
+    
+    func updateFavoriteState(productId: String, isFavorite: Bool) {
+        UserDefaults.standard.set(isFavorite, forKey: productId)
+        UserDefaults.standard.synchronize()
+    }
+    
+
+    func addValueToUserDefaults(value: Any, forKey key: String) {
+        UserDefaults.standard.set(value, forKey: key)
+        UserDefaults.standard.synchronize()
+
     private func fetchExchangeRates() {
             let exchangeRateApiService = ExchangeRateApiService()
             exchangeRateApiService.getLatestRates { [weak self] result in
@@ -47,12 +95,23 @@ class AllProductsViewModel{
     func productIndexPath(index: Int){
         print("category vm index: \(index)")
         ProductDetailsSharedData.instance.brandsProductIndex = index
+
     }
     
-    func screenNamePassing(screenName: String){
-        var x = SharedDataRepository.instance.shoppingCartId
-        print("Search: ShoppingCartId: \(x)")
-        ProductDetailsSharedData.instance.screenName = screenName
+    func getproductId(index: Int){
+        var productId = products[index].id
+        addValueToUserDefaults(value: productId, forKey: Constants.productId)
+    }
+    
+    func retrieveAllProductsFromEncodedEmail(email: String, completion: @escaping ([ProductFromFirebase]) -> Void) {
+        FirebaseAuthService().retrieveAllProductsFromEncodedEmail(email: email) { products in
+            self.productsFromFirebase = products
+            completion(products)
+        }
+    }
+
+    func retrieveStringFromUserDefaults(forKey key: String) -> String? {
+        return UserDefaults.standard.string(forKey: key)
     }
     
 }
