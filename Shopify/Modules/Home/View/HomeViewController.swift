@@ -21,7 +21,6 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(SharedDataRepository.instance.customerName)
         adsCollectionView.collectionViewLayout = adsCollectionViewLayout()
         brandsCollectionView.collectionViewLayout = brandsCollectionViewLayout()
         
@@ -56,7 +55,7 @@ class HomeViewController: UIViewController {
     // MARK: - Navigation Bar Items 
     
     @objc func navToCart(){
-        if DependencyProvider.userProfileViewModel.name == "Guest"{
+        if SharedDataRepository.instance.customerEmail == nil{
             showGuestAlert()
         }else{
             print("Cart ")
@@ -69,7 +68,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc func navToFav(){
-        if DependencyProvider.userProfileViewModel.name == "Guest"{
+        if SharedDataRepository.instance.customerEmail == nil {
             showGuestAlert()
         }else{
             print("Favourite ")
@@ -194,7 +193,9 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             navigationController?.pushViewController(brandsViewController, animated: true)
             
         default:
-            if DependencyProvider.userProfileViewModel.name != "Guest"{
+            if SharedDataRepository.instance.customerEmail == nil {
+                showGuestAlert()
+            }else{
             let item = indexPath.row
             let couponId = viewModel.coupons[item].id
                 viewModel.getDiscountCode(id: couponId) { discountCode in

@@ -645,8 +645,8 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="haneenmedhat26@gmail.com" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dYr-VO-HoT">
-                                <rect key="frame" x="16" y="177" width="290" height="40.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <rect key="frame" x="16" y="181" width="331" height="42"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -883,7 +883,7 @@
                         <constraints>
                             <constraint firstItem="shB-cC-cmm" firstAttribute="leading" secondItem="a8W-x6-kQ0" secondAttribute="leading" constant="16" id="3bZ-g0-iBd"/>
                             <constraint firstItem="aZS-9J-q3O" firstAttribute="leading" secondItem="a8W-x6-kQ0" secondAttribute="leading" constant="16" id="7QU-43-qnT"/>
-                            <constraint firstItem="dYr-VO-HoT" firstAttribute="width" secondItem="C0Y-cD-FXV" secondAttribute="width" multiplier="0.7" id="871-4d-gja"/>
+                            <constraint firstItem="dYr-VO-HoT" firstAttribute="width" secondItem="C0Y-cD-FXV" secondAttribute="width" multiplier="0.8" id="871-4d-gja"/>
                             <constraint firstItem="LLN-Js-QQf" firstAttribute="width" secondItem="C0Y-cD-FXV" secondAttribute="width" multiplier="0.68599" id="9iR-QC-QgH"/>
                             <constraint firstItem="VKp-2E-rID" firstAttribute="leading" secondItem="a8W-x6-kQ0" secondAttribute="leading" constant="16" id="GAB-9X-V9J"/>
                             <constraint firstItem="a8W-x6-kQ0" firstAttribute="trailing" secondItem="5EK-z3-4w8" secondAttribute="trailing" constant="16" id="Gg3-NU-Ntu"/>
@@ -898,8 +898,8 @@
                             <constraint firstItem="xEC-Pu-Vul" firstAttribute="centerY" secondItem="a8W-x6-kQ0" secondAttribute="centerY" id="SRV-qP-yLJ"/>
                             <constraint firstItem="VKp-2E-rID" firstAttribute="top" secondItem="shB-cC-cmm" secondAttribute="bottom" constant="15" id="T6W-AK-Dxg"/>
                             <constraint firstItem="xEC-Pu-Vul" firstAttribute="centerX" secondItem="a8W-x6-kQ0" secondAttribute="centerX" id="Vdm-P6-5K3"/>
-                            <constraint firstItem="dYr-VO-HoT" firstAttribute="height" secondItem="C0Y-cD-FXV" secondAttribute="height" multiplier="0.045" id="XBE-OJ-cKZ"/>
-                            <constraint firstItem="dYr-VO-HoT" firstAttribute="top" secondItem="ZAO-1a-ZGq" secondAttribute="bottom" constant="-2" id="Xl3-fd-jHM"/>
+                            <constraint firstItem="dYr-VO-HoT" firstAttribute="height" secondItem="C0Y-cD-FXV" secondAttribute="height" multiplier="0.047" id="XBE-OJ-cKZ"/>
+                            <constraint firstItem="dYr-VO-HoT" firstAttribute="top" secondItem="ZAO-1a-ZGq" secondAttribute="bottom" constant="2" id="Xl3-fd-jHM"/>
                             <constraint firstItem="dYr-VO-HoT" firstAttribute="leading" secondItem="a8W-x6-kQ0" secondAttribute="leading" constant="16" id="bL1-sE-HD4"/>
                             <constraint firstItem="aZS-9J-q3O" firstAttribute="top" secondItem="a8W-x6-kQ0" secondAttribute="top" constant="9" id="gnP-s7-yvV"/>
                             <constraint firstItem="LLN-Js-QQf" firstAttribute="centerX" secondItem="xEC-Pu-Vul" secondAttribute="centerX" id="hzF-Gd-fPU"/>
@@ -1318,7 +1318,7 @@
         <image name="gearshape" catalog="system" width="128" height="123"/>
         <image name="handbag.fill" catalog="system" width="128" height="116"/>
         <image name="hanger" catalog="system" width="128" height="99"/>
-        <image name="heart" catalog="system" width="32" height="32"/>
+        <image name="heart" catalog="system" width="128" height="107"/>
         <image name="heart.fill" catalog="system" width="128" height="107"/>
         <image name="house" catalog="system" width="128" height="104"/>
         <image name="line.3.horizontal.decrease.circle" catalog="system" width="128" height="123"/>

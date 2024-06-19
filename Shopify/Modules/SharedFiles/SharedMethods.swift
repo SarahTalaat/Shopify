@@ -19,7 +19,7 @@ class SharedMethods{
     }
     
     @objc func navToCart() {
-        if DependencyProvider.userProfileViewModel.name == "Guest"{
+        if SharedDataRepository.instance.customerEmail == nil{
             showGuestAlert()
         }else{
             print("Cart ")
@@ -35,7 +35,7 @@ class SharedMethods{
     }
     
     @objc func navToFav() {
-        if DependencyProvider.userProfileViewModel.name == "Guest"{
+        if SharedDataRepository.instance.customerEmail == nil{
             showGuestAlert()
         }else{
             print("Favourite ")
@@ -49,7 +49,7 @@ class SharedMethods{
         }
     }
     @objc func navToSettings() {
-        if  DependencyProvider.userProfileViewModel.name == "Guest"{
+        if  SharedDataRepository.instance.customerEmail == nil{
             showGuestAlert()
         }else{
             guard let viewController = viewController else {
@@ -85,7 +85,7 @@ class SharedMethods{
     private func showGuestAlert() {
            guard let viewController = viewController else { return }
            
-           let alert = UIAlertController(title: "Guest Access Restricted", message: "Please sign in to access this feature.", preferredStyle: .alert)
+           let alert = UIAlertController(title: "Guest Access Restricted", message: "Please sign up to access this feature.", preferredStyle: .alert)
            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
            alert.addAction(okAction)
            

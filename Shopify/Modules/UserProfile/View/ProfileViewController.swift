@@ -64,8 +64,17 @@ class ProfileViewController: UIViewController {
           super.viewWillAppear(animated)
           viewModel.getOrders()
           updateCollection()
-      }
-
+        initializeButtonStyles()
+        }
+        
+        func initializeButtonStyles() {
+            login.setTitleColor(.customColor, for: .normal)
+            login.tintColor = .customBackgroundColor
+            
+            register.setTitleColor(.customColor, for: .normal)
+            register.tintColor = .customBackgroundColor
+        }
+        
     func updateCollection(){
             DispatchQueue.main.async { [weak self] in
                 self?.ordersCollectionView.reloadData()
@@ -78,12 +87,13 @@ class ProfileViewController: UIViewController {
     private func bindViewModel() {
         userProfileViewModel.bindUserViewModelToController = { [weak self] in
             DispatchQueue.main.async {
-                self?.welcomeLabel.text = "Welcome \(self?.userProfileViewModel?.name ?? "No valueeee for name!!!!!")"
-                print("Profile: View: name: \(self?.userProfileViewModel?.name ?? "Nope there is no value for name!!!")")
+                self?.welcomeLabel.text = "Welcome \(self?.userProfileViewModel?.name ?? "No value for name!")"
+                print("Profile: View: name: \(self?.userProfileViewModel?.name ?? "there is no value for name!!")")
+                
                 if self?.userProfileViewModel?.name == "Guest" {
                     self?.usernameLabel.text  = "Join us to enjoy exclusive features!"
                     
-                    self?.gmailLabel.text = "View and manage your orders,create a personalized wishlist and receive special offers and discounts"
+                    self?.gmailLabel.text = "View your orders,create a personalized wishlist and receive discounts"
 
                 }else{
                     self?.usernameLabel.text = self?.userProfileViewModel?.name
@@ -261,3 +271,7 @@ class ProfileViewController: UIViewController {
         }
     }
 
+extension UIColor {
+    static let customColor = UIColor.white // Custom color set to white
+    static let customBackgroundColor = UIColor(red: 219/255, green: 48/255, blue: 34/255, alpha: 1.0) // Custom background color set to (219, 48, 34)
+}
