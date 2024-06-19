@@ -64,8 +64,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         
         setUpFavouriteButton()
         
-        applyRoundedBorders(to: reviewTextView1)
-        applyRoundedBorders(to: reviewTextView2)
+
         applyRoundedBorders(to: descriptionLabel)
 
 

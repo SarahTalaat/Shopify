@@ -9,61 +9,61 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="227" id="KGk-i7-Jjw" customClass="FavouritesCustomCell" customModule="Shopify" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="121" id="KGk-i7-Jjw" customClass="FavouritesCustomCell" customModule="Shopify" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="344" height="121"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
+                <rect key="frame" x="0.0" y="0.0" width="344" height="121"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="salah" translatesAutoresizingMaskIntoConstraints="NO" id="lxD-RA-xdb">
-                        <rect key="frame" x="26" y="15" width="107" height="214"/>
+                        <rect key="frame" x="0.0" y="0.0" width="108" height="121"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cTU-aN-sYd">
-                        <rect key="frame" x="150" y="34" width="48" height="35"/>
+                        <rect key="frame" x="128" y="32" width="51.5" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shirt" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tEM-09-Ajz">
-                        <rect key="frame" x="206" y="34" width="98" height="35"/>
+                        <rect key="frame" x="187.5" y="32" width="105.5" height="17"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vendor:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="SWv-fi-gLL">
-                        <rect key="frame" x="150" y="80.5" width="42" height="35"/>
+                        <rect key="frame" x="128" y="67" width="45" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blue" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FXf-M6-W0u">
-                        <rect key="frame" x="206" y="80" width="98" height="35"/>
+                        <rect key="frame" x="187.5" y="67" width="105.5" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="lxD-RA-xdb" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.856" id="5fd-Qf-j5k"/>
+                    <constraint firstItem="lxD-RA-xdb" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.856" constant="17.424000000000007" id="5fd-Qf-j5k"/>
                     <constraint firstItem="FXf-M6-W0u" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.30625" id="5l6-IT-zJm"/>
-                    <constraint firstItem="SWv-fi-gLL" firstAttribute="leading" secondItem="lxD-RA-xdb" secondAttribute="trailing" constant="17" id="7Rv-4n-hQj"/>
+                    <constraint firstItem="SWv-fi-gLL" firstAttribute="leading" secondItem="lxD-RA-xdb" secondAttribute="trailing" constant="20" id="7Rv-4n-hQj"/>
                     <constraint firstItem="cTU-aN-sYd" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.14" id="9Xi-nP-yim"/>
-                    <constraint firstItem="FXf-M6-W0u" firstAttribute="top" secondItem="tEM-09-Ajz" secondAttribute="bottom" constant="11" id="AfU-L7-ulA"/>
+                    <constraint firstItem="FXf-M6-W0u" firstAttribute="top" secondItem="tEM-09-Ajz" secondAttribute="bottom" constant="18" id="AfU-L7-ulA"/>
                     <constraint firstItem="tEM-09-Ajz" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.14" id="B1i-zH-JvL"/>
                     <constraint firstItem="cTU-aN-sYd" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.15" id="Gb0-HN-IQ4"/>
                     <constraint firstItem="SWv-fi-gLL" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.13125" id="OvL-mY-ycQ"/>
-                    <constraint firstItem="tEM-09-Ajz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="34" id="Uv7-oE-yvZ"/>
+                    <constraint firstItem="tEM-09-Ajz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="32" id="Uv7-oE-yvZ"/>
                     <constraint firstItem="tEM-09-Ajz" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.30625" id="Vca-Tg-sbp"/>
-                    <constraint firstItem="lxD-RA-xdb" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="WDx-T0-HWQ"/>
+                    <constraint firstItem="lxD-RA-xdb" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="WDx-T0-HWQ"/>
                     <constraint firstItem="tEM-09-Ajz" firstAttribute="leading" secondItem="cTU-aN-sYd" secondAttribute="trailing" constant="8" symbolic="YES" id="ZQ9-gj-5bE"/>
-                    <constraint firstItem="lxD-RA-xdb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="26" id="coU-I0-SS3"/>
-                    <constraint firstItem="SWv-fi-gLL" firstAttribute="top" secondItem="cTU-aN-sYd" secondAttribute="bottom" constant="11.5" id="dLb-8o-0Sf"/>
+                    <constraint firstItem="lxD-RA-xdb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="coU-I0-SS3"/>
+                    <constraint firstItem="SWv-fi-gLL" firstAttribute="top" secondItem="cTU-aN-sYd" secondAttribute="bottom" constant="18" id="dLb-8o-0Sf"/>
                     <constraint firstItem="FXf-M6-W0u" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.14" id="l5u-Mx-Q7z"/>
-                    <constraint firstItem="cTU-aN-sYd" firstAttribute="leading" secondItem="lxD-RA-xdb" secondAttribute="trailing" constant="17" id="nix-s8-nvP"/>
+                    <constraint firstItem="cTU-aN-sYd" firstAttribute="leading" secondItem="lxD-RA-xdb" secondAttribute="trailing" constant="20" id="nix-s8-nvP"/>
                     <constraint firstItem="SWv-fi-gLL" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.14" id="p4t-p0-keL"/>
-                    <constraint firstItem="cTU-aN-sYd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="34" id="q1U-r4-sW4"/>
-                    <constraint firstItem="lxD-RA-xdb" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.334375" id="tf8-hY-e7t"/>
+                    <constraint firstItem="cTU-aN-sYd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="32" id="q1U-r4-sW4"/>
+                    <constraint firstItem="lxD-RA-xdb" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.334375" constant="-7.0249999999999915" id="tf8-hY-e7t"/>
                     <constraint firstItem="FXf-M6-W0u" firstAttribute="leading" secondItem="tEM-09-Ajz" secondAttribute="leading" id="zBU-wP-sZs"/>
                 </constraints>
             </tableViewCellContentView>
