@@ -30,15 +30,6 @@
                             <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </buttonConfiguration>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3kO-g2-Fw2">
-                        <rect key="frame" x="5" y="47" width="54" height="44"/>
-                        <state key="normal" title="Button"/>
-                        <buttonConfiguration key="configuration" style="plain" image="unRadio"/>
-                        <connections>
-                            <action selector="checkBtnAddress:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="5Zg-Gf-Cb7"/>
-                            <action selector="checkedBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ccL-AS-wb7"/>
-                        </connections>
-                    </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Address Details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sd3-FA-pmx">
                         <rect key="frame" x="65" y="57" width="239" height="71"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -47,28 +38,21 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="leading" secondItem="3kO-g2-Fw2" secondAttribute="trailing" constant="6" id="498-z4-8Ki"/>
-                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="leading" secondItem="3kO-g2-Fw2" secondAttribute="trailing" constant="6" id="4Wj-Z2-Vs3"/>
                     <constraint firstItem="Sd3-FA-pmx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="65" id="8Lv-xw-kBT"/>
                     <constraint firstItem="ZF8-c5-Ogw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="Ds2-Ph-dZN"/>
                     <constraint firstItem="Sd3-FA-pmx" firstAttribute="top" secondItem="9gF-6I-mnc" secondAttribute="bottom" constant="13.67" id="EpN-Bg-x7Y"/>
                     <constraint firstItem="Sd3-FA-pmx" firstAttribute="top" secondItem="ZF8-c5-Ogw" secondAttribute="bottom" constant="6" id="Krr-3v-Ntt"/>
                     <constraint firstAttribute="bottom" secondItem="Sd3-FA-pmx" secondAttribute="bottom" constant="10" id="RQV-iU-3Ou"/>
-                    <constraint firstAttribute="bottom" secondItem="3kO-g2-Fw2" secondAttribute="bottom" constant="47" id="WU6-0g-qM7"/>
                     <constraint firstItem="ZF8-c5-Ogw" firstAttribute="leading" secondItem="9gF-6I-mnc" secondAttribute="trailing" constant="98.670000000000002" id="abb-Jd-gyo"/>
-                    <constraint firstItem="3kO-g2-Fw2" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="47" id="dmv-bx-upf"/>
-                    <constraint firstItem="3kO-g2-Fw2" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="fTg-f1-3g7"/>
                     <constraint firstAttribute="trailing" secondItem="Sd3-FA-pmx" secondAttribute="trailing" constant="16" id="hbT-Ng-fpg"/>
                     <constraint firstItem="9gF-6I-mnc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="65" id="iEB-at-5cB"/>
                     <constraint firstAttribute="trailing" secondItem="ZF8-c5-Ogw" secondAttribute="trailing" constant="16.329999999999998" id="m7f-6G-KO0"/>
-                    <constraint firstItem="3kO-g2-Fw2" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="vwY-4d-zKG"/>
                     <constraint firstItem="9gF-6I-mnc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="zAX-bb-UwE"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="addressDetails" destination="Sd3-FA-pmx" id="gtj-tC-Uus"/>
-                <outlet property="checked" destination="3kO-g2-Fw2" id="2ie-3E-MlB"/>
                 <outlet property="defaultButton" destination="ZF8-c5-Ogw" id="Kr2-U2-5I8"/>
                 <outlet property="userName" destination="9gF-6I-mnc" id="ek0-1Q-XwF"/>
             </connections>
@@ -77,6 +61,5 @@
     </objects>
     <resources>
         <image name="house.fill" catalog="system" width="128" height="104"/>
-        <image name="unRadio" width="30" height="30"/>
     </resources>
 </document>
