@@ -29,7 +29,7 @@ class UserProfileViewModel: UserProfileViewModelProfileProtocol {
         self.email = SharedDataRepository.instance.customerEmail
         }
         else{
-            self.name = "Guest"
+            self.name = ""
             self.email = ""
         }
         print("Profile: name: \(SharedDataRepository.instance.customerName ?? "NONAME")")

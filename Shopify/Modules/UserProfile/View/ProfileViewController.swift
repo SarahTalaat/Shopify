@@ -58,6 +58,13 @@ class ProfileViewController: UIViewController {
         favouriteViewModel = DependencyProvider.favouriteViewModel
         favouriteViewModel.retriveProducts()
         
+        bindViewModel2()
+        userProfileViewModel.userPersonalData()
+        print("Profile: test name : \(userProfileViewModel.name)")
+        print("Profile: test email : \(userProfileViewModel.email)")
+        
+        
+        
         func bindViewModel(){
             favouriteViewModel.bindProducts = { [weak self] in
                 DispatchQueue.main.async {
@@ -67,11 +74,7 @@ class ProfileViewController: UIViewController {
         }
         
         
-        bindViewModel()
-        userProfileViewModel.userPersonalData()
-        print("Profile: test name : \(userProfileViewModel.name)")
-        print("Profile: test email : \(userProfileViewModel.email)")
-        
+
         
         
         let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
@@ -97,7 +100,7 @@ class ProfileViewController: UIViewController {
         }
     
     
-    private func bindViewModel() {
+    private func bindViewModel2() {
         userProfileViewModel.bindUserViewModelToController = { [weak self] in
             DispatchQueue.main.async {
                 self?.welcomeLabel.text = "Welcome \(self?.userProfileViewModel?.name ?? "No valueeee for name!!!!!")"

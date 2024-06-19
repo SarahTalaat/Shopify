@@ -179,9 +179,10 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
     }
     func deleteFromCart(){
-       let draftOrderId = 1034577543329
-        var urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
-        deleteDraftOrderNetwork(urlString: urlString, parameters: [:])
+        //deletes draft order not line item , needs to be corrected!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     //  let draftOrderId = 1034577543329
+     //   var urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
+     //   deleteDraftOrderNetwork(urlString: urlString, parameters: [:])
   
 
     }

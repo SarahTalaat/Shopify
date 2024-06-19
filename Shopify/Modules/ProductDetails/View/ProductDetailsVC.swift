@@ -12,8 +12,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
     @IBOutlet weak var addToCartUI: CustomButton!
     @IBAction func addToCartButton(_ sender: CustomButton) {
-        viewModel.addToCart()
-        viewModel.deleteFromCart()
+
         
         if addToCartUI.isAddedToCart {
             removeFromCart()
