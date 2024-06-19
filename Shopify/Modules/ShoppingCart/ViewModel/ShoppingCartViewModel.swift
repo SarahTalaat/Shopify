@@ -18,6 +18,7 @@ class ShoppingCartViewModel {
     var onDraftOrderUpdated: (() -> Void)?
     var onTotalAmountUpdated: (() -> Void)?
     private var draftOrderUpdateWorkItem: DispatchWorkItem?
+    
     func fetchDraftOrders() {
         draftOrderService.fetchDraftOrders { [weak self] result in
             switch result {
@@ -30,42 +31,42 @@ class ShoppingCartViewModel {
         }
     }
     
-    private func updateTotalAmount() {
-            guard let draftOrder = draftOrder else { return }
-            totalAmount = draftOrder.draftOrder?.totalPrice ?? "total price"
-            onTotalAmountUpdated?()
-        }
-
+   func updateTotalAmount() {
+        guard let draftOrder = draftOrder else { return }
+        totalAmount = draftOrder.draftOrder?.totalPrice ?? "total price"
+        onTotalAmountUpdated?()
+    }
     
     func incrementQuantity(at index: Int) {
         guard var lineItem = draftOrder?.draftOrder?.lineItems[index] else { return }
         lineItem.quantity += 1
         draftOrder?.draftOrder?.lineItems[index] = lineItem
-        // Update the quantity label
         onDraftOrderUpdated?()
         scheduleDraftOrderUpdate()
     }
-
+    
     func decrementQuantity(at index: Int) {
         guard var lineItem = draftOrder?.draftOrder?.lineItems[index], lineItem.quantity > 1 else { return }
         lineItem.quantity -= 1
         draftOrder?.draftOrder?.lineItems[index] = lineItem
-        // Update the quantity label
         onDraftOrderUpdated?()
         scheduleDraftOrderUpdate()
     }
-
-        func deleteItem(at index: Int) {
-            draftOrder?.draftOrder?.lineItems.remove(at: index)
-            scheduleDraftOrderUpdate()
-        }
+    
+    func deleteItem(at index: Int) {
+        draftOrder?.draftOrder?.lineItems.remove(at: index)
+        onDraftOrderUpdated?()
+        scheduleDraftOrderUpdate()
+    }
+    
     private func scheduleDraftOrderUpdate() {
-            draftOrderUpdateWorkItem?.cancel()
-            draftOrderUpdateWorkItem = DispatchWorkItem { [weak self] in
-                self?.updateDraftOrder()
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: draftOrderUpdateWorkItem!) // Adjust the delay as needed
+        draftOrderUpdateWorkItem?.cancel()
+        draftOrderUpdateWorkItem = DispatchWorkItem { [weak self] in
+            self?.updateDraftOrder()
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: draftOrderUpdateWorkItem!) // Adjust the delay as needed
+    }
+    
     func updateDraftOrder() {
         guard let draftOrder = draftOrder else { return }
         draftOrderService.updateDraftOrder(draftOrder: draftOrder) { [weak self] result in
