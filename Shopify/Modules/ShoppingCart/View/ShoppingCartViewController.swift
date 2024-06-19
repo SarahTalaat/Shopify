@@ -112,34 +112,26 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
            updateTotalAmount()
        }
 
-       func didTapMinusButton(on cell: CartTableViewCell) {
-           guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
-           viewModel.decrementQuantity(at: indexPath.row)
-           let quantity = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row].quantity ?? 0
-           if quantity < 1 {
-               let alert = UIAlertController(title: "Delete Item", message: "Are you sure you want to delete this item?", preferredStyle: .alert)
-               alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-               alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                   self.viewModel.deleteItem(at: indexPath.row)
-                   self.shoppingCartTableView.deleteRows(at: [indexPath], with: .automatic)
-                   self.updateTotalAmount()
-               }))
-               present(alert, animated: true, completion: nil)
-           } else if quantity == 1 {
-               let alert = UIAlertController(title: "Delete Item", message: "Quantity will reach zero. Do you want to delete this item?", preferredStyle: .alert)
-               alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-               alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                   self.viewModel.decrementQuantity(at: indexPath.row)
-                   self.viewModel.deleteItem(at: indexPath.row)
-                   self.shoppingCartTableView.deleteRows(at: [indexPath], with: .automatic)
-                   self.updateTotalAmount()
-               }))
-               present(alert, animated: true, completion: nil)
-           } else {
-               shoppingCartTableView.reloadRows(at: [indexPath], with: .none)
-           }
-           updateTotalAmount()
-       }
+    func didTapMinusButton(on cell: CartTableViewCell) {
+        guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
+        let currentQuantity = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row].quantity ?? 0
+
+        if currentQuantity == 1 {
+            let alert = UIAlertController(title: "Delete Item", message: "Quantity will reach zero. Do you want to delete this item?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                self.viewModel.decrementQuantity(at: indexPath.row)
+                self.viewModel.deleteItem(at: indexPath.row)
+                self.shoppingCartTableView.deleteRows(at: [indexPath], with: .automatic)
+                self.updateTotalAmount()
+            }))
+            present(alert, animated: true, completion: nil)
+        } else {
+            viewModel.decrementQuantity(at: indexPath.row)
+            shoppingCartTableView.reloadRows(at: [indexPath], with: .none)
+            updateTotalAmount()
+        }
+    }
 
        func didTapDeleteButton(on cell: CartTableViewCell) {
            guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
