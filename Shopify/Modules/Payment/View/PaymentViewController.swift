@@ -14,7 +14,8 @@ class PaymentViewController: UIViewController {
     var defaultAddress: Address?
     var lineItems: [LineItem]?
        
-       override func viewDidLoad() {
+    @IBOutlet weak var appleButton: UIButton!
+    override func viewDidLoad() {
            super.viewDidLoad()
            if let subtotal = totalAmount {
                viewModel.updatePaymentSummaryItems(totalAmount: subtotal)
@@ -29,17 +30,17 @@ class PaymentViewController: UIViewController {
 
                   
        }
-       private func setupUI() {
-           [cashView, applePayView,addressView].forEach { view in
-               view?.layer.shadowRadius = 4.0
-               view?.layer.cornerRadius = 10.0
-               view?.layer.shadowColor = UIColor.black.cgColor
-               view?.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-               view?.layer.shadowOpacity = 0.5
-           }
-           
-           unCheckedApplePay.addTarget(self, action: #selector(tapForPay), for: .touchUpInside)
-       }
+    private func setupUI() {
+        [cashView, applePayView,addressView].forEach { view in
+            view?.layer.shadowRadius = 4.0
+            view?.layer.cornerRadius = 10.0
+            view?.layer.shadowColor = UIColor.black.cgColor
+            view?.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+            view?.layer.shadowOpacity = 0.5
+        }
+        
+        appleButton.addTarget(self, action: #selector(tapForPay), for: .touchUpInside)
+    }
        
        private func setupGestures() {
            let cashTapGesture = UITapGestureRecognizer(target: self, action: #selector(cashViewTapped))
@@ -80,14 +81,16 @@ class PaymentViewController: UIViewController {
             addressVC.selectionDelegate = self
             navigationController?.pushViewController(addressVC, animated: true)
     }
-    @IBAction func unCheckedCashBtn(_ sender: UIButton) {
+  
+    @IBAction func cashBtn(_ sender: UIButton) {
         selectPaymentMethod(.cash)
     }
     
-    @IBAction func unCheckedApplepayBtn(_ sender: UIButton) {
+    @IBAction func appleBtn(_ sender: UIButton) {
         selectPaymentMethod(.applePay)
     }
     
+   
     @IBOutlet weak var unCheckedApplePay: UIButton!
     @IBOutlet weak var unCheckedCash: UIButton!
     private func selectPaymentMethod(_ method: PaymentMethodsViewModel.PaymentMethod) {

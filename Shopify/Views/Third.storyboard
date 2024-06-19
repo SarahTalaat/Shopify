@@ -472,37 +472,61 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3tu-3a-ziq">
-                                <rect key="frame" x="30" y="235" width="332.5" height="86.5"/>
+                                <rect key="frame" x="30" y="235" width="354" height="86.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cash" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1dg-HE-mg4">
-                                        <rect key="frame" x="90.5" y="31" width="55.5" height="27.5"/>
+                                        <rect key="frame" x="112" y="31" width="55.5" height="27.5"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FQ5-1s-ECy">
+                                        <rect key="frame" x="6" y="26" width="63" height="35"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Cash"/>
+                                        <connections>
+                                            <action selector="cashBtn:" destination="E3M-Xh-X92" eventType="touchUpInside" id="YcQ-RS-JJ5"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="1dg-HE-mg4" secondAttribute="trailing" constant="186.5" id="G7V-TL-Aoq"/>
+                                    <constraint firstItem="FQ5-1s-ECy" firstAttribute="top" secondItem="3tu-3a-ziq" secondAttribute="top" constant="26" id="KBK-nm-zY7"/>
+                                    <constraint firstAttribute="bottom" secondItem="FQ5-1s-ECy" secondAttribute="bottom" constant="25.5" id="LK0-dR-CHT"/>
+                                    <constraint firstItem="FQ5-1s-ECy" firstAttribute="leading" secondItem="3tu-3a-ziq" secondAttribute="leading" constant="6" id="PyM-to-qKq"/>
+                                    <constraint firstItem="1dg-HE-mg4" firstAttribute="leading" secondItem="FQ5-1s-ECy" secondAttribute="trailing" constant="43" id="ZAL-03-GDg"/>
                                     <constraint firstItem="1dg-HE-mg4" firstAttribute="top" secondItem="3tu-3a-ziq" secondAttribute="top" constant="31" id="jPe-vX-AfM"/>
                                     <constraint firstAttribute="bottom" secondItem="1dg-HE-mg4" secondAttribute="bottom" constant="28" id="lxX-vo-wzC"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6An-EP-kwm">
-                                <rect key="frame" x="30" y="353.5" width="332.5" height="86.5"/>
+                                <rect key="frame" x="30" y="353.5" width="354" height="86.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Apple Pay" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YB4-bi-93H">
-                                        <rect key="frame" x="94.5" y="30" width="107.5" height="27.5"/>
+                                        <rect key="frame" x="116" y="30" width="107.5" height="27.5"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gC5-mO-PaB">
+                                        <rect key="frame" x="11" y="26" width="69" height="35"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Apple"/>
+                                        <connections>
+                                            <action selector="appleBtn:" destination="E3M-Xh-X92" eventType="touchUpInside" id="mC1-WK-qlK"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="YB4-bi-93H" secondAttribute="trailing" constant="130.66999999999999" id="3Ie-nm-4ra"/>
                                     <constraint firstItem="YB4-bi-93H" firstAttribute="top" secondItem="6An-EP-kwm" secondAttribute="top" constant="30" id="MAp-wq-45D"/>
+                                    <constraint firstAttribute="bottom" secondItem="gC5-mO-PaB" secondAttribute="bottom" constant="25.5" id="Z3Z-97-S0x"/>
+                                    <constraint firstItem="gC5-mO-PaB" firstAttribute="leading" secondItem="6An-EP-kwm" secondAttribute="leading" constant="11" id="eqb-H3-RjL"/>
                                     <constraint firstAttribute="bottom" secondItem="YB4-bi-93H" secondAttribute="bottom" constant="29" id="hrg-xy-2md"/>
+                                    <constraint firstItem="gC5-mO-PaB" firstAttribute="top" secondItem="6An-EP-kwm" secondAttribute="top" constant="26" id="mvq-XB-QG2"/>
+                                    <constraint firstItem="YB4-bi-93H" firstAttribute="leading" secondItem="gC5-mO-PaB" secondAttribute="trailing" constant="36" id="nkw-oe-DxW"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="57q-ce-eqO">
@@ -523,7 +547,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oTv-pA-al5">
-                                <rect key="frame" x="30" y="604" width="335.5" height="95"/>
+                                <rect key="frame" x="30" y="604" width="357" height="95"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Billing Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FcW-3r-oVq">
                                         <rect key="frame" x="0.0" y="8" width="116" height="21"/>
@@ -532,13 +556,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address Details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JvE-s1-tWw">
-                                        <rect key="frame" x="22" y="37" width="225.5" height="40"/>
+                                        <rect key="frame" x="22" y="37" width="247" height="40"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jzh-3F-PSb">
-                                        <rect key="frame" x="243" y="61" width="101.5" height="35"/>
+                                        <rect key="frame" x="243" y="61" width="123" height="35"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Change it ">
                                             <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -585,6 +609,7 @@
                     <navigationItem key="navigationItem" id="5dX-mM-8ay"/>
                     <connections>
                         <outlet property="addressView" destination="oTv-pA-al5" id="qNj-vZ-vKT"/>
+                        <outlet property="appleButton" destination="gC5-mO-PaB" id="Wce-6L-zlm"/>
                         <outlet property="applePayView" destination="6An-EP-kwm" id="x4c-2c-x6c"/>
                         <outlet property="cashView" destination="3tu-3a-ziq" id="Mjr-5U-6sa"/>
                         <outlet property="customerPaymentAddress" destination="JvE-s1-tWw" id="sCX-zb-htD"/>
