@@ -27,6 +27,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             
         }
     }
+
     
     var isFavorited: Bool {
         get {
