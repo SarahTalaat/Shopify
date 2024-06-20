@@ -56,6 +56,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         super.viewDidLoad()
 
         viewModel = DependencyProvider.productDetailsViewModel
+        viewModel.getUserDraftOrderId()
         bindViewModel()
         viewModel.getProductDetails()
         

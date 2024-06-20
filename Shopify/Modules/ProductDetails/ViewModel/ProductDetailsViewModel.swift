@@ -297,7 +297,26 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         return UserDefaults.standard.string(forKey: key)
     }
 
-
+    func getDraftOrderID(email: String) {
+        authServiceProtocol.getShoppingCartId(email: email) { shoppingCartId, error in
+            if let error = error {
+                print("kkk *Failed* to retrieve shopping cart ID: \(error.localizedDescription)")
+            } else if let shoppingCartId = shoppingCartId {
+                print("kkk *PD* Shopping cart ID found: \(shoppingCartId)")
+                SharedDataRepository.instance.draftOrderId = shoppingCartId
+                print("kkk *PD* Singleton draft id: \(SharedDataRepository.instance.draftOrderId)")
+            } else {
+                print("kkk *PD* No shopping cart ID found for this user.")
+            }
+        }
+    }
+    
+    func getUserDraftOrderId(){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
+        let email = SharedDataRepository.instance.customerEmail ?? "No email"
+        self.getDraftOrderID(email: email)
+        }
+    }
 
     
     
