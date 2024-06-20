@@ -15,7 +15,7 @@ class SharedDataRepository{
     static let instance = SharedDataRepository()
     private init() {}
     
-    var draftOrderId: String?
+    var draftOrderId: String = UserDefaults.standard.string(forKey: Constants.draftOrderId) ?? "NO iddd"
     var customerName: String?
     var customerEmail: String?
     var customerId: String?
