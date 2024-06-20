@@ -235,6 +235,8 @@ class SignInViewModel: SignInViewModelProtocol {
                 print("kkk Shopping cart ID found: \(shoppingCartId)")
                 SharedDataRepository.instance.draftOrderId = shoppingCartId
                 print("kkk Singleton draft id: \(SharedDataRepository.instance.draftOrderId)")
+                UserDefaults.standard.set(shoppingCartId, forKey: Constants.userDraftId) 
+               print("kkk Draft order id UserDefaults si : \(UserDefaults.standard.string(forKey: Constants.userDraftId))")
             } else {
                 print("kkk No shopping cart ID found for this user.")
             }

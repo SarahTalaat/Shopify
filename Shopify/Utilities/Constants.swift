@@ -26,6 +26,7 @@ class Constants  {
     static let isFavoritedKey: String = "isFavoritedKey"
     
     static let draftOrderId: String = "draftOrderId"
+    static let userDraftId: String = "userDraftId"
     
 
 }
