@@ -125,6 +125,7 @@ class SignInViewModel: SignInViewModelProtocol {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                         print("kkk Executing asyncAfter block")
                         strongSelf.setDraftOrderId(email: SharedDataRepository.instance.customerEmail ?? "No email", shoppingCartID: "\(shoppingCartId)")
+                        self.getDraftOrderID(email: email)
                     }
                 }
                 strongSelf.updateSignInStatus(email: email)
@@ -134,6 +135,8 @@ class SignInViewModel: SignInViewModelProtocol {
             print("kkk Firebase user ID: \(strongSelf.user?.uid ?? "No User ID")")
         }
     }
+    
+    
 
     func postDraftOrderForShoppingCart(urlString: String, parameters: [String: Any], name: String, email: String, completion: @escaping (OneDraftOrderResponse?) -> Void) {
         networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters) { (result: Result<OneDraftOrderResponse, Error>) in
@@ -227,12 +230,19 @@ class SignInViewModel: SignInViewModelProtocol {
     func getDraftOrderID(email: String) {
         authServiceProtocol.getShoppingCartId(email: email) { shoppingCartId, error in
             if let error = error {
-                print("Failed to retrieve shopping cart ID: \(error.localizedDescription)")
+                print("kkk Failed to retrieve shopping cart ID: \(error.localizedDescription)")
             } else if let shoppingCartId = shoppingCartId {
-                print("Shopping cart ID found: \(shoppingCartId)")
+                print("kkk Shopping cart ID found: \(shoppingCartId)")
+                SharedDataRepository.instance.draftOrderId = shoppingCartId
+                print("kkk Singleton draft id: \(SharedDataRepository.instance.draftOrderId)")
             } else {
-                print("No shopping cart ID found for this user.")
+                print("kkk No shopping cart ID found for this user.")
             }
         }
+    }
+    
+    func getUserDraftOrderId(){
+        let email = SharedDataRepository.instance.customerEmail ?? "No email"
+        self.getDraftOrderID(email: email)
     }
 }

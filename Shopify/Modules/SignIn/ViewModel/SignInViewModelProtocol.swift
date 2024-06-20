@@ -17,7 +17,8 @@ protocol SignInViewModelProtocol {
     var bindUserViewModelToController: (() -> ()) { get set }
     var bindErrorViewModelToController: (() -> ()) { get set }
     func signIn(email: String, password: String)
-
+    func getUserDraftOrderId()
+    func getDraftOrderID(email: String)
     
 }
 
