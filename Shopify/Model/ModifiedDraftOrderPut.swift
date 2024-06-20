@@ -194,7 +194,7 @@ struct LineItemPUT: Codable {
     let giftCard: Bool?
     let fulfillmentService: String?
     let grams: Int?
-    let taxLines: [TaxLine]?
+    let taxLines: [TaxLinePUT]?
     let appliedDiscount: String? // Define a Discount struct if needed
     let name: String?
     let properties: [String]? // Define a Property struct if needed
@@ -224,6 +224,31 @@ struct LineItemPUT: Codable {
         case price
         case adminGraphqlApiId = "admin_graphql_api_id"
     }
+    
+    func toDictionary() -> [String: Any] {
+        return [
+            "id": id ?? NSNull(),
+            "variant_id": variantId ?? NSNull(),
+            "product_id": productId ?? NSNull(),
+            "title": title ?? NSNull(),
+            "variant_title": variantTitle ?? NSNull(),
+            "sku": sku ?? NSNull(),
+            "vendor": vendor ?? NSNull(),
+            "quantity": quantity ?? NSNull(),
+            "requires_shipping": requiresShipping ?? NSNull(),
+            "taxable": taxable ?? NSNull(),
+            "gift_card": giftCard ?? NSNull(),
+            "fulfillment_service": fulfillmentService ?? NSNull(),
+            "grams": grams ?? NSNull(),
+            "tax_lines": taxLines?.map { $0.toDictionary() } ?? NSNull(),
+            "applied_discount": appliedDiscount ?? NSNull(),
+            "name": name ?? NSNull(),
+            "properties": properties ?? NSNull(),
+            "custom": custom ?? NSNull(),
+            "price": price ?? NSNull(),
+            "admin_graphql_api_id": adminGraphqlApiId ?? NSNull()
+        ]
+    }
 }
 
 struct TaxLinePUT: Codable {
@@ -236,5 +261,12 @@ struct TaxLinePUT: Codable {
         case title
         case price
     }
+    
+    func toDictionary() -> [String: Any] {
+        return [
+            "rate": rate ?? NSNull(),
+            "title": title ?? NSNull(),
+            "price": price ?? NSNull()
+        ]
+    }
 }
-

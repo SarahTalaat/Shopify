@@ -174,7 +174,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         var draftOrder = draftOrder()
         if let draftOrderId = UserDefaults.standard.string(forKey: Constants.shoppingCartId) {
             var urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
-            updateDraftOrderNetwork(urlString: urlString, parameters: draftOrder)
+            updateDraftOrderNetwork(draftOrderId: urlString, newLineItem: draftOrder)
         }
 
     }
@@ -186,20 +186,61 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
   
 
     }
-    func updateDraftOrderNetwork(urlString: String, parameters: [String:Any]) {
-       networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .put, model: parameters, completion: { [weak self] (result: Result<DraftOrderResponsePUT, Error>) in
+    
+    func updateDraftOrderNetwork(draftOrderId: String, newLineItem: [String: Any]) {
+        let fetchUrlString = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/\(draftOrderId).json"
+        
+        print("Fetching draft order with URL: \(fetchUrlString)")
+        
+        networkServiceAuthenticationProtocol.requestFunction(urlString: fetchUrlString, method: .get, model: [:], completion: { [weak self] (result: Result<DraftOrderResponsePUT, Error>) in
             switch result {
             case .success(let response):
-                print("PD Draft order updated successfully: \(response)")
-                ProductDetailsSharedData.instance.productVariantId = response.draftOrder?.id
-
+                print("Successfully fetched draft order: \(response)")
+                var existingLineItems = response.draftOrder?.lineItems ?? []
+                
+                // Manually construct a LineItemPUT from the dictionary
+                if let newLineItem = self?.createLineItemPUT(from: newLineItem) {
+                    existingLineItems.append(newLineItem)
+                } else {
+                    print("Failed to create LineItemPUT from newLineItem dictionary.")
+                    return
+                }
+                
+                let updateUrlString = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/\(draftOrderId).json"
+                let parameters: [String: Any] = [
+                    "draft_order": [
+                        "line_items": existingLineItems.map { $0.toDictionary() }
+                    ]
+                ]
+                
+                print("Updating draft order with URL: \(updateUrlString)")
+                print("Parameters: \(parameters)")
+                
+                self?.networkServiceAuthenticationProtocol.requestFunction(urlString: updateUrlString, method: .put, model: parameters, completion: { (updateResult: Result<DraftOrderResponsePUT, Error>) in
+                    switch updateResult {
+                    case .success(let updateResponse):
+                        print("PD Draft order updated successfully: \(updateResponse)")
+                        ProductDetailsSharedData.instance.productVariantId = updateResponse.draftOrder?.id
+                        
+                    case .failure(let error):
+                        print("PD Failed to update draft order: \(error.localizedDescription)")
+                    }
+                })
+                
             case .failure(let error):
-                print("PD Failed to updated draft order: \(error.localizedDescription)")
+                print("PD Failed to fetch draft order: \(error.localizedDescription)")
             }
         })
     }
-    
-    
+
+    private func createLineItemPUT(from dictionary: [String: Any]) -> LineItemPUT? {
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: dictionary, options: []) else {
+            return nil
+        }
+        
+        let decoder = JSONDecoder()
+        return try? decoder.decode(LineItemPUT.self, from: jsonData)
+    }
     
     func deleteDraftOrderNetwork(urlString: String, parameters: [String:Any]) {
         networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .delete, model: parameters, completion: { [weak self] (result: Result<EmptyResponse, Error>) in
