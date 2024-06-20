@@ -28,5 +28,6 @@ protocol ProductDetailsViewModelProtocol {
     func deleteDraftOrderNetwork(urlString: String, parameters: [String:Any])
     func deleteFromCart()
     func getUserDraftOrderId()
+    func getCartId()
     
 }

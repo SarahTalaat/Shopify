@@ -297,6 +297,10 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     func retrieveStringFromUserDefaults(forKey key: String) -> String? {
         return UserDefaults.standard.string(forKey: key)
     }
+    
+    func getCartId(){
+        print("PD cart id : \(UserDefaults.standard.string(forKey: Constants.userDraftId))")
+    }
 
     func getDraftOrderID(email: String) {
         authServiceProtocol.getShoppingCartId(email: email) { shoppingCartId, error in

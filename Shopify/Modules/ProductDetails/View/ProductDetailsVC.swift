@@ -59,7 +59,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         viewModel.getUserDraftOrderId()
         bindViewModel()
         viewModel.getProductDetails()
-        
+        viewModel.getCartId()
         viewModel.loadFavoriteProducts()
         
         updateFavoriteButton()
