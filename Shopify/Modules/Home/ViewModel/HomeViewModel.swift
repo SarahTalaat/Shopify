@@ -76,3 +76,38 @@ class HomeViewModel{
         }
     }
 }
+
+
+//extension HomeViewModel {
+//    
+//    func setUserDraftOrderId(){
+//        print("kkk UD home: draftOrderIDString: \(UserDefaults.standard.string(forKey: Constants.draftOrderId))")
+//        var email = SharedDataRepository.instance.customerEmail ?? "No email"
+//        print("kkk singleton home: draftOrderIDString: \(SharedDataRepository.instance.draftOrderId)")
+//        var draftOrderId = SharedDataRepository.instance.draftOrderId
+//       setDraftOrderId(email: email, shoppingCartID: "\(draftOrderId)")
+//    }
+//    
+//    func setDraftOrderId(email:String, shoppingCartID:String){
+//        FirebaseAuthService().setShoppingCartId(email: email, shoppingCartId: shoppingCartID) { error in
+//            if let error = error {
+//                print("Failed to set shopping cart ID: \(error.localizedDescription)")
+//            } else {
+//
+//                print("Shopping cart ID set successfully!")
+//            }
+//        }
+//    }
+//    
+//    func getDraftOrderID(email:String){
+//        FirebaseAuthService().getShoppingCartId(email: email) { shoppingCartId, error in
+//            if let error = error {
+//                print("Failed to retrieve shopping cart ID: \(error.localizedDescription)")
+//            } else if let shoppingCartId = shoppingCartId {
+//                print("Shopping cart ID found: \(shoppingCartId)")
+//            } else {
+//                print("No shopping cart ID found for this user.")
+//            }
+//        }
+//    }
+//}
