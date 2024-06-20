@@ -23,9 +23,7 @@ class addressTableViewCell: UITableViewCell {
                 self.contentView.layer.masksToBounds = true
     }
 
-    @IBAction func checkBtnAddress(_ sender: UIButton) {
-        defaultButtonAction?()
-    }
+   
     
     @IBOutlet weak var currentAddress: UILabel!
     @IBOutlet weak var addressDetails: UILabel!
@@ -36,8 +34,6 @@ class addressTableViewCell: UITableViewCell {
 
     
     
-    @IBOutlet weak var checked: UIButton!
-  
 
     
     
@@ -51,11 +47,6 @@ class addressTableViewCell: UITableViewCell {
             addressDetails.text = "\(address.address1), \(address.city), \(address.country)"
             defaultButton.isHidden = !(isDefault ?? false)
             let image = (isDefault ?? false) ? UIImage(named: "radio") : UIImage(named: "unRadio")
-            checked.setBackgroundImage(image, for: .normal)
         }
-    
-    @IBAction func checkedBtn(_ sender: UIButton) {
-        defaultButtonAction?()
-    }
    
 }

@@ -150,6 +150,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
         }
     @IBAction func addCouponBtn(_ sender: UIButton) {
         let coupontUsVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "CouponViewController") as? CouponViewController
+        coupontUsVC?.subtotal = viewModel.totalAmount
                if let sheet = coupontUsVC?.sheetPresentationController{
                    sheet.detents = [.medium()]
                    sheet.prefersScrollingExpandsWhenScrolledToEdge = false
