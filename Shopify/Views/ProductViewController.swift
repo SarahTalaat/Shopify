@@ -8,13 +8,10 @@
 import UIKit
 import Kingfisher
 
-class ProductViewController: UIViewController {
+class ProductViewController: UIViewController, UISearchBarDelegate  {
 
-    
-    
-
+    @IBOutlet weak var search: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var priceSlider: UISlider!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var sizeMenu: UIButton!
@@ -34,7 +31,8 @@ class ProductViewController: UIViewController {
            let nibCell = UINib(nibName: "ProductsCollectionViewCell", bundle: nil)
            collectionView.register(nibCell, forCellWithReuseIdentifier: "ProductsCollectionViewCell")
            collectionView.collectionViewLayout = brandsCollectionViewLayout()
-           
+        
+           search.delegate = self
            containerView.isHidden = false
            priceLabel.text = "No selected price"
            
@@ -49,7 +47,15 @@ class ProductViewController: UIViewController {
            }
            
            priceSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
-       }
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+          tapGesture.cancelsTouchesInView = false
+          view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
        
        func updateCollection() {
            DispatchQueue.main.async {
@@ -64,15 +70,14 @@ class ProductViewController: UIViewController {
            viewModel.currentMaxPrice = sender.value
        }
        
-       func updatePriceRange() {
-           DispatchQueue.main.async {
-               self.priceSlider.minimumValue = self.viewModel.minPrice
-               self.priceSlider.maximumValue = self.viewModel.maxPrice
-               self.priceSlider.value = self.viewModel.currentMaxPrice
-               self.priceLabel.text = String(format: "Price: %.2f", self.viewModel.currentMaxPrice)
-           }
-       }
-       
+    func updatePriceRange() {
+        DispatchQueue.main.async {
+            self.priceSlider.minimumValue = self.viewModel.minPrice
+            self.priceSlider.maximumValue = self.viewModel.maxPrice
+            self.priceSlider.value = self.viewModel.currentMaxPrice
+            self.priceLabel.text = String(format: "Price: %.2f %@", self.viewModel.currentMaxPrice, UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD")
+        }
+    }
        // MARK: - Drop Down List
        
        func handleDropDownList() {
@@ -129,7 +134,16 @@ class ProductViewController: UIViewController {
                self.view.layoutIfNeeded()
            }
        }
-       
+    
+    // MARK: - UISearchBarDelegate Methods
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.searchQuery = searchText
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+            searchBar.resignFirstResponder()
+        }
+    
        // MARK: - Collection View Layout
        
        func brandsCollectionViewLayout() -> UICollectionViewCompositionalLayout {
@@ -163,6 +177,7 @@ class ProductViewController: UIViewController {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsCollectionViewCell", for: indexPath) as! ProductsCollectionViewCell
             
             cell.brandLabel.text = item.vendor
+            
             let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
                   let exchangeRate = viewModel.exchangeRates[selectedCurrency] ?? 1.0
                   if let price = Double(item.variants.first?.price ?? "0") {
@@ -171,6 +186,7 @@ class ProductViewController: UIViewController {
                   } else {
                       cell.priceLabel.text = "Invalid price"
                   }
+            
             if let range = item.title.range(of: "|") {
                 var truncatedString = String(item.title[range.upperBound...]).trimmingCharacters(in: .whitespaces)
                 

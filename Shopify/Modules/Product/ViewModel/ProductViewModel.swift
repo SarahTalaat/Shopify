@@ -9,14 +9,19 @@ import Foundation
 
 
 class ProductViewModel {
-
-     var productsFromFirebase: [ProductFromFirebase] = []
+    
+    var minPrice: Float = 0
+    var maxPrice: Float = 1000
+    
+    var productsFromFirebase: [ProductFromFirebase] = []
+    var exchangeRates: [String: Double] = [:]
+    
     var brandID: Int = 0 {
         didSet {
             getProducts()
         }
     }
-    var exchangeRates: [String: Double] = [:]
+    
     var products: [Products] = [] {
         didSet {
             calculatePriceRange()
@@ -27,10 +32,7 @@ class ProductViewModel {
     var filteredProducts: [Products] = [] {
         didSet {
             bindFilteredProducts()
-
             ProductDetailsSharedData.instance.filteredProducts = filteredProducts
-            print(filteredProducts)
-
         }
     }
     
@@ -40,17 +42,20 @@ class ProductViewModel {
         }
     }
     
-    var minPrice: Float = 0
-    var maxPrice: Float = 1000
-    
-    var bindFilteredProducts: (() -> ()) = {}
-    var bindPriceRange: (() -> ()) = {}
-    
     var currentMaxPrice: Float = 1000 {
         didSet {
             currentFilters.price = currentMaxPrice
         }
     }
+    
+    var searchQuery: String? {
+        didSet {
+            applyFilters()
+        }
+    }
+    
+    var bindFilteredProducts: (() -> ()) = {}
+    var bindPriceRange: (() -> ()) = {}
     
     init() {
         getProducts()
@@ -64,7 +69,17 @@ class ProductViewModel {
     }
     
     func calculatePriceRange() {
-        let prices = products.compactMap { Float($0.variants.first?.price ?? "0") }
+        let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+        let exchangeRate = self.exchangeRates[selectedCurrency] ?? 1.0
+        
+        let prices = products.compactMap { product -> Float? in
+            if let productPrice = Double(product.variants.first?.price ?? "0") {
+                let convertedPrice = productPrice * exchangeRate
+                return Float(convertedPrice)
+            }
+            return nil
+        }
+        
         minPrice = 0
         maxPrice = prices.max() ?? 1000
         currentMaxPrice = maxPrice
@@ -76,8 +91,11 @@ class ProductViewModel {
         
         if let maxPrice = currentFilters.price {
             filteredProducts = filteredProducts.filter { product in
-                if let productPrice = Float(product.variants.first?.price ?? "0") {
-                    return productPrice <= maxPrice
+                if let productPrice = Double(product.variants.first?.price ?? "0") {
+                    let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+                    let exchangeRate = self.exchangeRates[selectedCurrency] ?? 1.0
+                    let convertedPrice = productPrice * exchangeRate
+                    return Float(convertedPrice) <= maxPrice
                 }
                 return false
             }
@@ -106,6 +124,12 @@ class ProductViewModel {
                 return false
             }
         }
+        
+        if let query = searchQuery?.lowercased(), !query.isEmpty {
+            filteredProducts = filteredProducts.filter { product in
+                return product.trimmedTitle.lowercased().contains(query)
+            }
+        }
     }
     
     private func fetchExchangeRates() {
@@ -114,16 +138,13 @@ class ProductViewModel {
             switch result {
             case .success(let response):
                 self?.exchangeRates = response.conversion_rates
+                self?.applyFilters()
             case .failure(let error):
                 print("Error fetching exchange rates: \(error)")
             }
             self?.bindFilteredProducts()
         }
     }
-
-    
-
-
 }
 
 extension ProductViewModel {
