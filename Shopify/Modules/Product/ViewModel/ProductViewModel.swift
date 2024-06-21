@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 class ProductViewModel {
     
     var minPrice: Float = 0
@@ -146,7 +145,6 @@ class ProductViewModel {
         }
     }
 }
-
 extension ProductViewModel {
     
     func toggleFavorite(productId: String, completion: @escaping (Error?) -> Void) {

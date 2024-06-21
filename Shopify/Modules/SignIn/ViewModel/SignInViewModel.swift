@@ -104,7 +104,9 @@ class SignInViewModel: SignInViewModelProtocol {
             let strongSelf = self
 
             if isSignedIn ?? false {
+                self.getDraftOrderID(email: email)
                 print("kkk Email is signed in, no post will happen for draft order: \(isSignedIn)")
+                self.getUserDraftOrderId()
             } else {
                 let urlString = APIConfig.draft_orders.url
                 let draftOrder1 = strongSelf.draftOrderDummyModel1()
@@ -235,6 +237,8 @@ class SignInViewModel: SignInViewModelProtocol {
                 print("kkk Shopping cart ID found: \(shoppingCartId)")
                 SharedDataRepository.instance.draftOrderId = shoppingCartId
                 print("kkk Singleton draft id: \(SharedDataRepository.instance.draftOrderId)")
+                UserDefaults.standard.set(shoppingCartId, forKey: Constants.userDraftId) 
+               print("kkk Draft order id UserDefaults si : \(UserDefaults.standard.string(forKey: Constants.userDraftId))")
             } else {
                 print("kkk No shopping cart ID found for this user.")
             }

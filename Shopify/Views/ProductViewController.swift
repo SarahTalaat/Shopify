@@ -8,10 +8,11 @@
 import UIKit
 import Kingfisher
 
-class ProductViewController: UIViewController, UISearchBarDelegate  {
 
-    @IBOutlet weak var search: UISearchBar!
+class ProductViewController: UIViewController , UISearchBarDelegate {
+
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var search: UISearchBar!
     @IBOutlet weak var priceSlider: UISlider!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var sizeMenu: UIButton!
@@ -65,66 +66,66 @@ class ProductViewController: UIViewController, UISearchBarDelegate  {
        
        // MARK: - Filter By Price
        
-       @objc func sliderValueChanged(_ sender: UISlider) {
-           priceLabel.text = String(format: "Price: %.2f", sender.value)
-           viewModel.currentMaxPrice = sender.value
-       }
-       
-    func updatePriceRange() {
-        DispatchQueue.main.async {
-            self.priceSlider.minimumValue = self.viewModel.minPrice
-            self.priceSlider.maximumValue = self.viewModel.maxPrice
-            self.priceSlider.value = self.viewModel.currentMaxPrice
-            self.priceLabel.text = String(format: "Price: %.2f %@", self.viewModel.currentMaxPrice, UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD")
+    @objc func sliderValueChanged(_ sender: UISlider) {
+               priceLabel.text = String(format: "Price: %.2f", sender.value)
+               viewModel.currentMaxPrice = sender.value
+           }
+           
+        func updatePriceRange() {
+            DispatchQueue.main.async {
+                self.priceSlider.minimumValue = self.viewModel.minPrice
+                self.priceSlider.maximumValue = self.viewModel.maxPrice
+                self.priceSlider.value = self.viewModel.currentMaxPrice
+                self.priceLabel.text = String(format: "Price: %.2f %@", self.viewModel.currentMaxPrice, UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD")
+            }
         }
-    }
-       // MARK: - Drop Down List
-       
-       func handleDropDownList() {
-           setupMenuButton(button: sizeMenu, items: sizeList) { [weak self] selected in
-               guard let self = self else { return }
-               if selected == "All" {
-                   self.viewModel.currentFilters.size = nil
-               } else {
-                   self.viewModel.currentFilters.size = ("SHOES", selected)
+           // MARK: - Drop Down List
+           
+           func handleDropDownList() {
+               setupMenuButton(button: sizeMenu, items: sizeList) { [weak self] selected in
+                   guard let self = self else { return }
+                   if selected == "All" {
+                       self.viewModel.currentFilters.size = nil
+                   } else {
+                       self.viewModel.currentFilters.size = ("SHOES", selected)
+                   }
                }
+               
+               setupMenuButton(button: clothSizeMenu, items: clothList) { [weak self] selected in
+                   guard let self = self else { return }
+                   if selected == "All" {
+                       self.viewModel.currentFilters.size = nil
+                   } else {
+                       self.viewModel.currentFilters.size = ("T-SHIRTS", selected)
+                   }
+               }
+               
+               setupMenuButton(button: colorMenu, items: colorList) { [weak self] selectedColor in
+                   guard let self = self else { return }
+                   if selectedColor == "All" {
+                       self.viewModel.currentFilters.color = nil
+                   } else {
+                       self.viewModel.currentFilters.color = selectedColor
+                   }
+               }
+               
+               let filterButton = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal.decrease.circle"), style: .plain, target: self, action: #selector(self.showFilter))
+               navigationItem.rightBarButtonItems = [filterButton]
            }
            
-           setupMenuButton(button: clothSizeMenu, items: clothList) { [weak self] selected in
-               guard let self = self else { return }
-               if selected == "All" {
-                   self.viewModel.currentFilters.size = nil
-               } else {
-                   self.viewModel.currentFilters.size = ("T-SHIRTS", selected)
+           private func setupMenuButton(button: UIButton, items: [String], action: @escaping (String) -> Void) {
+               var actions: [UIAction] = []
+               for item in items {
+                   let uiAction = UIAction(title: item) { _ in
+                       action(item)
+                   }
+                   actions.append(uiAction)
                }
+               button.menu = UIMenu(title: "", options: .displayInline, children: actions)
+               button.showsMenuAsPrimaryAction = true
+               button.changesSelectionAsPrimaryAction = true
            }
            
-           setupMenuButton(button: colorMenu, items: colorList) { [weak self] selectedColor in
-               guard let self = self else { return }
-               if selectedColor == "All" {
-                   self.viewModel.currentFilters.color = nil
-               } else {
-                   self.viewModel.currentFilters.color = selectedColor
-               }
-           }
-           
-           let filterButton = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal.decrease.circle"), style: .plain, target: self, action: #selector(self.showFilter))
-           navigationItem.rightBarButtonItems = [filterButton]
-       }
-       
-       private func setupMenuButton(button: UIButton, items: [String], action: @escaping (String) -> Void) {
-           var actions: [UIAction] = []
-           for item in items {
-               let uiAction = UIAction(title: item) { _ in
-                   action(item)
-               }
-               actions.append(uiAction)
-           }
-           button.menu = UIMenu(title: "", options: .displayInline, children: actions)
-           button.showsMenuAsPrimaryAction = true
-           button.changesSelectionAsPrimaryAction = true
-       }
-       
        // MARK: - Navigation Bar Item
        
        @objc func showFilter() {
@@ -164,95 +165,95 @@ class ProductViewController: UIViewController, UISearchBarDelegate  {
    }
 
 
-    // MARK: - Collection View Methods
 
-    extension ProductViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
-        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return viewModel.filteredProducts.count
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        // MARK: - Collection View Methods
+
+        extension ProductViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+            func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+                return viewModel.filteredProducts.count
+            }
             
-            let item = viewModel.filteredProducts[indexPath.row]
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsCollectionViewCell", for: indexPath) as! ProductsCollectionViewCell
-            
-            cell.brandLabel.text = item.vendor
-            
-            let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
-                  let exchangeRate = viewModel.exchangeRates[selectedCurrency] ?? 1.0
-                  if let price = Double(item.variants.first?.price ?? "0") {
-                      let convertedPrice = price * exchangeRate
-                      cell.priceLabel.text = "\(String(format: "%.2f", convertedPrice)) \(selectedCurrency)"
-                  } else {
-                      cell.priceLabel.text = "Invalid price"
-                  }
-            
-            if let range = item.title.range(of: "|") {
-                var truncatedString = String(item.title[range.upperBound...]).trimmingCharacters(in: .whitespaces)
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
                 
-                if let nextRange = truncatedString.range(of: "|") {
-                    truncatedString = String(truncatedString[..<nextRange.lowerBound]).trimmingCharacters(in: .whitespaces)
+                let item = viewModel.filteredProducts[indexPath.row]
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsCollectionViewCell", for: indexPath) as! ProductsCollectionViewCell
+                
+                cell.brandLabel.text = item.vendor
+                
+                let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+                      let exchangeRate = viewModel.exchangeRates[selectedCurrency] ?? 1.0
+                      if let price = Double(item.variants.first?.price ?? "0") {
+                          let convertedPrice = price * exchangeRate
+                          cell.priceLabel.text = "\(String(format: "%.2f", convertedPrice)) \(selectedCurrency)"
+                      } else {
+                          cell.priceLabel.text = "Invalid price"
+                      }
+                
+                if let range = item.title.range(of: "|") {
+                    var truncatedString = String(item.title[range.upperBound...]).trimmingCharacters(in: .whitespaces)
+                    
+                    if let nextRange = truncatedString.range(of: "|") {
+                        truncatedString = String(truncatedString[..<nextRange.lowerBound]).trimmingCharacters(in: .whitespaces)
+                        cell.productNameLabel.text = truncatedString
+                    }
                     cell.productNameLabel.text = truncatedString
                 }
-                cell.productNameLabel.text = truncatedString
+                
+                if let imageUrlString = item.images.first?.src, let imageURL = URL(string: imageUrlString) {
+                    cell.productImage.kf.setImage(with: imageURL)
+                }
+                
+                let isFavorite = viewModel.isProductFavorite(productId: "\(viewModel.filteredProducts[indexPath.row].id)")
+                
+
+                cell.configure(with: "\(viewModel.filteredProducts[indexPath.row].id)", isFavorite: isFavorite, index: indexPath.row)
+                
+                cell.delegate = self
+                cell.indexPath = indexPath
+
+              
+                return cell
             }
             
-            if let imageUrlString = item.images.first?.src, let imageURL = URL(string: imageUrlString) {
-                cell.productImage.kf.setImage(with: imageURL)
-            }
-            
-            let isFavorite = viewModel.isProductFavorite(productId: "\(viewModel.filteredProducts[indexPath.row].id)")
-            
 
-            cell.configure(with: "\(viewModel.filteredProducts[indexPath.row].id)", isFavorite: isFavorite, index: indexPath.row)
             
-            cell.delegate = self
-            cell.indexPath = indexPath
+            func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+                
+                viewModel.getproductId(index: indexPath.row)
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
+                navigationController?.pushViewController(brandsViewController, animated: true)
+              }
+     
+        }
 
-          
-            return cell
+
+
+
+    extension ProductViewController: ProductsCollectionViewCellDelegate{
+
+        
+        
+        func didTapFavoriteButton(index: Int) {
+            viewModel.getproductId(index: index)
+            print("fff index: \(index)")
+            collectionView.reloadData()
         }
         
-
         
-        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        func productsCollectionViewCellDidToggleFavorite(at index: Int) {
+            guard index < viewModel.filteredProducts.count else { return }
             
-            viewModel.getproductId(index: indexPath.row)
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
-            navigationController?.pushViewController(brandsViewController, animated: true)
-          }
- 
-    }
-
-
-
-
-extension ProductViewController: ProductsCollectionViewCellDelegate{
-
-    
-    
-    func didTapFavoriteButton(index: Int) {
-        viewModel.getproductId(index: index)
-        print("fff index: \(index)")
-        collectionView.reloadData()
-    }
-    
-    
-    func productsCollectionViewCellDidToggleFavorite(at index: Int) {
-        guard index < viewModel.filteredProducts.count else { return }
-        
-        viewModel.toggleFavorite(productId:  "\(viewModel.filteredProducts[index].id)") { error in
-            if let error = error {
-                print("Error toggling favorite status: \(error.localizedDescription)")
-                // Handle error if needed
-            } else {
-                // Update UI or perform any post-toggle actions
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+            viewModel.toggleFavorite(productId:  "\(viewModel.filteredProducts[index].id)") { error in
+                if let error = error {
+                    print("Error toggling favorite status: \(error.localizedDescription)")
+                    // Handle error if needed
+                } else {
+                    // Update UI or perform any post-toggle actions
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
                 }
             }
         }
     }
-}
-

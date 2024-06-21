@@ -59,12 +59,13 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         viewModel.getUserDraftOrderId()
         bindViewModel()
         viewModel.getProductDetails()
-        
+        viewModel.getCartId()
         viewModel.loadFavoriteProducts()
-        
-        updateFavoriteButton()
-        
         addToCartUI.isAddedToCart = false
+        viewModel.saveButtonTitleState(addToCartUI:addToCartUI)
+        updateFavoriteButton()
+        viewModel.getCustomerIdFromFirebase()
+        
         settingUpCollectionView()
 
         settingUpDropdown(dropDowntableView: dropDowntableView1, cellIdentifier: "dropdownCell1")
@@ -79,6 +80,22 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
 
     }
+    
+    
+    func addToCart() {
+        viewModel.addToCart()
+        addToCartUI.isAddedToCart = true
+        viewModel.saveAddedToCartState(true)
+        showAlert(message: "Product added to cart successfully!")
+    }
+
+    func removeFromCart() {
+        viewModel.deleteFromCart()
+        addToCartUI.isAddedToCart = false
+        viewModel.saveAddedToCartState(false)
+        showAlert(message: "Product removed from cart successfully!")
+    }
+    
     func setupDropdownButtons() {
         setupDropdownButton(dropdownButton: dropdownButton, buttonTitle: viewModel.getSize(index: 0) ?? "Size N/A", imageName: "chevron.down")
         setupDropdownButton(dropdownButton: dropdownButton2, buttonTitle: viewModel.getColour(index: 0) ?? "Colour N/A", imageName: "chevron.down")
@@ -94,19 +111,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         activityIndicator.hidesWhenStopped = true
         view.addSubview(activityIndicator)
     }
-    func addToCart() {
 
-        viewModel.addToCart()
-        addToCartUI.isAddedToCart = true
-        showAlert(message: "Product added to cart successfully!")
-    }
-    
-    func removeFromCart() {
-
-        viewModel.deleteFromCart()
-        addToCartUI.isAddedToCart = false
-        showAlert(message: "Product removed from cart successfully!")
-    }
 
     
     func applyRoundedBorders(to textView: UITextView) {
