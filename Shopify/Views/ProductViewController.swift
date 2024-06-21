@@ -8,6 +8,7 @@
 import UIKit
 import Kingfisher
 
+
 class ProductViewController: UIViewController , UISearchBarDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -26,6 +27,42 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
     var isFilter = false
     var viewModel = ProductViewModel()
     
+    override func viewDidLoad() {
+           super.viewDidLoad()
+           let nibCell = UINib(nibName: "ProductsCollectionViewCell", bundle: nil)
+           collectionView.register(nibCell, forCellWithReuseIdentifier: "ProductsCollectionViewCell")
+           collectionView.collectionViewLayout = brandsCollectionViewLayout()
+        
+           search.delegate = self
+           containerView.isHidden = false
+           priceLabel.text = "No selected price"
+           
+           handleDropDownList()
+           
+           viewModel.bindFilteredProducts = { [weak self] in
+               self?.updateCollection()
+           }
+           
+           viewModel.bindPriceRange = { [weak self] in
+               self?.updatePriceRange()
+           }
+           
+           priceSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+          tapGesture.cancelsTouchesInView = false
+          view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+       
+       func updateCollection() {
+           DispatchQueue.main.async {
+               self.collectionView.reloadData()
+           }
+       }
        
        // MARK: - Filter By Price
        
@@ -89,43 +126,44 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
                button.changesSelectionAsPrimaryAction = true
            }
            
-           // MARK: - Navigation Bar Item
-           
-           @objc func showFilter() {
-               containerView.isHidden.toggle()
-               isFilter.toggle()
-               UIView.animate(withDuration: 0.3) {
-                   self.view.layoutIfNeeded()
-               }
-           }
-        
-        // MARK: - UISearchBarDelegate Methods
-
-        func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-            viewModel.searchQuery = searchText
-        }
-        func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-                searchBar.resignFirstResponder()
-            }
-        
-           // MARK: - Collection View Layout
-           
-           func brandsCollectionViewLayout() -> UICollectionViewCompositionalLayout {
-               return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-                   let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
-                   let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                   item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
-                   let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(260))
-                   let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-                   
-                   let section = NSCollectionLayoutSection(group: group)
-                   section.interGroupSpacing = 10
-                   section.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 4, bottom: 0, trailing: 4)
-                   
-                   return section
-               }
+       // MARK: - Navigation Bar Item
+       
+       @objc func showFilter() {
+           containerView.isHidden.toggle()
+           isFilter.toggle()
+           UIView.animate(withDuration: 0.3) {
+               self.view.layoutIfNeeded()
            }
        }
+    
+    // MARK: - UISearchBarDelegate Methods
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.searchQuery = searchText
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+            searchBar.resignFirstResponder()
+        }
+    
+       // MARK: - Collection View Layout
+       
+       func brandsCollectionViewLayout() -> UICollectionViewCompositionalLayout {
+           return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+               let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
+               let item = NSCollectionLayoutItem(layoutSize: itemSize)
+               item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
+               let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(260))
+               let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+               
+               let section = NSCollectionLayoutSection(group: group)
+               section.interGroupSpacing = 10
+               section.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 4, bottom: 0, trailing: 4)
+               
+               return section
+           }
+       }
+   }
+
 
 
         // MARK: - Collection View Methods
@@ -135,7 +173,7 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
                 return viewModel.filteredProducts.count
             }
             
-            func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
                 
                 let item = viewModel.filteredProducts[indexPath.row]
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsCollectionViewCell", for: indexPath) as! ProductsCollectionViewCell
