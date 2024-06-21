@@ -59,13 +59,17 @@ class PaymentViewController: UIViewController {
           }
       }
    
-    @IBAction func continuePaymentBtn(_ sender: UIButton) {
+    @IBAction func placeOrderBtn(_ sender: UIButton) {
         guard let lineItems = lineItems else {
-                print("Line items are not set")
-                return
-            }
-            viewModel.postOrder()
-    }
+              print("Line items are not set")
+              return
+          }
+          
+          viewModel.postOrder()
+          
+         
+      }
+    
     @IBOutlet weak var cashView: UIView!
     
     @IBOutlet weak var applePayView: UIView!

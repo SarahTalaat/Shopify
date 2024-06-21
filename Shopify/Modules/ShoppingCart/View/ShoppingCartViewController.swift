@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Kingfisher
 class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,CartTableViewCellDelegate{
   
 
@@ -59,21 +59,35 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
           
        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
            let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
-           
-           if let lineItem = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row] {
-               let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
-               cell.productName.text = productName
-               
-               let productColor = lineItem.variantTitle?.split(separator: "/").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
-               cell.productColor.text = productColor
-               
-               cell.productAmount.text = "\(lineItem.quantity)"
-               cell.productPrice.text = "\(lineItem.price)$"
-               
-               cell.delegate = self
-           }
-           
-           return cell
+
+              if let lineItem = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row] {
+                  let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
+                  cell.productName.text = productName
+
+                  let productColor = lineItem.variantTitle?.split(separator: "/").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
+                  cell.productColor.text = productColor
+
+                  cell.productAmount.text = "\(lineItem.quantity)"
+                  cell.productPrice.text = "\(lineItem.price)$"
+
+                  draftOrderService.fetchProduct(productId: lineItem.productId ?? 0) { result in
+                      switch result {
+                      case .success(let product):
+                          let imageUrl = product.image.src
+                          if let url = URL(string: imageUrl) {
+                              DispatchQueue.main.async {
+                                  cell.productimage.kf.setImage(with: url)
+                              }
+                          }
+                      case .failure(let error):
+                          print("Failed to fetch product image: \(error.localizedDescription)")
+                      }
+                  }
+
+                  cell.delegate = self
+              }
+
+              return cell
        }
 
           func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
