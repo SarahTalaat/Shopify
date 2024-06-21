@@ -42,12 +42,18 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         }
     }
     func saveAddedToCartState(_ added: Bool) {
-        UserDefaults.standard.set(added, forKey: "isAddedToCart\(Int(UserDefaults.standard.string(forKey: Constants.productId) ?? ""))")
+        var productID = Int(UserDefaults.standard.string(forKey: Constants.productId) ?? "")
+        var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
+        
+        UserDefaults.standard.set(added, forKey: "isAddedToCart"+"\(productID)"+"\(customerID)")
        
     }
     
     func saveButtonTitleState(addToCartUI:CustomButton){
-        if let isAdded = UserDefaults.standard.object(forKey: "isAddedToCart\(Int(UserDefaults.standard.string(forKey: Constants.productId) ?? ""))") as? Bool {
+        var productID = Int(UserDefaults.standard.string(forKey: Constants.productId) ?? "")
+        var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
+        
+        if let isAdded = UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(customerID)") as? Bool {
             addToCartUI.isAddedToCart = isAdded
         } else {
             addToCartUI.isAddedToCart = false // Default value if not previously set
@@ -438,6 +444,21 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             case .failure(let error):
                 // Handle failure to fetch existing draft order
                 print("Failed to fetch existing draft order: \(error)")
+            }
+        }
+    }
+    
+    func getCustomerIdFromFirebase(){
+        var customerEmail = SharedDataRepository.instance.customerEmail ?? "No email"
+        var encodedCustomerEmail = SharedMethods.encodeEmail(customerEmail)
+        authServiceProtocol.fetchCustomerId(encodedEmail: encodedCustomerEmail) { customerId in
+            if let customerId = customerId {
+                print("Customer ID: \(customerId)")
+                // Use customerId as needed in your app
+                UserDefaults.standard.set(customerId, forKey: Constants.customerId)
+            } else {
+                print("Failed to fetch customerId")
+                // Handle the case where customerId could not be fetched
             }
         }
     }

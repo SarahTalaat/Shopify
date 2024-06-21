@@ -64,7 +64,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         addToCartUI.isAddedToCart = false
         viewModel.saveButtonTitleState(addToCartUI:addToCartUI)
         updateFavoriteButton()
-        
+        viewModel.getCustomerIdFromFirebase()
         
         settingUpCollectionView()
 

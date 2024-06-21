@@ -30,4 +30,5 @@ protocol ProductDetailsViewModelProtocol {
     func getCartId()
     func saveAddedToCartState(_ added: Bool)
     func saveButtonTitleState(addToCartUI:CustomButton)
+    func getCustomerIdFromFirebase()
 }
