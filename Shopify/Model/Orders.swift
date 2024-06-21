@@ -17,6 +17,7 @@ struct OrdersSend: Encodable, Decodable {
 
 struct Orders: Encodable, Decodable {
     let id: Int?
+    let order_number : Int?
     let created_at: String?
     let currency: String
     let email: String?
@@ -28,4 +29,17 @@ struct Orders: Encodable, Decodable {
 struct CountResponse: Codable {
     let count: Int
 }
+
+struct InvoiceResponse : Encodable,Decodable{
+    let draft_order_invoice : Invoice
+}
+
+
+struct Invoice : Encodable,Decodable{
+   let `to`: String
+   let `from` : String
+   let subject: String
+   let custom_message : String
+}
+
 

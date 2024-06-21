@@ -27,6 +27,7 @@ class PaymentViewController: UIViewController {
           if let lineItems = lineItems {
               viewModel.setupOrder(lineItem: lineItems)
           }
+        
       }
       
       private func setupUI() {
@@ -65,6 +66,7 @@ class PaymentViewController: UIViewController {
                 return
             }
             viewModel.postOrder()
+        viewModel.processInvoicePosting()
     }
     @IBOutlet weak var cashView: UIView!
     
