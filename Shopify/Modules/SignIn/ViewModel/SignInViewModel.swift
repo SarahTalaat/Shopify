@@ -106,6 +106,7 @@ class SignInViewModel: SignInViewModelProtocol {
             if isSignedIn ?? false {
                 self.getDraftOrderID(email: email)
                 print("kkk Email is signed in, no post will happen for draft order: \(isSignedIn)")
+                self.getUserDraftOrderId()
             } else {
                 let urlString = APIConfig.draft_orders.url
                 let draftOrder1 = strongSelf.draftOrderDummyModel1()

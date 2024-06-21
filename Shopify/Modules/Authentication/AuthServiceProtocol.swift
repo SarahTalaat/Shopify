@@ -17,4 +17,5 @@ protocol AuthServiceProtocol  {
     func toggleFavorite(email:String,productId: String,productTitle:String, productVendor:String,productImage:String ,isFavorite: Bool, completion: @escaping (Error?) -> Void)
     func setShoppingCartId(email: String, shoppingCartId: String, completion: @escaping (Error?) -> Void)
     func getShoppingCartId(email: String, completion: @escaping (String?, Error?) -> Void)
+    func fetchCustomerId(encodedEmail: String, completion: @escaping (String?) -> Void)
 }

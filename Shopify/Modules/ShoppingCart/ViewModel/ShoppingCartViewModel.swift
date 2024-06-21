@@ -25,6 +25,12 @@ class ShoppingCartViewModel {
     var onTotalAmountUpdated: (() -> Void)?
     
     func fetchDraftOrders() {
+        guard let draftOrderIdString = UserDefaults.standard.string(forKey: Constants.userDraftId),
+              let draftOrderId = Int(draftOrderIdString) else {
+            return
+        }
+        print("SC: draftOrderId fetchDraftOrders: \(draftOrderId)")
+
         draftOrderService.fetchDraftOrders { [weak self] result in
             switch result {
             case .success(let draftOrder):
@@ -67,6 +73,12 @@ class ShoppingCartViewModel {
     }
     
     func updateDraftOrder() {
+        guard let draftOrderIdString = UserDefaults.standard.string(forKey: Constants.userDraftId),
+              let draftOrderId = Int(draftOrderIdString) else {
+            return
+        }
+        print("SC: draftOrderId fetchDraftOrders: \(draftOrderId)")
+        
         guard let draftOrder = draftOrder else { return }
         draftOrderService.updateDraftOrder(draftOrder: draftOrder) { [weak self] result in
             switch result {
@@ -76,6 +88,29 @@ class ShoppingCartViewModel {
             case .failure(let error):
                 print("Failed to update draft order: \(error.localizedDescription)")
             }
+        }
+    }
+    
+    func getDraftOrderID(email: String) {
+        FirebaseAuthService().getShoppingCartId(email: email) { shoppingCartId, error in
+            if let error = error {
+                print("kkk *Failed* to retrieve shopping cart ID: \(error.localizedDescription)")
+            } else if let shoppingCartId = shoppingCartId {
+                UserDefaults.standard.set(shoppingCartId, forKey: Constants.userDraftId)
+                self.fetchDraftOrders()
+                print("kkk *PD* Shopping cart ID found: \(shoppingCartId)")
+                SharedDataRepository.instance.draftOrderId = shoppingCartId
+                print("kkk *PD* Singleton draft id: \(SharedDataRepository.instance.draftOrderId)")
+            } else {
+                print("kkk *PD* No shopping cart ID found for this user.")
+            }
+        }
+    }
+    
+    func getUserDraftOrderId(){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
+        let email = SharedDataRepository.instance.customerEmail ?? "No email"
+        self.getDraftOrderID(email: email)
         }
     }
 }

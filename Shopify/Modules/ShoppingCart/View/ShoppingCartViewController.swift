@@ -19,6 +19,8 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
        override func viewDidLoad() {
            super.viewDidLoad()
               
+           viewModel.getUserDraftOrderId()
+           
            let nib = UINib(nibName: "CartTableViewCell", bundle: nil)
            shoppingCartTableView.register(nib, forCellReuseIdentifier: "CartTableViewCell")
               
@@ -31,7 +33,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
            shoppingCartTableView.sectionHeaderHeight = 16
               
            bindViewModel()
-           viewModel.fetchDraftOrders()
+       //    viewModel.fetchDraftOrders()
        }
           
        private func bindViewModel() {
