@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
@@ -38,6 +39,18 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.isFavoritedKey)
             UserDefaults.standard.synchronize()
+        }
+    }
+    func saveAddedToCartState(_ added: Bool) {
+        UserDefaults.standard.set(added, forKey: "isAddedToCart\(Int(UserDefaults.standard.string(forKey: Constants.productId) ?? ""))")
+       
+    }
+    
+    func saveButtonTitleState(addToCartUI:CustomButton){
+        if let isAdded = UserDefaults.standard.object(forKey: "isAddedToCart\(Int(UserDefaults.standard.string(forKey: Constants.productId) ?? ""))") as? Bool {
+            addToCartUI.isAddedToCart = isAdded
+        } else {
+            addToCartUI.isAddedToCart = false // Default value if not previously set
         }
     }
     
@@ -187,6 +200,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             }
         }
     }
+    
     func deleteFromCart(){
 
         if let productId = UserDefaults.standard.string(forKey: Constants.productId){
