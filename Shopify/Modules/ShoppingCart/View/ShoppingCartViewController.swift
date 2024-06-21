@@ -30,7 +30,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
           shoppingCartTableView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
           shoppingCartTableView.rowHeight = 100
           shoppingCartTableView.sectionHeaderHeight = 16
-
+          viewModel.fetchExchangeRates()
           bindViewModel()
           viewModel.fetchDraftOrders()
       }
@@ -74,7 +74,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
                   cell.productColor.text = productColor
 
                   cell.productAmount.text = "\(lineItem.quantity)"
-                  cell.productPrice.text = "\(lineItem.price)$"
+                  cell.productPrice.text = formatPriceWithCurrency(price: lineItem.price)
 
                   draftOrderService.fetchProduct(productId: lineItem.productId ?? 0) { result in
                       switch result {
@@ -203,5 +203,15 @@ extension ShoppingCartViewController: CouponViewControllerDelegate {
         // Update the total amount with the amount from the coupon
         viewModel.updateTotalAmount()
         totalAmount.text = viewModel.totalAmount
+    }
+    func formatPriceWithCurrency(price: String) -> String {
+        let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+        let exchangeRate = viewModel.exchangeRates[selectedCurrency] ?? 1.0
+        if let priceDouble = Double(price) {
+            let convertedPrice = priceDouble * exchangeRate
+            return "\(String(format: "%.2f", convertedPrice)) \(selectedCurrency)"
+        } else {
+            return "Invalid price"
+        }
     }
 }

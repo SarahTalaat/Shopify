@@ -14,7 +14,8 @@ import Cosmos
 class ShoppingCartViewModel {
     private let draftOrderService = DraftOrderNetworkService()
     private let disposeBag = DisposeBag()
-    
+    private let exchangeRateApiService = ExchangeRateApiService()
+    var exchangeRates: [String: Double] = [:]
     var draftOrder: OneDraftOrderResponse? {
         didSet {
             updateTotalAmount()
@@ -119,4 +120,15 @@ class ShoppingCartViewModel {
             }
         }
     }
+    func fetchExchangeRates() {
+            exchangeRateApiService.getLatestRates { [weak self] result in
+                switch result {
+                case .success(let response):
+                    self?.exchangeRates = response.conversion_rates
+                case .failure(let error):
+                    print("Error fetching exchange rates: \(error)")
+                }
+                // Notify any observers that the exchange rates have been fetched
+            }
+        }
 }
