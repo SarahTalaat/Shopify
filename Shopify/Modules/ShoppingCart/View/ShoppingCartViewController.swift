@@ -47,6 +47,11 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
                       self?.totalAmount.text = self?.viewModel.totalAmount
                   }
               }
+              viewModel.onAlertMessage = { [weak self] message in
+                  DispatchQueue.main.async {
+                      self?.showAlert(message: message)
+                  }
+              }
           }
              
           func numberOfSections(in tableView: UITableView) -> Int {
@@ -121,10 +126,9 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
                }
        }
     func didTapPlusButton(on cell: CartTableViewCell) {
-                guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
-                viewModel.incrementQuantity(at: indexPath.row)
-                updateTotalAmount()
-            }
+            guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
+            viewModel.incrementQuantity(at: indexPath.row)
+        }
 
             func didTapMinusButton(on cell: CartTableViewCell) {
                 guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }

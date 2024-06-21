@@ -13,6 +13,8 @@ import Cosmos
 
 class ShoppingCartViewModel {
     private let draftOrderService = DraftOrderNetworkService()
+    private let disposeBag = DisposeBag()
+    
     var draftOrder: OneDraftOrderResponse? {
         didSet {
             updateTotalAmount()
@@ -22,6 +24,7 @@ class ShoppingCartViewModel {
     
     var onDraftOrderUpdated: (() -> Void)?
     var onTotalAmountUpdated: (() -> Void)?
+    var onAlertMessage: ((String) -> Void)?
     
     func fetchDraftOrders() {
         draftOrderService.fetchDraftOrders { [weak self] result in
@@ -42,25 +45,43 @@ class ShoppingCartViewModel {
     }
     
     func incrementQuantity(at index: Int) {
-        guard var lineItem = draftOrder?.draftOrder?.lineItems[index] else { return }
-        lineItem.quantity += 1
-        var updatedLineItems = draftOrder?.draftOrder?.lineItems ?? []
-        updatedLineItems[index] = lineItem
-        draftOrder?.draftOrder?.lineItems = updatedLineItems
-        onDraftOrderUpdated?()
-        updateDraftOrder()
+        guard let lineItem = draftOrder?.draftOrder?.lineItems[index],
+              let productId = lineItem.productId else { return }
+        
+        draftOrderService.fetchProduct(productId: productId) { [weak self] result in
+            switch result {
+            case .success(let product):
+                let inventoryQuantity = product.variants.first?.inventory_quantity ?? 0
+                let maxQuantity = inventoryQuantity / 2
+                
+                if lineItem.quantity + 1 > maxQuantity {
+                    self?.onAlertMessage?("You cannot add more of this item. Maximum allowed quantity is \(maxQuantity).")
+                } else {
+                    var updatedLineItem = lineItem
+                    updatedLineItem.quantity += 1
+                    self?.updateLineItem(at: index, with: updatedLineItem)
+                }
+                
+            case .failure(let error):
+                print("Failed to fetch product: \(error.localizedDescription)")
+            }
+        }
     }
     
     func decrementQuantity(at index: Int) {
         guard var lineItem = draftOrder?.draftOrder?.lineItems[index], lineItem.quantity > 1 else { return }
         lineItem.quantity -= 1
-        draftOrder?.draftOrder?.lineItems[index] = lineItem
-        onDraftOrderUpdated?()
-        updateDraftOrder()
+        updateLineItem(at: index, with: lineItem)
     }
     
     func deleteItem(at index: Int) {
         draftOrder?.draftOrder?.lineItems.remove(at: index)
+        onDraftOrderUpdated?()
+        updateDraftOrder()
+    }
+    
+    private func updateLineItem(at index: Int, with lineItem: LineItem) {
+        draftOrder?.draftOrder?.lineItems[index] = lineItem
         onDraftOrderUpdated?()
         updateDraftOrder()
     }
