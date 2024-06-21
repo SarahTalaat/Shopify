@@ -52,7 +52,13 @@ class ShoppingCartViewModel {
             switch result {
             case .success(let product):
                 let inventoryQuantity = product.variants.first?.inventory_quantity ?? 0
-                let maxQuantity = inventoryQuantity / 2
+                let maxQuantity: Int
+                
+                if inventoryQuantity <= 5 {
+                    maxQuantity = inventoryQuantity
+                } else {
+                    maxQuantity = inventoryQuantity / 2
+                }
                 
                 if lineItem.quantity + 1 > maxQuantity {
                     self?.onAlertMessage?("You cannot add more of this item. Maximum allowed quantity is \(maxQuantity).")
