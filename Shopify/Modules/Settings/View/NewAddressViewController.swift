@@ -11,7 +11,7 @@ class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerV
     
     
     var selectedDefaultAddressId: Int?
-   // var viewModel = NewAddressViewModel()
+    var viewModel = NewAddressViewModel()
     @IBOutlet weak var fullNameTF: UITextField!
     
     @IBOutlet weak var newAddressTF: UITextField!
@@ -23,12 +23,6 @@ class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerV
     @IBOutlet weak var zipCodeTF: UITextField!
 
     let cityPicker = UIPickerView()
-       let egyptGovernorates = [
-           "Cairo", "Alexandria", "Giza", "Port Said", "Suez", "Luxor", "Aswan", "Asyut",
-           "Beheira", "Beni Suef", "Dakahlia", "Damietta", "Faiyum", "Gharbia", "Ismailia",
-           "Kafr El Sheikh", "Matruh", "Minya", "Monufia", "New Valley", "North Sinai",
-           "Qalyubia", "Qena", "Red Sea", "Sharqia", "Sohag", "South Sinai"
-       ]
 
        override func viewDidLoad() {
            super.viewDidLoad()
@@ -45,8 +39,12 @@ class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerV
            
            setupCityPicker()
            
-           // Set the delegate for stateTF
+
+           fullNameTF.delegate = self
+           newAddressTF.delegate = self
+           cityTF.delegate = self
            stateTF.delegate = self
+           zipCodeTF.delegate = self
        }
 
        @objc func dismissKeyboard() {
@@ -84,65 +82,69 @@ class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerV
        }
 
        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-           return egyptGovernorates.count
+           return viewModel.egyptGovernorates.count
        }
 
        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-           return egyptGovernorates[row]
+           return viewModel.egyptGovernorates[row]
        }
 
        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-           cityTF.text = egyptGovernorates[row]
+           cityTF.text = viewModel.egyptGovernorates[row]
        }
 
        func textFieldDidEndEditing(_ textField: UITextField) {
-           if textField == stateTF {
-               let allowedState = "Egypt"
-               if textField.text?.lowercased() != allowedState.lowercased() {
-                   let alert = UIAlertController(title: "Invalid Input", message: "We currently only support addresses in Egypt.", preferredStyle: .alert)
+           switch textField {
+           case fullNameTF:
+               viewModel.fullName = textField.text ?? ""
+           case newAddressTF:
+               viewModel.newAddress = textField.text ?? ""
+           case cityTF:
+               viewModel.city = textField.text ?? ""
+           case stateTF:
+               viewModel.state = textField.text ?? ""
+               if viewModel.state.lowercased() != "egypt" {
+                   let alert = UIAlertController(title: "Invalid Country", message: "We currently only support addresses in Egypt.", preferredStyle: .alert)
                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                    present(alert, animated: true, completion: nil)
                    textField.text = ""
                }
+           case zipCodeTF:
+               viewModel.zipCode = textField.text ?? ""
+           default:
+               break
            }
        }
-
 
     
     @IBAction func saveAddressBtn(_ sender: UIButton) {
         HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-               guard let fullName = fullNameTF.text, !fullName.isEmpty,
-                     let newAddress = newAddressTF.text, !newAddress.isEmpty,
-                     let city = cityTF.text, !city.isEmpty,
-                     let country = stateTF.text, !country.isEmpty,
-                     let zipCode = zipCodeTF.text, !zipCode.isEmpty else {
+               
+               if viewModel.isAddressValid() {
+                   viewModel.postNewAddress { result in
+                       switch result {
+                       case .success(let address):
+                           print("Address successfully posted: \(address)")
+                           DispatchQueue.main.async {
+                               let successAlert = UIAlertController(title: "Success", message: "Address saved successfully.", preferredStyle: .alert)
+                               successAlert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                                   self.navigationController?.popViewController(animated: true)
+                               })
+                               self.present(successAlert, animated: true, completion: nil)
+                           }
+                       case .failure(let error):
+                           print("Failed to post address: \(error)")
+                           DispatchQueue.main.async {
+                               let errorAlert = UIAlertController(title: "Error", message: "Failed to save address. Please try again.", preferredStyle: .alert)
+                               errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                               self.present(errorAlert, animated: true, completion: nil)
+                           }
+                       }
+                   }
+               } else {
                    let alert = UIAlertController(title: "Error", message: "All fields are required.", preferredStyle: .alert)
                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                    present(alert, animated: true, completion: nil)
-                   return
-               }
-
-               let address = Address(id: nil, first_name: fullName, address1: newAddress, city: city, country: country, zip: zipCode, `default`: false)
-
-               TryAddressNetworkService.shared.postNewAddress(address: address) { result in
-                   switch result {
-                   case .success(let address):
-                       print("Address successfully posted: \(address)")
-                       DispatchQueue.main.async {
-                           let successAlert = UIAlertController(title: "Success", message: "Address saved successfully.", preferredStyle: .alert)
-                           successAlert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-                               self.navigationController?.popViewController(animated: true)
-                           })
-                           self.present(successAlert, animated: true, completion: nil)
-                       }
-                   case .failure(let error):
-                       print("Failed to post address: \(error)")
-                       DispatchQueue.main.async {
-                           let errorAlert = UIAlertController(title: "Error", message: "Failed to save address. Please try again.", preferredStyle: .alert)
-                           errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                           self.present(errorAlert, animated: true, completion: nil)
-                       }
-                   }
                }
            }
 }
