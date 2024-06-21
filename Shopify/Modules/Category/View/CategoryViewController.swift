@@ -7,14 +7,14 @@
 
 import UIKit
 
-class CategoryViewController: UIViewController {
+class CategoryViewController: UIViewController, UISearchBarDelegate {
 
     @IBOutlet weak var shoesBtn: UIButton!
     @IBOutlet weak var bagsBtn: UIButton!
     @IBOutlet weak var clothBtn: UIButton!
     @IBOutlet weak var allBtn: UIButton!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var search: UITextField!
+    @IBOutlet weak var search: UISearchBar!
     @IBOutlet weak var women: UIButton!
 
     var shoesButtonCenter: CGPoint!
@@ -28,49 +28,60 @@ class CategoryViewController: UIViewController {
     
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        search.isHidden = false
-        collectionView.collectionViewLayout = productCollectionViewLayout()
-        sharedMethods = SharedMethods(viewController: self)
-        
-        shoesButtonCenter = shoesBtn.center
-        bagsButtonCenter = bagsBtn.center
-        clothButtonCenter = clothBtn.center
+            super.viewDidLoad()
+            collectionView.collectionViewLayout = productCollectionViewLayout()
+            sharedMethods = SharedMethods(viewController: self)
+            
+            shoesButtonCenter = shoesBtn.center
+            bagsButtonCenter = bagsBtn.center
+            clothButtonCenter = clothBtn.center
 
-        shoesBtn.center = allBtn.center
-        bagsBtn.center = allBtn.center
-        clothBtn.center = allBtn.center
+            shoesBtn.center = allBtn.center
+            bagsBtn.center = allBtn.center
+            clothBtn.center = allBtn.center
 
-        shoesBtn.alpha = 0
-        bagsBtn.alpha = 0
-        clothBtn.alpha = 0
+            shoesBtn.alpha = 0
+            bagsBtn.alpha = 0
+            clothBtn.alpha = 0
 
-        
-        shoesBtn.applyShadow()
-        bagsBtn.applyShadow()
-        clothBtn.applyShadow()
-        setNavBarItems()
-       
-        women.addBottomBorder(withColor: UIColor.red, andWidth: 2)
-        selectedButton = women
-        
-        viewModel.bindCategory = {
-            self.updateCollection()
+            
+            shoesBtn.applyShadow()
+            bagsBtn.applyShadow()
+            clothBtn.applyShadow()
+            setNavBarItems()
+           
+            women.addBottomBorder(withColor: UIColor.red, andWidth: 2)
+            selectedButton = women
+            search.delegate = self
+
+            
+            viewModel.bindCategory = {
+                self.updateCollection()
+            }
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+              tapGesture.cancelsTouchesInView = false
+              view.addGestureRecognizer(tapGesture)
         }
-    }
-    
-     
-      func updateButton(_ sender: UIButton,id:CategoryID) {
-            selectedButton?.removeBottomBorder()
-            sender.addBottomBorder(withColor: UIColor.red, andWidth: 2)
-            selectedButton = sender
-          viewModel.getCategory(id: id)
+
+        @objc func dismissKeyboard() {
+            view.endEditing(true)
         }
-      func updateCollection(){
-              DispatchQueue.main.async {
-                  self.collectionView.reloadData()
+        
+         
+        
+         
+          func updateButton(_ sender: UIButton,id:CategoryID) {
+                selectedButton?.removeBottomBorder()
+                sender.addBottomBorder(withColor: UIColor.red, andWidth: 2)
+                selectedButton = sender
+              viewModel.getCategory(id: id)
+            }
+          func updateCollection(){
+                  DispatchQueue.main.async {
+                      self.collectionView.reloadData()
+                  }
               }
-          }
+
       //MARK: - Buttons Actions
       @IBAction func womenBtn(_ sender: UIButton) {
           updateButton(sender,id:.women)
@@ -103,24 +114,14 @@ class CategoryViewController: UIViewController {
    
       }
       // MARK: - Navigation Bar Item
-      @objc func showSearch(){
-          if isSearch{
-              search.isHidden = true
-              isSearch = false
-          }else{
-              search.isHidden = false
-              isSearch = true
-          }
-      }
-      func setNavBarItems(){
-          let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
-          let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
-          let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(self.showSearch))
-   
-          navigationItem.rightBarButtonItems = [firstButton, secondButton]
-          navigationItem.leftBarButtonItem = searchButton
-          search.isHidden = true
-      }
+
+    func setNavBarItems(){
+              let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
+              let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
+       
+              navigationItem.rightBarButtonItems = [firstButton]
+              navigationItem.leftBarButtonItem = secondButton
+     }
       // MARK: - FAB Button Design
       @IBAction func didClickMoreButton(_ sender: UIButton) {
           if isButtonMenuOpen {UIView.animate(withDuration: 0.3) {
@@ -145,6 +146,16 @@ class CategoryViewController: UIViewController {
               }
           }
 
+    // MARK: - UISearchBarDelegate Methods
+            
+            func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+                viewModel.searchQuery = searchText
+            }
+            
+            func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+                searchBar.resignFirstResponder()
+            }
+    
       // MARK: - Collection View Layout
       func productCollectionViewLayout() -> UICollectionViewCompositionalLayout {
           return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
@@ -165,13 +176,13 @@ class CategoryViewController: UIViewController {
    
       // MARK: - Collection View Methods
    
-      extension CategoryViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+extension CategoryViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
           func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-              return viewModel.category.count
+              return viewModel.filteredProducts.count
           }
 
           func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-              let item = viewModel.category[indexPath.row]
+              let item = viewModel.filteredProducts[indexPath.row]
               let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCollectionViewCell", for: indexPath) as! CategoryCollectionViewCell
 
               cell.productBrand.text = item.vendor
@@ -212,7 +223,6 @@ class CategoryViewController: UIViewController {
             }
 
         }
-    
 
 
 extension CategoryViewController: ProductsTableViewCellDelegate{
