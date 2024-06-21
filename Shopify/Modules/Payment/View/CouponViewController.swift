@@ -8,13 +8,15 @@
 import UIKit
 protocol CouponViewControllerDelegate: AnyObject {
     func updateGrandTotal(with amount: String)
+    func updateGrandTotalFromCoupon(with amount: String)
 }
 
 class CouponViewController: UIViewController {
+    
     weak var delegate: CouponViewControllerDelegate?
     private let viewModel = CouponsViewModel()
     var subtotal: String?
-    
+    var updatedTotalAmount: String?
     override func viewDidLoad() {
         super.viewDidLoad()
         if let subtotal = subtotal {
@@ -40,7 +42,6 @@ class CouponViewController: UIViewController {
            }
 
            guard let customerId = SharedDataRepository.instance.customerId else {
-               // Handle the case where customerId is nil, perhaps show an alert
                return
            }
 
@@ -76,7 +77,8 @@ class CouponViewController: UIViewController {
     
     @IBAction func placePaymentBtn(_ sender: UIButton) {
         if let grandTotalAmount = grandTotal.text {
-                    delegate?.updateGrandTotal(with: grandTotalAmount)
+            delegate?.updateGrandTotal(with: grandTotalAmount)
+                        delegate?.updateGrandTotalFromCoupon(with: updatedTotalAmount ?? grandTotalAmount)
                 }
                 dismiss(animated: true, completion: nil)
     }
@@ -88,5 +90,6 @@ class CouponViewController: UIViewController {
           alertController.addAction(okAction)
           self.present(alertController, animated: true, completion: nil)
       }
-  
+    
+
 }

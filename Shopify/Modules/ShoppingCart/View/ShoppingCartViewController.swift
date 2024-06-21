@@ -14,45 +14,46 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
     @IBOutlet weak var shoppingCartTableView: UITableView!
 
     let draftOrderService = DraftOrderNetworkService()
-          var draftOrder: DraftOrderPUT?
-          private let viewModel = ShoppingCartViewModel()
+    var draftOrder: DraftOrderPUT?
+    private let viewModel = ShoppingCartViewModel()
              
-          override func viewDidLoad() {
-              super.viewDidLoad()
-                 
-              let nib = UINib(nibName: "CartTableViewCell", bundle: nil)
-              shoppingCartTableView.register(nib, forCellReuseIdentifier: "CartTableViewCell")
-                 
-              shoppingCartTableView.delegate = self
-              shoppingCartTableView.dataSource = self
-                 
-              self.title = "Shopping Cart"
-              shoppingCartTableView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-              shoppingCartTableView.rowHeight = 100
-              shoppingCartTableView.sectionHeaderHeight = 16
-                 
-              bindViewModel()
-              viewModel.fetchDraftOrders()
-          }
-             
-          private func bindViewModel() {
-              viewModel.onDraftOrderUpdated = { [weak self] in
-                  DispatchQueue.main.async {
-                      self?.shoppingCartTableView.reloadData()
-                  }
-              }
-                 
-              viewModel.onTotalAmountUpdated = { [weak self] in
-                  DispatchQueue.main.async {
-                      self?.totalAmount.text = self?.viewModel.totalAmount
-                  }
-              }
-              viewModel.onAlertMessage = { [weak self] message in
-                  DispatchQueue.main.async {
-                      self?.showAlert(message: message)
-                  }
+    override func viewDidLoad() {
+          super.viewDidLoad()
+
+          let nib = UINib(nibName: "CartTableViewCell", bundle: nil)
+          shoppingCartTableView.register(nib, forCellReuseIdentifier: "CartTableViewCell")
+
+          shoppingCartTableView.delegate = self
+          shoppingCartTableView.dataSource = self
+
+          self.title = "Shopping Cart"
+          shoppingCartTableView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+          shoppingCartTableView.rowHeight = 100
+          shoppingCartTableView.sectionHeaderHeight = 16
+
+          bindViewModel()
+          viewModel.fetchDraftOrders()
+      }
+
+      private func bindViewModel() {
+          viewModel.onDraftOrderUpdated = { [weak self] in
+              DispatchQueue.main.async {
+                  self?.shoppingCartTableView.reloadData()
               }
           }
+
+          viewModel.onTotalAmountUpdated = { [weak self] in
+              DispatchQueue.main.async {
+                  self?.totalAmount.text = self?.viewModel.totalAmount
+              }
+          }
+
+          viewModel.onAlertMessage = { [weak self] message in
+              DispatchQueue.main.async {
+                  self?.showAlert(message: message)
+              }
+          }
+      }
              
           func numberOfSections(in tableView: UITableView) -> Int {
               return viewModel.draftOrder == nil ? 0 : 1
@@ -126,58 +127,63 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
                }
        }
     func didTapPlusButton(on cell: CartTableViewCell) {
-            guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
-            viewModel.incrementQuantity(at: indexPath.row)
+        guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
+        viewModel.incrementQuantity(at: indexPath.row)
+       // viewModel.saveChanges()
+        shoppingCartTableView.reloadData()
+    }
+
+    func didTapMinusButton(on cell: CartTableViewCell) {
+        guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
+        let currentQuantity = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row].quantity ?? 0
+
+        if currentQuantity == 1 {
+            let alert = UIAlertController(title: "Delete Item", message: "You will delete this item. Are you sure?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                self.viewModel.decrementQuantity(at: indexPath.row)
+                self.viewModel.deleteItem(at: indexPath.row)
+                self.shoppingCartTableView.deleteRows(at: [indexPath], with: .automatic)
+                self.updateTotalAmount()
+                self.viewModel.saveChanges()
+            }))
+            present(alert, animated: true, completion: nil)
+        } else {
+            viewModel.decrementQuantity(at: indexPath.row)
+            shoppingCartTableView.reloadRows(at: [indexPath], with: .none)
+            updateTotalAmount()
+            viewModel.saveChanges()
         }
+    }
 
-            func didTapMinusButton(on cell: CartTableViewCell) {
-                guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
-                let currentQuantity = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row].quantity ?? 0
-
-                if currentQuantity == 1 {
-                    let alert = UIAlertController(title: "Delete Item", message: "You will delete this item. Are you sure?", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                    alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                        self.viewModel.decrementQuantity(at: indexPath.row)
-                        self.viewModel.deleteItem(at: indexPath.row)
-                        self.shoppingCartTableView.deleteRows(at: [indexPath], with: .automatic)
-                        self.updateTotalAmount()
-                    }))
-                    present(alert, animated: true, completion: nil)
-                } else {
-                    viewModel.decrementQuantity(at: indexPath.row)
-                    shoppingCartTableView.reloadRows(at: [indexPath], with: .none)
-                    updateTotalAmount()
-                }
-            }
-
-            func didTapDeleteButton(on cell: CartTableViewCell) {
-                guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
-                let alert = UIAlertController(title: "Delete Item", message: "Are you sure you want to delete this item?", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                    self.viewModel.deleteItem(at: indexPath.row)
-                    self.shoppingCartTableView.deleteRows(at: [indexPath], with: .automatic)
-                    self.updateTotalAmount()
-                }))
-                present(alert, animated: true, completion: nil)
-            }
+    func didTapDeleteButton(on cell: CartTableViewCell) {
+        guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
+        let alert = UIAlertController(title: "Delete Item", message: "Are you sure you want to delete this item?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+            self.viewModel.deleteItem(at: indexPath.row)
+            self.shoppingCartTableView.reloadData()
+            self.updateTotalAmount()
+        }))
+        present(alert, animated: true, completion: nil)
+    }
 
             func updateTotalAmount() {
                 viewModel.updateTotalAmount()
                 totalAmount.text = viewModel.totalAmount
             }
     @IBAction func addCouponBtn(_ sender: UIButton) {
-        let coupontUsVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "CouponViewController") as? CouponViewController
-        coupontUsVC?.subtotal = viewModel.totalAmount
-               if let sheet = coupontUsVC?.sheetPresentationController{
+        let couponVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "CouponViewController") as! CouponViewController
+            couponVC.subtotal = viewModel.totalAmount
+            couponVC.delegate = self
+        if let sheet = couponVC.sheetPresentationController{
                    sheet.detents = [.medium()]
                    sheet.prefersScrollingExpandsWhenScrolledToEdge = false
                    sheet.preferredCornerRadius = 40
                    
                }
          
-              present(coupontUsVC!, animated: true, completion: nil)
+              present(couponVC, animated: true, completion: nil)
         
     }
     
@@ -187,4 +193,15 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(alert, animated: true, completion: nil)
         }
+}
+extension ShoppingCartViewController: CouponViewControllerDelegate {
+    func updateGrandTotal(with amount: String) {
+        totalAmount.text = amount
+    }
+
+    func updateGrandTotalFromCoupon(with amount: String) {
+        // Update the total amount with the amount from the coupon
+        viewModel.updateTotalAmount()
+        totalAmount.text = viewModel.totalAmount
+    }
 }

@@ -69,7 +69,10 @@ class PaymentViewController: UIViewController {
           
          
       }
-    
+    func updateGrandTotalFromCoupon(with amount: String) {
+            // Update the payment view model with the grand total from the coupon
+            viewModel.updatePaymentSummaryItems(totalAmount: amount)
+        }
     @IBOutlet weak var cashView: UIView!
     
     @IBOutlet weak var applePayView: UIView!

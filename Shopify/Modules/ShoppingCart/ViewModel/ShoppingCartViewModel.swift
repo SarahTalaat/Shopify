@@ -26,6 +26,21 @@ class ShoppingCartViewModel {
     var onTotalAmountUpdated: (() -> Void)?
     var onAlertMessage: ((String) -> Void)?
     
+    private let saveChangesSubject = PublishSubject<Void>()
+    
+    init() {
+        saveChangesSubject
+            .debounce(.milliseconds(500), scheduler: MainScheduler.instance) // Adjust the debounce duration as needed
+            .subscribe(onNext: { [weak self] in
+                self?.updateDraftOrder()
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func saveChanges() {
+        saveChangesSubject.onNext(())
+    }
+    
     func fetchDraftOrders() {
         draftOrderService.fetchDraftOrders { [weak self] result in
             switch result {
@@ -73,7 +88,7 @@ class ShoppingCartViewModel {
             }
         }
     }
-    
+
     func decrementQuantity(at index: Int) {
         guard var lineItem = draftOrder?.draftOrder?.lineItems[index], lineItem.quantity > 1 else { return }
         lineItem.quantity -= 1
@@ -83,13 +98,13 @@ class ShoppingCartViewModel {
     func deleteItem(at index: Int) {
         draftOrder?.draftOrder?.lineItems.remove(at: index)
         onDraftOrderUpdated?()
-        updateDraftOrder()
+        saveChanges()
     }
     
     private func updateLineItem(at index: Int, with lineItem: LineItem) {
         draftOrder?.draftOrder?.lineItems[index] = lineItem
         onDraftOrderUpdated?()
-        updateDraftOrder()
+        saveChanges()
     }
     
     func updateDraftOrder() {
