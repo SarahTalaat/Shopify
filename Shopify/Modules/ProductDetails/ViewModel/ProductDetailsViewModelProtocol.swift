@@ -25,7 +25,6 @@ protocol ProductDetailsViewModelProtocol {
     func checkIfFavorited() -> Bool
     func toggleFavorite()
     var isFavorited: Bool {get set}
-    func deleteDraftOrderNetwork(urlString: String, parameters: [String:Any])
     func deleteFromCart()
     func getUserDraftOrderId()
     func getCartId()
