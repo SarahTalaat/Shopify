@@ -11,7 +11,6 @@ import RxRelay
 import RxSwift
 import Cosmos
 
-
 class ShoppingCartViewModel {
     private let draftOrderService = DraftOrderNetworkService()
     var draftOrder: OneDraftOrderResponse? {
