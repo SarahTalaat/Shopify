@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSource{
+class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate{
     
     
     var selectedDefaultAddressId: Int?
@@ -38,11 +38,15 @@ class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerV
            stateTF.addPaddingToTextField()
            zipCodeTF.addPaddingToTextField()
            self.title = "New Address"
+           
            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
            tapGesture.cancelsTouchesInView = false
            view.addGestureRecognizer(tapGesture)
            
            setupCityPicker()
+           
+           // Set the delegate for stateTF
+           stateTF.delegate = self
        }
 
        @objc func dismissKeyboard() {
@@ -91,44 +95,56 @@ class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerV
            cityTF.text = egyptGovernorates[row]
        }
 
+       func textFieldDidEndEditing(_ textField: UITextField) {
+           if textField == stateTF {
+               let allowedState = "Egypt"
+               if textField.text?.lowercased() != allowedState.lowercased() {
+                   let alert = UIAlertController(title: "Invalid Input", message: "We currently only support addresses in Egypt.", preferredStyle: .alert)
+                   alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                   present(alert, animated: true, completion: nil)
+                   textField.text = ""
+               }
+           }
+       }
+
 
     
     @IBAction func saveAddressBtn(_ sender: UIButton) {
         HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-              guard let fullName = fullNameTF.text, !fullName.isEmpty,
-                    let newAddress = newAddressTF.text, !newAddress.isEmpty,
-                    let city = cityTF.text, !city.isEmpty,
-                    let country = stateTF.text, !country.isEmpty,
-                    let zipCode = zipCodeTF.text, !zipCode.isEmpty else {
-                  let alert = UIAlertController(title: "Error", message: "All fields are required.", preferredStyle: .alert)
-                  alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                  present(alert, animated: true, completion: nil)
-                  return
-              }
+               guard let fullName = fullNameTF.text, !fullName.isEmpty,
+                     let newAddress = newAddressTF.text, !newAddress.isEmpty,
+                     let city = cityTF.text, !city.isEmpty,
+                     let country = stateTF.text, !country.isEmpty,
+                     let zipCode = zipCodeTF.text, !zipCode.isEmpty else {
+                   let alert = UIAlertController(title: "Error", message: "All fields are required.", preferredStyle: .alert)
+                   alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                   present(alert, animated: true, completion: nil)
+                   return
+               }
 
-              let address = Address(id: nil, first_name: fullName, address1: newAddress, city: city, country: country, zip: zipCode, `default`: false)
+               let address = Address(id: nil, first_name: fullName, address1: newAddress, city: city, country: country, zip: zipCode, `default`: false)
 
-              TryAddressNetworkService.shared.postNewAddress(address: address) { result in
-                  switch result {
-                  case .success(let address):
-                      print("Address successfully posted: \(address)")
-                      DispatchQueue.main.async {
-                          let successAlert = UIAlertController(title: "Success", message: "Address saved successfully.", preferredStyle: .alert)
-                          successAlert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-                              self.navigationController?.popViewController(animated: true)
-                          })
-                          self.present(successAlert, animated: true, completion: nil)
-                      }
-                  case .failure(let error):
-                      print("Failed to post address: \(error)")
-                      DispatchQueue.main.async {
-                          let errorAlert = UIAlertController(title: "Error", message: "Failed to save address. Please try again.", preferredStyle: .alert)
-                          errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                          self.present(errorAlert, animated: true, completion: nil)
-                      }
-                  }
-              }
-          }
+               TryAddressNetworkService.shared.postNewAddress(address: address) { result in
+                   switch result {
+                   case .success(let address):
+                       print("Address successfully posted: \(address)")
+                       DispatchQueue.main.async {
+                           let successAlert = UIAlertController(title: "Success", message: "Address saved successfully.", preferredStyle: .alert)
+                           successAlert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                               self.navigationController?.popViewController(animated: true)
+                           })
+                           self.present(successAlert, animated: true, completion: nil)
+                       }
+                   case .failure(let error):
+                       print("Failed to post address: \(error)")
+                       DispatchQueue.main.async {
+                           let errorAlert = UIAlertController(title: "Error", message: "Failed to save address. Please try again.", preferredStyle: .alert)
+                           errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                           self.present(errorAlert, animated: true, completion: nil)
+                       }
+                   }
+               }
+           }
 }
 
 extension UITextField {
