@@ -9,6 +9,8 @@ import Foundation
 
 class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
+    
+
 
     var networkServiceAuthenticationProtocol:NetworkServiceAuthenticationProtocol!
     var authServiceProtocol: AuthServiceProtocol!
@@ -141,7 +143,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         
         
         
-        var draftOrderIdOptional = UserDefaults.standard.string(forKey: Constants.draftOrderId)
+        var draftOrderIdOptional = UserDefaults.standard.string(forKey: Constants.userDraftId)
         
         print("eee draftOrderIdOptional: \(draftOrderIdOptional)")
         
@@ -172,47 +174,36 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
     
     func addToCart(){
-        var draftOrder = draftOrder()
-        if let draftOrderId = UserDefaults.standard.string(forKey: Constants.shoppingCartId) {
-            var urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
-            updateDraftOrderNetwork(urlString: urlString, parameters: draftOrder)
+        
+        
+        if let productId = UserDefaults.standard.string(forKey: Constants.productId){
+            if let draftOrderId = UserDefaults.standard.string(forKey: Constants.userDraftId) {
+                if let variantId = UserDefaults.standard.string(forKey: Constants.variantId){
+
+                var urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
+                    self.addNewLineItemToDraftOrder(urlString: urlString, variantId: Int(variantId) ?? 0, productId: Int(productId) ?? 0, quantity: 1)
+                    
+                }
+            }
+        }
+    }
+    func deleteFromCart(){
+
+        if let productId = UserDefaults.standard.string(forKey: Constants.productId){
+            if let draftOrderId = UserDefaults.standard.string(forKey: Constants.userDraftId) {
+                if let variantId = UserDefaults.standard.string(forKey: Constants.variantId){
+
+                var urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
+                    
+                    deleteLineItemFromDraftOrder(urlString: urlString, productId: Int(productId) ?? 0)
+                }
+            }
         }
 
     }
-    func deleteFromCart(){
-        //deletes draft order not line item , needs to be corrected!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     //  let draftOrderId = 1034577543329
-     //   var urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
-     //   deleteDraftOrderNetwork(urlString: urlString, parameters: [:])
-  
-
-    }
-    func updateDraftOrderNetwork(urlString: String, parameters: [String:Any]) {
-       networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .put, model: parameters, completion: { [weak self] (result: Result<DraftOrderResponsePUT, Error>) in
-            switch result {
-            case .success(let response):
-                print("PD Draft order updated successfully: \(response)")
-                ProductDetailsSharedData.instance.productVariantId = response.draftOrder?.id
-
-            case .failure(let error):
-                print("PD Failed to updated draft order: \(error.localizedDescription)")
-            }
-        })
-    }
+   
     
-    
-    
-    func deleteDraftOrderNetwork(urlString: String, parameters: [String:Any]) {
-        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .delete, model: parameters, completion: { [weak self] (result: Result<EmptyResponse, Error>) in
-            switch result {
-            case .success(let response):
-                print("PD Draft order deleted successfully: \(response)")
 
-            case .failure(let error):
-                print("PD Failed to delete draft order: \(error.localizedDescription)")
-            }
-        })
-    }
     
     
     func draftOrder() -> [String:Any] {
@@ -323,6 +314,118 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         }
     }
 
+    func addNewLineItemToDraftOrder(urlString: String, variantId: Int, productId: Int, quantity: Int) {
+          // Fetch the existing draft order details
+          networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<OneDraftOrderResponse, Error>) in
+              switch result {
+              case .success(let draftOrderResponse):
+                  guard var draftOrder = draftOrderResponse.draftOrder else {
+                      print("Draft order details are nil")
+                      return
+                  }
+                  
+                  // Check if a line item for the product ID already exists
+                  if draftOrder.lineItems.contains(where: { $0.productId == productId }) {
+                      print("Line item for product ID \(productId) already exists.")
+                      return
+                  }
+                  
+                  // Create a new line item dictionary with the provided data
+                  let newLineItem: [String: Any] = [
+                      "variant_id": variantId,
+                      "product_id": productId,
+                      "quantity": quantity,
+                      // Add other properties as needed
+                  ]
+                  
+                  // Convert existing line items to dictionary array
+                  var existingLineItemsArray: [[String: Any]] = draftOrder.lineItems.map { lineItem in
+                      return [
+                          "variant_id": lineItem.variantId ?? 0,
+                          "product_id": lineItem.productId ?? 0,
+                          "quantity": lineItem.quantity,
+                      ]
+                  }
+                  
+                  // Append the new line item dictionary to lineItems array
+                  existingLineItemsArray.append(newLineItem)
+                  
+                  // Convert draft order to dictionary representation
+                  let draftOrderDictionary: [String: Any] = [
+                      "draft_order": [
+                          "id": draftOrder.id ?? 0, // Replace with actual draft order ID handling
+                          "line_items": existingLineItemsArray
+                      ]
+                  ]
+                  
+                  // Make the PUT request to update the draft order
+                  self.networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .put, model: draftOrderDictionary) { (result: Result<DraftOrderResponsePUT, Error>) in
+                      switch result {
+                      case .success(let updatedDraftOrder):
+                          print("Updated draft order after adding new line item: \(updatedDraftOrder)")
+                      case .failure(let error):
+                          print("Failed to update draft order after adding new line item: \(error)")
+                      }
+                  }
+                  
+              case .failure(let error):
+                  // Handle failure to fetch existing draft order
+                  print("Failed to fetch existing draft order: \(error)")
+              }
+          }
+      }
     
     
+    
+    func deleteLineItemFromDraftOrder(urlString: String, productId: Int) {
+        // Fetch the existing draft order details
+        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<OneDraftOrderResponse, Error>) in
+            switch result {
+            case .success(let draftOrderResponse):
+                guard var draftOrder = draftOrderResponse.draftOrder else {
+                    print("Draft order details are nil")
+                    return
+                }
+                
+                // Convert existing line items to dictionary array and filter out the line item to be deleted
+                let filteredLineItemsArray: [[String: Any]] = draftOrder.lineItems.compactMap { lineItem in
+                    return lineItem.productId != productId ? [
+                        "variant_id": lineItem.variantId ?? 0,
+                        "product_id": lineItem.productId ?? 0,
+                        "quantity": lineItem.quantity,
+                        // Add other properties as needed
+                    ] : nil
+                }
+                
+                // Check if the line item was actually removed
+                if filteredLineItemsArray.count == draftOrder.lineItems.count {
+                    print("Line item for product ID \(productId) does not exist.")
+                    return
+                }
+                
+                // Convert draft order to dictionary representation
+                let draftOrderDictionary: [String: Any] = [
+                    "draft_order": [
+                        "id": draftOrder.id ?? 0, // Replace with actual draft order ID handling
+                        "line_items": filteredLineItemsArray
+                    ]
+                ]
+                
+                // Make the PUT request to update the draft order
+                self.networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .put, model: draftOrderDictionary) { (result: Result<DraftOrderResponsePUT, Error>) in
+                    switch result {
+                    case .success(let updatedDraftOrder):
+                        print("Updated draft order after deleting line item: \(updatedDraftOrder)")
+                    case .failure(let error):
+                        print("Failed to update draft order after deleting line item: \(error)")
+                    }
+                }
+                
+            case .failure(let error):
+                // Handle failure to fetch existing draft order
+                print("Failed to fetch existing draft order: \(error)")
+            }
+        }
+    }
+
 }
