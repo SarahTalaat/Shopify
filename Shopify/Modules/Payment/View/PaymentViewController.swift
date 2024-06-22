@@ -61,16 +61,29 @@ class PaymentViewController: UIViewController {
    
     @IBAction func placeOrderBtn(_ sender: UIButton) {
         guard let lineItems = lineItems else {
-              print("Line items are not set")
-              return
-          }
-          
-          viewModel.postOrder()
-          
-         
+                  print("Line items are not set")
+                  return
+            }
+            
+            viewModel.postOrder { success in
+                DispatchQueue.main.async {
+                    let title: String
+                    let message: String
+                    if success {
+                        title = "Order Placed"
+                        message = "Your order has been successfully placed."
+                    } else {
+                        title = "Error"
+                        message = "Failed to place order. Please try again."
+                    }
+                    
+                    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
       }
     func updateGrandTotalFromCoupon(with amount: String) {
-            // Update the payment view model with the grand total from the coupon
             viewModel.updatePaymentSummaryItems(totalAmount: amount)
         }
     @IBOutlet weak var cashView: UIView!

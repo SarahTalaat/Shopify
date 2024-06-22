@@ -17,8 +17,8 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     var selectedPaymentMethod: PaymentMethod?
     private var subtotal: String?
     private var lineItem: LineItem?
-     private var order: Orders?
-     private var ordersSend: OrdersSend?
+    private var order: Orders?
+    private var ordersSend: OrdersSend?
     var defCurrency : String = "EGP"
     private var totalAmount: String?
     
@@ -55,10 +55,10 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
     }
     
- 
-
-
-
+    
+    
+    
+    
     func setupOrder(lineItem:[LineItem]) {
         
         if let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") {
@@ -68,62 +68,65 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         }
         
         guard let email = SharedDataRepository.instance.customerEmail else {
-                 print("Customer email is nil")
-                 return
-             }
+            print("Customer email is nil")
+            return
+        }
         
         let unwrappedLineItems = lineItem.map { lineItem in
-                  LineItem(
-                      id: lineItem.id,
-                      variantId: lineItem.variantId,
-                      productId: lineItem.productId,
-                      title: lineItem.title,
-                      variantTitle: lineItem.variantTitle ?? "",
-                      sku: lineItem.sku ?? "",
-                      vendor: lineItem.vendor ?? "",
-                      quantity: lineItem.quantity,
-                      requiresShipping: lineItem.requiresShipping ?? false,
-                      taxable: lineItem.taxable ?? false,
-                      giftCard: lineItem.giftCard ?? false,
-                      fulfillmentService: lineItem.fulfillmentService ?? "",
-                      grams: lineItem.grams ?? 0,
-                      taxLines: lineItem.taxLines ?? [],
-                      appliedDiscount: lineItem.appliedDiscount ?? "",
-                      name: lineItem.name ?? "",
-                      properties: lineItem.properties ?? [],
-                      custom: lineItem.custom ?? false,
-                      price: lineItem.price,
-                      adminGraphqlApiId: lineItem.adminGraphqlApiId ?? ""
-                  )
-              }
+            LineItem(
+                id: lineItem.id,
+                variantId: lineItem.variantId,
+                productId: lineItem.productId,
+                title: lineItem.title,
+                variantTitle: lineItem.variantTitle ?? "",
+                sku: lineItem.sku ?? "",
+                vendor: lineItem.vendor ?? "",
+                quantity: lineItem.quantity,
+                requiresShipping: lineItem.requiresShipping ?? false,
+                taxable: lineItem.taxable ?? false,
+                giftCard: lineItem.giftCard ?? false,
+                fulfillmentService: lineItem.fulfillmentService ?? "",
+                grams: lineItem.grams ?? 0,
+                taxLines: lineItem.taxLines ?? [],
+                appliedDiscount: lineItem.appliedDiscount ?? "",
+                name: lineItem.name ?? "",
+                properties: lineItem.properties ?? [],
+                custom: lineItem.custom ?? false,
+                price: lineItem.price,
+                adminGraphqlApiId: lineItem.adminGraphqlApiId ?? ""
+            )
+        }
         print(email)
         print(defCurrency)
         print(unwrappedLineItems)
         
-         order = Orders(
-             id: nil,
-             created_at: nil,
-             currency: defCurrency,
-             email: email,
-             total_price: nil,
-             line_items: unwrappedLineItems
-         )
-
-         ordersSend = OrdersSend(order: order!)
-     }
-     
-     func postOrder() {
-         guard let ordersSend = ordersSend else {
-             print("Order is not set up correctly")
-             return
-         }
-         
-         NetworkUtilities.postData(data: ordersSend, endpoint: "orders.json") { success in
-             if success {
-                 print("Order posted successfully!")
-             } else {
-                 print("Failed to post order.")
-             }
-         }
-     }
+        order = Orders(
+            id: nil,
+            created_at: nil,
+            currency: defCurrency,
+            email: email,
+            total_price: nil,
+            line_items: unwrappedLineItems
+        )
+        
+        ordersSend = OrdersSend(order: order!)
+    }
+    
+    func postOrder(completion: @escaping (Bool) -> Void) {
+        guard let ordersSend = ordersSend else {
+            print("Order is not set up correctly")
+            completion(false)
+            return
+        }
+        
+        NetworkUtilities.postData(data: ordersSend, endpoint: "orders.json") { success in
+            if success {
+                print("Order posted successfully!")
+                completion(true)
+            } else {
+                print("Failed to post order.")
+                completion(false)
+            }
+        }
+    }
 }
