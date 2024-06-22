@@ -7,10 +7,10 @@
 
 import UIKit
 import PassKit
-class PaymentViewController: UIViewController ,CouponViewControllerDelegate{
-    func updateGrandTotal(with amount: String) {
-        viewModel.updatePaymentSummaryItems(totalAmount: amount)
-    }
+class PaymentViewController: UIViewController {
+
+    
+
     
     private var viewModel = PaymentMethodsViewModel()
     
@@ -38,7 +38,7 @@ class PaymentViewController: UIViewController ,CouponViewControllerDelegate{
         }
         if let totalAmountString = totalAmount {
                totalAmountValue = Double(totalAmountString)
-               viewModel.updatePaymentSummaryItems(totalAmount: totalAmountValue ?? 0.0)
+            viewModel.updatePaymentSummaryItems(totalAmount: "\(totalAmountValue ?? 0.0)")
            }
     }
       
@@ -73,7 +73,7 @@ class PaymentViewController: UIViewController ,CouponViewControllerDelegate{
       }
     func updateGrandTotal(with amount: String) {
         if let totalAmount = Double(amount) {
-            viewModel.updatePaymentSummaryItems(totalAmount: totalAmount)
+            viewModel.updatePaymentSummaryItems(totalAmount: String(totalAmount))
         }
     }
    
