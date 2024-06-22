@@ -13,6 +13,10 @@ class ProductViewModel {
     var maxPrice: Float = 1000
     
     var productsFromFirebase: [ProductFromFirebase] = []
+    var userFavorites: [String: Bool] = [:]
+    
+    
+    
     var exchangeRates: [String: Double] = [:]
     
     var brandID: Int = 0 {
@@ -59,6 +63,7 @@ class ProductViewModel {
     init() {
         getProducts()
         fetchExchangeRates()
+        fetchUserFavorites()
     }
     
     func getProducts() {
@@ -150,29 +155,33 @@ extension ProductViewModel {
     func toggleFavorite(productId: String, completion: @escaping (Error?) -> Void) {
         let isFavorite = isProductFavorite(productId: productId)
         
-        guard let email = retrieveStringFromUserDefaults(forKey: Constants.customerEmail) else {
-            completion(nil) // Handle error or return if email is not available
-            return
-        }
+        var email = SharedDataRepository.instance.customerEmail ?? "No emaillllllll"
         
-        for product in filteredProducts {
-            if product.id == Int(productId){
-                FirebaseAuthService().toggleFavorite(email: email, productId: productId, productTitle: product.title, productVendor: product.vendor, productImage: product.images.first?.src ?? "https://static.vecteezy.com/system/resources/previews/006/059/989/non_2x/crossed-camera-icon-avoid-taking-photos-image-is-not-available-illustration-free-vector.jpg", isFavorite: !isFavorite){ [weak self] error in
-                    if error == nil {
-                        // Update local state or perform any additional actions upon successful toggle
-                        self?.updateFavoriteState(productId: productId, isFavorite: !isFavorite)
-                    }
-                    completion(error)
+        if let product = filteredProducts.first(where: { "\($0.id)" == productId }) {
+            FirebaseAuthService().toggleFavorite(email: email, productId: productId, productTitle: product.title, productVendor: product.vendor, productImage: product.images.first?.src ?? "", isFavorite: !isFavorite) { [weak self] error in
+                if error == nil {
+                    self?.userFavorites[productId] = !isFavorite
+                    self?.updateFavoriteState(productId: productId, isFavorite: !isFavorite)
                 }
+                completion(error)
             }
+        } else {
+            completion(nil)
         }
-        
+    }
 
+    func fetchUserFavorites() {
+        guard let email = retrieveStringFromUserDefaults(forKey: Constants.customerEmail) else { return }
+        
+        FirebaseAuthService().fetchFavorites(email: email) { [weak self] favorites in
+            self?.userFavorites = favorites
+            self?.applyFilters()
+        }
     }
     
     func isProductFavorite(productId: String) -> Bool {
-        return UserDefaults.standard.bool(forKey: productId)
-    }
+           return userFavorites[productId] ?? false
+       }
     
     func updateFavoriteState(productId: String, isFavorite: Bool) {
         UserDefaults.standard.set(isFavorite, forKey: productId)

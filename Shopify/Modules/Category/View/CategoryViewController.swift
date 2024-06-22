@@ -44,6 +44,8 @@ class CategoryViewController: UIViewController, UISearchBarDelegate {
             bagsBtn.alpha = 0
             clothBtn.alpha = 0
 
+        
+        collectionView.reloadData()
             
             shoesBtn.applyShadow()
             bagsBtn.applyShadow()
@@ -229,10 +231,18 @@ extension CategoryViewController: ProductsTableViewCellDelegate{
 
     
     
-    func didTapFavoriteButtons(index: Int) {
-        viewModel.getproductId(index: index)
-        print("yyy index: \(index)")
-        collectionView.reloadData()
+    func didTapFavoriteButton(index: Int) {
+        guard index < viewModel.filteredProducts.count else { return }
+        let productId = "\(viewModel.filteredProducts[index].id)"
+        viewModel.toggleFavorite(productId: productId) { error in
+            if let error = error {
+                print("Error toggling favorite status: \(error.localizedDescription)")
+            } else {
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
     }
     
     

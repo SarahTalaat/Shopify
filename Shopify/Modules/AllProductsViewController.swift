@@ -137,11 +137,20 @@ extension AllProductsViewController: ProductsCollectionViewCellDelegate{
 
         
         
-        func didTapFavoriteButton(index: Int) {
-            viewModel.getproductId(index: index)
-            print("fff index: \(index)")
-            collectionView.reloadData()
+    func didTapFavoriteButton(index: Int) {
+        guard index < viewModel.filteredProducts.count else { return }
+        let productId = "\(viewModel.filteredProducts[index].id)"
+        viewModel.toggleFavorite(productId: productId) { error in
+            if let error = error {
+                print("Error toggling favorite status: \(error.localizedDescription)")
+            } else {
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
         }
+    }
+
         
         
         func productsCollectionViewCellDidToggleFavorite(at index: Int) {

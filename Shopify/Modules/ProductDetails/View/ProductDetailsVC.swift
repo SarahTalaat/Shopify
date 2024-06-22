@@ -52,19 +52,33 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     var viewModel: ProductDetailsViewModelProtocol!
     var activityIndicator: UIActivityIndicatorView!
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateFavoriteButton()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         viewModel = DependencyProvider.productDetailsViewModel
         viewModel.getUserDraftOrderId()
-        bindViewModel()
         viewModel.getProductDetails()
         viewModel.getCartId()
         viewModel.loadFavoriteProducts()
+        viewModel.getCustomerIdFromFirebase()
+        
+        bindViewModel()
+        
+        
         addToCartUI.isAddedToCart = false
         viewModel.saveButtonTitleState(addToCartUI:addToCartUI)
         updateFavoriteButton()
-        viewModel.getCustomerIdFromFirebase()
+      
+        
+        
+        
+       
+        
         
         settingUpCollectionView()
 
@@ -127,6 +141,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         
         viewModel.toggleFavorite()
         updateFavoriteButton()
+        
 
         
     }
@@ -205,6 +220,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
                 self?.priceLabel.text = self?.viewModel.product?.product?.variants?.first?.price
                 self?.descriptionLabel.text = self?.viewModel.product?.product?.body_html
                 self?.setupDropdownButtons()
+                self?.updateFavoriteButton()
             }
         }
     }
