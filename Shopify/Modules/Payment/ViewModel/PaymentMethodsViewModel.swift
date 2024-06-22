@@ -18,8 +18,13 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     private var lineItem: LineItem?
     private var order: Orders?
     private var ordersSend: OrdersSend?
+    private var invoice:Invoice?
+    private var invoiceResponse : InvoiceResponse?
+    private var draftOrderId : Int?
+
     var defCurrency : String = "EGP"
     private var totalAmount: String?
+    private var viewModel = ShoppingCartViewModel()
     
     func selectPaymentMethod(_ method: PaymentMethod) {
         selectedPaymentMethod = method
@@ -53,10 +58,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
     }
     
-    
-    
-    
-    
+
     func setupOrder(lineItem:[LineItem]) {
         
         if let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") {
@@ -100,16 +102,20 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         
         order = Orders(
             id: nil,
+            order_number: nil,
             created_at: nil,
             currency: defCurrency,
             email: email,
             total_price: nil,
+            total_discounts: nil,
+            total_tax: nil,
             line_items: unwrappedLineItems
         )
         
         ordersSend = OrdersSend(order: order!)
     }
     
+
     func postOrder(completion: @escaping (Bool) -> Void) {
         guard let ordersSend = ordersSend else {
             print("Order is not set up correctly")
@@ -133,4 +139,90 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
            formatter.currencyCode = "USD" 
            return formatter.string(from: NSNumber(value: price)) ?? ""
        }
+
+            } else {
+                print("Failed to post order.")
+            }
+        }
+    }
+    
+    
+
+    func setupInvoice() {
+        guard let email = SharedDataRepository.instance.customerEmail else {
+            print("Customer email is nil")
+            return
+        }
+        guard let customerName = SharedDataRepository.instance.customerName else {
+            print("Customer name is nil")
+            return
+        }
+        
+        let subject = "Invoice for Your Recent Purchase "
+        let customMessage = """
+        Dear \(customerName),
+        
+        We have received your order and it is now being processed. Please find your invoice details below.
+        Thank you for choosing Shoppingo!
+        
+        Best regards,
+        Shoppingo Team
+        """
+        invoice = Invoice(
+            to: email,
+            from: "safiyafikry@gmail.com",
+            subject: subject,
+            custom_message: customMessage
+        )
+        invoiceResponse = InvoiceResponse(draft_order_invoice: invoice!)
+    }
+    
+    
+    func postInvoice(draftOrderId: String) {
+        NetworkUtilities.postData(data: invoiceResponse, endpoint: "draft_orders/\(draftOrderId)/send_invoice.json") { success in
+            if success {
+                print("Invoice posted successfully!")
+            } else {
+                print("Invoice failed to post.")
+            }
+        }
+    }
+    
+    func getDraftOrderID(email: String, completion: @escaping (String?) -> Void) {
+        FirebaseAuthService().getShoppingCartId(email: email) { shoppingCartId, error in
+            if let error = error {
+                print("kkk *Failed* to retrieve shopping cart ID: \(error.localizedDescription)")
+                completion(nil)
+            } else if let shoppingCartId = shoppingCartId {
+                print("kkk *PD* Shopping cart ID found: \(shoppingCartId)")
+                SharedDataRepository.instance.draftOrderId = shoppingCartId
+                print("kkk *PD* Singleton draft id: \(SharedDataRepository.instance.draftOrderId)")
+                completion(shoppingCartId)
+            } else {
+                print("kkk *PD* No shopping cart ID found for this user.")
+                completion(nil)
+            }
+        }
+    }
+    
+    func getUserDraftOrderId(completion: @escaping (String?) -> Void) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let email = SharedDataRepository.instance.customerEmail ?? "No email"
+            self.getDraftOrderID(email: email) { draftOrderId in
+                completion(draftOrderId)
+            }
+        }
+    }
+    
+    func processInvoicePosting() {
+       getUserDraftOrderId { draftOrderId in
+                guard let draftOrderId = draftOrderId else {
+                    print("Failed to get draft order ID.")
+                    return
+                }
+                self.setupInvoice()
+                self.postInvoice(draftOrderId: draftOrderId)
+        }
+    }
+
 }

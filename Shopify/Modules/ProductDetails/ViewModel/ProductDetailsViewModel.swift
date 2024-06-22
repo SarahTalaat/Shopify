@@ -19,7 +19,8 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     init(networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol,authServiceProtocol: AuthServiceProtocol){
         self.networkServiceAuthenticationProtocol = networkServiceAuthenticationProtocol
         self.authServiceProtocol = authServiceProtocol
-
+        loadFavoriteProducts()
+        fetchUserFavorites()
     }
     
     var favoriteProducts: Set<Int> = []
@@ -41,6 +42,19 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             UserDefaults.standard.synchronize()
         }
     }
+    
+    // Fetch user's favorite products from Firebase
+    func fetchUserFavorites() {
+        let email = SharedDataRepository.instance.customerEmail ?? "NoOo Email"
+        let encodedEmail = SharedMethods.encodeEmail(email)
+        
+        authServiceProtocol.fetchFavorites(email: encodedEmail) { [weak self] favorites in
+            self?.favoriteProducts = Set(favorites.keys.compactMap { Int($0) })
+            self?.bindProductDetailsViewModelToController()
+        }
+    }
+
+    
     func saveAddedToCartState(_ added: Bool) {
         var productID = Int(UserDefaults.standard.string(forKey: Constants.productId) ?? "")
         var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
@@ -59,41 +73,30 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             addToCartUI.isAddedToCart = false // Default value if not previously set
         }
     }
-    
     func toggleFavorite() {
-        guard let productIdString = retrieveStringFromUserDefaults(forKey: Constants.productId) else { return }
-        guard let productIdInt = Int(productIdString) else { return }
-        var email = retrieveStringFromUserDefaults(forKey:Constants.customerEmail) ?? "Nooo email"
-        var encodedEmail = SharedMethods.encodeEmail(email)
-        
-        print("vvv encoded email \(encodedEmail)")
-        var productTitle = retrieveStringFromUserDefaults(forKey: Constants.productTitle)
-        var productId = retrieveStringFromUserDefaults(forKey: Constants.productId)
-        var productVendor = retrieveStringFromUserDefaults(forKey: Constants.productVendor)
-        var productImage = retrieveStringFromUserDefaults(forKey: Constants.productImage)
-        
-        guard let title = productTitle else {
-            fatalError("Failed to retrieve product title from UserDefaults")
-        }
-        guard let id = productId else {
-            fatalError("Failed to retrieve product ID from UserDefaults")
-        }
-        guard let vendor = productVendor else {
-            fatalError("Failed to retrieve product vendor from UserDefaults")
-        }
-        guard let image = productImage else {
-            fatalError("Failed to retrieve product image from UserDefaults")
-        }
+        guard let productIdString = retrieveStringFromUserDefaults(forKey: Constants.productId),
+              let productIdInt = Int(productIdString),
+              let email = retrieveStringFromUserDefaults(forKey: Constants.customerEmail) else { return }
+
+        let encodedEmail = SharedMethods.encodeEmail(email)
         
         if favoriteProducts.contains(productIdInt) {
             favoriteProducts.remove(productIdInt)
-
             authServiceProtocol.deleteProductFromEncodedEmail(encodedEmail: encodedEmail, productId: "\(productIdInt)")
         } else {
+            guard let productTitle = retrieveStringFromUserDefaults(forKey: Constants.productTitle),
+                  let productId = retrieveStringFromUserDefaults(forKey: Constants.productId),
+                  let productVendor = retrieveStringFromUserDefaults(forKey: Constants.productVendor),
+                  let productImage = retrieveStringFromUserDefaults(forKey: Constants.productImage) else {
+                fatalError("Failed to retrieve product details from UserDefaults")
+            }
+
             favoriteProducts.insert(productIdInt)
-            authServiceProtocol.addProductToEncodedEmail(email: encodedEmail, productId: id, productTitle: title, productVendor: vendor, productImage: image)
+            authServiceProtocol.addProductToEncodedEmail(email: encodedEmail, productId: productId, productTitle: productTitle, productVendor: productVendor, productImage: productImage)
         }
+
         saveFavoriteProducts()
+        bindProductDetailsViewModelToController()
     }
     
     func checkIfFavorited() -> Bool {
@@ -105,12 +108,17 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     }
     
     func saveFavoriteProducts() {
-        UserDefaults.standard.set(Array(favoriteProducts), forKey: "FavoriteProducts")
+      let email = SharedDataRepository.instance.customerEmail ?? "NOOOOOO Email"
+        let encodedEmail = SharedMethods.encodeEmail(email)
+        UserDefaults.standard.set(Array(favoriteProducts), forKey: "FavoriteProducts_\(encodedEmail)")
         UserDefaults.standard.synchronize()
     }
     
+    
     func loadFavoriteProducts() {
-        if let savedFavorites = UserDefaults.standard.array(forKey: "FavoriteProducts") as? [Int] {
+        let email = SharedDataRepository.instance.customerEmail ?? "NooOo Email"
+        let encodedEmail = SharedMethods.encodeEmail(email)
+        if let savedFavorites = UserDefaults.standard.array(forKey: "FavoriteProducts_\(encodedEmail)") as? [Int] {
             favoriteProducts = Set(savedFavorites)
         }
     }
@@ -180,7 +188,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
                 
                 self.addValueToUserDefaults(value: productResponse.product?.images?.first?.src, forKey: Constants.productImage)
                 self.addValueToUserDefaults(value: productResponse.product?.title, forKey: Constants.productTitle)
-                self.addValueToUserDefaults(value: productResponse.product?.title, forKey: Constants.productTitle)
+                self.addValueToUserDefaults(value: productResponse.product?.vendor, forKey: Constants.productVendor)
                 self.addValueToUserDefaults(value: productResponse.product?.variants?.first?.id, forKey: Constants.variantId)
                 self.addValueToUserDefaults(value: productResponse.product?.id, forKey: Constants.productId)
                 

@@ -54,6 +54,13 @@ class ProductsCollectionViewCell: UICollectionViewCell {
         self.productId = productId
         updateFavoriteUI(isFavorite: isFavorite)
     }
+
+    func updateFavoriteUI(isFavorite: Bool) {
+        let imageName = isFavorite ? "heart.fill" : "heart"
+        let image = UIImage(systemName: imageName)
+        favBtn.tintColor = isFavorite ? .red : .lightGray
+        favBtn.setImage(image, for: .normal)
+    }
     
     @objc private func toggleFavorite() {
         guard let productId = productId else { return }
@@ -64,20 +71,6 @@ class ProductsCollectionViewCell: UICollectionViewCell {
 //        let imageName = isFavorite ? "heart.fill" : "heart"
 //        favBtn.setImage(UIImage(systemName: imageName), for: .normal)
 //    }
-    func updateFavoriteUI(isFavorite: Bool) {
-        let imageName = isFavorite ? "heart.fill" : "heart"
-        let image = UIImage(systemName: imageName)
 
-        if isFavorite {
-            favBtn.tintColor = .red
-        } else {
-            let config = UIImage.SymbolConfiguration(weight: .light)
-            let outlinedImage = image?.withConfiguration(config)
-            favBtn.setImage(outlinedImage, for: .normal)
-            favBtn.tintColor = .red
-        }
-
-        favBtn.setImage(image, for: .normal)
-    }
 
 }

@@ -22,7 +22,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     
     @IBAction func addToFav(_ sender: UIButton) {
         if let indexPath = indexPath {
-            delegate?.didTapFavoriteButtons(index: indexPath.row)
+            delegate?.didTapFavoriteButton(index: indexPath.row)
             print("kjkj addToFavButton index: \(indexPath.row)")
         }
     }
@@ -64,14 +64,18 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         self.productId = productId
         updateFavoriteUI(isFavorite: isFavorite)
     }
+
+    func updateFavoriteUI(isFavorite: Bool) {
+        let imageName = isFavorite ? "heart.fill" : "heart"
+        let image = UIImage(systemName: imageName)
+        favBtn.tintColor = isFavorite ? .red : .lightGray
+        favBtn.setImage(image, for: .normal)
+    }
+    
     
     @objc private func toggleFavorite() {
         guard let productId = productId else { return }
         delegate?.productsTableViewCellDidToggleFavorite(at: indexPath?.row ?? 0)
     }
-    
-    private func updateFavoriteUI(isFavorite: Bool) {
-        let imageName = isFavorite ? "heart.fill" : "heart"
-        favBtn.setImage(UIImage(systemName: imageName), for: .normal)
-    }
+
 }
