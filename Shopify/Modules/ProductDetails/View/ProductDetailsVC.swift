@@ -62,14 +62,23 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
         viewModel = DependencyProvider.productDetailsViewModel
         viewModel.getUserDraftOrderId()
-        bindViewModel()
         viewModel.getProductDetails()
         viewModel.getCartId()
         viewModel.loadFavoriteProducts()
+        viewModel.getCustomerIdFromFirebase()
+        
+        bindViewModel()
+        
+        
         addToCartUI.isAddedToCart = false
         viewModel.saveButtonTitleState(addToCartUI:addToCartUI)
         updateFavoriteButton()
-        viewModel.getCustomerIdFromFirebase()
+      
+        
+        
+        
+       
+        
         
         settingUpCollectionView()
 
