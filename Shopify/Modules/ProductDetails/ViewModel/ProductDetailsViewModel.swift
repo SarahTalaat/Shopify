@@ -188,7 +188,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
                 
                 self.addValueToUserDefaults(value: productResponse.product?.images?.first?.src, forKey: Constants.productImage)
                 self.addValueToUserDefaults(value: productResponse.product?.title, forKey: Constants.productTitle)
-                self.addValueToUserDefaults(value: productResponse.product?.title, forKey: Constants.productTitle)
+                self.addValueToUserDefaults(value: productResponse.product?.vendor, forKey: Constants.productVendor)
                 self.addValueToUserDefaults(value: productResponse.product?.variants?.first?.id, forKey: Constants.variantId)
                 self.addValueToUserDefaults(value: productResponse.product?.id, forKey: Constants.productId)
                 
