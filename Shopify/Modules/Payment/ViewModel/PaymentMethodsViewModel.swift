@@ -24,9 +24,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     private var draftOrderId : Int?
     var defCurrency : String = "EGP"
     private var totalAmount: String?
-    
-    
-    
+    private var viewModel = ShoppingCartViewModel()
     
     func selectPaymentMethod(_ method: PaymentMethod) {
         selectedPaymentMethod = method
@@ -109,6 +107,8 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             currency: defCurrency,
             email: email,
             total_price: nil,
+            total_discounts: nil,
+            total_tax: nil,
             line_items: unwrappedLineItems
         )
         
