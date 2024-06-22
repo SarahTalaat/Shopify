@@ -44,6 +44,8 @@ class CategoryViewController: UIViewController, UISearchBarDelegate {
             bagsBtn.alpha = 0
             clothBtn.alpha = 0
 
+        
+        collectionView.reloadData()
             
             shoesBtn.applyShadow()
             bagsBtn.applyShadow()
