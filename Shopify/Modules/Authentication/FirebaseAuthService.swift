@@ -248,26 +248,44 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
 
-    func toggleFavorite(email:String,productId: String,productTitle:String, productVendor:String,productImage:String ,isFavorite: Bool, completion: @escaping (Error?) -> Void) {
-        let databaseRef = Database.database().reference()
-        let encodedEmail = SharedMethods.encodeEmail(email)
-        let productRef = databaseRef.child("customers").child(encodedEmail).child("products").child(productId)
-        if !isFavorite {
-            productRef.removeValue { error, _ in
-                completion(error)
-            }
-        } else {
-            let productData: [String: Any] = [
-                "productId": productId,
-                "productTitle": productTitle,
-                "productVendor": productVendor,
-                "productImage": productImage
-            ]
-            productRef.setValue(productData) { error, _ in
-                completion(error)
+    func toggleFavorite(email: String, productId: String, productTitle: String, productVendor: String, productImage: String, isFavorite: Bool, completion: @escaping (Error?) -> Void) {
+            let databaseRef = Database.database().reference()
+            let encodedEmail = SharedMethods.encodeEmail(email)
+            let productRef = databaseRef.child("customers").child(encodedEmail).child("products").child(productId)
+            
+            if !isFavorite {
+                productRef.removeValue { error, _ in
+                    completion(error)
+                }
+            } else {
+                let productData: [String: Any] = [
+                    "productId": productId,
+                    "productTitle": productTitle,
+                    "productVendor": productVendor,
+                    "productImage": productImage
+                ]
+                productRef.setValue(productData) { error, _ in
+                    completion(error)
+                }
             }
         }
-    }
+
+        func fetchFavorites(email: String, completion: @escaping ([String: Bool]) -> Void) {
+            let databaseRef = Database.database().reference()
+            let encodedEmail = SharedMethods.encodeEmail(email)
+            let favoritesRef = databaseRef.child("customers").child(encodedEmail).child("products")
+            
+            favoritesRef.observeSingleEvent(of: .value) { snapshot in
+                var favorites: [String: Bool] = [:]
+                for child in snapshot.children.allObjects as! [DataSnapshot] {
+                    if let productId = child.key as? String {
+                        favorites[productId] = true
+                    }
+                }
+                completion(favorites)
+            }
+        }
+
     
     func checkProductExists(email: String, productId: String, completion: @escaping (Bool, Error?) -> Void) {
         var encodedEmail = SharedMethods.encodeEmail(email)
