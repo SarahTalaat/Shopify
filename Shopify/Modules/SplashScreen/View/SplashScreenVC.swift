@@ -33,10 +33,7 @@ class SplashScreenVC: UIViewController {
          let onboardingVC = sb.instantiateViewController(withIdentifier: "OnboardingViewController") as! OnboardingViewController
         onboardingVC.modalPresentationStyle = .fullScreen
         present(onboardingVC, animated: true, completion: nil)
-        
-//                    let sb = UIStoryboard.init(name: "Main", bundle: nil)
-//                    let onboardingVC = sb.instantiateViewController(withIdentifier: "OnboardingViewController") as! OnboardingViewController
-//                    navigationController?.pushViewController(onboardingVC, animated: true)
+
         
     }
 }

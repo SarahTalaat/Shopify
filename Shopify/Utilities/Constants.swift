@@ -29,6 +29,8 @@ class Constants  {
     static let userDraftId: String = "userDraftId"
     static let customerId: String = "customerId"
     
+    static let onboardingKey = "hasSeenOnboarding"
+    
    
 }
 

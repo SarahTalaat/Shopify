@@ -28,6 +28,7 @@ class PaymentViewController: UIViewController {
     }
 
     override func viewDidLoad() {
+
         super.viewDidLoad()
         setupUI()
         setupGestures()
@@ -41,6 +42,7 @@ class PaymentViewController: UIViewController {
             viewModel.updatePaymentSummaryItems(totalAmount: "\(totalAmountValue ?? 0.0)")
            }
     }
+
       
       private func setupUI() {
           [cashView, applePayView, addressView].forEach { view in
@@ -82,6 +84,7 @@ class PaymentViewController: UIViewController {
                   print("Line items are not set")
                   return
             }
+
             
             viewModel.postOrder { success in
                 DispatchQueue.main.async {
@@ -102,6 +105,11 @@ class PaymentViewController: UIViewController {
             }
       }
    
+
+            viewModel.postOrder()
+        viewModel.processInvoicePosting()
+    }
+
     @IBOutlet weak var cashView: UIView!
     
     @IBOutlet weak var applePayView: UIView!

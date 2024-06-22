@@ -41,6 +41,7 @@ class SettingsViewModel: SettingsViewModelProtocol{
                 print("User signed out successfully")
                 self.isSignedOut = isSignedOut
                 SharedDataRepository.instance.isSignedIn = false
+                SharedDataRepository.instance.customerEmail = nil
             case .failure(let error):
 
                 print("Failed to sign out: \(error.localizedDescription)")
