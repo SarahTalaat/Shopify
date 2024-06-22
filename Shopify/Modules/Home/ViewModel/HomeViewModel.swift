@@ -75,4 +75,22 @@ class HomeViewModel{
             completion(discountCode)
         }
     }
+    
+    func getCustomerId(){
+        print("HOME: customer id: \(SharedDataRepository.instance.customerId)")
+    }
+    
+    func getCustomerIDFromFirebase(){
+        var encodedEmail = SharedMethods.encodeEmail(SharedDataRepository.instance.customerEmail ?? "No email")
+        FirebaseAuthService().fetchCustomerId(encodedEmail: encodedEmail) { customerId in
+            if let customerId = customerId {
+                // Handle the retrieved customerId
+                print("HOME: Customer ID FIREBASE : \(customerId)")
+                // You can now use the customerId for further operations
+            } else {
+                // Handle the case where customerId is nil (fetch failed)
+                print("Failed to fetch Customer ID")
+            }
+        }
+    }
 }

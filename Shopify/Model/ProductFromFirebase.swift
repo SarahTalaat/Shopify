@@ -12,4 +12,5 @@ struct ProductFromFirebase {
     let productTitle: String
     let productVendor: String
     let productImage: String
+    let isFavourite: String
 }

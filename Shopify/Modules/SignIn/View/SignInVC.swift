@@ -14,7 +14,7 @@ class SignInVC: UIViewController {
         viewModel = DependencyProvider.signInViewModel
         setUpSignInScreenUI()
         bindViewModel()
-       
+        viewModel.getCustomerIDFromFirebase()
         
         print("Sign in view controller")
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))

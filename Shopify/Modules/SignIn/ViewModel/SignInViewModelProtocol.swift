@@ -19,6 +19,6 @@ protocol SignInViewModelProtocol {
     func signIn(email: String, password: String)
     func getUserDraftOrderId()
     func getDraftOrderID(email: String)
-    
+    func getCustomerIDFromFirebase()
 }
 

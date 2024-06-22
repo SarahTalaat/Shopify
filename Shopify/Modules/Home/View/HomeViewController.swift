@@ -31,7 +31,9 @@ class HomeViewController: UIViewController {
         brandsCollectionView.clipsToBounds = true
         
         sharedMethods = SharedMethods(viewController: self)
-      
+        viewModel.getCustomerId()
+        viewModel.getCustomerIDFromFirebase()
+        
         let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
         let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
         let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchBtn))

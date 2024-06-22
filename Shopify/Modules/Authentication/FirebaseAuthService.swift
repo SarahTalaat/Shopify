@@ -12,6 +12,34 @@ import FirebaseDatabase
 
 class FirebaseAuthService: AuthServiceProtocol {
 
+//    func getIsFavourite(email: String, productId: String, completion: @escaping (Bool?, Error?) -> Void) {
+//
+//        var ref = Database.database().reference()
+//        let encodedEmail = SharedMethods.encodeEmail(email)
+//        let favouriteRef = ref.child("customers").child(encodedEmail).child("products").child(productId).child("IsFavourite")
+//
+//        favouriteRef.observeSingleEvent(of: .value) { snapshot in
+//            if let value = snapshot.value as? Bool {
+//                completion(value, nil)
+//            } else {
+//                completion(nil, NSError(domain: "FirebaseAuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Value is not a boolean"]))
+//            }
+//        } withCancel: { error in
+//            completion(nil, error)
+//        }
+//    }
+//
+//    func setIsFavourite(email: String, productId: String, isFavourite: Bool, completion: @escaping (Error?) -> Void) {
+//        var ref = Database.database().reference()
+//        let encodedEmail = SharedMethods.encodeEmail(email)
+//        let favouriteRef = ref.child("customers").child(encodedEmail).child("products").child(productId).child("IsFavourite")
+//
+//        favouriteRef.setValue(isFavourite) { error, _ in
+//            completion(error)
+//        }
+//    }
+    
+
 //    func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
 //        Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
 //            if let error = error {
@@ -128,7 +156,7 @@ class FirebaseAuthService: AuthServiceProtocol {
 //        }
 //    }
     
-    func saveCustomerId(name: String, email: String, id: String, favouriteId: String, shoppingCartId: String, productId: String, productTitle: String, productVendor: String, productImage: String, isSignedIn: String) {
+    func saveCustomerId(name: String, email: String, id: String, favouriteId: String, shoppingCartId: String, productId: String, productTitle: String, productVendor: String, productImage: String, isSignedIn: String , isFavourite: Bool) {
         let ref = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
         let customersRef = ref.child("customers")
@@ -138,7 +166,8 @@ class FirebaseAuthService: AuthServiceProtocol {
             "productId": productId,
             "productTitle": productTitle,
             "productVendor": productVendor,
-            "productImage": productImage
+            "productImage": productImage,
+            "isFavourite" : isFavourite
         ]
         
         let customerData: [String: Any] = [
@@ -162,7 +191,7 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
     
-    func addProductToEncodedEmail(email: String, productId: String, productTitle: String, productVendor: String, productImage: String) {
+    func addProductToEncodedEmail(email: String, productId: String, productTitle: String, productVendor: String, productImage: String,isFavourite:Bool) {
         let ref = Database.database().reference()
         let customersRef = ref.child("customers")
         let encodedEmail = SharedMethods.encodeEmail(email)
@@ -173,7 +202,8 @@ class FirebaseAuthService: AuthServiceProtocol {
             "productId": productId,
             "productTitle": productTitle,
             "productVendor" : productVendor,
-            "productImage": productImage
+            "productImage": productImage,
+            "isFavourite" : isFavourite
         ]
         
         productsRef.child(productId).setValue(productData) { error, _ in
@@ -231,13 +261,15 @@ class FirebaseAuthService: AuthServiceProtocol {
                    productId != "-1", // Check if productId is not "-1"
                    let productTitle = productData["productTitle"] as? String,
                    let productVendor = productData["productVendor"] as? String,
-                   let productImage = productData["productImage"] as? String {
+                   let productImage = productData["productImage"] as? String,
+                   let isFavourite = productData["isFavourite"] as? String{
                     
                     let product = ProductFromFirebase(
                         productId: productId,
                         productTitle: productTitle,
                         productVendor: productVendor,
-                        productImage: productImage
+                        productImage: productImage,
+                        isFavourite: isFavourite
                     )
                     
                     products.append(product)
@@ -261,7 +293,9 @@ class FirebaseAuthService: AuthServiceProtocol {
                 "productId": productId,
                 "productTitle": productTitle,
                 "productVendor": productVendor,
-                "productImage": productImage
+                "productImage": productImage,
+                "isFavourite" : String(isFavorite)
+                
             ]
             productRef.setValue(productData) { error, _ in
                 completion(error)
@@ -422,6 +456,45 @@ class FirebaseAuthService: AuthServiceProtocol {
                 completion(nil, error)
             }
         }
+    
+    
+
+    func fetchFavoriteProducts(for email: String, completion: @escaping (Result<Set<Int>, Error>) -> Void) {
+        let encodedEmail = SharedMethods.encodeEmail(email)
+        let ref = Database.database().reference().child("customers").child(encodedEmail).child("products")
+        
+        ref.observeSingleEvent(of: .value) { snapshot in
+            var favoriteProductIds = Set<Int>()
+            
+            for child in snapshot.children {
+                if let childSnapshot = child as? DataSnapshot,
+                   let productData = childSnapshot.value as? [String: Any],
+                   let isFavourite = productData["isFavourite"] as? Bool,
+                   let productId = productData["productId"] as? Int, isFavourite {
+                    favoriteProductIds.insert(productId)
+                }
+            }
+            
+            completion(.success(favoriteProductIds))
+        } withCancel: { error in
+            completion(.failure(error))
+        }
+    }
+    
+    func updateFavoriteStatus(for email: String, productId: String, isFavorite: Bool, completion: @escaping (Error?) -> Void) {
+        let encodedEmail = SharedMethods.encodeEmail(email)
+        let productRef = Database.database().reference().child("customers").child(encodedEmail).child("products").child(productId)
+        
+        let productData: [String: Any] = [
+            "isFavourite": isFavorite
+        ]
+        
+        productRef.updateChildValues(productData) { error, _ in
+            completion(error)
+        }
+    }
+
+
 
 }
 
@@ -453,4 +526,3 @@ class FirebaseAuthService: AuthServiceProtocol {
 //            self?.handleAuthResult(result: result, error: error, completion: completion)
 //        }
 //    }
-    

@@ -91,7 +91,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             authServiceProtocol.deleteProductFromEncodedEmail(encodedEmail: encodedEmail, productId: "\(productIdInt)")
         } else {
             favoriteProducts.insert(productIdInt)
-            authServiceProtocol.addProductToEncodedEmail(email: encodedEmail, productId: id, productTitle: title, productVendor: vendor, productImage: image)
+            authServiceProtocol.addProductToEncodedEmail(email: encodedEmail, productId: id, productTitle: title, productVendor: vendor, productImage: image, isFavourite: true)
         }
         saveFavoriteProducts()
     }
@@ -274,7 +274,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         print("xy productVendor: \(productVendor)")
         print("xy productImage: \(productImage)")
         
-        authServiceProtocol.addProductToEncodedEmail(email: encodedEmail ?? "NOOO Email", productId: productId ?? "NOO ProductId", productTitle: productTitle ?? "No ProductTitle", productVendor: productVendor ?? "NOOO ProductVendor", productImage: productImage ?? "NOOO ProductImage")
+        authServiceProtocol.addProductToEncodedEmail(email: encodedEmail ?? "NOOO Email", productId: productId ?? "NOO ProductId", productTitle: productTitle ?? "No ProductTitle", productVendor: productVendor ?? "NOOO ProductVendor", productImage: productImage ?? "NOOO ProductImage", isFavourite: false)
         
         
     }

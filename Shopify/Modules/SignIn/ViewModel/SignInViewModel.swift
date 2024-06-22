@@ -66,6 +66,8 @@ class SignInViewModel: SignInViewModelProtocol {
                 strongSelf.checkEmailSignInStatus(email: email)
                 print("ddd 2.")
                 print("ddd 3.")
+                print("si: inside success 0: self = \(self)")
+                strongSelf.getCustomerIDFromFirebase()
             case .failure(let error):
                 if let authError = error as? AuthErrorCode {
                     switch authError {
@@ -180,7 +182,10 @@ class SignInViewModel: SignInViewModelProtocol {
             print("si: inside: Cid: \(SharedDataRepository.instance.customerId ?? "NO CID")")
             print("si: inside: favId: \(SharedDataRepository.instance.favouriteId ?? "NO FID")")
             print("si: inside: shoppingCartId: \(SharedDataRepository.instance.shoppingCartId ?? "NO ShopID")")
+            
+            print("si: inside: fetchcustomrdata: self = \(self)")
         }
+        
         SharedDataRepository.instance.customerEmail = user?.email
     }
 
@@ -248,5 +253,19 @@ class SignInViewModel: SignInViewModelProtocol {
     func getUserDraftOrderId(){
         let email = SharedDataRepository.instance.customerEmail ?? "No email"
         self.getDraftOrderID(email: email)
+    }
+    func getCustomerIDFromFirebase(){
+        var encodedEmail = SharedMethods.encodeEmail(SharedDataRepository.instance.customerEmail ?? "No email")
+        authServiceProtocol.fetchCustomerId(encodedEmail: encodedEmail) { customerId in
+            if let customerId = customerId {
+                // Handle the retrieved customerId
+                print("SI: Customer ID FIREBASE : \(customerId)")
+                SharedDataRepository.instance.customerId = customerId
+                // You can now use the customerId for further operations
+            } else {
+                // Handle the case where customerId is nil (fetch failed)
+                print("Failed to fetch Customer ID")
+            }
+        }
     }
 }

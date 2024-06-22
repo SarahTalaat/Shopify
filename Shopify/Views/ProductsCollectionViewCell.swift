@@ -79,5 +79,7 @@ class ProductsCollectionViewCell: UICollectionViewCell {
 
         favBtn.setImage(image, for: .normal)
     }
+    
+    
 
 }
