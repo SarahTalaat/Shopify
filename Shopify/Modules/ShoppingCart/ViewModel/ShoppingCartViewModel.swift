@@ -121,15 +121,15 @@ class ShoppingCartViewModel {
         }
     }
     func formatPriceWithCurrency(price: String) -> String {
-            let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
-            let exchangeRate = exchangeRates[selectedCurrency] ?? 1.0
-            if let priceDouble = Double(price) {
-                let convertedPrice = priceDouble * exchangeRate
-                return "\(String(format: "%.2f", convertedPrice)) \(selectedCurrency)"
-            } else {
-                return "Invalid price"
+                let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+                let exchangeRate = exchangeRates[selectedCurrency] ?? 1.0
+                if let priceDouble = Double(price) {
+                    let convertedPrice = priceDouble * exchangeRate
+                    return "\(String(format: "%.2f", convertedPrice)) \(selectedCurrency)"
+                } else {
+                    return "Invalid price"
+                }
             }
-        }
     func fetchExchangeRates() {
             exchangeRateApiService.getLatestRates { [weak self] result in
                 switch result {

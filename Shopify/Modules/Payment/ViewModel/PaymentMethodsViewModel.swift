@@ -15,7 +15,6 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     }
     
     var selectedPaymentMethod: PaymentMethod?
-    private var subtotal: String?
     private var lineItem: LineItem?
     private var order: Orders?
     private var ordersSend: OrdersSend?
@@ -28,7 +27,6 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     func updatePaymentSummaryItems(totalAmount: String) {
         self.totalAmount = totalAmount
     }
-    
     var paymentRequest: PKPaymentRequest {
         let request = PKPaymentRequest()
         request.merchantIdentifier = "merchant.com.pushpendra.pay"
@@ -129,4 +127,10 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             }
         }
     }
+    func formatPriceWithCurrency(price: Double) -> String {
+           let formatter = NumberFormatter()
+           formatter.numberStyle = .currency
+           formatter.currencyCode = "USD" 
+           return formatter.string(from: NSNumber(value: price)) ?? ""
+       }
 }

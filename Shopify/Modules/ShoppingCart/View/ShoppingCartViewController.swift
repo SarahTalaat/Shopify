@@ -43,10 +43,13 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
           }
 
           viewModel.onTotalAmountUpdated = { [weak self] in
-                  DispatchQueue.main.async {
-                      self?.totalAmount.text = self?.viewModel.formatPriceWithCurrency(price: self?.viewModel.totalAmount ?? "")
+              DispatchQueue.main.async {
+                  self?.totalAmount.text = self?.viewModel.formatPriceWithCurrency(price: self?.viewModel.totalAmount ?? "")
+                  if let paymentVC = self?.navigationController?.viewControllers.last as? PaymentViewController {
+                      paymentVC.totalAmount = self?.viewModel.totalAmount
                   }
               }
+          }
 
           viewModel.onAlertMessage = { [weak self] message in
               DispatchQueue.main.async {
@@ -197,6 +200,15 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
 }
 
 extension ShoppingCartViewController: CouponViewControllerDelegate {
+    func updateTotalAmount(with amount: String) {
+           viewModel.totalAmount = amount
+           totalAmount.text = viewModel.formatPriceWithCurrency(price: amount)
+           // Update the total amount in the PaymentViewController if it is already presented
+           if let paymentVC = navigationController?.viewControllers.first(where: { $0 is PaymentViewController }) as? PaymentViewController {
+               paymentVC.totalAmount = amount
+           }
+       }
+    
     func updateGrandTotal(with amount: String) {
         totalAmount.text = amount
     }

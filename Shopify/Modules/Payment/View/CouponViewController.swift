@@ -9,6 +9,7 @@ import UIKit
 protocol CouponViewControllerDelegate: AnyObject {
     func updateGrandTotal(with amount: String)
     func updateGrandTotalFromCoupon(with amount: String)
+   
 }
 
 class CouponViewController: UIViewController {

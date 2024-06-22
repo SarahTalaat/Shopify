@@ -7,7 +7,11 @@
 
 import UIKit
 import PassKit
-class PaymentViewController: UIViewController {
+class PaymentViewController: UIViewController ,CouponViewControllerDelegate{
+    func updateGrandTotal(with amount: String) {
+        viewModel.updatePaymentSummaryItems(totalAmount: amount)
+    }
+    
     private var viewModel = PaymentMethodsViewModel()
     
     var totalAmount: String?
@@ -15,19 +19,28 @@ class PaymentViewController: UIViewController {
     var lineItems: [LineItem]?
        
     @IBOutlet weak var appleButton: UIButton!
+    private var totalAmountValue: Double? {
+        didSet {
+            if isViewLoaded {
+                // Do something with the updated totalAmountValue
+            }
+        }
+    }
+
     override func viewDidLoad() {
-          super.viewDidLoad()
-          if let subtotal = totalAmount {
-              viewModel.updatePaymentSummaryItems(totalAmount: subtotal)
-          }
-          setupUI()
-          setupGestures()
-          self.title = "Choose Payment Method"
-          fetchDefaultAddress()
-          if let lineItems = lineItems {
-              viewModel.setupOrder(lineItem: lineItems)
-          }
-      }
+        super.viewDidLoad()
+        setupUI()
+        setupGestures()
+        self.title = "Choose Payment Method"
+        fetchDefaultAddress()
+        if let lineItems = lineItems {
+            viewModel.setupOrder(lineItem: lineItems)
+        }
+        if let totalAmountString = totalAmount {
+               totalAmountValue = Double(totalAmountString)
+               viewModel.updatePaymentSummaryItems(totalAmount: totalAmountValue ?? 0.0)
+           }
+    }
       
       private func setupUI() {
           [cashView, applePayView, addressView].forEach { view in
@@ -58,6 +71,11 @@ class PaymentViewController: UIViewController {
               }
           }
       }
+    func updateGrandTotal(with amount: String) {
+        if let totalAmount = Double(amount) {
+            viewModel.updatePaymentSummaryItems(totalAmount: totalAmount)
+        }
+    }
    
     @IBAction func placeOrderBtn(_ sender: UIButton) {
         guard let lineItems = lineItems else {
@@ -83,9 +101,7 @@ class PaymentViewController: UIViewController {
                 }
             }
       }
-    func updateGrandTotalFromCoupon(with amount: String) {
-            viewModel.updatePaymentSummaryItems(totalAmount: amount)
-        }
+   
     @IBOutlet weak var cashView: UIView!
     
     @IBOutlet weak var applePayView: UIView!
@@ -101,7 +117,13 @@ class PaymentViewController: UIViewController {
     }
   
     @IBAction func cashBtn(_ sender: UIButton) {
-        selectPaymentMethod(.cash)
+        if let totalAmountDouble = Double(totalAmount ?? "0.0"), totalAmountDouble > 500 {
+               let alert = UIAlertController(title: "Payment Alert", message: "Total amount exceeds 500. Please choose another payment method.", preferredStyle: .alert)
+               alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+               present(alert, animated: true, completion: nil)
+           } else {
+               selectPaymentMethod(.cash)
+           }
     }
     
     @IBAction func appleBtn(_ sender: UIButton) {
@@ -120,9 +142,12 @@ class PaymentViewController: UIViewController {
             }
         }
         
-        @objc private func cashViewTapped() {
-            selectPaymentMethod(.cash)
+    @objc private func cashViewTapped() {
+        selectPaymentMethod(.cash)
+        if let totalAmount = totalAmountValue {
+            print("Total Amount: \(totalAmount)")
         }
+    }
         
         @objc private func applePayViewTapped() {
             selectPaymentMethod(.applePay)
@@ -149,7 +174,9 @@ class PaymentViewController: UIViewController {
                 customerPaymentAddress.text = "No address selected"
             }
         }
+  
     }
+    
 
     extension PaymentViewController: AddressSelectionDelegate {
         func didSelectAddress(_ address: Address, completion: @escaping () -> Void) {
