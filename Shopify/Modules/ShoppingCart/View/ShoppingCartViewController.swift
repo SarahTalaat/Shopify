@@ -117,7 +117,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
        @IBAction func processedToPaymentBtn(_ sender: UIButton) {
            let storyboard = UIStoryboard(name: "Third", bundle: nil)
                if let paymentVC = storyboard.instantiateViewController(withIdentifier: "PaymentVC") as? PaymentViewController {
-                   paymentVC.totalAmount = viewModel.totalAmount // Pass the total amount here
+                   paymentVC.totalAmount = viewModel.totalAmount  
                    if let firstLineItem = viewModel.draftOrder?.draftOrder?.lineItems {
                        paymentVC.lineItems = firstLineItem
                    } else {
@@ -129,7 +129,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
     func didTapPlusButton(on cell: CartTableViewCell) {
         guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
         viewModel.incrementQuantity(at: indexPath.row)
-       // viewModel.saveChanges()
+
         shoppingCartTableView.reloadData()
     }
 
@@ -172,6 +172,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
                 viewModel.updateTotalAmount()
                 totalAmount.text = viewModel.totalAmount
             }
+    
     @IBAction func addCouponBtn(_ sender: UIButton) {
         let couponVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "CouponViewController") as! CouponViewController
             couponVC.subtotal = viewModel.totalAmount
@@ -194,15 +195,13 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
             present(alert, animated: true, completion: nil)
         }
 }
+
 extension ShoppingCartViewController: CouponViewControllerDelegate {
     func updateGrandTotal(with amount: String) {
         totalAmount.text = amount
     }
 
     func updateGrandTotalFromCoupon(with amount: String) {
-        // Update the total amount with the amount from the coupon
-        viewModel.updateTotalAmount()
-        totalAmount.text = viewModel.totalAmount
+        totalAmount.text = amount 
     }
-   
 }

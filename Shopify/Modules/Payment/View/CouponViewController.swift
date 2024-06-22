@@ -52,22 +52,23 @@ class CouponViewController: UIViewController {
                return
            }
 
-           viewModel.validateCoupon(couponCode) { [weak self] discountAmount in
-               guard let self = self else { return }
+        viewModel.validateCoupon(couponCode) { [weak self] discountAmount in
+            guard let self = self else { return }
 
-               if let discountAmount = discountAmount {
-                   let totals = self.viewModel.updateTotals(with: discountAmount)
-                   self.discount.text = totals.discount
-                   self.grandTotal.text = totals.grandTotal
-                   self.viewModel.saveCouponCode(couponCode, for: customerId)
-                   self.validCouponTF.layer.borderColor = UIColor.green.cgColor
-                   self.validCouponTF.layer.borderWidth = 1.0
-               } else {
-                   self.showAlert(title: "Invalid Coupon", message: "The entered coupon code is invalid.")
-                   self.validCouponTF.layer.borderColor = UIColor.red.cgColor
-                   self.validCouponTF.layer.borderWidth = 1.0
-               }
-           }
+            if let discountAmount = discountAmount {
+                let totals = self.viewModel.updateTotals(with: discountAmount)
+                self.discount.text = totals.discount
+                self.grandTotal.text = totals.grandTotal
+                self.updatedTotalAmount = totals.grandTotal
+                self.viewModel.saveCouponCode(couponCode, for: customerId)
+                self.validCouponTF.layer.borderColor = UIColor.green.cgColor
+                self.validCouponTF.layer.borderWidth = 1.0
+            } else {
+                self.showAlert(title: "Invalid Coupon", message: "The entered coupon code is invalid.")
+                self.validCouponTF.layer.borderColor = UIColor.red.cgColor
+                self.validCouponTF.layer.borderWidth = 1.0
+            }
+        }
     }
     
     @IBOutlet weak var discount: UILabel!
@@ -77,10 +78,10 @@ class CouponViewController: UIViewController {
     
     @IBAction func placePaymentBtn(_ sender: UIButton) {
         if let grandTotalAmount = grandTotal.text {
-            delegate?.updateGrandTotal(with: grandTotalAmount)
-                        delegate?.updateGrandTotalFromCoupon(with: updatedTotalAmount ?? grandTotalAmount)
-                }
-                dismiss(animated: true, completion: nil)
+                delegate?.updateGrandTotal(with: grandTotalAmount)
+                delegate?.updateGrandTotalFromCoupon(with: updatedTotalAmount ?? grandTotalAmount) 
+            }
+            dismiss(animated: true, completion: nil)
     }
   
 
