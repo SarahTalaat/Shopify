@@ -7,18 +7,16 @@
 
 import Foundation
 
-
-class AllProductsViewModel{
-    
+class AllProductsViewModel {
     var productsFromFirebase: [ProductFromFirebase] = []
-    
     var products: [Products] = [] {
         didSet {
             ProductDetailsSharedData.instance.filteredSearch = products
+            filteredProducts = products
             bindAllProducts()
-            
         }
     }
+    var filteredProducts: [Products] = []
     
     var exchangeRates: [String: Double] = [:]
     var bindAllProducts: (() -> ()) = {}
@@ -31,25 +29,32 @@ class AllProductsViewModel{
     func getProducts() {
         NetworkUtilities.fetchData(responseType: ProductResponse.self, endpoint: "products.json") { product in
             self.products = product?.products ?? []
-
+            self.filteredProducts = self.products // Initialize filteredProducts
         }
     }
-    private func fetchExchangeRates() {
-            let exchangeRateApiService = ExchangeRateApiService()
-            exchangeRateApiService.getLatestRates { [weak self] result in
-                switch result {
-                case .success(let response):
-                    self?.exchangeRates = response.conversion_rates
-                case .failure(let error):
-                    print("Error fetching exchange rates: \(error)")
-                }
-                self?.bindAllProducts()
-            }
-        }
-
     
+    private func fetchExchangeRates() {
+        let exchangeRateApiService = ExchangeRateApiService()
+        exchangeRateApiService.getLatestRates { [weak self] result in
+            switch result {
+            case .success(let response):
+                self?.exchangeRates = response.conversion_rates
+            case .failure(let error):
+                print("Error fetching exchange rates: \(error)")
+            }
+            self?.bindAllProducts()
+        }
+    }
+    
+    func filterProducts(by query: String) {
+        if query.isEmpty {
+            filteredProducts = products
+        } else {
+            filteredProducts = products.filter { $0.trimmedTitle.lowercased().contains(query.lowercased()) }
+        }
+        bindAllProducts()
+    }
 }
-
 extension AllProductsViewModel {
     
     func toggleFavorite(productId: String, completion: @escaping (Error?) -> Void) {
@@ -112,4 +117,17 @@ extension AllProductsViewModel {
         return UserDefaults.standard.string(forKey: key)
     }
     
+}
+
+extension Products {
+    var trimmedTitle: String {
+        if let range = title.range(of: "|") {
+            var truncatedString = String(title[range.upperBound...]).trimmingCharacters(in: .whitespaces)
+            if let nextRange = truncatedString.range(of: "|") {
+                truncatedString = String(truncatedString[..<nextRange.lowerBound]).trimmingCharacters(in: .whitespaces)
+            }
+            return truncatedString
+        }
+        return title
+    }
 }

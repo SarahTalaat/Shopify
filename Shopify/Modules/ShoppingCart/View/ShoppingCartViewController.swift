@@ -14,26 +14,32 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
     @IBOutlet weak var shoppingCartTableView: UITableView!
 
     let draftOrderService = DraftOrderNetworkService()
+
     var draftOrder: DraftOrderPUT?
     private let viewModel = ShoppingCartViewModel()
              
-    override func viewDidLoad() {
-          super.viewDidLoad()
-
-          let nib = UINib(nibName: "CartTableViewCell", bundle: nil)
-          shoppingCartTableView.register(nib, forCellReuseIdentifier: "CartTableViewCell")
-
-          shoppingCartTableView.delegate = self
-          shoppingCartTableView.dataSource = self
-
-          self.title = "Shopping Cart"
-          shoppingCartTableView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-          shoppingCartTableView.rowHeight = 100
-          shoppingCartTableView.sectionHeaderHeight = 16
-          viewModel.fetchExchangeRates()
-          bindViewModel()
-          viewModel.fetchDraftOrders()
-      }
+   
+          
+       override func viewDidLoad() {
+           super.viewDidLoad()
+              
+           viewModel.getUserDraftOrderId()
+           
+           let nib = UINib(nibName: "CartTableViewCell", bundle: nil)
+           shoppingCartTableView.register(nib, forCellReuseIdentifier: "CartTableViewCell")
+              
+           shoppingCartTableView.delegate = self
+           shoppingCartTableView.dataSource = self
+              
+           self.title = "Shopping Cart"
+           shoppingCartTableView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+           shoppingCartTableView.rowHeight = 100
+           shoppingCartTableView.sectionHeaderHeight = 16
+              
+           bindViewModel()
+       //    viewModel.fetchDraftOrders()
+       }
+         
 
       private func bindViewModel() {
           viewModel.onDraftOrderUpdated = { [weak self] in

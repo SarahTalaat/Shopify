@@ -185,6 +185,20 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
 
+    func fetchCustomerId(encodedEmail: String, completion: @escaping (String?) -> Void) {
+        let customersRef = Database.database().reference().child("customers").child(encodedEmail).child("customerId")
+        
+        customersRef.observeSingleEvent(of: .value) { (snapshot) in
+            guard let customerId = snapshot.value as? String else {
+                completion(nil)
+                return
+            }
+            
+            completion(customerId)
+        }
+    }
+    
+    
     func deleteProductFromEncodedEmail(encodedEmail: String, productId: String) {
         let ref = Database.database().reference()
         let customersRef = ref.child("customers")

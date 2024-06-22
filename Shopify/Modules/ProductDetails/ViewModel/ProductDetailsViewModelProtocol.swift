@@ -28,5 +28,7 @@ protocol ProductDetailsViewModelProtocol {
     func deleteFromCart()
     func getUserDraftOrderId()
     func getCartId()
-    
+    func saveAddedToCartState(_ added: Bool)
+    func saveButtonTitleState(addToCartUI:CustomButton)
+    func getCustomerIdFromFirebase()
 }

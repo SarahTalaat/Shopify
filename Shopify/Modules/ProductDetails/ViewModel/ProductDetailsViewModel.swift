@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
@@ -38,6 +39,24 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.isFavoritedKey)
             UserDefaults.standard.synchronize()
+        }
+    }
+    func saveAddedToCartState(_ added: Bool) {
+        var productID = Int(UserDefaults.standard.string(forKey: Constants.productId) ?? "")
+        var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
+        
+        UserDefaults.standard.set(added, forKey: "isAddedToCart"+"\(productID)"+"\(customerID)")
+       
+    }
+    
+    func saveButtonTitleState(addToCartUI:CustomButton){
+        var productID = Int(UserDefaults.standard.string(forKey: Constants.productId) ?? "")
+        var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
+        
+        if let isAdded = UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(customerID)") as? Bool {
+            addToCartUI.isAddedToCart = isAdded
+        } else {
+            addToCartUI.isAddedToCart = false // Default value if not previously set
         }
     }
     
@@ -187,6 +206,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             }
         }
     }
+    
     func deleteFromCart(){
 
         if let productId = UserDefaults.standard.string(forKey: Constants.productId){
@@ -424,6 +444,21 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             case .failure(let error):
                 // Handle failure to fetch existing draft order
                 print("Failed to fetch existing draft order: \(error)")
+            }
+        }
+    }
+    
+    func getCustomerIdFromFirebase(){
+        var customerEmail = SharedDataRepository.instance.customerEmail ?? "No email"
+        var encodedCustomerEmail = SharedMethods.encodeEmail(customerEmail)
+        authServiceProtocol.fetchCustomerId(encodedEmail: encodedCustomerEmail) { customerId in
+            if let customerId = customerId {
+                print("Customer ID: \(customerId)")
+                // Use customerId as needed in your app
+                UserDefaults.standard.set(customerId, forKey: Constants.customerId)
+            } else {
+                print("Failed to fetch customerId")
+                // Handle the case where customerId could not be fetched
             }
         }
     }

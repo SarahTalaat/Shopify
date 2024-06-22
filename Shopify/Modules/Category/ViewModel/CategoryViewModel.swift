@@ -6,17 +6,23 @@
 //
 
 import Foundation
-
 class CategoryViewModel{
     var price = "0"
+    var productId: Int?
     var subCategory : [Product] = []
-    var category : [Product] = [] {
-        didSet{
-            bindCategory()
-        }
-    }
-
     var productsFromFirebase: [ProductFromFirebase] = []
+
+    var category: [Product] = [] {
+         didSet {
+             applyFilters()
+         }
+     }
+     var filteredProducts: [Product] = [] {
+         didSet {
+             bindCategory()
+         }
+     }
+     
     var categoryProduct: ProductModel? {
         didSet {
           
@@ -24,18 +30,16 @@ class CategoryViewModel{
             
         }
     }
-
+    var searchQuery: String? {
+        didSet {
+            applyFilters()
+        }
+    }
     
-    var productId: Int?
     
     var bindCategory : (()->()) = {}
     var exchangeRates: [String: Double] = [:]
     
-    
-
-
-   
-   
     init(){
 
         getCategory(id: .women )
@@ -71,6 +75,16 @@ class CategoryViewModel{
     
     }
   
+    func applyFilters() {
+        var filtered = category
+        
+        if let query = searchQuery?.lowercased(), !query.isEmpty {
+            filtered = filtered.filter { $0.title.lowercased().contains(query) }
+        }
+        
+        filteredProducts = filtered
+    }
+    
       func fetchExchangeRates() {
             let exchangeRateApiService = ExchangeRateApiService()
             exchangeRateApiService.getLatestRates { [weak self] result in
@@ -84,11 +98,8 @@ class CategoryViewModel{
             }
         }
     
-    
-
-    
+ 
 }
-
 
 extension CategoryViewModel {
     

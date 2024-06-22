@@ -7,9 +7,19 @@
 
 import Foundation
 import Alamofire
+
 class DraftOrderNetworkService {
     func fetchDraftOrders(completion: @escaping (Result<OneDraftOrderResponse, Error>) -> Void) {
-        let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/1035316396193.json"
+
+        
+        guard let draftOrderIdString = UserDefaults.standard.string(forKey: Constants.userDraftId),
+              let draftOrderId = Int(draftOrderIdString) else {
+            return
+        }
+        print("SC NETWORK: draftOrderId fetchDraftOrders: \(draftOrderId)")
+        
+        let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/\(draftOrderId).json"
+
         Alamofire.request(url).responseData { response in
             switch response.result {
             case .success(let data):

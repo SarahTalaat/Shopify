@@ -27,8 +27,9 @@ class Constants  {
     
     static let draftOrderId: String = "draftOrderId"
     static let userDraftId: String = "userDraftId"
+    static let customerId: String = "customerId"
     
-
+   
 }
 
 
