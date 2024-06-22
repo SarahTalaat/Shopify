@@ -7,11 +7,11 @@
 
 import UIKit
 
-class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSource{
+class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate{
     
     
     var selectedDefaultAddressId: Int?
-   // var viewModel = NewAddressViewModel()
+    var viewModel = NewAddressViewModel()
     @IBOutlet weak var fullNameTF: UITextField!
     
     @IBOutlet weak var newAddressTF: UITextField!
@@ -21,8 +21,9 @@ class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerV
     @IBOutlet weak var stateTF: UITextField!
     
     @IBOutlet weak var zipCodeTF: UITextField!
-    let countryPicker = UIPickerView()
-           let countries = ["Egypt", "Turkish", "Frensh", "Spanish", "Italian"]
+
+    let cityPicker = UIPickerView()
+
        override func viewDidLoad() {
            super.viewDidLoad()
            fullNameTF.addPaddingToTextField()
@@ -31,88 +32,96 @@ class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerV
            stateTF.addPaddingToTextField()
            zipCodeTF.addPaddingToTextField()
            self.title = "New Address"
+           
            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-             tapGesture.cancelsTouchesInView = false
-             view.addGestureRecognizer(tapGesture)
+           tapGesture.cancelsTouchesInView = false
+           view.addGestureRecognizer(tapGesture)
+           
+           setupCityPicker()
+           
+
+           fullNameTF.delegate = self
+           newAddressTF.delegate = self
+           cityTF.delegate = self
+           stateTF.delegate = self
+           zipCodeTF.delegate = self
        }
 
        @objc func dismissKeyboard() {
            view.endEditing(true)
        }
-       
-           override func viewWillAppear(_ animated: Bool) {
 
-               super.viewWillAppear(animated)
-               self.tabBarController?.tabBar.isHidden = true
-           }
+       override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(animated)
+           self.tabBarController?.tabBar.isHidden = true
+       }
 
-           override func viewWillDisappear(_ animated: Bool) {
-               super.viewWillDisappear(animated)
-               self.tabBarController?.tabBar.isHidden = false
-           }
+       override func viewWillDisappear(_ animated: Bool) {
+           super.viewWillDisappear(animated)
+           self.tabBarController?.tabBar.isHidden = false
+       }
 
+       func setupCityPicker() {
+           cityPicker.delegate = self
+           cityPicker.dataSource = self
+           cityTF.inputView = cityPicker
+           let toolbar = UIToolbar()
+           toolbar.sizeToFit()
+           let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneTappedCity))
+           toolbar.setItems([doneButton], animated: false)
+           toolbar.isUserInteractionEnabled = true
+           cityTF.inputAccessoryView = toolbar
+       }
 
-           func setupCountryPicker() {
-               countryPicker.delegate = self
-               countryPicker.dataSource = self
-               stateTF.inputView = countryPicker
-               let toolbar = UIToolbar()
-               toolbar.sizeToFit()
-               let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneTappedCountry))
-               toolbar.setItems([doneButton], animated: false)
-               toolbar.isUserInteractionEnabled = true
-               stateTF.inputAccessoryView = toolbar
-           }
+       @objc func doneTappedCity() {
+           cityTF.resignFirstResponder()
+       }
 
-           @objc func doneTappedState() {
-               stateTF.resignFirstResponder()
-           }
+       func numberOfComponents(in pickerView: UIPickerView) -> Int {
+           return 1
+       }
 
-           @objc func doneTappedCountry() {
-               stateTF.resignFirstResponder()
-           }
+       func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+           return viewModel.egyptGovernorates.count
+       }
 
+       func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+           return viewModel.egyptGovernorates[row]
+       }
 
-           func numberOfComponents(in pickerView: UIPickerView) -> Int {
-               return 1
-           }
+       func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+           cityTF.text = viewModel.egyptGovernorates[row]
+       }
 
-           func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-               if  pickerView == countryPicker {
-                   return countries.count
+       func textFieldDidEndEditing(_ textField: UITextField) {
+           switch textField {
+           case fullNameTF:
+               viewModel.fullName = textField.text ?? ""
+           case newAddressTF:
+               viewModel.newAddress = textField.text ?? ""
+           case cityTF:
+               viewModel.city = textField.text ?? ""
+           case stateTF:
+               viewModel.state = textField.text ?? ""
+               if viewModel.state.lowercased() != "egypt" {
+                   let alert = UIAlertController(title: "Invalid Country", message: "We currently only support addresses in Egypt.", preferredStyle: .alert)
+                   alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                   present(alert, animated: true, completion: nil)
+                   textField.text = ""
                }
-               return 0
+           case zipCodeTF:
+               viewModel.zipCode = textField.text ?? ""
+           default:
+               break
            }
+       }
 
-           func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-               if pickerView == countryPicker {
-                   return countries[row]
-               }
-               return nil
-           }
-
-           func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-               if  pickerView == countryPicker {
-                   stateTF.text = countries[row]
-               }
-           }
     
     @IBAction func saveAddressBtn(_ sender: UIButton) {
         HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-                   guard let fullName = fullNameTF.text, !fullName.isEmpty,
-                         let newAddress = newAddressTF.text, !newAddress.isEmpty,
-                         let city = cityTF.text, !city.isEmpty,
-                         let country = stateTF.text, !country.isEmpty,
-                         let zipCode = zipCodeTF.text, !zipCode.isEmpty else {
-                       let alert = UIAlertController(title: "Error", message: "All fields are required.", preferredStyle: .alert)
-                       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                       present(alert, animated: true, completion: nil)
-                       return
-                   }
-
-                   let address = Address(id: nil, first_name: fullName, address1: newAddress, city: city, country: country, zip: zipCode, `default`: false)
-
-                   TryAddressNetworkService.shared.postNewAddress(address: address) { result in
+               
+               if viewModel.isAddressValid() {
+                   viewModel.postNewAddress { result in
                        switch result {
                        case .success(let address):
                            print("Address successfully posted: \(address)")
@@ -132,15 +141,20 @@ class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerV
                            }
                        }
                    }
+               } else {
+                   let alert = UIAlertController(title: "Error", message: "All fields are required.", preferredStyle: .alert)
+                   alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                   present(alert, animated: true, completion: nil)
                }
+           }
 }
 
 extension UITextField {
-        func addPaddingToTextField() {
-            let paddingView: UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
-            self.leftView = paddingView
-            self.leftViewMode = .always
-            self.rightView = paddingView
-            self.rightViewMode = .always
-        }
+    func addPaddingToTextField() {
+        let paddingView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
+        self.leftView = paddingView
+        self.leftViewMode = .always
+        self.rightView = paddingView
+        self.rightViewMode = .always
     }
+}

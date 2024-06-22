@@ -132,4 +132,30 @@ class DraftOrderNetworkService {
 
             task.resume()
         }
+    
+    
+    
+    func fetchProduct(productId: Int, completion: @escaping (Result<ProductModel, Error>) -> Void) {
+        let url = "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/products/\(productId).json"
+
+        Alamofire.request(url).responseData { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    let productResponse = try decoder.decode(OneProductResponse.self, from: data)
+                    let product = productResponse.product
+                    completion(.success(product))
+                } catch {
+                    print("Decoding error: \(error)")
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                print("Network request error: \(error)")
+                completion(.failure(error))
+            }
+        }
+    }
+
 }
+
