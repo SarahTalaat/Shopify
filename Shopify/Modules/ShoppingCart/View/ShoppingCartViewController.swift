@@ -43,10 +43,10 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
           }
 
           viewModel.onTotalAmountUpdated = { [weak self] in
-              DispatchQueue.main.async {
-                  self?.totalAmount.text = self?.viewModel.totalAmount
+                  DispatchQueue.main.async {
+                      self?.totalAmount.text = self?.viewModel.formatPriceWithCurrency(price: self?.viewModel.totalAmount ?? "")
+                  }
               }
-          }
 
           viewModel.onAlertMessage = { [weak self] message in
               DispatchQueue.main.async {
@@ -74,7 +74,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
                   cell.productColor.text = productColor
 
                   cell.productAmount.text = "\(lineItem.quantity)"
-                  cell.productPrice.text = formatPriceWithCurrency(price: lineItem.price)
+                  cell.productPrice.text = viewModel.formatPriceWithCurrency(price: lineItem.price)
 
                   draftOrderService.fetchProduct(productId: lineItem.productId ?? 0) { result in
                       switch result {
@@ -204,14 +204,5 @@ extension ShoppingCartViewController: CouponViewControllerDelegate {
         viewModel.updateTotalAmount()
         totalAmount.text = viewModel.totalAmount
     }
-    func formatPriceWithCurrency(price: String) -> String {
-        let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
-        let exchangeRate = viewModel.exchangeRates[selectedCurrency] ?? 1.0
-        if let priceDouble = Double(price) {
-            let convertedPrice = priceDouble * exchangeRate
-            return "\(String(format: "%.2f", convertedPrice)) \(selectedCurrency)"
-        } else {
-            return "Invalid price"
-        }
-    }
+   
 }
