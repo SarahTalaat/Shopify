@@ -15,13 +15,14 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     }
     
     var selectedPaymentMethod: PaymentMethod?
-    private var subtotal: String?
     private var lineItem: LineItem?
     private var order: Orders?
     private var ordersSend: OrdersSend?
+
     private var invoice:Invoice?
     private var invoiceResponse : InvoiceResponse?
     private var draftOrderId : Int?
+
     var defCurrency : String = "EGP"
     private var totalAmount: String?
     private var viewModel = ShoppingCartViewModel()
@@ -32,7 +33,6 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     func updatePaymentSummaryItems(totalAmount: String) {
         self.totalAmount = totalAmount
     }
-    
     var paymentRequest: PKPaymentRequest {
         let request = PKPaymentRequest()
         request.merchantIdentifier = "merchant.com.pushpendra.pay"
@@ -59,6 +59,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
     }
     
+
     func setupOrder(lineItem:[LineItem]) {
         
         if let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") {
@@ -102,28 +103,50 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         
         order = Orders(
             id: nil,
+
+
             order_number: nil,
+
             created_at: nil,
             currency: defCurrency,
             email: email,
             total_price: nil,
+
             total_discounts: nil,
             total_tax: nil,
+
             line_items: unwrappedLineItems
         )
         
         ordersSend = OrdersSend(order: order!)
     }
     
-    func postOrder() {
+
+    func postOrder(completion: @escaping (Bool) -> Void) {
         guard let ordersSend = ordersSend else {
             print("Order is not set up correctly")
+            completion(false)
             return
         }
         
         NetworkUtilities.postData(data: ordersSend, endpoint: "orders.json") { success in
             if success {
                 print("Order posted successfully!")
+
+                completion(true)
+            } else {
+                print("Failed to post order.")
+                completion(false)
+            }
+        }
+    }
+    func formatPriceWithCurrency(price: Double) -> String {
+           let formatter = NumberFormatter()
+           formatter.numberStyle = .currency
+           formatter.currencyCode = "USD" 
+           return formatter.string(from: NSNumber(value: price)) ?? ""
+       }
+
             } else {
                 print("Failed to post order.")
             }
@@ -208,4 +231,5 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
                 self.postInvoice(draftOrderId: draftOrderId)
         }
     }
+
 }

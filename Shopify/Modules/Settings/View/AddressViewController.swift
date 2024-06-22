@@ -90,9 +90,8 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
 
       func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
           let selectedAddress = viewModel.addresses[indexPath.row]
-            viewModel.setDefaultAddress(at: indexPath) // Update the default address
+            viewModel.setDefaultAddress(at: indexPath) 
             selectionDelegate?.didSelectAddress(selectedAddress) {
-                // Pop back to PaymentViewController
                 if let paymentViewController = self.navigationController?.viewControllers.first(where: { $0 is PaymentViewController }) as? PaymentViewController {
                     paymentViewController.defaultAddress = selectedAddress
                     paymentViewController.updateAddressLabel()
