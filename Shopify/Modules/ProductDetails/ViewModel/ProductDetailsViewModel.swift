@@ -188,10 +188,15 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
                 
                 self.addValueToUserDefaults(value: productResponse.product?.images?.first?.src, forKey: Constants.productImage)
                 self.addValueToUserDefaults(value: productResponse.product?.title, forKey: Constants.productTitle)
-                self.addValueToUserDefaults(value: productResponse.product?.title, forKey: Constants.productTitle)
+                self.addValueToUserDefaults(value: productResponse.product?.vendor, forKey: Constants.productVendor)
                 self.addValueToUserDefaults(value: productResponse.product?.variants?.first?.id, forKey: Constants.variantId)
                 self.addValueToUserDefaults(value: productResponse.product?.id, forKey: Constants.productId)
                 
+                print("PD ->  image :\(productResponse.product?.images?.first?.src) ")
+                print("PD ->  title:\(productResponse.product?.title) ")
+                print("PD ->  vendor:\(productResponse.product?.vendor) ")
+                print("PD ->  variant:\(productResponse.product?.variants?.first?.id) ")
+                print("PD ->  product id:\(productResponse.product?.id) ")
                 
             case .failure(let error):
                 print("Error: \(error)")
