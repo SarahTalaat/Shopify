@@ -10,6 +10,8 @@ class CategoryViewModel{
     var price = "0"
     var productId: Int?
     var subCategory : [Product] = []
+    
+    var userFavorites: [String: Bool] = [:]
     var productsFromFirebase: [ProductFromFirebase] = []
 
     var category: [Product] = [] {
@@ -44,6 +46,7 @@ class CategoryViewModel{
 
         getCategory(id: .women )
         fetchExchangeRates()
+        fetchUserFavorites()
     }
  
     func getCategory(id:CategoryID) {
@@ -106,29 +109,33 @@ extension CategoryViewModel {
     func toggleFavorite(productId: String, completion: @escaping (Error?) -> Void) {
         let isFavorite = isProductFavorite(productId: productId)
         
-        guard let email = retrieveStringFromUserDefaults(forKey: Constants.customerEmail) else {
-            completion(nil) // Handle error or return if email is not available
-            return
-        }
+        var email = SharedDataRepository.instance.customerEmail ?? "No emaillllllll"
         
-        for product in category {
-            if product.id == Int(productId){
-                FirebaseAuthService().toggleFavorite(email: email, productId: productId, productTitle: product.title, productVendor: product.vendor, productImage: product.image.src , isFavorite: !isFavorite){ [weak self] error in
-                    if error == nil {
-                        // Update local state or perform any additional actions upon successful toggle
-                        self?.updateFavoriteState(productId: productId, isFavorite: !isFavorite)
-                    }
-                    completion(error)
+        if let product = filteredProducts.first(where: { "\($0.id)" == productId }) {
+            FirebaseAuthService().toggleFavorite(email: email, productId: productId, productTitle: product.title, productVendor: product.vendor, productImage: product.image.src ?? "", isFavorite: !isFavorite) { [weak self] error in
+                if error == nil {
+                    self?.userFavorites[productId] = !isFavorite
+                    self?.updateFavoriteState(productId: productId, isFavorite: !isFavorite)
                 }
+                completion(error)
             }
+        } else {
+            completion(nil)
         }
-        
+    }
 
+    func fetchUserFavorites() {
+        guard let email = retrieveStringFromUserDefaults(forKey: Constants.customerEmail) else { return }
+        
+        FirebaseAuthService().fetchFavorites(email: email) { [weak self] favorites in
+            self?.userFavorites = favorites
+      
+        }
     }
     
     func isProductFavorite(productId: String) -> Bool {
-        return UserDefaults.standard.bool(forKey: productId)
-    }
+           return userFavorites[productId] ?? false
+       }
     
     func updateFavoriteState(productId: String, isFavorite: Bool) {
         UserDefaults.standard.set(isFavorite, forKey: productId)

@@ -9,6 +9,6 @@ import Foundation
 
 
 protocol ProductsTableViewCellDelegate {
-    func didTapFavoriteButtons(index: Int)
+    func didTapFavoriteButton(index: Int)
     func productsTableViewCellDidToggleFavorite(at index: Int)
 }
