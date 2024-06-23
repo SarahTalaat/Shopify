@@ -16,6 +16,11 @@ class AllProductsViewController: UIViewController , UISearchBarDelegate{
     
     let viewModel = AllProductsViewModel()
  
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchUserFavorites()
+    }
+    
     override func viewDidLoad() {
             super.viewDidLoad()
             self.title = "All Products"
@@ -50,7 +55,8 @@ class AllProductsViewController: UIViewController , UISearchBarDelegate{
         @objc func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
             searchBar.resignFirstResponder()
         }
-        
+
+    
         
         // MARK: - Collection View Layout
         

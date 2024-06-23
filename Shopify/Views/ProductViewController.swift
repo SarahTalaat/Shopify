@@ -64,6 +64,11 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
             }
         }
         
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchUserFavorites()
+    }
+    
         // MARK: - Filter By Price
         
      @objc func sliderValueChanged(_ sender: UISlider) {

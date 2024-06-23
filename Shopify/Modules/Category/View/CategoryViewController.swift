@@ -26,6 +26,10 @@ class CategoryViewController: UIViewController, UISearchBarDelegate {
     var isSearch = false
     let viewModel = CategoryViewModel()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchUserFavorites()
+    }
     
     override func viewDidLoad() {
             super.viewDidLoad()
@@ -148,6 +152,8 @@ class CategoryViewController: UIViewController, UISearchBarDelegate {
               }
           }
 
+
+    
     // MARK: - UISearchBarDelegate Methods
             
             func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
