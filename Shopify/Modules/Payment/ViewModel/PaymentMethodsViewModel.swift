@@ -8,6 +8,7 @@
 import Foundation
 import PassKit
 
+
 class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDelegate {
     enum PaymentMethod {
         case cash
@@ -18,35 +19,35 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     private var lineItem: LineItem?
     private var order: Orders?
     private var ordersSend: OrdersSend?
-    private var invoice:Invoice?
-    private var invoiceResponse : InvoiceResponse?
-    private var draftOrderId : Int?
+    private var invoice: Invoice?
+    private var invoiceResponse: InvoiceResponse?
+    private var draftOrderId: Int?
 
-    var defCurrency : String = "EGP"
-     var totalAmount: String?
+    var defCurrency: String = "EGP"
+    var totalAmount: String?
     private var viewModel = ShoppingCartViewModel()
     
     func selectPaymentMethod(_ method: PaymentMethod) {
         selectedPaymentMethod = method
     }
+    
     func formatPriceWithCurrency(price: String) -> String {
-            // Add a currency symbol and ensure the price is formatted correctly
-            guard let amount = Double(price) else { return "$0.00" }
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .currency
-            formatter.currencySymbol = "$"
-            return formatter.string(from: NSNumber(value: amount)) ?? "$0.00"
-        }
+        guard let amount = Double(price) else { return "$0.00" }
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencySymbol = "$"
+        return formatter.string(from: NSNumber(value: amount)) ?? "$0.00"
+    }
 
-        func updatePaymentSummaryItems(totalAmount: String) {
-            // Update the payment summary items with the correct total amount
-            // Here you would implement the logic to update the payment summary in your view model
-            print("Updating payment summary items with total amount: \(totalAmount)")
-            
-            // Example logic (this will vary depending on your actual application structure)
-            // Assuming you have a summary items list that needs to be updated:
-            // self.paymentSummaryItems["total"] = totalAmount
-        }
+    func updatePaymentSummaryItems(totalAmount: String) {
+        print("Updating payment summary items with total amount: \(totalAmount)")
+        self.totalAmount = totalAmount
+    }
+    
+    func setTotalAmount(_ amount: String) {
+        self.totalAmount = amount
+    }
+
     var paymentRequest: PKPaymentRequest {
         let request = PKPaymentRequest()
         request.merchantIdentifier = "merchant.com.pushpendra.pay"
@@ -55,12 +56,15 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         request.merchantCapabilities = .capability3DS
         request.countryCode = "EG"
         request.currencyCode = UserDefaults.standard.string(forKey: "Currency") == "EGP" ? "EGP" : "USD"
-        if let total = totalAmount {
-            let amount = NSDecimalNumber(string: total)
+        
+        // Ensure the totalAmount is valid and can be converted to a valid NSDecimalNumber
+        if let total = totalAmount, let amount = NSDecimalNumber(string: total) as NSDecimalNumber?, amount != NSDecimalNumber.notANumber {
             request.paymentSummaryItems = [PKPaymentSummaryItem(label: "Total Order", amount: amount)]
         } else {
-            request.paymentSummaryItems = [PKPaymentSummaryItem(label: "T-shirt", amount: 1200)]
+            let defaultAmount = NSDecimalNumber(string: "1200")
+            request.paymentSummaryItems = [PKPaymentSummaryItem(label: "T-shirt", amount: defaultAmount)]
         }
+        
         return request
     }
     
@@ -68,14 +72,12 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         controller.dismiss(animated: true, completion: nil)
     }
     
-    
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
         completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
     }
     
-
-    func setupOrder(lineItem:[LineItem]) {
-        
+    
+    func setupOrder(lineItem: [LineItem]) {
         if let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") {
             defCurrency = selectedCurrency
         } else {
@@ -130,7 +132,6 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         ordersSend = OrdersSend(order: order!)
     }
     
-
     func postOrder(completion: @escaping (Bool) -> Void) {
         guard let ordersSend = ordersSend else {
             print("Order is not set up correctly")
@@ -148,19 +149,6 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             }
         }
     }
-//    func formatPriceWithCurrency(price: Double) -> String {
-//               let formatter = NumberFormatter()
-//               formatter.numberStyle = .currency
-//               formatter.currencyCode = "USD"
-//               return formatter.string(from: NSNumber(value: price)) ?? ""
-//           }
-//
-//                } else {
-//                    print("Failed to post order.")
-//                }
-//            }
-//        }
-    
 
     func setupInvoice() {
         guard let email = SharedDataRepository.instance.customerEmail else {
@@ -172,7 +160,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             return
         }
         
-        let subject = "Invoice for Your Recent Purchase "
+        let subject = "Invoice for Your Recent Purchase"
         let customMessage = """
         Dear \(customerName),
         
@@ -190,7 +178,6 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         )
         invoiceResponse = InvoiceResponse(draft_order_invoice: invoice!)
     }
-    
     
     func postInvoice(draftOrderId: String) {
         NetworkUtilities.postData(data: invoiceResponse, endpoint: "draft_orders/\(draftOrderId)/send_invoice.json") { success in
@@ -229,14 +216,13 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     }
     
     func processInvoicePosting() {
-       getUserDraftOrderId { draftOrderId in
-                guard let draftOrderId = draftOrderId else {
-                    print("Failed to get draft order ID.")
-                    return
-                }
-                self.setupInvoice()
-                self.postInvoice(draftOrderId: draftOrderId)
+        getUserDraftOrderId { draftOrderId in
+            guard let draftOrderId = draftOrderId else {
+                print("Failed to get draft order ID.")
+                return
+            }
+            self.setupInvoice()
+            self.postInvoice(draftOrderId: draftOrderId)
         }
     }
-
 }

@@ -14,7 +14,6 @@ class PaymentViewController: UIViewController {
     
     private var viewModel = PaymentMethodsViewModel()
     
-   // var totalAmount: String?
     var defaultAddress: Address?
     var lineItems: [LineItem]?
     
@@ -41,7 +40,8 @@ class PaymentViewController: UIViewController {
 
         private func updateTotalAmountLabel() {
             if let totalAmount = totalAmount {
-                // Update the UI to reflect the new total amount
+                viewModel.setTotalAmount(totalAmount)
+                    
                 viewModel.updatePaymentSummaryItems(totalAmount: totalAmount)
             }
         
