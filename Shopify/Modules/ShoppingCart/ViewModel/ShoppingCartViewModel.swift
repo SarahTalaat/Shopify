@@ -23,7 +23,7 @@ class ShoppingCartViewModel {
         }
     }
     var totalAmount: String = ""
-    
+    var excludedVariantId: Int = 44382096457889
     var onDraftOrderUpdated: (() -> Void)?
     var onTotalAmountUpdated: (() -> Void)?
     var onAlertMessage: ((String) -> Void)?
@@ -62,10 +62,22 @@ class ShoppingCartViewModel {
     }
     
     func updateTotalAmount() {
-        guard let draftOrder = draftOrder else { return }
-        totalAmount = draftOrder.draftOrder?.totalPrice ?? "total price"
-        onTotalAmountUpdated?()
-    }
+            guard let draftOrder = draftOrder else { return }
+            
+            // Calculate total amount from line items excluding the one with excluded variant ID
+            let totalPrice = draftOrder.draftOrder?.lineItems.reduce(0.0) { result, lineItem in
+                if lineItem.variantId != excludedVariantId {
+                    let price = (lineItem.price as NSString).doubleValue
+                    let quantity = Double(lineItem.quantity)
+                    return result + (price * quantity)
+                } else {
+                    return result
+                }
+            } ?? 0.0
+            
+            totalAmount = String(format: "%.2f", totalPrice)
+            onTotalAmountUpdated?()
+        }
     
     func incrementQuantity(at index: Int) {
         guard let lineItem = draftOrder?.draftOrder?.lineItems[index],
