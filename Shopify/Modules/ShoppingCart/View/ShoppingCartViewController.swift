@@ -38,6 +38,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
               
            bindViewModel()
        //    viewModel.fetchDraftOrders()
+           print("Total amount before navigating to PaymentVC: \(viewModel.totalAmount)")
        }
          
 
@@ -49,12 +50,13 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
           }
 
           viewModel.onTotalAmountUpdated = { [weak self] in
-              DispatchQueue.main.async {
-                  self?.totalAmount.text = self?.viewModel.formatPriceWithCurrency(price: self?.viewModel.totalAmount ?? "")
-                  if let paymentVC = self?.navigationController?.viewControllers.last as? PaymentViewController {
-                      paymentVC.totalAmount = self?.viewModel.totalAmount
+                  DispatchQueue.main.async {
+                      self?.totalAmount.text = self?.viewModel.formatPriceWithCurrency(price: self?.viewModel.totalAmount ?? "")
+                      if let paymentVC = self?.navigationController?.viewControllers.last as? PaymentViewController {
+                          paymentVC.totalAmount = self?.viewModel.totalAmount
+                      }
                   }
-              }
+              
           }
 
           viewModel.onAlertMessage = { [weak self] message in
@@ -125,15 +127,13 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
        
        @IBAction func processedToPaymentBtn(_ sender: UIButton) {
            let storyboard = UIStoryboard(name: "Third", bundle: nil)
-               if let paymentVC = storyboard.instantiateViewController(withIdentifier: "PaymentVC") as? PaymentViewController {
-                   paymentVC.totalAmount = viewModel.totalAmount  
-                   if let firstLineItem = viewModel.draftOrder?.draftOrder?.lineItems {
-                       paymentVC.lineItems = firstLineItem
-                   } else {
-                       // Handle the case where draftOrder or line_items is nil
-                   }
-                   navigationController?.pushViewController(paymentVC, animated: true)
-               }
+             if let paymentVC = storyboard.instantiateViewController(withIdentifier: "PaymentVC") as? PaymentViewController {
+                 paymentVC.totalAmount = totalAmount.text // Directly use the updated amount
+                 if let firstLineItem = viewModel.draftOrder?.draftOrder?.lineItems {
+                     paymentVC.lineItems = firstLineItem
+                 }
+                 navigationController?.pushViewController(paymentVC, animated: true)
+             }
        }
     func didTapPlusButton(on cell: CartTableViewCell) {
         guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
@@ -207,19 +207,23 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
 
 extension ShoppingCartViewController: CouponViewControllerDelegate {
     func updateTotalAmount(with amount: String) {
-           viewModel.totalAmount = amount
-           totalAmount.text = viewModel.formatPriceWithCurrency(price: amount)
-           // Update the total amount in the PaymentViewController if it is already presented
-           if let paymentVC = navigationController?.viewControllers.first(where: { $0 is PaymentViewController }) as? PaymentViewController {
-               paymentVC.totalAmount = amount
-           }
-       }
-    
+        viewModel.totalAmount = amount
+        totalAmount.text = viewModel.formatPriceWithCurrency(price: amount)
+        updatePaymentViewControllerTotalAmount(with: amount)
+    }
+
     func updateGrandTotal(with amount: String) {
         totalAmount.text = amount
     }
 
     func updateGrandTotalFromCoupon(with amount: String) {
-        totalAmount.text = amount 
+        totalAmount.text = amount
+    }
+    
+    private func updatePaymentViewControllerTotalAmount(with amount: String) {
+        if let paymentVC = navigationController?.viewControllers.first(where: { $0 is PaymentViewController }) as? PaymentViewController {
+            paymentVC.totalAmount = amount
+            paymentVC.updateGrandTotal(with: amount) // Ensure this method updates the UI in PaymentViewController
+        }
     }
 }

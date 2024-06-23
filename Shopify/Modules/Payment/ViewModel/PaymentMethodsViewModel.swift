@@ -23,15 +23,30 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     private var draftOrderId : Int?
 
     var defCurrency : String = "EGP"
-    private var totalAmount: String?
+     var totalAmount: String?
     private var viewModel = ShoppingCartViewModel()
     
     func selectPaymentMethod(_ method: PaymentMethod) {
         selectedPaymentMethod = method
     }
-    func updatePaymentSummaryItems(totalAmount: String) {
-        self.totalAmount = totalAmount
-    }
+    func formatPriceWithCurrency(price: String) -> String {
+            // Add a currency symbol and ensure the price is formatted correctly
+            guard let amount = Double(price) else { return "$0.00" }
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .currency
+            formatter.currencySymbol = "$"
+            return formatter.string(from: NSNumber(value: amount)) ?? "$0.00"
+        }
+
+        func updatePaymentSummaryItems(totalAmount: String) {
+            // Update the payment summary items with the correct total amount
+            // Here you would implement the logic to update the payment summary in your view model
+            print("Updating payment summary items with total amount: \(totalAmount)")
+            
+            // Example logic (this will vary depending on your actual application structure)
+            // Assuming you have a summary items list that needs to be updated:
+            // self.paymentSummaryItems["total"] = totalAmount
+        }
     var paymentRequest: PKPaymentRequest {
         let request = PKPaymentRequest()
         request.merchantIdentifier = "merchant.com.pushpendra.pay"

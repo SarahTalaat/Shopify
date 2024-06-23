@@ -14,36 +14,44 @@ class PaymentViewController: UIViewController {
     
     private var viewModel = PaymentMethodsViewModel()
     
-    var totalAmount: String?
+   // var totalAmount: String?
     var defaultAddress: Address?
     var lineItems: [LineItem]?
     
     @IBOutlet weak var appleButton: UIButton!
-    private var totalAmountValue: Double? {
-        didSet {
-            if isViewLoaded {
-                // Do something with the updated totalAmountValue
+    var totalAmount: String? {
+            didSet {
+                if isViewLoaded {
+                    updateTotalAmountLabel()
+                }
             }
         }
-    }
-    
-    override func viewDidLoad() {
+
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            setupUI()
+            setupGestures()
+            self.title = "Choose Payment Method"
+            fetchDefaultAddress()
+            if let lineItems = lineItems {
+                viewModel.setupOrder(lineItem: lineItems)
+            }
+            updateTotalAmountLabel()
+        }
+
+        private func updateTotalAmountLabel() {
+            if let totalAmount = totalAmount {
+                // Update the UI to reflect the new total amount
+                viewModel.updatePaymentSummaryItems(totalAmount: totalAmount)
+            }
         
-        super.viewDidLoad()
-        setupUI()
-        setupGestures()
-        self.title = "Choose Payment Method"
-        fetchDefaultAddress()
-        if let lineItems = lineItems {
-            viewModel.setupOrder(lineItem: lineItems)
+
+        func updateGrandTotal(with amount: String) {
+            totalAmount = amount
+            updateTotalAmountLabel()
         }
-        if let totalAmountString = totalAmount {
-            totalAmountValue = Double(totalAmountString)
-            viewModel.updatePaymentSummaryItems(totalAmount: "\(totalAmountValue ?? 0.0)")
-        }
-        if let subtotal = totalAmount {
-            viewModel.updatePaymentSummaryItems(totalAmount: subtotal)
-        }
+        print("Received total amount in PaymentVC: \(totalAmount)")
+        print("Total amount value in view model: \(viewModel.totalAmount)")
     }
     
     
@@ -152,9 +160,7 @@ class PaymentViewController: UIViewController {
         
     @objc private func cashViewTapped() {
         selectPaymentMethod(.cash)
-        if let totalAmount = totalAmountValue {
-            print("Total Amount: \(totalAmount)")
-        }
+        print(totalAmount)
     }
         
         @objc private func applePayViewTapped() {

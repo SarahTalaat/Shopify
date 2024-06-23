@@ -16,6 +16,7 @@ class ShoppingCartViewModel {
     private let disposeBag = DisposeBag()
     private let exchangeRateApiService = ExchangeRateApiService()
     var exchangeRates: [String: Double] = [:]
+    var isVariantExcluded: Bool = false
     var draftOrder: OneDraftOrderResponse? {
         didSet {
             filterLineItems()
@@ -32,7 +33,7 @@ class ShoppingCartViewModel {
     
     init() {
         saveChangesSubject
-            .debounce(.milliseconds(500), scheduler: MainScheduler.instance) // Adjust the debounce duration as needed
+            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 self?.updateDraftOrder()
             })
@@ -63,8 +64,6 @@ class ShoppingCartViewModel {
     
     func updateTotalAmount() {
             guard let draftOrder = draftOrder else { return }
-            
-            // Calculate total amount from line items excluding the one with excluded variant ID
             let totalPrice = draftOrder.draftOrder?.lineItems.reduce(0.0) { result, lineItem in
                 if lineItem.variantId != excludedVariantId {
                     let price = (lineItem.price as NSString).doubleValue
@@ -114,11 +113,10 @@ class ShoppingCartViewModel {
         lineItem.quantity -= 1
         updateLineItem(at: index, with: lineItem)
     }
-    
     func deleteItem(at index: Int) {
         draftOrder?.draftOrder?.lineItems.remove(at: index)
+        updateDraftOrder()
         onDraftOrderUpdated?()
-        saveChanges()
     }
     
     private func updateLineItem(at index: Int, with lineItem: LineItem) {
