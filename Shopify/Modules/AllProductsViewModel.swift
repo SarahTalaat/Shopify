@@ -59,6 +59,7 @@ class AllProductsViewModel {
 }
 extension AllProductsViewModel {
     
+    
     func toggleFavorite(productId: String, completion: @escaping (Error?) -> Void) {
         let isFavorite = isProductFavorite(productId: productId)
         
@@ -82,7 +83,7 @@ extension AllProductsViewModel {
         
         FirebaseAuthService().fetchFavorites(email: email) { [weak self] favorites in
             self?.userFavorites = favorites
-      
+            self?.getProducts()
         }
     }
     
@@ -100,16 +101,12 @@ extension AllProductsViewModel {
         UserDefaults.standard.set(value, forKey: key)
         UserDefaults.standard.synchronize()
     }
-
-    func productIndexPath(index: Int){
-        print("category vm index: \(index)")
-        ProductDetailsSharedData.instance.brandsProductIndex = index
-
-    }
     
     func getproductId(index: Int){
-        var productId = products[index].id
+        var productId = filteredProducts[index].id
         addValueToUserDefaults(value: productId, forKey: Constants.productId)
+        print("fff getProductId")
+        print("fff productID \(productId)")
     }
     
     func retrieveAllProductsFromEncodedEmail(email: String, completion: @escaping ([ProductFromFirebase]) -> Void) {
@@ -122,6 +119,9 @@ extension AllProductsViewModel {
     func retrieveStringFromUserDefaults(forKey key: String) -> String? {
         return UserDefaults.standard.string(forKey: key)
     }
+    
+    
+
     
 }
 
