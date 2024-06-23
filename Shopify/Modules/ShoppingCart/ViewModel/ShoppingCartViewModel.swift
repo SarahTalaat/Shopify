@@ -18,6 +18,7 @@ class ShoppingCartViewModel {
     var exchangeRates: [String: Double] = [:]
     var draftOrder: OneDraftOrderResponse? {
         didSet {
+            filterLineItems()
             updateTotalAmount()
         }
     }
@@ -134,49 +135,56 @@ class ShoppingCartViewModel {
     }
 
     func formatPriceWithCurrency(price: String) -> String {
-                let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
-                let exchangeRate = exchangeRates[selectedCurrency] ?? 1.0
-                if let priceDouble = Double(price) {
-                    let convertedPrice = priceDouble * exchangeRate
-                    return "\(String(format: "%.2f", convertedPrice)) \(selectedCurrency)"
-                } else {
-                    return "Invalid price"
-                }
-            }
-    func fetchExchangeRates() {
-            exchangeRateApiService.getLatestRates { [weak self] result in
-                switch result {
-                case .success(let response):
-                    self?.exchangeRates = response.conversion_rates
-                case .failure(let error):
-                    print("Error fetching exchange rates: \(error)")
-                }
-                // Notify any observers that the exchange rates have been fetched
-            }
+        let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+        let exchangeRate = exchangeRates[selectedCurrency] ?? 1.0
+        if let priceDouble = Double(price) {
+            let convertedPrice = priceDouble * exchangeRate
+            return "\(String(format: "%.2f", convertedPrice)) \(selectedCurrency)"
+        } else {
+            return "Invalid price"
         }
-
+    }
     
+    func fetchExchangeRates() {
+        exchangeRateApiService.getLatestRates { [weak self] result in
+            switch result {
+            case .success(let response):
+                self?.exchangeRates = response.conversion_rates
+            case .failure(let error):
+                print("Error fetching exchange rates: \(error)")
+            }
+            // Notify any observers that the exchange rates have been fetched
+        }
+    }
+
     func getDraftOrderID(email: String) {
         FirebaseAuthService().getShoppingCartId(email: email) { shoppingCartId, error in
             if let error = error {
-                print("kkk *Failed* to retrieve shopping cart ID: \(error.localizedDescription)")
+                print("kkk Failed to retrieve shopping cart ID: \(error.localizedDescription)")
             } else if let shoppingCartId = shoppingCartId {
                 UserDefaults.standard.set(shoppingCartId, forKey: Constants.userDraftId)
                 self.fetchDraftOrders()
-                print("kkk *PD* Shopping cart ID found: \(shoppingCartId)")
+                print("kkk PD Shopping cart ID found: \(shoppingCartId)")
                 SharedDataRepository.instance.draftOrderId = shoppingCartId
-                print("kkk *PD* Singleton draft id: \(SharedDataRepository.instance.draftOrderId)")
+                print("kkk PD Singleton draft id: \(SharedDataRepository.instance.draftOrderId)")
             } else {
-                print("kkk *PD* No shopping cart ID found for this user.")
+                print("kkk PD No shopping cart ID found for this user.")
             }
         }
     }
     
-    func getUserDraftOrderId(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
-        let email = SharedDataRepository.instance.customerEmail ?? "No email"
-        self.getDraftOrderID(email: email)
+    func getUserDraftOrderId() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let email = SharedDataRepository.instance.customerEmail ?? "No email"
+            self.getDraftOrderID(email: email)
         }
     }
 
+    private func filterLineItems() {
+        guard let draftOrder = draftOrder, var lineItems = draftOrder.draftOrder?.lineItems else { return }
+        if let index = lineItems.firstIndex(where: { $0.variantId == 44382096457889 }) {
+            lineItems.remove(at: index)
+            self.draftOrder?.draftOrder?.lineItems = lineItems
+        }
+    }
 }
