@@ -19,14 +19,20 @@ class CouponViewController: UIViewController {
     var subtotal: String?
     var updatedTotalAmount: String?
     override func viewDidLoad() {
-        super.viewDidLoad()
-        if let subtotal = subtotal {
-            subTotal.text = subtotal
-            viewModel.subTotal = subtotal
-        }
-        discount.text = "$0.00"
-        grandTotal.text = subTotal.text
-    }
+           super.viewDidLoad()
+           if let subtotal = subtotal {
+               subTotal.text = subtotal
+               viewModel.subTotal = subtotal
+           }
+           discount.text = "$0.00"
+           grandTotal.text = subTotal.text
+           
+           viewModel.fetchExchangeRates { [weak self] in
+               DispatchQueue.main.async {
+                   self?.updateUIWithCurrency()
+               }
+           }
+       }
 
     @IBOutlet weak var subTotal: UILabel!
     
@@ -36,40 +42,45 @@ class CouponViewController: UIViewController {
     
     @IBAction func validateBtn(_ sender: UIButton) {
         guard let couponCode = validCouponTF.text, !couponCode.isEmpty else {
-               showAlert(title: "Invalid Coupon", message: "Please enter a valid coupon code.")
-               validCouponTF.layer.borderColor = UIColor.red.cgColor
-               validCouponTF.layer.borderWidth = 1.0
-               return
-           }
+                  showAlert(title: "Invalid Coupon", message: "Please enter a valid coupon code.")
+                  validCouponTF.layer.borderColor = UIColor.red.cgColor
+                  validCouponTF.layer.borderWidth = 1.0
+                  return
+              }
 
-           guard let customerId = SharedDataRepository.instance.customerId else {
-               return
-           }
+              guard let customerId = SharedDataRepository.instance.customerId else {
+                  return
+              }
 
-           if viewModel.isCouponUsed(couponCode, by: customerId) {
-               showAlert(title: "Coupon Used", message: "This coupon code has already been used.")
-               validCouponTF.layer.borderColor = UIColor.red.cgColor
-               validCouponTF.layer.borderWidth = 1.0
-               return
-           }
+              if viewModel.isCouponUsed(couponCode, by: customerId) {
+                  showAlert(title: "Coupon Used", message: "This coupon code has already been used.")
+                  validCouponTF.layer.borderColor = UIColor.red.cgColor
+                  validCouponTF.layer.borderWidth = 1.0
+                  return
+              }
 
-        viewModel.validateCoupon(couponCode) { [weak self] discountAmount in
-            guard let self = self else { return }
-
-            if let discountAmount = discountAmount {
-                let totals = self.viewModel.updateTotals(with: discountAmount)
-                self.discount.text = totals.discount
-                self.grandTotal.text = totals.grandTotal
-                self.updatedTotalAmount = totals.grandTotal
-                self.viewModel.saveCouponCode(couponCode, for: customerId)
-                self.validCouponTF.layer.borderColor = UIColor.green.cgColor
-                self.validCouponTF.layer.borderWidth = 1.0
-            } else {
-                self.showAlert(title: "Invalid Coupon", message: "The entered coupon code is invalid.")
-                self.validCouponTF.layer.borderColor = UIColor.red.cgColor
-                self.validCouponTF.layer.borderWidth = 1.0
-            }
-        }
+              viewModel.validateCoupon(couponCode) { [weak self] discountAmount in
+                  guard let self = self else { return }
+                  
+                  if let discountAmount = discountAmount {
+                      let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+                      let totals = self.viewModel.updateTotals(with: discountAmount, in: selectedCurrency)
+                      DispatchQueue.main.async {
+                          self.discount.text = totals.discount
+                          self.grandTotal.text = totals.grandTotal
+                          self.updatedTotalAmount = totals.grandTotal
+                          self.validCouponTF.layer.borderColor = UIColor.green.cgColor
+                          self.validCouponTF.layer.borderWidth = 1.0
+                      }
+                      self.viewModel.saveCouponCode(couponCode, for: customerId)
+                  } else {
+                      DispatchQueue.main.async {
+                          self.showAlert(title: "Invalid Coupon", message: "The entered coupon code is invalid.")
+                          self.validCouponTF.layer.borderColor = UIColor.red.cgColor
+                          self.validCouponTF.layer.borderWidth = 1.0
+                      }
+                  }
+              }
     }
     
     @IBOutlet weak var discount: UILabel!
@@ -84,8 +95,15 @@ class CouponViewController: UIViewController {
             }
             dismiss(animated: true, completion: nil)
     }
-  
-
+    private func updateUIWithCurrency() {
+           let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+           if let subtotalValue = Double(viewModel.subTotal.replacingOccurrences(of: "$", with: "")) {
+               let convertedSubtotal = viewModel.getConvertedValue(for: subtotalValue, in: selectedCurrency)
+               DispatchQueue.main.async {
+                   self.subTotal.text = "\(String(format: "%.2f", convertedSubtotal)) \(selectedCurrency)"
+               }
+           }
+       }
       func showAlert(title: String, message: String) {
           let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
           let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)

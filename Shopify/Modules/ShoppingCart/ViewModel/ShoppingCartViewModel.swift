@@ -38,6 +38,8 @@ class ShoppingCartViewModel {
                 self?.updateDraftOrder()
             })
             .disposed(by: disposeBag)
+        
+        fetchExchangeRates()
     }
     
     func saveChanges() {
@@ -63,20 +65,20 @@ class ShoppingCartViewModel {
     }
     
     func updateTotalAmount() {
-            guard let draftOrder = draftOrder else { return }
-            let totalPrice = draftOrder.draftOrder?.lineItems.reduce(0.0) { result, lineItem in
-                if lineItem.variantId != excludedVariantId {
-                    let price = (lineItem.price as NSString).doubleValue
-                    let quantity = Double(lineItem.quantity)
-                    return result + (price * quantity)
-                } else {
-                    return result
-                }
-            } ?? 0.0
-            
-            totalAmount = String(format: "%.2f", totalPrice)
-            onTotalAmountUpdated?()
-        }
+        guard let draftOrder = draftOrder else { return }
+        let totalPrice = draftOrder.draftOrder?.lineItems.reduce(0.0) { result, lineItem in
+            if lineItem.variantId != excludedVariantId {
+                let price = (lineItem.price as NSString).doubleValue
+                let quantity = Double(lineItem.quantity)
+                return result + (price * quantity)
+            } else {
+                return result
+            }
+        } ?? 0.0
+        
+        totalAmount = String(format: "%.2f", totalPrice)
+        onTotalAmountUpdated?()
+    }
     
     func incrementQuantity(at index: Int) {
         guard let lineItem = draftOrder?.draftOrder?.lineItems[index],
@@ -113,6 +115,7 @@ class ShoppingCartViewModel {
         lineItem.quantity -= 1
         updateLineItem(at: index, with: lineItem)
     }
+    
     func deleteItem(at index: Int) {
         draftOrder?.draftOrder?.lineItems.remove(at: index)
         updateDraftOrder()
@@ -160,10 +163,10 @@ class ShoppingCartViewModel {
             switch result {
             case .success(let response):
                 self?.exchangeRates = response.conversion_rates
+                self?.onDraftOrderUpdated?()  // Notify that exchange rates are updated
             case .failure(let error):
                 print("Error fetching exchange rates: \(error)")
             }
-            // Notify any observers that the exchange rates have been fetched
         }
     }
 

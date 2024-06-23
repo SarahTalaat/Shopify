@@ -176,12 +176,10 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
         }))
         present(alert, animated: true, completion: nil)
     }
-
-            func updateTotalAmount() {
-                viewModel.updateTotalAmount()
-                totalAmount.text = viewModel.totalAmount
-            }
-    
+    private func updateTotalAmount() {
+        viewModel.updateTotalAmount()
+        totalAmount.text = viewModel.formatPriceWithCurrency(price: viewModel.totalAmount)
+    }
     @IBAction func addCouponBtn(_ sender: UIButton) {
         let couponVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "CouponViewController") as! CouponViewController
             couponVC.subtotal = viewModel.totalAmount
