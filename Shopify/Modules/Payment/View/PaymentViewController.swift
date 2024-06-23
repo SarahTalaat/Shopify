@@ -92,30 +92,43 @@ class PaymentViewController: UIViewController {
     
     @IBAction func placeOrderBtn(_ sender: UIButton) {
         guard let lineItems = lineItems else {
-            print("Line items are not set")
-            return
-        }
-        
-        
-        viewModel.postOrder { success in
-            DispatchQueue.main.async {
-                let title: String
-                let message: String
-                if success {
-                    title = "Order Placed"
-                    message = "Your order has been successfully placed."
-                } else {
-                    title = "Error"
-                    message = "Failed to place order. Please try again."
-                }
-                
-                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                   print("Line items are not set")
+                   return
+               }
+    
+               guard let selectedPaymentMethod = viewModel.selectedPaymentMethod else {
+                   let alert = UIAlertController(title: "Payment Method", message: "Please select a payment method.", preferredStyle: .alert)
+                   alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                   self.present(alert, animated: true, completion: nil)
+                   return
+               }
+               
+        guard let addressLabel = customerPaymentAddress, addressLabel.text != "Address Details" else {
+                let alert = UIAlertController(title: "Address", message: "Please provide a shipping address.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
+                return
             }
-        }
-    
-        viewModel.processInvoicePosting()
+   
+               viewModel.postOrder { success in
+                   DispatchQueue.main.async {
+                       let title: String
+                       let message: String
+                       if success {
+                           title = "Order Placed"
+                           message = "Your order has been successfully placed."
+                       } else {
+                           title = "Error"
+                           message = "Failed to place order. Please try again."
+                       }
+                       
+                       let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                       self.present(alert, animated: true, completion: nil)
+                   }
+               }
+               
+               viewModel.processInvoicePosting()
     }
 
     @IBOutlet weak var cashView: UIView!
