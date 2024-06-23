@@ -158,9 +158,11 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     func updateFavoriteButton() {
         let isFavorited = viewModel.checkIfFavorited()
         let imageName = isFavorited ? "heart.fill" : "heart"
-        let image = UIImage(systemName: imageName)
+        favouriteButton.tintColor = isFavorited ? .red : .lightGray
+        let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
         favouriteButton.setImage(image, for: .normal)
     }
+
     
     func setUpFavouriteButton(){
         // Make the button circular

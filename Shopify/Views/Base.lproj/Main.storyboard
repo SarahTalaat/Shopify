@@ -392,9 +392,7 @@
                                                     <constraint firstAttribute="width" constant="52" id="OAm-mt-8VO"/>
                                                 </constraints>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system">
-                                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </buttonConfiguration>
+                                                <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system"/>
                                                 <connections>
                                                     <action selector="favouriteButtonTapped:" destination="Zlb-F3-WcO" eventType="touchUpInside" id="2wc-O0-m90"/>
                                                 </connections>
@@ -549,7 +547,7 @@
                         <outlet property="dropDowntableView2" destination="FdZ-h1-fmC" id="MSp-lE-6s1"/>
                         <outlet property="dropdownButton" destination="70L-FJ-uMv" id="9Sj-Bi-E7R"/>
                         <outlet property="dropdownButton2" destination="4vf-1K-nTz" id="RuS-ei-ts1"/>
-                        <outlet property="favouriteButton" destination="mEQ-44-4E3" id="RYS-Yr-okN"/>
+                        <outlet property="favouriteButton" destination="mEQ-44-4E3" id="3Zl-Cm-Gu6"/>
                         <outlet property="myCollectionView" destination="VhD-OC-Gly" id="YtC-xO-7pJ"/>
                         <outlet property="priceLabel" destination="8Fi-V9-xR1" id="Vj8-hm-FBM"/>
                         <outlet property="ratingView" destination="9Yg-6e-cnq" id="c5n-h5-Aad"/>
@@ -568,7 +566,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oL7-YE-7Z8" customClass="AnimationView" customModule="Lottie">
-                                <rect key="frame" x="45" y="104" width="320" height="0.0"/>
+                                <rect key="frame" x="45" y="104" width="320" height="684"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="Tda-BC-ujV"/>
@@ -752,10 +750,10 @@
     </designables>
     <resources>
         <image name="Sale" width="1200" height="675"/>
-        <image name="arrow.right" catalog="system" width="128" height="98"/>
-        <image name="cart.badge.plus.fill" catalog="system" width="128" height="106"/>
-        <image name="chevron.down" catalog="system" width="128" height="72"/>
-        <image name="heart" catalog="system" width="128" height="109"/>
+        <image name="arrow.right" catalog="system" width="32" height="32"/>
+        <image name="cart.badge.plus.fill" catalog="system" width="32" height="32"/>
+        <image name="chevron.down" catalog="system" width="32" height="32"/>
+        <image name="heart" catalog="system" width="32" height="32"/>
         <image name="logo" width="816" height="816"/>
         <image name="shop" width="3000" height="2000"/>
         <systemColor name="labelColor">
