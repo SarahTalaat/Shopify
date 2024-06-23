@@ -57,9 +57,15 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         request.countryCode = "EG"
         request.currencyCode = UserDefaults.standard.string(forKey: "Currency") == "EGP" ? "EGP" : "USD"
         
-        // Ensure the totalAmount is valid and can be converted to a valid NSDecimalNumber
-        if let total = totalAmount, let amount = NSDecimalNumber(string: total) as NSDecimalNumber?, amount != NSDecimalNumber.notANumber {
-            request.paymentSummaryItems = [PKPaymentSummaryItem(label: "Total Order", amount: amount)]
+        if let totalAmount = totalAmount {
+            let totalAmountString = totalAmount.replacingOccurrences(of: "[^0-9.]", with: "", options: .regularExpression)
+            let amount = NSDecimalNumber(string: totalAmountString)
+            if amount != NSDecimalNumber.notANumber {
+                request.paymentSummaryItems = [PKPaymentSummaryItem(label: "Total Order", amount: amount)]
+            } else {
+                let defaultAmount = NSDecimalNumber(string: "1200")
+                request.paymentSummaryItems = [PKPaymentSummaryItem(label: "T-shirt", amount: defaultAmount)]
+            }
         } else {
             let defaultAmount = NSDecimalNumber(string: "1200")
             request.paymentSummaryItems = [PKPaymentSummaryItem(label: "T-shirt", amount: defaultAmount)]
