@@ -86,6 +86,7 @@ class ProfileViewController: UIViewController {
         favouriteViewModel.bindProducts = { [weak self] in
             DispatchQueue.main.async {
                 self?.wishlistCollectionView.reloadData()
+                self?.wishlistLabel.text = "You have \(self?.favouriteViewModel.products?.count ?? 0) favourite products"
             }
         }
     }
