@@ -9,7 +9,8 @@ import Foundation
 
 
 protocol ProductDetailsViewModelProtocol {
-
+    var exchangeRates: [String: Double] {get set}
+    func fetchExchangeRates()
     var product: ProductResponseFromApi? {get set}
     var bindProductDetailsViewModelToController: (() -> ()) {get set}
     func getProductDetails()

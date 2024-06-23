@@ -12,7 +12,8 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
     
 
-
+    var exchangeRates: [String: Double] = [:]
+    
     var networkServiceAuthenticationProtocol:NetworkServiceAuthenticationProtocol!
     var authServiceProtocol: AuthServiceProtocol!
     
@@ -165,6 +166,20 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     }
 
 
+     func fetchExchangeRates() {
+        let exchangeRateApiService = ExchangeRateApiService()
+        exchangeRateApiService.getLatestRates { [weak self] result in
+            switch result {
+            case .success(let response):
+                self?.exchangeRates = response.conversion_rates
+                self?.getProductDetails()
+            case .failure(let error):
+                print("Error fetching exchange rates: \(error)")
+            }
+            self?.bindProductDetailsViewModelToController()
+        }
+    }
+    
 
     func getProductDetails() {
         

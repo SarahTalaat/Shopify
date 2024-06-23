@@ -52,9 +52,18 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     var viewModel: ProductDetailsViewModelProtocol!
     var activityIndicator: UIActivityIndicatorView!
     
+    // Default label with a default value
+    let defaultPriceLabel: UILabel = {
+        let label = UILabel()
+        label.text = "200 USD" // Default text
+        return label
+    }()
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateFavoriteButton()
+        viewModel.fetchExchangeRates()
     }
     
     override func viewDidLoad() {
@@ -217,13 +226,27 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
                 
                 self?.brandNameLabel.text = self?.viewModel.product?.product?.vendor
                 self?.brandTitleLabel.text = self?.viewModel.product?.product?.title
-                self?.priceLabel.text = self?.viewModel.product?.product?.variants?.first?.price
+                
+////                self?.priceLabel.text = self?.viewModel.product?.product?.variants?.first?.price
+                ///
+                self?.priceCurrency(priceLabel: (self?.priceLabel ?? self?.defaultPriceLabel) ?? UILabel() )
                 self?.descriptionLabel.text = self?.viewModel.product?.product?.body_html
                 self?.setupDropdownButtons()
                 self?.updateFavoriteButton()
             }
         }
     }
+    
+    func priceCurrency(priceLabel:UILabel){
+        let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+        let exchangeRate = viewModel.exchangeRates[selectedCurrency] ?? 1.0
+        if let price = Double(self.viewModel.product?.product?.variants?.first?.price ?? "200") {
+            
+            let convertedPrice = price * exchangeRate
+            priceLabel.text = "\(String(format: "%.2f", convertedPrice))\(selectedCurrency)"
+        }
+    }
+    
     
     func setupDropdownTableView1(dropDowntableView: UITableView) {
         dropDowntableView.layer.borderWidth = 1.0
