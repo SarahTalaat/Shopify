@@ -133,19 +133,18 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             }
         }
     }
-    func formatPriceWithCurrency(price: Double) -> String {
-           let formatter = NumberFormatter()
-           formatter.numberStyle = .currency
-           formatter.currencyCode = "USD" 
-           return formatter.string(from: NSNumber(value: price)) ?? ""
-       }
-
-            } else {
-                print("Failed to post order.")
-            }
-        }
-    }
-    
+//    func formatPriceWithCurrency(price: Double) -> String {
+//               let formatter = NumberFormatter()
+//               formatter.numberStyle = .currency
+//               formatter.currencyCode = "USD"
+//               return formatter.string(from: NSNumber(value: price)) ?? ""
+//           }
+//
+//                } else {
+//                    print("Failed to post order.")
+//                }
+//            }
+//        }
     
 
     func setupInvoice() {

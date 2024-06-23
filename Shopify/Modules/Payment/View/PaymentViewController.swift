@@ -8,16 +8,16 @@
 import UIKit
 import PassKit
 class PaymentViewController: UIViewController {
-
     
-
+    
+    
     
     private var viewModel = PaymentMethodsViewModel()
     
     var totalAmount: String?
     var defaultAddress: Address?
     var lineItems: [LineItem]?
-       
+    
     @IBOutlet weak var appleButton: UIButton!
     private var totalAmountValue: Double? {
         didSet {
@@ -26,9 +26,9 @@ class PaymentViewController: UIViewController {
             }
         }
     }
-
+    
     override func viewDidLoad() {
-
+        
         super.viewDidLoad()
         setupUI()
         setupGestures()
@@ -38,77 +38,75 @@ class PaymentViewController: UIViewController {
             viewModel.setupOrder(lineItem: lineItems)
         }
         if let totalAmountString = totalAmount {
-               totalAmountValue = Double(totalAmountString)
+            totalAmountValue = Double(totalAmountString)
             viewModel.updatePaymentSummaryItems(totalAmount: "\(totalAmountValue ?? 0.0)")
-           }
-      if let subtotal = totalAmount {
-              viewModel.updatePaymentSummaryItems(totalAmount: subtotal)
-          }
+        }
+        if let subtotal = totalAmount {
+            viewModel.updatePaymentSummaryItems(totalAmount: subtotal)
+        }
     }
-
-      
-      private func setupUI() {
-          [cashView, applePayView, addressView].forEach { view in
-              view?.layer.shadowRadius = 4.0
-              view?.layer.cornerRadius = 10.0
-              view?.layer.shadowColor = UIColor.black.cgColor
-              view?.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-              view?.layer.shadowOpacity = 0.5
-          }
-          
-          appleButton.addTarget(self, action: #selector(tapForPay), for: .touchUpInside)
-      }
-      
-      private func setupGestures() {
-          let cashTapGesture = UITapGestureRecognizer(target: self, action: #selector(cashViewTapped))
-          cashView.addGestureRecognizer(cashTapGesture)
-          
-          let applePayTapGesture = UITapGestureRecognizer(target: self, action: #selector(applePayViewTapped))
-          applePayView.addGestureRecognizer(applePayTapGesture)
-      }
-      
-      @objc private func tapForPay() {
-          let controller = PKPaymentAuthorizationViewController(paymentRequest: viewModel.paymentRequest)
-          if controller != nil {
-              controller!.delegate = viewModel
-              present(controller!, animated: true) {
-                  print("Completed")
-              }
-          }
-      }
+    
+    
+    private func setupUI() {
+        [cashView, applePayView, addressView].forEach { view in
+            view?.layer.shadowRadius = 4.0
+            view?.layer.cornerRadius = 10.0
+            view?.layer.shadowColor = UIColor.black.cgColor
+            view?.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+            view?.layer.shadowOpacity = 0.5
+        }
+        
+        appleButton.addTarget(self, action: #selector(tapForPay), for: .touchUpInside)
+    }
+    
+    private func setupGestures() {
+        let cashTapGesture = UITapGestureRecognizer(target: self, action: #selector(cashViewTapped))
+        cashView.addGestureRecognizer(cashTapGesture)
+        
+        let applePayTapGesture = UITapGestureRecognizer(target: self, action: #selector(applePayViewTapped))
+        applePayView.addGestureRecognizer(applePayTapGesture)
+    }
+    
+    @objc private func tapForPay() {
+        let controller = PKPaymentAuthorizationViewController(paymentRequest: viewModel.paymentRequest)
+        if controller != nil {
+            controller!.delegate = viewModel
+            present(controller!, animated: true) {
+                print("Completed")
+            }
+        }
+    }
     func updateGrandTotal(with amount: String) {
         if let totalAmount = Double(amount) {
             viewModel.updatePaymentSummaryItems(totalAmount: String(totalAmount))
         }
     }
-   
+    
     @IBAction func placeOrderBtn(_ sender: UIButton) {
         guard let lineItems = lineItems else {
-                  print("Line items are not set")
-                  return
-            }
-
-            
-            viewModel.postOrder { success in
-                DispatchQueue.main.async {
-                    let title: String
-                    let message: String
-                    if success {
-                        title = "Order Placed"
-                        message = "Your order has been successfully placed."
-                    } else {
-                        title = "Error"
-                        message = "Failed to place order. Please try again."
-                    }
-                    
-                    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
+            print("Line items are not set")
+            return
+        }
+        
+        
+        viewModel.postOrder { success in
+            DispatchQueue.main.async {
+                let title: String
+                let message: String
+                if success {
+                    title = "Order Placed"
+                    message = "Your order has been successfully placed."
+                } else {
+                    title = "Error"
+                    message = "Failed to place order. Please try again."
                 }
+                
+                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
-      }
-   
-
+        }
+    
         viewModel.processInvoicePosting()
     }
 
