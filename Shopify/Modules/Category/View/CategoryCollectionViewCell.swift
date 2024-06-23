@@ -72,7 +72,6 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         favBtn.setImage(image, for: .normal)
     }
     
-    
     @objc private func toggleFavorite() {
         guard let productId = productId else { return }
         delegate?.productsTableViewCellDidToggleFavorite(at: indexPath?.row ?? 0)

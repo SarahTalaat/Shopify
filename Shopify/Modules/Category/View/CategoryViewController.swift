@@ -236,7 +236,6 @@ extension CategoryViewController : UICollectionViewDelegate,UICollectionViewData
 extension CategoryViewController: ProductsTableViewCellDelegate{
 
     
-    
     func didTapFavoriteButton(index: Int) {
         guard index < viewModel.filteredProducts.count else { return }
         let productId = "\(viewModel.filteredProducts[index].id)"
@@ -250,23 +249,25 @@ extension CategoryViewController: ProductsTableViewCellDelegate{
             }
         }
     }
+
+         
+         
+     func productsTableViewCellDidToggleFavorite(at index: Int) {
+         guard index < viewModel.filteredProducts.count else { return }
+         
+         viewModel.toggleFavorite(productId:  "\(viewModel.filteredProducts[index].id)") { error in
+             if let error = error {
+                 print("Error toggling favorite status: \(error.localizedDescription)")
+                 // Handle error if needed
+             } else {
+                 // Update UI or perform any post-toggle actions
+                 DispatchQueue.main.async {
+                     self.collectionView.reloadData()
+                 }
+             }
+         }
+     }
     
-    
-    func productsTableViewCellDidToggleFavorite(at index: Int) {
-        guard index < viewModel.category.count else { return }
-        
-        viewModel.toggleFavorite(productId:  "\(viewModel.category[index].id)") { error in
-            if let error = error {
-                print("Error toggling favorite status: \(error.localizedDescription)")
-                // Handle error if needed
-            } else {
-                // Update UI or perform any post-toggle actions
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-            }
-        }
-    }
 }
 
       // MARK: - Button Design
