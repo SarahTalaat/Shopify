@@ -39,9 +39,27 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
            bindViewModel()
        //    viewModel.fetchDraftOrders()
            print("Total amount before navigating to PaymentVC: \(viewModel.totalAmount)")
+//           shoppingCartTableView.layer.cornerRadius = 8.0
+//               shoppingCartTableView.layer.borderWidth = 1.0
+//               shoppingCartTableView.layer.borderColor = UIColor.lightGray.cgColor
+//               shoppingCartTableView.layer.masksToBounds = true
+           addBottomBorder(to: shoppingCartTableView)
        }
          
-
+    func addBottomBorder(to tableView: UITableView) {
+        let border = UIView()
+        border.translatesAutoresizingMaskIntoConstraints = false
+        border.backgroundColor = UIColor.lightGray // Set the border color
+        
+        tableView.addSubview(border)
+        
+        NSLayoutConstraint.activate([
+            border.heightAnchor.constraint(equalToConstant: 1), // Set the border height
+            border.leadingAnchor.constraint(equalTo: tableView.leadingAnchor),
+            border.trailingAnchor.constraint(equalTo: tableView.trailingAnchor),
+            border.bottomAnchor.constraint(equalTo: tableView.bottomAnchor)
+        ])
+    }
       private func bindViewModel() {
           viewModel.onDraftOrderUpdated = { [weak self] in
               DispatchQueue.main.async {
