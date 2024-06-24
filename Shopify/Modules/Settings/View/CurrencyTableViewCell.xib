@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,25 +18,43 @@
                 <rect key="frame" x="0.0" y="0.0" width="317" height="62"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="18t-F0-ENg">
-                        <rect key="frame" x="90" y="21" width="93" height="24"/>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sqp-3K-rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="317" height="62"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4oC-kJ-IPJ">
+                                <rect key="frame" x="45" y="21" width="61" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="4oC-kJ-IPJ" firstAttribute="top" secondItem="Sqp-3K-rvc" secondAttribute="top" constant="21" id="CjF-AD-M9w"/>
+                            <constraint firstItem="4oC-kJ-IPJ" firstAttribute="leading" secondItem="Sqp-3K-rvc" secondAttribute="leading" constant="45" id="OIo-mG-lkW"/>
+                            <constraint firstAttribute="trailing" secondItem="4oC-kJ-IPJ" secondAttribute="trailing" constant="211" id="XfQ-8U-2Ks"/>
+                            <constraint firstAttribute="bottom" secondItem="4oC-kJ-IPJ" secondAttribute="bottom" constant="17" id="yLk-w8-Q43"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="18t-F0-ENg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="21" id="6A3-dp-LEl"/>
-                    <constraint firstItem="18t-F0-ENg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="90" id="K3H-Iy-rs0"/>
-                    <constraint firstAttribute="bottom" secondItem="18t-F0-ENg" secondAttribute="bottom" constant="17" id="LaQ-ip-hA4"/>
-                    <constraint firstAttribute="trailing" secondItem="18t-F0-ENg" secondAttribute="trailing" constant="134" id="YLL-pF-dAc"/>
+                    <constraint firstAttribute="trailing" secondItem="Sqp-3K-rvc" secondAttribute="trailing" id="2h5-Tq-Kj9"/>
+                    <constraint firstItem="Sqp-3K-rvc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="F8O-CL-dc0"/>
+                    <constraint firstItem="Sqp-3K-rvc" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="aTz-Vt-5Eo"/>
+                    <constraint firstItem="Sqp-3K-rvc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="w75-NI-bLd"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="currency" destination="18t-F0-ENg" id="C4u-pR-0RY"/>
+                <outlet property="currency" destination="4oC-kJ-IPJ" id="HWK-SI-chM"/>
+                <outlet property="currencyView" destination="Sqp-3K-rvc" id="wfm-mM-0Ep"/>
             </connections>
             <point key="canvasLocation" x="127.48091603053435" y="-4.9295774647887329"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
