@@ -70,6 +70,13 @@
 		B60A3C3E2C12483B002BEB5D /* FirebaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60A3C3D2C12483B002BEB5D /* FirebaseAuthService.swift */; };
 		B60A3C402C1248C0002BEB5D /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60A3C3F2C1248C0002BEB5D /* UserModel.swift */; };
 		B60A3C422C1252A8002BEB5D /* DependencyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60A3C412C1252A8002BEB5D /* DependencyProvider.swift */; };
+		B6186B022C298F0400AA6D15 /* SignInViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B012C298F0400AA6D15 /* SignInViewModelTest.swift */; };
+		B6186B052C298FDF00AA6D15 /* AuthServiceMockTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B042C298FDF00AA6D15 /* AuthServiceMockTest.swift */; };
+		B6186B072C29902C00AA6D15 /* NetworkServiceMockTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B062C29902C00AA6D15 /* NetworkServiceMockTest.swift */; };
+		B6186B092C2998DB00AA6D15 /* MockDatabaseReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B082C2998DB00AA6D15 /* MockDatabaseReference.swift */; };
+		B6186B0B2C299A5900AA6D15 /* MockDataSnapshotMockTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B0A2C299A5900AA6D15 /* MockDataSnapshotMockTest.swift */; };
+		B6186B0D2C299D3500AA6D15 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B0C2C299D3500AA6D15 /* MockUser.swift */; };
+		B6186B0F2C29FE7300AA6D15 /* FirebaseAuthServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B0E2C29FE7300AA6D15 /* FirebaseAuthServiceTest.swift */; };
 		B6365B832C0A18BD00277D31 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6365B822C0A18BD00277D31 /* DatabaseManager.swift */; };
 		B6365B852C0A18CD00277D31 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6365B842C0A18CD00277D31 /* NetworkService.swift */; };
 		B6365B872C0A18DE00277D31 /* test24.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6365B862C0A18DE00277D31 /* test24.swift */; };
@@ -272,6 +279,13 @@
 		B60A3C3D2C12483B002BEB5D /* FirebaseAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthService.swift; sourceTree = "<group>"; };
 		B60A3C3F2C1248C0002BEB5D /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		B60A3C412C1252A8002BEB5D /* DependencyProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyProvider.swift; sourceTree = "<group>"; };
+		B6186B012C298F0400AA6D15 /* SignInViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModelTest.swift; sourceTree = "<group>"; };
+		B6186B042C298FDF00AA6D15 /* AuthServiceMockTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceMockTest.swift; sourceTree = "<group>"; };
+		B6186B062C29902C00AA6D15 /* NetworkServiceMockTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceMockTest.swift; sourceTree = "<group>"; };
+		B6186B082C2998DB00AA6D15 /* MockDatabaseReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDatabaseReference.swift; sourceTree = "<group>"; };
+		B6186B0A2C299A5900AA6D15 /* MockDataSnapshotMockTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataSnapshotMockTest.swift; sourceTree = "<group>"; };
+		B6186B0C2C299D3500AA6D15 /* MockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
+		B6186B0E2C29FE7300AA6D15 /* FirebaseAuthServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthServiceTest.swift; sourceTree = "<group>"; };
 		B6365B822C0A18BD00277D31 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		B6365B842C0A18CD00277D31 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		B6365B862C0A18DE00277D31 /* test24.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test24.swift; sourceTree = "<group>"; };
@@ -448,6 +462,27 @@
 				8DDFF2CC4A09A57E31BFEE60 /* Pods_ShopifyTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B6186B002C298EA400AA6D15 /* SignInViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B6186B012C298F0400AA6D15 /* SignInViewModelTest.swift */,
+			);
+			path = SignInViewModel;
+			sourceTree = "<group>";
+		};
+		B6186B032C298FBE00AA6D15 /* ServicesTest */ = {
+			isa = PBXGroup;
+			children = (
+				B6186B042C298FDF00AA6D15 /* AuthServiceMockTest.swift */,
+				B6186B062C29902C00AA6D15 /* NetworkServiceMockTest.swift */,
+				B6186B082C2998DB00AA6D15 /* MockDatabaseReference.swift */,
+				B6186B0A2C299A5900AA6D15 /* MockDataSnapshotMockTest.swift */,
+				B6186B0C2C299D3500AA6D15 /* MockUser.swift */,
+				B6186B0E2C29FE7300AA6D15 /* FirebaseAuthServiceTest.swift */,
+			);
+			path = ServicesTest;
 			sourceTree = "<group>";
 		};
 		B6365B7B2C0A181200277D31 /* Modules */ = {
@@ -1034,6 +1069,8 @@
 		B69FA1832C09F050009D43B7 /* ShopifyTests */ = {
 			isa = PBXGroup;
 			children = (
+				B6186B032C298FBE00AA6D15 /* ServicesTest */,
+				B6186B002C298EA400AA6D15 /* SignInViewModel */,
 				B69FA1842C09F050009D43B7 /* ShopifyTests.swift */,
 			);
 			path = ShopifyTests;
@@ -1506,7 +1543,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6186B072C29902C00AA6D15 /* NetworkServiceMockTest.swift in Sources */,
+				B6186B052C298FDF00AA6D15 /* AuthServiceMockTest.swift in Sources */,
+				B6186B092C2998DB00AA6D15 /* MockDatabaseReference.swift in Sources */,
+				B6186B022C298F0400AA6D15 /* SignInViewModelTest.swift in Sources */,
+				B6186B0F2C29FE7300AA6D15 /* FirebaseAuthServiceTest.swift in Sources */,
 				B69FA1852C09F050009D43B7 /* ShopifyTests.swift in Sources */,
+				B6186B0D2C299D3500AA6D15 /* MockUser.swift in Sources */,
+				B6186B0B2C299A5900AA6D15 /* MockDataSnapshotMockTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

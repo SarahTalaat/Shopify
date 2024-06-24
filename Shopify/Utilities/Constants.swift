@@ -54,6 +54,7 @@ enum APIConfig {
     case customers
     case usd
     case endPoint(String)
+    case all
     
     var resource: String {
         switch self {
@@ -63,6 +64,8 @@ enum APIConfig {
             return "customers"
         case .usd:
             return "USD"
+        case .all:
+            return "ALL"
         case .endPoint(let customResource):
             return customResource
         }
