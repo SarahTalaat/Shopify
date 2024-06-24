@@ -10,7 +10,7 @@ import Reachability
 
 
 class HomeViewModel{
-    let networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol
+    private let networkService = NetworkServiceAuthentication()
     private var reachability: Reachability?
 
     var brands : [SmartCollection] = [] {
@@ -34,56 +34,79 @@ class HomeViewModel{
         setupReachability()
         getBrands()
         getCoupons()
-        self.networkServiceAuthenticationProtocol = networkServiceAuthentication()
 
     }
     
     func getBrands() {
-//        NetworkUtilities.fetchData(responseType: CollectionResponse.self, endpoint: "smart_collections.json") { brand in
-//            self.brands = brand?.smart_collections ??  []
-//          }
-        networkServiceAuthenticationProtocol.requestFunction(urlString: APIConfig.smart_collections, method: <#T##HTTPMethod#>, model: <#T##[String : Any]#>, completion: <#T##(Result<T, Error>) -> Void#>)
-      }
+           let urlString = APIConfig.smart_collections.url
+           networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<CollectionResponse, Error>) in
+               switch result {
+               case .success(let response):
+                   self.brands = response.smart_collections
+                   self.bindBrandsData()
+               case .failure(let error):
+                   print("Failed to fetch brands: \(error.localizedDescription)")
+               }
+           }
+       }
     
-    func getCoupons(){
-        NetworkUtilities.fetchData(responseType: PriceRulesResponse.self, endpoint: "price_rules.json"){ coupon in
-            self.coupons = coupon?.price_rules ?? []
-        }
-        print(coupons)
-        bindCouponsData?()
 
+    func getCoupons() {
+        let urlString = APIConfig.endPoint("price_rules").url
+        networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<PriceRulesResponse, Error>) in
+            switch result {
+            case .success(let response):
+                self.coupons = response.price_rules
+                self.bindCouponsData?()
+            case .failure(let error):
+                print("Failed to fetch coupons: \(error.localizedDescription)")
+            }
+        }
     }
-    
-    
-    
-    
+
     func postDiscountCodes() {
         let discountCodes = ["SUMMERSALE20OFF", "SUMMERSALE10OFF"]
-        
+
         for (index, coupon) in coupons.enumerated() {
             guard index < discountCodes.count else {
                 print("Not enough discount codes provided for all price rules.")
                 return
             }
             
+            
+            
+            
+            
+            
+            
+
             let discountCodeData = DiscountCode(price_rule_id: coupon.id, code: discountCodes[index])
-            NetworkUtilities.postData(data: discountCodeData, endpoint: "price_rules/\(coupon.id)/discount_codes.json") { success in
-                if success {
+            let urlString = APIConfig.endPoint("price_rules/\(coupon.id)/discount_codes").url
+            networkService.requestFunction(urlString: urlString, method: .post, model: discountCodeData.toDictionary() ??  [:]) { (result: Result<DiscountCodeResponse, Error>) in
+                switch result {
+                case .success:
                     print("Discount code '\(discountCodes[index])' posted successfully for price rule with ID \(coupon.id)")
-                } else {
-                    print("Failed to post discount code '\(discountCodes[index])' for price rule with ID \(coupon.id)")
+                case .failure(let error):
+                    print("Failed to post discount code '\(discountCodes[index])' for price rule with ID \(coupon.id): \(error.localizedDescription)")
                 }
             }
         }
     }
-    
+
     func getDiscountCode(id: Int, completion: @escaping (String?) -> Void) {
-        NetworkUtilities.fetchData(responseType: DiscountResponse.self, endpoint: "price_rules/\(id)/discount_codes.json") { response in
-            let discountCode = response?.discount_codes.first?.code
-            completion(discountCode)
+        let urlString = APIConfig.endPoint("price_rules/\(id)/discount_codes").url
+        networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<DiscountResponse, Error>) in
+            switch result {
+            case .success(let response):
+                let discountCode = response.discount_codes.first?.code
+                completion(discountCode)
+            case .failure(let error):
+                print("Failed to fetch discount code: \(error.localizedDescription)")
+                completion(nil)
+            }
         }
     }
-    
+
     private func setupReachability() {
            reachability = try? Reachability()
            reachability?.whenReachable = { reachability in

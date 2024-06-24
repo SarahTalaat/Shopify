@@ -18,15 +18,21 @@ struct PriceRules: Decodable{
     let target_type : String
 }
 
-struct DiscountCodeResponse :Encodable{
+struct DiscountCodeResponse :Encodable,Decodable{
     let discount_code : DiscountCode
 }
 
-struct DiscountCode : Encodable{
+struct DiscountCode: Codable {
     let price_rule_id: Int
     let code: String
+    
+    func toDictionary() -> [String: Any]? {
+        let encoder = JSONEncoder()
+        guard let data = try? encoder.encode(self) else { return nil }
+        return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments))
+            .flatMap { $0 as? [String: Any] }
+    }
 }
-
 
 struct DiscountResponse :Decodable{
     let discount_codes : [Discount]

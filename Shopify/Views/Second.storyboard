@@ -454,7 +454,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="U3L-yf-aPp">
-                                <rect key="frame" x="16" y="98" width="382" height="179"/>
+                                <rect key="frame" x="16" y="96" width="382" height="179"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jDY-wC-5rf">
                                     <size key="itemSize" width="360" height="157"/>
@@ -494,19 +494,19 @@
                                 </connections>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brands" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QM9-Cu-KgZ">
-                                <rect key="frame" x="16" y="287" width="109" height="41"/>
+                                <rect key="frame" x="16" y="281" width="109" height="41"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="34"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="click to see all products!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8I0-Lz-YAc">
-                                <rect key="frame" x="16" y="331" width="184" height="21"/>
+                                <rect key="frame" x="16" y="322" width="184" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.56884352299999996" green="0.570842976" blue="0.57684133510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="e8w-lD-4E1">
-                                <rect key="frame" x="16" y="362" width="382" height="370"/>
+                                <rect key="frame" x="16" y="350" width="382" height="370"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="370" id="07L-oQ-wOM"/>
@@ -529,7 +529,7 @@
                                                     <rect key="frame" x="13" y="8" width="150" height="145.5"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ADIDAS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QTr-tl-Atf">
-                                                    <rect key="frame" x="26.5" y="163.5" width="123" height="20.5"/>
+                                                    <rect key="frame" x="26.5" y="159.5" width="123" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -537,7 +537,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Yad-rg-3aE" firstAttribute="centerX" secondItem="CcW-nZ-h3m" secondAttribute="centerX" id="9b4-LF-qKh"/>
-                                                <constraint firstItem="QTr-tl-Atf" firstAttribute="top" secondItem="Yad-rg-3aE" secondAttribute="bottom" constant="10" id="SNN-qx-pVO"/>
+                                                <constraint firstItem="QTr-tl-Atf" firstAttribute="top" secondItem="Yad-rg-3aE" secondAttribute="bottom" constant="6" id="SNN-qx-pVO"/>
                                                 <constraint firstItem="Yad-rg-3aE" firstAttribute="top" secondItem="CcW-nZ-h3m" secondAttribute="top" constant="8" id="Vw4-qu-pnE"/>
                                                 <constraint firstItem="Yad-rg-3aE" firstAttribute="width" secondItem="CcW-nZ-h3m" secondAttribute="width" multiplier="0.85" id="ZkD-Qg-X8z"/>
                                                 <constraint firstItem="QTr-tl-Atf" firstAttribute="centerX" secondItem="CcW-nZ-h3m" secondAttribute="centerX" id="cKW-10-GL2"/>
@@ -568,11 +568,11 @@
                             <constraint firstItem="U3L-yf-aPp" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="N66-Ig-MBO"/>
                             <constraint firstItem="U3L-yf-aPp" firstAttribute="height" secondItem="5EZ-qb-Rvc" secondAttribute="height" multiplier="0.2" id="PvR-OS-Ydv"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="e8w-lD-4E1" secondAttribute="trailing" constant="16" id="SsX-gz-27U"/>
-                            <constraint firstItem="e8w-lD-4E1" firstAttribute="top" secondItem="U3L-yf-aPp" secondAttribute="bottom" constant="85" id="VHC-VC-tcm"/>
+                            <constraint firstItem="e8w-lD-4E1" firstAttribute="top" secondItem="U3L-yf-aPp" secondAttribute="bottom" constant="75" id="VHC-VC-tcm"/>
                             <constraint firstItem="e8w-lD-4E1" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="dC4-si-Szy"/>
-                            <constraint firstItem="QM9-Cu-KgZ" firstAttribute="top" secondItem="U3L-yf-aPp" secondAttribute="bottom" constant="10" id="dCn-BX-97H"/>
-                            <constraint firstItem="8I0-Lz-YAc" firstAttribute="top" secondItem="QM9-Cu-KgZ" secondAttribute="bottom" constant="3" id="ePJ-72-Ebh"/>
-                            <constraint firstItem="U3L-yf-aPp" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="6" id="mYd-MM-6Gf"/>
+                            <constraint firstItem="QM9-Cu-KgZ" firstAttribute="top" secondItem="U3L-yf-aPp" secondAttribute="bottom" constant="6" id="dCn-BX-97H"/>
+                            <constraint firstItem="8I0-Lz-YAc" firstAttribute="top" secondItem="QM9-Cu-KgZ" secondAttribute="bottom" id="ePJ-72-Ebh"/>
+                            <constraint firstItem="U3L-yf-aPp" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="4" id="mYd-MM-6Gf"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="U3L-yf-aPp" secondAttribute="trailing" constant="16" id="nfK-Tj-SfX"/>
                             <constraint firstItem="QM9-Cu-KgZ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="yAO-vG-iie"/>
                         </constraints>
