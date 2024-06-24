@@ -146,7 +146,13 @@ class PaymentViewController: UIViewController {
     }
   
     @IBAction func cashBtn(_ sender: UIButton) {
-        if let totalAmountDouble = Double(totalAmount ?? "0.0"), totalAmountDouble > 500 {
+        print(totalAmount ?? "No total amount")
+           
+           // Remove non-numeric characters (except the decimal point)
+           let numericAmount = totalAmount?.replacingOccurrences(of: "[^0-9.]", with: "", options: .regularExpression)
+           
+           // Convert to Double
+           if let totalAmountDouble = Double(numericAmount ?? "0.0"), totalAmountDouble > 500 {
                let alert = UIAlertController(title: "Payment Alert", message: "Total amount exceeds 500. Please choose another payment method.", preferredStyle: .alert)
                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                present(alert, animated: true, completion: nil)

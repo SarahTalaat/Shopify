@@ -44,6 +44,7 @@ enum APIConfig {
     
     case draft_orders
     case customers
+    case addresses(customerId: String)
     case endPoint(String)
     
     var resource: String {
@@ -52,6 +53,8 @@ enum APIConfig {
             return "draft_orders"
         case .customers:
             return "customers"
+        case .addresses(let customerId):
+            return "customers/\(customerId)/addresses"
         case .endPoint(let customResource):
             return customResource
         }

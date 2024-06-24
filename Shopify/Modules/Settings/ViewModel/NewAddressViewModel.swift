@@ -12,6 +12,7 @@ class NewAddressViewModel {
     var city: String = ""
     var state: String = ""
     var zipCode: String = ""
+    var customerId: String = ""
     
     var egyptGovernorates = [
         "Cairo", "Alexandria", "Giza", "Port Said", "Suez", "Luxor", "Aswan", "Asyut",
@@ -22,16 +23,44 @@ class NewAddressViewModel {
     
     func isAddressValid() -> Bool {
         return !fullName.isEmpty &&
-               !newAddress.isEmpty &&
-               !city.isEmpty &&
-               !state.isEmpty &&
-               !zipCode.isEmpty &&
-               state.lowercased() == "egypt"
+            !newAddress.isEmpty &&
+            !city.isEmpty &&
+            !state.isEmpty &&
+            !zipCode.isEmpty &&
+            state.lowercased() == "egypt"
     }
     
     func postNewAddress(completion: @escaping (Result<Address, Error>) -> Void) {
         let address = Address(id: nil, first_name: fullName, address1: newAddress, city: city, country: state, zip: zipCode, `default`: false)
         
-        TryAddressNetworkService.shared.postNewAddress(address: address, completion: completion)
+        let parameters: [String: Any] = [
+            "address": [
+                "first_name": address.first_name,
+                "address1": address.address1,
+                "city": address.city,
+                "country": address.country,
+                "zip": address.zip,
+                "default": address.default ?? false
+            ]
+        ]
+        
+        let urlString = APIConfig.addresses(customerId: customerId).url
+        
+        let networkService = NetworkServiceAuthentication()
+        networkService.requestFunction(urlString: urlString, method: .post, model: parameters) { (result: Result<Data, Error>) in
+            switch result {
+            case .success(let data):
+                do {
+                    let addressResponse = try JSONDecoder().decode(AddressResponse.self, from: data)
+                    completion(.success(addressResponse.customer_address))
+                } catch {
+                    print("Decoding error: \(error)")
+                    completion(.failure(error)) // Handle decoding error
+                }
+            case .failure(let error):
+                print("Network error: \(error)")
+                completion(.failure(error)) // Handle network error
+            }
+        }
     }
 }
