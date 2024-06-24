@@ -21,6 +21,8 @@ class AllProductsViewModel {
     
     var exchangeRates: [String: Double] = [:]
     var bindAllProducts: (() -> ()) = {}
+    private let networkService = NetworkServiceAuthentication()
+
     
     init() {
         getProducts()
@@ -29,11 +31,18 @@ class AllProductsViewModel {
     }
     
     func getProducts() {
-        NetworkUtilities.fetchData(responseType: ProductResponse.self, endpoint: "products.json") { product in
-            self.products = product?.products ?? []
-            self.filteredProducts = self.products // Initialize filteredProducts
-        }
-    }
+          let urlString = APIConfig.endPoint("products").url
+          networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<ProductResponse, Error>) in
+              switch result {
+              case .success(let response):
+                  self.products = response.products
+                  self.filteredProducts = self.products
+              case .failure(let error):
+                  print("Failed to fetch products: \(error.localizedDescription)")
+              }
+          }
+      }
+      
     
     private func fetchExchangeRates() {
         let exchangeRateApiService = ExchangeRateApiService()
@@ -57,6 +66,7 @@ class AllProductsViewModel {
         bindAllProducts()
     }
 }
+
 extension AllProductsViewModel {
     
     func toggleFavorite(productId: String, completion: @escaping (Error?) -> Void) {

@@ -59,18 +59,25 @@ class ProductViewModel {
     
     var bindFilteredProducts: (() -> ()) = {}
     var bindPriceRange: (() -> ()) = {}
-    
+    private let networkService = NetworkServiceAuthentication()
+
     init() {
         getProducts()
         fetchExchangeRates()
         fetchUserFavorites()
     }
-    
+ 
     func getProducts() {
-        NetworkUtilities.fetchData(responseType: ProductResponse.self, endpoint: "products.json?collection_id=\(brandID)") { product in
-            self.products = product?.products ?? []
-        }
-    }
+        let urlString = "https://\(APIConfig.hostName)/admin/api/\(APIConfig.version)/products.json?collection_id=\(brandID)"
+         networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<ProductResponse, Error>) in
+             switch result {
+             case .success(let response):
+                 self.products = response.products
+             case .failure(let error):
+                 print("Failed to fetch products: \(error.localizedDescription)")
+             }
+         }
+     }
     
     func calculatePriceRange() {
         let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"

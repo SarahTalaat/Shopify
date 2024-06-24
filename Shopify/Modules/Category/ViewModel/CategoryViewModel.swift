@@ -41,7 +41,8 @@ class CategoryViewModel{
     
     var bindCategory : (()->()) = {}
     var exchangeRates: [String: Double] = [:]
-    
+    private let networkService = NetworkServiceAuthentication()
+
     init(){
 
         getCategory(id: .women )
@@ -49,25 +50,34 @@ class CategoryViewModel{
         fetchUserFavorites()
     }
  
-    func getCategory(id:CategoryID) {
-        NetworkUtilities.fetchData(responseType: CategoryResponse.self, endpoint: "collections/\(id.rawValue)/products.json") { product in
-            if let products = product?.products {
-                print("Fetched products: \(products.count)")
-                
-                self.subCategory = products
-                self.category = products
-            } else {
-                print("No products fetched")
-                self.category = []
-            }
-        }
-    }
-    func getPrice(id: Int, completion: @escaping (String) -> Void) {
-        NetworkUtilities.fetchData(responseType: SingleProduct.self, endpoint: "products/\(id).json") { product in
-            let price = product?.product.variants.first?.price ?? "0"
-            completion(price)
-        }
-    }
+    func getCategory(id: CategoryID) {
+           let urlString = APIConfig.endPoint("collections/\(id.rawValue)/products").url
+           networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<CategoryResponse, Error>) in
+               switch result {
+               case .success(let response):
+                   self.subCategory = response.products
+                   self.category = response.products
+               case .failure(let error):
+                   print("Failed to fetch category products: \(error.localizedDescription)")
+                   self.category = []
+               }
+           }
+       }
+       
+       func getPrice(id: Int, completion: @escaping (String) -> Void) {
+           let urlString = APIConfig.endPoint("products/\(id)").url
+           networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<SingleProduct, Error>) in
+               switch result {
+               case .success(let response):
+                   let price = response.product.variants.first?.price ?? "0"
+                   completion(price)
+               case .failure(let error):
+                   print("Failed to fetch product price: \(error.localizedDescription)")
+                   completion("0")
+               }
+           }
+       }
+       
     func filterBySubCategory(subcategory:SubCategories){
         if subcategory == .all{
             self.category = self.subCategory
