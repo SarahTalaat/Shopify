@@ -954,7 +954,7 @@ We’ll be happy to help you</string>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1hI-QL-hG1">
-                                <rect key="frame" x="16" y="664" width="378" height="23"/>
+                                <rect key="frame" x="16" y="620" width="378" height="67"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Save Your Order" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ta7-hj-zgw">
                                         <rect key="frame" x="0.0" y="23" width="148.5" height="24"/>
@@ -979,11 +979,13 @@ We’ll be happy to help you</string>
                                     <constraint firstItem="ta7-hj-zgw" firstAttribute="leading" secondItem="1hI-QL-hG1" secondAttribute="leading" id="Gs0-bo-njT"/>
                                     <constraint firstAttribute="trailing" secondItem="WH1-QN-lEm" secondAttribute="trailing" id="O1H-RY-0am"/>
                                     <constraint firstItem="WH1-QN-lEm" firstAttribute="leading" secondItem="ta7-hj-zgw" secondAttribute="trailing" constant="74.5" id="SBx-Wk-bsz"/>
+                                    <constraint firstAttribute="trailing" secondItem="WH1-QN-lEm" secondAttribute="trailing" id="kad-54-aD1"/>
+                                    <constraint firstAttribute="bottom" secondItem="WH1-QN-lEm" secondAttribute="bottom" constant="18.5" id="kwX-pQ-ciz"/>
                                     <constraint firstItem="WH1-QN-lEm" firstAttribute="top" secondItem="1hI-QL-hG1" secondAttribute="top" constant="14" id="sOH-Nw-HBI"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="5Bx-CU-pQ8">
-                                <rect key="frame" x="16" y="99" width="382" height="557"/>
+                                <rect key="frame" x="16" y="99" width="382" height="513"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CartTableViewCell" id="Zlu-ST-J0v" customClass="CartTableViewCell" customModule="Shopify" customModuleProvider="target">
@@ -1024,7 +1026,6 @@ We’ll be happy to help you</string>
                             <constraint firstItem="Tfd-X5-Hc3" firstAttribute="trailing" secondItem="krh-2N-KKB" secondAttribute="trailing" constant="31" id="R4C-vi-lDF"/>
                             <constraint firstItem="Tfd-X5-Hc3" firstAttribute="trailing" secondItem="1hI-QL-hG1" secondAttribute="trailing" constant="20" id="RBY-Hk-Msa"/>
                             <constraint firstItem="1hI-QL-hG1" firstAttribute="leading" secondItem="Tfd-X5-Hc3" secondAttribute="leading" constant="16" id="WWj-C6-jz5"/>
-                            <constraint firstItem="1hI-QL-hG1" firstAttribute="top" secondItem="s8a-3R-FCS" secondAttribute="top" constant="664" id="b4m-ck-hcM"/>
                             <constraint firstItem="5Bx-CU-pQ8" firstAttribute="top" secondItem="Tfd-X5-Hc3" secondAttribute="top" constant="7" id="bOA-9I-f4q"/>
                             <constraint firstItem="a44-qf-9Po" firstAttribute="top" secondItem="krh-2N-KKB" secondAttribute="bottom" constant="34.5" id="eFT-lS-5gz"/>
                             <constraint firstItem="a44-qf-9Po" firstAttribute="trailing" secondItem="Tfd-X5-Hc3" secondAttribute="trailing" id="ecB-7J-jq9"/>

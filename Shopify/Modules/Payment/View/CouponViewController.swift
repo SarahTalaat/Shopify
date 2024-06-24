@@ -20,10 +20,12 @@ class CouponViewController: UIViewController {
     var updatedTotalAmount: String?
     override func viewDidLoad() {
             super.viewDidLoad()
+            
             if let subtotal = subtotal {
                 subTotal.text = subtotal
                 viewModel.subTotal = subtotal
             }
+            
             discount.text = "$0.00"
             grandTotal.text = subTotal.text
             
@@ -72,7 +74,7 @@ class CouponViewController: UIViewController {
                             self.updatedTotalAmount = totals.grandTotal
                             self.validCouponTF.layer.borderColor = UIColor.green.cgColor
                             self.validCouponTF.layer.borderWidth = 1.0
-                            // Update grand total immediately after discount changes
+                            
                             self.delegate?.updateGrandTotal(with: totals.grandTotal)
                             self.delegate?.updateGrandTotalFromCoupon(with: totals.grandTotal)
                         }
@@ -100,15 +102,25 @@ class CouponViewController: UIViewController {
                 dismiss(animated: true, completion: nil)
             }
             
-            private func updateUIWithCurrency() {
-                let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
-                if let subtotalValue = Double(viewModel.subTotal.replacingOccurrences(of: "$", with: "")) {
-                    let convertedSubtotal = viewModel.getConvertedValue(for: subtotalValue, in: selectedCurrency)
-                    DispatchQueue.main.async {
-                        self.subTotal.text = "\(String(format: "%.2f", convertedSubtotal)) \(selectedCurrency)"
-                    }
-                }
+    private func updateUIWithCurrency() {
+            let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+            
+            if let subtotalValue = Double(viewModel.subTotal.replacingOccurrences(of: "$", with: "")) {
+                let convertedSubtotal = viewModel.getConvertedValue(for: subtotalValue, in: selectedCurrency)
+                self.subTotal.text = "\(String(format: "%.2f", convertedSubtotal)) \(selectedCurrency)"
             }
+            
+            if let discountValue = Double(discount.text?.replacingOccurrences(of: "$", with: "") ?? "0") {
+                let convertedDiscount = viewModel.getConvertedValue(for: discountValue, in: selectedCurrency)
+                self.discount.text = "\(String(format: "%.2f", convertedDiscount)) \(selectedCurrency)"
+            }
+            
+            if let grandTotalValue = Double(grandTotal.text?.replacingOccurrences(of: "$", with: "") ?? "0") {
+                let convertedGrandTotal = viewModel.getConvertedValue(for: grandTotalValue, in: selectedCurrency)
+                self.grandTotal.text = "\(String(format: "%.2f", convertedGrandTotal)) \(selectedCurrency)"
+            }
+        }
+        
             
             func showAlert(title: String, message: String) {
                 let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
