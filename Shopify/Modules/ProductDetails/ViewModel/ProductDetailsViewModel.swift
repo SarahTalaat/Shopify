@@ -13,7 +13,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
 
     var exchangeRates: [String: Double] = [:]
-    
+ 
     var networkServiceAuthenticationProtocol:NetworkServiceAuthenticationProtocol!
     var authServiceProtocol: AuthServiceProtocol!
     
@@ -44,6 +44,8 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         }
     }
     
+    
+    
     // Fetch user's favorite products from Firebase
     func fetchUserFavorites() {
         let email = SharedDataRepository.instance.customerEmail ?? "NoOo Email"
@@ -64,6 +66,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
        
     }
     
+    
     func saveButtonTitleState(addToCartUI:CustomButton){
         var productID = Int(UserDefaults.standard.string(forKey: Constants.productId) ?? "")
         var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
@@ -74,6 +77,30 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             addToCartUI.isAddedToCart = false // Default value if not previously set
         }
     }
+    
+    func saveButtonTitleStateShoppingCart(addToCartUI:CustomButton , productId:Int){
+        var productID = productId
+        var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
+        print("ddd Title: \(UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(customerID)"))")
+        if let isAdded = UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(customerID)") as? Bool {
+            addToCartUI.isAddedToCart = isAdded
+            print("ddd title isAdded: \(isAdded)")
+        } else {
+            addToCartUI.isAddedToCart = false // Default value if not previously set
+           
+        }
+  
+    }
+    func saveAddedToCartStateShoppingCart(_ added: Bool , productId:Int) {
+        var productID = productId
+        var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
+        print("ddd addToCart: \("isAddedToCart"+"\(productID)"+"\(customerID)")")
+        
+        UserDefaults.standard.set(added, forKey: "isAddedToCart"+"\(productID)"+"\(customerID)")
+       
+    }
+    
+    
     func toggleFavorite() {
         guard let productIdString = retrieveStringFromUserDefaults(forKey: Constants.productId),
               let productIdInt = Int(productIdString),
@@ -200,7 +227,10 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
                 print("PD product title response: \(String(describing: productResponse.product?.title))")
                 self.product = productResponse
                 
-                
+                print("ddd inv qnt: \(productResponse.product?.variants?.first?.inventory_quantity)")
+                UserDefaults.standard.removeObject(forKey: Constants.inventoryQuantity)
+                UserDefaults.standard.synchronize()
+                self.addValueToUserDefaults(value: productResponse.product?.variants?.first?.inventory_quantity, forKey: Constants.inventoryQuantity)
                 self.addValueToUserDefaults(value: productResponse.product?.images?.first?.src, forKey: Constants.productImage)
                 self.addValueToUserDefaults(value: productResponse.product?.title, forKey: Constants.productTitle)
                 self.addValueToUserDefaults(value: productResponse.product?.vendor, forKey: Constants.productVendor)
@@ -244,8 +274,28 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         }
 
     }
+    
+    func deleteProductFromShoppingCart(productId:Int){
+        if let draftOrderId = UserDefaults.standard.string(forKey: Constants.userDraftId) {
+            var urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
+            deleteLineItemFromDraftOrder(urlString: urlString, productId: productId )
+        }
+    }
    
     
+    func inventoryQuantityLabel() -> String {
+        var inventoryQuantity = UserDefaults.standard.integer(forKey: Constants.inventoryQuantity)
+        print("ddd inventory quantity: \(inventoryQuantity)")
+        if inventoryQuantity == 0 {
+            UserDefaults.standard.removeObject(forKey: Constants.inventoryQuantity)
+            UserDefaults.standard.synchronize()
+            return "Out of stock"
+        }else{
+            UserDefaults.standard.removeObject(forKey: Constants.inventoryQuantity)
+            UserDefaults.standard.synchronize()
+            return "in stock"
+        }
+    }
 
     
     

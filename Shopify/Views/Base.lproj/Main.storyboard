@@ -442,6 +442,12 @@
                                                 <color key="textColor" red="1" green="0.032438698410000001" blue="0.026476474489999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Out of stock" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="d7e-4a-zOv">
+                                                <rect key="frame" x="276" y="1022" width="128" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <viewLayoutGuide key="safeArea" id="tT5-gO-aGG"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -460,6 +466,7 @@
                                             <constraint firstItem="tmT-6x-3Mv" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" multiplier="0.417874" id="Cfq-hp-uZ9"/>
                                             <constraint firstItem="V5l-9f-6m6" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.0388477" constant="64.999919300000002" id="EQA-Wy-dkg"/>
                                             <constraint firstItem="4vf-1K-nTz" firstAttribute="top" secondItem="VhD-OC-Gly" secondAttribute="bottom" id="GfC-Uy-IAr"/>
+                                            <constraint firstItem="d7e-4a-zOv" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" multiplier="0.309179" id="HXA-Mh-dku"/>
                                             <constraint firstItem="8Fi-V9-xR1" firstAttribute="top" secondItem="4vf-1K-nTz" secondAttribute="bottom" constant="25" id="HeF-ug-q90"/>
                                             <constraint firstItem="k9c-9i-JyH" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.026" priority="999" id="KwT-kO-2N5"/>
                                             <constraint firstItem="70L-FJ-uMv" firstAttribute="top" secondItem="VhD-OC-Gly" secondAttribute="bottom" id="Lix-3y-nXZ"/>
@@ -468,6 +475,7 @@
                                             <constraint firstItem="9Yg-6e-cnq" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="32" id="NJn-wM-Zl7"/>
                                             <constraint firstItem="V5l-9f-6m6" firstAttribute="top" secondItem="V02-Ib-1bQ" secondAttribute="bottom" constant="14" id="Nzw-F8-xwI"/>
                                             <constraint firstItem="VhD-OC-Gly" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.3" id="OWQ-ac-y8b"/>
+                                            <constraint firstItem="d7e-4a-zOv" firstAttribute="top" secondItem="8Fi-V9-xR1" secondAttribute="bottom" constant="30" id="OrE-jb-Kck"/>
                                             <constraint firstItem="4vf-1K-nTz" firstAttribute="leading" secondItem="70L-FJ-uMv" secondAttribute="trailing" constant="10" id="OsP-ez-Lb0"/>
                                             <constraint firstItem="FdZ-h1-fmC" firstAttribute="top" secondItem="4vf-1K-nTz" secondAttribute="bottom" constant="4" id="PkJ-lM-TyW"/>
                                             <constraint firstItem="FdZ-h1-fmC" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.15" id="PoN-5K-p8A"/>
@@ -481,6 +489,7 @@
                                             <constraint firstItem="mEQ-44-4E3" firstAttribute="leading" secondItem="4vf-1K-nTz" secondAttribute="trailing" constant="10" id="WFf-lz-R48"/>
                                             <constraint firstItem="xn0-QI-sKj" firstAttribute="top" secondItem="kcU-Oo-n38" secondAttribute="bottom" constant="7.5" id="WRt-Un-O1T"/>
                                             <constraint firstItem="S75-xb-dGm" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.15" id="XQG-aN-N9V"/>
+                                            <constraint firstItem="d7e-4a-zOv" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.0128739" id="YnZ-jl-OGP"/>
                                             <constraint firstItem="mEQ-44-4E3" firstAttribute="top" secondItem="VhD-OC-Gly" secondAttribute="bottom" constant="5" id="bFc-zD-nXf"/>
                                             <constraint firstItem="tNb-OF-dMm" firstAttribute="top" secondItem="joN-TH-lrW" secondAttribute="bottom" constant="5" id="bN0-nL-dKr"/>
                                             <constraint firstItem="kcU-Oo-n38" firstAttribute="top" secondItem="70L-FJ-uMv" secondAttribute="bottom" constant="20" id="dCO-jC-VIp"/>
@@ -509,6 +518,7 @@
                                             <constraint firstItem="IpG-f2-T0r" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" constant="10" id="ucA-4J-bp1"/>
                                             <constraint firstItem="FdZ-h1-fmC" firstAttribute="width" secondItem="4vf-1K-nTz" secondAttribute="width" id="w0u-Rb-y9C"/>
                                             <constraint firstItem="VhD-OC-Gly" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" id="wXj-FT-lv7"/>
+                                            <constraint firstItem="d7e-4a-zOv" firstAttribute="trailing" secondItem="8Fi-V9-xR1" secondAttribute="trailing" id="wYb-g8-Wjg"/>
                                             <constraint firstItem="V5l-9f-6m6" firstAttribute="leading" secondItem="V02-Ib-1bQ" secondAttribute="leading" id="yiF-4D-pBv"/>
                                             <constraint firstItem="Vpg-R2-mjX" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" id="yl8-3r-lNO"/>
                                             <constraint firstItem="k9c-9i-JyH" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" multiplier="0.748792" id="zbq-Sy-xjc"/>
@@ -548,6 +558,7 @@
                         <outlet property="dropdownButton" destination="70L-FJ-uMv" id="9Sj-Bi-E7R"/>
                         <outlet property="dropdownButton2" destination="4vf-1K-nTz" id="RuS-ei-ts1"/>
                         <outlet property="favouriteButton" destination="mEQ-44-4E3" id="3Zl-Cm-Gu6"/>
+                        <outlet property="inventroyQuantityLabel" destination="d7e-4a-zOv" id="VLg-1A-FYl"/>
                         <outlet property="myCollectionView" destination="VhD-OC-Gly" id="YtC-xO-7pJ"/>
                         <outlet property="priceLabel" destination="8Fi-V9-xR1" id="Vj8-hm-FBM"/>
                         <outlet property="ratingView" destination="9Yg-6e-cnq" id="c5n-h5-Aad"/>
@@ -566,7 +577,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oL7-YE-7Z8" customClass="AnimationView" customModule="Lottie">
-                                <rect key="frame" x="45" y="104" width="320" height="684"/>
+                                <rect key="frame" x="45" y="104" width="320" height="0.0"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="Tda-BC-ujV"/>

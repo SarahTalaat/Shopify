@@ -30,6 +30,7 @@ class Constants  {
     static let customerId: String = "customerId"
     
     static let onboardingKey = "hasSeenOnboarding"
+    static let inventoryQuantity = "inventoryQuantity"
     
    
 }

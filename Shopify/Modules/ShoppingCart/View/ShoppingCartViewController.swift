@@ -18,7 +18,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
     var draftOrder: DraftOrderPUT?
     private let viewModel = ShoppingCartViewModel()
              
-   
+ 
           
        override func viewDidLoad() {
            super.viewDidLoad()
@@ -98,7 +98,11 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
                           print("Failed to fetch product image: \(error.localizedDescription)")
                       }
                   }
+                  
+                 
+                  cell.productId = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row].id
 
+               
                   cell.delegate = self
               }
 
@@ -155,6 +159,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
                 self.shoppingCartTableView.deleteRows(at: [indexPath], with: .automatic)
                 self.updateTotalAmount()
                 self.viewModel.saveChanges()
+               
             }))
             present(alert, animated: true, completion: nil)
         } else {
@@ -173,6 +178,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
             self.viewModel.deleteItem(at: indexPath.row)
             self.shoppingCartTableView.reloadData()
             self.updateTotalAmount()
+
         }))
         present(alert, animated: true, completion: nil)
     }
@@ -222,4 +228,8 @@ extension ShoppingCartViewController: CouponViewControllerDelegate {
     func updateGrandTotalFromCoupon(with amount: String) {
         totalAmount.text = amount 
     }
+}
+
+protocol ShoppingCartDeletionDeletegate {
+    func didDeleteProduct(id:Int , cartCell: CartTableViewCell)
 }

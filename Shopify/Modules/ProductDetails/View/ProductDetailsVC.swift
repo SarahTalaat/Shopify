@@ -8,9 +8,21 @@
 import UIKit
 import Kingfisher
 
-class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource {
+class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource , ShoppingCartDeletionDeletegate {
+    
+    @IBOutlet weak var inventroyQuantityLabel: UILabel!
+    
+    var cartCell = CartTableViewCell()
+    
+    func didDeleteProduct(id: Int, cartCell: CartTableViewCell) {
+        viewModel.deleteProductFromShoppingCart(productId: id)
+        addToCartUI.isAddedToCart = false
+        viewModel.saveAddedToCartStateShoppingCart(false, productId: id)
+        viewModel.saveButtonTitleStateShoppingCart(addToCartUI: addToCartUI, productId: id)
+    }
 
     @IBOutlet weak var addToCartUI: CustomButton!
+    
     @IBAction func addToCartButton(_ sender: CustomButton) {
         
         if SharedDataRepository.instance.customerEmail == nil {
@@ -32,7 +44,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     
     @IBOutlet weak var reviewTextView2: UITextView!
     @IBOutlet weak var reviewTextView1: UITextView!
-
+   
     @IBOutlet weak var favouriteButton: UIButton!
     @IBOutlet weak var descriptionLabel: UITextView!
     @IBOutlet var myCollectionView: UICollectionView!
@@ -81,13 +93,13 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         
         addToCartUI.isAddedToCart = false
         viewModel.saveButtonTitleState(addToCartUI:addToCartUI)
+       
         updateFavoriteButton()
       
         
-        
-        
+        cartCell.shoppingCartDeletionDeletegate = self
        
-        
+    
         
         settingUpCollectionView()
 
@@ -158,6 +170,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     func updateFavoriteButton() {
         let isFavorited = viewModel.checkIfFavorited()
         let imageName = isFavorited ? "heart.fill" : "heart"
+
         favouriteButton.tintColor = isFavorited ? .red : .lightGray
         let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
         favouriteButton.setImage(image, for: .normal)
@@ -233,6 +246,8 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
                 ///
                 self?.priceCurrency(priceLabel: (self?.priceLabel ?? self?.defaultPriceLabel) ?? UILabel() )
                 self?.descriptionLabel.text = self?.viewModel.product?.product?.body_html
+                
+                self?.inventroyQuantityLabel.text = self?.viewModel.inventoryQuantityLabel()
                 self?.setupDropdownButtons()
                 self?.updateFavoriteButton()
             }
@@ -356,10 +371,8 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     
 
     
-    
 
-    }
-
+}
 
 
     
