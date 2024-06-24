@@ -64,10 +64,26 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedCurrency = viewModel.filteredCurrencies[indexPath.row]
-        UserDefaults.standard.set(selectedCurrency, forKey: "selectedCurrency")
-        navigationController?.popViewController(animated: true)
+                if let indexPaths = tableView.indexPathsForVisibleRows {
+                    for indexPath in indexPaths {
+                        if let cell = tableView.cellForRow(at: indexPath) as? CurrencyTableViewCell {
+                            cell.contentView.layer.borderColor = UIColor.lightGray.cgColor
+                        }
+                    }
+                }
+                if let selectedCell = tableView.cellForRow(at: indexPath) as? CurrencyTableViewCell {
+                    selectedCell.contentView.layer.borderColor = UIColor.red.cgColor
+                }
+                let selectedCurrency = viewModel.filteredCurrencies[indexPath.row]
+                UserDefaults.standard.set(selectedCurrency, forKey: "selectedCurrency")
+                navigationController?.popViewController(animated: true)
+        
     }
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+            if let deselectedCell = tableView.cellForRow(at: indexPath) as? CurrencyTableViewCell {
+                deselectedCell.contentView.layer.borderColor = UIColor.lightGray.cgColor
+            }
+        }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
            return 60
        }
