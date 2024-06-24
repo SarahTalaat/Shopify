@@ -32,7 +32,11 @@ class Constants  {
     static let onboardingKey = "hasSeenOnboarding"
     static let inventoryQuantity = "inventoryQuantity"
     
-   
+    let apiKeyExchangeRates = "b1b362324215ea59af2d3263"
+    let baseUrlExchangeRates = "https://v6.exchangerate-api.com/v6/"
+    lazy var exchangeRatesUrl: String = {
+        return "\(baseUrlExchangeRates)\(apiKeyExchangeRates)/latest/USD"
+    }()
 }
 
 
@@ -42,9 +46,13 @@ enum APIConfig {
     static let password = "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"
     static let hostName = "mad44-alex-ios-team4.myshopify.com"
     static let version = "2022-01"
+    static let apiKey2 = "b1b362324215ea59af2d3263"
+    static let baseUrl2 = "https://v6.exchangerate-api.com/v6/"
+    
     
     case draft_orders
     case customers
+    case usd
     case endPoint(String)
     
     var resource: String {
@@ -53,6 +61,8 @@ enum APIConfig {
             return "draft_orders"
         case .customers:
             return "customers"
+        case .usd:
+            return "USD"
         case .endPoint(let customResource):
             return customResource
         }
@@ -60,6 +70,10 @@ enum APIConfig {
     
     var url: String {
         return "https://\(APIConfig.apiKey):\(APIConfig.password)@\(APIConfig.hostName)/admin/api/\(APIConfig.version)/\(self.resource).json"
+    }
+    
+    var url2: String {
+        return "\(APIConfig.baseUrl2)\(APIConfig.apiKey2)/latest/\(self.resource)"
     }
     
     var credentials: String {

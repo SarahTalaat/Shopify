@@ -218,19 +218,27 @@
                                 <rect key="frame" x="20" y="94" width="374" height="730"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="DMF-1t-gBg">
+                                <rect key="frame" x="20" y="183" width="374" height="512"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qFO-XW-l62"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
+                            <constraint firstItem="DMF-1t-gBg" firstAttribute="centerX" secondItem="zx4-ii-TQH" secondAttribute="centerX" id="1ZP-fT-HnU"/>
                             <constraint firstItem="zx4-ii-TQH" firstAttribute="top" secondItem="qFO-XW-l62" secondAttribute="top" constant="50" id="BCd-YK-vVA"/>
                             <constraint firstItem="qFO-XW-l62" firstAttribute="bottom" secondItem="zx4-ii-TQH" secondAttribute="bottom" constant="38" id="Hyw-84-UBc"/>
                             <constraint firstItem="qFO-XW-l62" firstAttribute="trailing" secondItem="zx4-ii-TQH" secondAttribute="trailing" constant="20" id="URr-8a-vZu"/>
+                            <constraint firstItem="DMF-1t-gBg" firstAttribute="height" secondItem="zx4-ii-TQH" secondAttribute="height" multiplier="0.70137" id="g1e-FP-Clg"/>
+                            <constraint firstItem="DMF-1t-gBg" firstAttribute="width" secondItem="zx4-ii-TQH" secondAttribute="width" id="gCh-Cc-rLL"/>
                             <constraint firstItem="zx4-ii-TQH" firstAttribute="leading" secondItem="qFO-XW-l62" secondAttribute="leading" constant="20" id="tC4-tc-Kkc"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Favourites" id="WYm-ge-ENA"/>
                     <connections>
                         <outlet property="favouriteTableView" destination="zx4-ii-TQH" id="hn6-ao-34p"/>
+                        <outlet property="imageView" destination="DMF-1t-gBg" id="eCy-zU-W58"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gPm-vJ-gPL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

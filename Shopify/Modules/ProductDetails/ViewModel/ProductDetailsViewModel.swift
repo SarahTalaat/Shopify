@@ -193,19 +193,40 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     }
 
 
-     func fetchExchangeRates() {
-        let exchangeRateApiService = ExchangeRateApiService()
-        exchangeRateApiService.getLatestRates { [weak self] result in
+//     func fetchExchangeRates() {
+//        let exchangeRateApiService = ExchangeRateApiService()
+//        exchangeRateApiService.getLatestRates { [weak self] result in
+//            switch result {
+//            case .success(let response):
+//                self?.exchangeRates = response.conversion_rates
+//                self?.getProductDetails()
+//            case .failure(let error):
+//                print("Error fetching exchange rates: \(error)")
+//            }
+//            self?.bindProductDetailsViewModelToController()
+//        }
+//         
+//    }
+    
+    func fetchExchangeRates() {
+        
+        networkServiceAuthenticationProtocol.requestFunction(urlString: APIConfig.usd.url2, method: .get, model: [:]){ (result: Result<ExchangeRatesResponse, Error>) in
             switch result {
             case .success(let response):
-                self?.exchangeRates = response.conversion_rates
-                self?.getProductDetails()
+                // Handle successful response
+                print("PD Exchange Rates Response\(response)")
+                self.exchangeRates = response.conversion_rates
+                self.getProductDetails()
             case .failure(let error):
-                print("Error fetching exchange rates: \(error)")
+                // Handle error
+                print(error) // Replace with your error handling code
             }
-            self?.bindProductDetailsViewModelToController()
+            self.bindProductDetailsViewModelToController()
         }
+        
     }
+    
+    
     
 
     func getProductDetails() {

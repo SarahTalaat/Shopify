@@ -15,7 +15,9 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var window: UIWindow?
     let cellSpacingHeight: CGFloat = 30
     
+    @IBOutlet weak var imageView: UIImageView!
     var viewModel: FavouriteViewModelProtocol!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,19 +28,33 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         viewModel.retriveProducts()
         
         bindViewModel()
-        
+ 
+ 
         favouriteTableView.reloadData()
         
     }
+    
+    
+    
 
     func bindViewModel(){
         viewModel.bindProducts = { [weak self] in
             DispatchQueue.main.async {
                 self?.favouriteTableView.reloadData()
+                self?.updatePlaceholder()
             }
         }
     }
     
+    func updatePlaceholder() {
+        if let products = viewModel.products, !products.isEmpty {
+            favouriteTableView.isHidden = false
+            imageView.isHidden = true
+        } else {
+            favouriteTableView.isHidden = true
+            imageView.isHidden = false
+        }
+    }
     
     func settingUpFavouriteTableView(){
         // Register the custom cell
@@ -49,7 +65,7 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         favouriteTableView.delegate = self
         
         // Set table view properties
-        favouriteTableView.separatorStyle = .none // Remove default separators
+       // favouriteTableView.separatorStyle = .none // Remove default separators
         favouriteTableView.backgroundColor = UIColor.clear
     }
     
@@ -93,7 +109,7 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
             viewModel.deleteProductFromFirebase(index: indexPath.row)
             viewModel.products?.remove(at: indexPath.row)
             favouriteTableView.reloadData()
-
+            updatePlaceholder()
         
         }
     }
