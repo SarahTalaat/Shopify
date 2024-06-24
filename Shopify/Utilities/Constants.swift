@@ -45,6 +45,7 @@ enum APIConfig {
     case draft_orders
     case customers
     case endPoint(String)
+    case smart_collections
     
     var resource: String {
         switch self {
@@ -52,8 +53,11 @@ enum APIConfig {
             return "draft_orders"
         case .customers:
             return "customers"
+        case .smart_collections:
+            return "smart_collections"
         case .endPoint(let customResource):
             return customResource
+            
         }
     }
     

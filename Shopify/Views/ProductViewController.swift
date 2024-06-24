@@ -20,10 +20,13 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
     @IBOutlet weak var colorMenu: UIButton!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var collectionViewTopConstraint: NSLayoutConstraint!
-    
-    let colorList = ["All","black", "white", "red", "blue", "gray", "yellow","beige","light-brown","burgandy"]
-    let sizeList = ["All","1","2","3","4","5","6","7","8","9","10","11","12","13","14"]
-    let clothList = [ "All","S", "M", "L", "XL"]
+    var loadingIndicator = UIActivityIndicatorView(style: .large)
+
+    let colorList = ["Colors","black", "white", "red", "blue", "gray", "yellow","beige","light-brown","burgandy"]
+    let sizeList = ["Shoes","1","2","3","4","5","6","7","8","9","10","11","12","13","14"]
+    let clothList = [ "Cloth","S", "M", "L", "XL"]
+    private var pickerViewItems: [String]?
+
     var isFilter = false
     var viewModel = ProductViewModel()
     
@@ -34,7 +37,6 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
             collectionView.collectionViewLayout = brandsCollectionViewLayout()
          
             search.delegate = self
-            containerView.isHidden = false
             priceLabel.text = "No selected price"
             
             handleDropDownList()
@@ -46,7 +48,17 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
             viewModel.bindPriceRange = { [weak self] in
                 self?.updatePriceRange()
             }
-            
+        
+           sizeMenu.setTitle("Shoes", for: .normal)
+           clothSizeMenu.setTitle("Cloth", for: .normal)
+           colorMenu.setTitle("Colors", for: .normal)
+        
+           viewModel.currentFilters.size = nil
+            viewModel.currentFilters.color = nil
+        
+        setupLoadingIndicators()
+        loadingIndicator.startAnimating()
+
             priceSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
          let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
            tapGesture.cancelsTouchesInView = false
@@ -61,8 +73,19 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
         func updateCollection() {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
+                self.loadingIndicator.stopAnimating()
             }
         }
+    
+    func setupLoadingIndicators() {
+        collectionView.addSubview(loadingIndicator)
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            loadingIndicator.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor)
+        ])
+    }
         
         // MARK: - Filter By Price
         
@@ -81,61 +104,51 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
          }
             // MARK: - Drop Down List
             
-            func handleDropDownList() {
-                setupMenuButton(button: sizeMenu, items: sizeList) { [weak self] selected in
+                private func handleDropDownList() {
+                    sizeMenu.addTarget(self, action: #selector(showSizeMenu), for: .touchUpInside)
+                    clothSizeMenu.addTarget(self, action: #selector(showClothSizeMenu), for: .touchUpInside)
+                    colorMenu.addTarget(self, action: #selector(showColorMenu), for: .touchUpInside)
+                }
+    
+            @objc private func showSizeMenu() {
+                pickerViewItems = sizeList
+                showPickerView(title: "Select Size", items: sizeList) { [weak self] selected in
                     guard let self = self else { return }
-                    if selected == "All" {
+                    self.sizeMenu.setTitle(selected, for: .normal)
+                    if selected == "Shoes" {
                         self.viewModel.currentFilters.size = nil
                     } else {
                         self.viewModel.currentFilters.size = ("SHOES", selected)
                     }
                 }
-                
-                setupMenuButton(button: clothSizeMenu, items: clothList) { [weak self] selected in
+            }
+
+            @objc private func showClothSizeMenu() {
+                pickerViewItems = clothList
+                showPickerView(title: "Select Cloth Size", items: clothList) { [weak self] selected in
                     guard let self = self else { return }
-                    if selected == "All" {
+                    self.clothSizeMenu.setTitle(selected, for: .normal)
+                    if selected == "Cloth" {
                         self.viewModel.currentFilters.size = nil
                     } else {
                         self.viewModel.currentFilters.size = ("T-SHIRTS", selected)
                     }
                 }
-                
-                setupMenuButton(button: colorMenu, items: colorList) { [weak self] selectedColor in
+            }
+
+            @objc private func showColorMenu() {
+                pickerViewItems = colorList
+                showPickerView(title: "Select Color", items: colorList) { [weak self] selectedColor in
                     guard let self = self else { return }
-                    if selectedColor == "All" {
+                    self.colorMenu.setTitle(selectedColor, for: .normal)
+                    if selectedColor == "Colors" {
                         self.viewModel.currentFilters.color = nil
                     } else {
                         self.viewModel.currentFilters.color = selectedColor
                     }
                 }
-                
-                let filterButton = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal.decrease.circle"), style: .plain, target: self, action: #selector(self.showFilter))
-                navigationItem.rightBarButtonItems = [filterButton]
             }
-            
-            private func setupMenuButton(button: UIButton, items: [String], action: @escaping (String) -> Void) {
-                var actions: [UIAction] = []
-                for item in items {
-                    let uiAction = UIAction(title: item) { _ in
-                        action(item)
-                    }
-                    actions.append(uiAction)
-                }
-                button.menu = UIMenu(title: "", options: .displayInline, children: actions)
-                button.showsMenuAsPrimaryAction = true
-                button.changesSelectionAsPrimaryAction = true
-            }
-            
-        // MARK: - Navigation Bar Item
-        
-        @objc func showFilter() {
-            containerView.isHidden.toggle()
-            isFilter.toggle()
-            UIView.animate(withDuration: 0.3) {
-                self.view.layoutIfNeeded()
-            }
-        }
-     
+   
      // MARK: - UISearchBarDelegate Methods
 
      func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -215,24 +228,16 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
                  return cell
              }
              
-
-             
              func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-                 
                  viewModel.getproductId(index: indexPath.row)
                  let storyboard = UIStoryboard(name: "Main", bundle: nil)
                  let brandsViewController = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as! ProductDetailsVC
                  navigationController?.pushViewController(brandsViewController, animated: true)
                }
-      
          }
 
-
-
-
 extension ProductViewController: ProductsCollectionViewCellDelegate{
-
-         
+    
     func didTapFavoriteButton(index: Int) {
         guard index < viewModel.filteredProducts.count else { return }
         let productId = "\(viewModel.filteredProducts[index].id)"
@@ -246,22 +251,69 @@ extension ProductViewController: ProductsCollectionViewCellDelegate{
             }
         }
     }
+    
+    func productsCollectionViewCellDidToggleFavorite(at index: Int) {
+        guard index < viewModel.filteredProducts.count else { return }
+        
+        viewModel.toggleFavorite(productId:  "\(viewModel.filteredProducts[index].id)") { error in
+            if let error = error {
+                print("Error toggling favorite status: \(error.localizedDescription)")
+            } else {
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
+    }
+}
+    
+    extension ProductViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+        
+        func showPickerView(title: String, items: [String], selectionHandler: @escaping (String) -> Void) {
+            let alertController = UIAlertController(title: title, message: "\n\n\n\n\n\n\n\n\n\n", preferredStyle: .actionSheet)
+            
+            let pickerView = UIPickerView()
+            pickerView.delegate = self
+            pickerView.dataSource = self
+            
+            pickerView.tag = 100
+            
+            alertController.view.addSubview(pickerView)
+            
+            let selectAction = UIAlertAction(title: "Select", style: .default) { _ in
+                let selectedItem = items[pickerView.selectedRow(inComponent: 0)]
+                selectionHandler(selectedItem)
+            }
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            alertController.addAction(selectAction)
+            alertController.addAction(cancelAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
 
-         
-         
-         func productsCollectionViewCellDidToggleFavorite(at index: Int) {
-             guard index < viewModel.filteredProducts.count else { return }
-             
-             viewModel.toggleFavorite(productId:  "\(viewModel.filteredProducts[index].id)") { error in
-                 if let error = error {
-                     print("Error toggling favorite status: \(error.localizedDescription)")
-                     // Handle error if needed
-                 } else {
-                     // Update UI or perform any post-toggle actions
-                     DispatchQueue.main.async {
-                         self.collectionView.reloadData()
-                     }
-                 }
-             }
-         }
-     }
+
+        func numberOfComponents(in pickerView: UIPickerView) -> Int {
+            return 1
+        }
+        
+        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+            if pickerView.tag == 100 {
+                if let items = pickerViewItems {
+                    return items.count
+                }
+            }
+            return 0
+        }
+        
+        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+            if pickerView.tag == 100 {
+                if let items = pickerViewItems {
+                    return items[row]
+                }
+            }
+            return nil
+        }
+    }
+     

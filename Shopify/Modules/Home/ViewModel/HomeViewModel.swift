@@ -6,9 +6,12 @@
 //
 
 import Foundation
+import Reachability
+
 
 class HomeViewModel{
-    private let networkService = NetworkServiceAuthentication()
+    let networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol
+    private var reachability: Reachability?
 
     var brands : [SmartCollection] = [] {
         didSet{
@@ -24,17 +27,22 @@ class HomeViewModel{
     
     var bindBrandsData : (() -> ()) = {}
     var bindCouponsData: (() -> Void)?
+    var networkStatusChanged: ((Bool) -> Void)?
 
     
     init(){
+        setupReachability()
         getBrands()
         getCoupons()
+        self.networkServiceAuthenticationProtocol = networkServiceAuthentication()
+
     }
     
     func getBrands() {
-        NetworkUtilities.fetchData(responseType: CollectionResponse.self, endpoint: "smart_collections.json") { brand in
-            self.brands = brand?.smart_collections ??  []
-          }
+//        NetworkUtilities.fetchData(responseType: CollectionResponse.self, endpoint: "smart_collections.json") { brand in
+//            self.brands = brand?.smart_collections ??  []
+//          }
+        networkServiceAuthenticationProtocol.requestFunction(urlString: APIConfig.smart_collections, method: <#T##HTTPMethod#>, model: <#T##[String : Any]#>, completion: <#T##(Result<T, Error>) -> Void#>)
       }
     
     func getCoupons(){
@@ -75,4 +83,21 @@ class HomeViewModel{
             completion(discountCode)
         }
     }
+    
+    private func setupReachability() {
+           reachability = try? Reachability()
+           reachability?.whenReachable = { reachability in
+               self.networkStatusChanged?(reachability.connection == .wifi)
+               print("wifi connection")
+           }
+           reachability?.whenUnreachable = { _ in
+               self.networkStatusChanged?(false)
+           }
+           
+           do {
+               try reachability?.startNotifier()
+           } catch {
+               print("Unable to start notifier")
+           }
+       }
 }

@@ -14,7 +14,8 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     @IBAction func addToCartButton(_ sender: CustomButton) {
         
         if SharedDataRepository.instance.customerEmail == nil {
-            showGuestAlert()
+            showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
+
         }else{
             //             viewModel.isDataBound = true
             //             viewModel.addToCart()
