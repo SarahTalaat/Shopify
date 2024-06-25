@@ -79,8 +79,15 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     }
     
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
-        completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
-    }
+          postOrder { success in
+              if success {
+                  self.processInvoicePosting()
+                  completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
+              } else {
+                  completion(PKPaymentAuthorizationResult(status: .failure, errors: nil))
+              }
+          }
+      }
     
     
     func setupOrder(lineItem: [LineItem]) {
