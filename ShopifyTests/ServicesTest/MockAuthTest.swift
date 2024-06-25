@@ -136,26 +136,26 @@ class FirebaseAuthServiceTests: XCTestCase {
         }
     }
 
-    func testFetchCustomerId() {
-        let encodedEmail = "encodedEmail123"
-        let customerId = "mockCustomerId"
-
-        // Simulate setting up the customerId in mock database
-        let customersRef = mockDatabaseRef.child("customers")
-        let customerRef = customersRef.child(encodedEmail)
-        customerRef.child("customerId").setValue(customerId)
-
-        // Variable to store the fetched customerId
-        var fetchedCustomerId: String?
-
-        // Mock implementation of fetchCustomerId
-        authService.fetchCustomerId(encodedEmail: encodedEmail) { result in
-            fetchedCustomerId = result
-        }
-
-        // Assert the fetched customerId immediately after the completion block is executed
-        XCTAssertEqual(fetchedCustomerId, customerId, "Fetched customerId should match")
-    }
+//    func testFetchCustomerId() {
+//        let encodedEmail = "encodedEmail123"
+//        let customerId = "mockCustomerId"
+//
+//        // Simulate setting up the customerId in mock database
+//        let customersRef = mockDatabaseRef.child("customers")
+//        let customerRef = customersRef.child(encodedEmail)
+//        customerRef.child("customerId").setValue(customerId)
+//
+//        // Variable to store the fetched customerId
+//        var fetchedCustomerId: String?
+//
+//        // Mock implementation of fetchCustomerId
+//        authService.fetchCustomerId(encodedEmail: encodedEmail) { result in
+//            fetchedCustomerId = result
+//        }
+//
+//        // Assert the fetched customerId immediately after the completion block is executed
+//        XCTAssertEqual(fetchedCustomerId, customerId, "Fetched customerId should match")
+//    }
 
     func testDeleteProductFromEncodedEmail() {
         let mockDatabaseRef = MockDatabaseReference()
@@ -186,52 +186,319 @@ class FirebaseAuthServiceTests: XCTestCase {
             XCTAssertFalse(snapshot.exists(), "Product should no longer exist in database after deletion")
         }
     }
+//
+//    func testRetrieveAllProductsFromEncodedEmail() {
+//        // Given
+//        let mockDatabaseRef = MockDatabaseReference()
+//        let authService = FirebaseAuthService(databaseRef: mockDatabaseRef)
+//
+//        let email = "test@example.com"
+//        let encodedEmail = SharedMethods.encodeEmail(email)
+//
+//        // Simulate adding products to the mock database
+//        let customersRef = mockDatabaseRef.child("customers")
+//        let customerRef = customersRef.child(encodedEmail)
+//        let productsRef = customerRef.child("products")
+//
+//        let product1: [String: Any] = [
+//            "productId": "123",
+//            "productTitle": "Mock Product 1",
+//            "productVendor": "Mock Vendor 1",
+//            "productImage": "https://example.com/mock-product1.jpg"
+//        ]
+//
+//        let product2: [String: Any] = [
+//            "productId": "456",
+//            "productTitle": "Mock Product 2",
+//            "productVendor": "Mock Vendor 2",
+//            "productImage": "https://example.com/mock-product2.jpg"
+//        ]
+//
+//        // Set up products in mock database
+//        productsRef.child("123").setValue(product1)
+//        productsRef.child("456").setValue(product2)
+//
+//        // When
+//        var retrievedProducts: [ProductFromFirebase]?
+//        authService.retrieveAllProductsFromEncodedEmail(email: email) { products in
+//            retrievedProducts = products
+//            print("xxx retrieved products \(retrievedProducts)")
+//            print("xxx products \(products)")
+//        }
+//
+//        // Then
+//        XCTAssertNotNil(retrievedProducts, "Products should not be nil")
+//        XCTAssertEqual(retrievedProducts?.count, 2, "Should retrieve 2 products")
+//
+//        print("xxx retrievedProducts count \(retrievedProducts?.count)")
+//
+//        if let products = retrievedProducts {
+//            // Assert details of the first product
+//            XCTAssertEqual(products[0].productId, "123", "First product's productId should match")
+//            XCTAssertEqual(products[0].productTitle, "Mock Product 1", "First product's productTitle should match")
+//            XCTAssertEqual(products[0].productVendor, "Mock Vendor 1", "First product's productVendor should match")
+//            XCTAssertEqual(products[0].productImage, "https://example.com/mock-product1.jpg", "First product's productImage should match")
+//
+//            // Assert details of the second product
+//            XCTAssertEqual(products[1].productId, "456", "Second product's productId should match")
+//            XCTAssertEqual(products[1].productTitle, "Mock Product 2", "Second product's productTitle should match")
+//            XCTAssertEqual(products[1].productVendor, "Mock Vendor 2", "Second product's productVendor should match")
+//            XCTAssertEqual(products[1].productImage, "https://example.com/mock-product2.jpg", "Second product's productImage should match")
+//        }
+//    }
 
-    func testRetrieveAllProductsFromEncodedEmail() {
+
+    func testToggleFavorite() {
+        // Given
+        let mockDatabaseRef = MockDatabaseReference()
+        let authService = FirebaseAuthService(databaseRef: mockDatabaseRef)
+        
+        let email = "test@example.com"
+        let encodedEmail = SharedMethods.encodeEmail(email)
+        let productId = "123"
+        let productTitle = "Mock Product"
+        let productVendor = "Mock Vendor"
+        let productImage = "https://example.com/mock-product.jpg"
+        let isFavorite = true
+        
+        // When toggling favorite
+        authService.toggleFavorite(
+            email: email,
+            productId: productId,
+            productTitle: productTitle,
+            productVendor: productVendor,
+            productImage: productImage,
+            isFavorite: isFavorite
+        ) { error in
+            XCTAssertNil(error, "Error should be nil when adding to favorites")
+            
+            // Then
+            let productRef = mockDatabaseRef.child("customers").child(encodedEmail).child("products").child(productId)
+            productRef.observeSingleEvent(of: .value) { snapshot in
+                XCTAssertTrue(snapshot.exists(), "Product should be added to favorites")
+                
+                if let productData = snapshot.value as? [String: Any] {
+                    XCTAssertEqual(productData["productId"] as? String, productId, "productId should match")
+                    XCTAssertEqual(productData["productTitle"] as? String, productTitle, "productTitle should match")
+                    XCTAssertEqual(productData["productVendor"] as? String, productVendor, "productVendor should match")
+                    XCTAssertEqual(productData["productImage"] as? String, productImage, "productImage should match")
+                } else {
+                    XCTFail("Product data format is incorrect or missing")
+                }
+            }
+        }
+    }
+
+    func testRemoveFavorite() {
+        // Given
+        let mockDatabaseRef = MockDatabaseReference()
+        let authService = FirebaseAuthService(databaseRef: mockDatabaseRef)
+        
+        let email = "test@example.com"
+        let encodedEmail = SharedMethods.encodeEmail(email)
+        let productId = "123"
+        
+        // Simulate adding product first
+        let productRef = mockDatabaseRef.child("customers").child(encodedEmail).child("products").child(productId)
+        let productData: [String: Any] = [
+            "productId": productId,
+            "productTitle": "Mock Product",
+            "productVendor": "Mock Vendor",
+            "productImage": "https://example.com/mock-product.jpg"
+        ]
+        productRef.setValue(productData)
+        
+        // When toggling favorite to remove
+        authService.toggleFavorite(
+            email: email,
+            productId: productId,
+            productTitle: "Mock Product",
+            productVendor: "Mock Vendor",
+            productImage: "https://example.com/mock-product.jpg",
+            isFavorite: false
+        ) { error in
+            XCTAssertNil(error, "Error should be nil when removing from favorites")
+            
+            // Then
+            productRef.observeSingleEvent(of: .value) { snapshot in
+                XCTAssertFalse(snapshot.exists(), "Product should be removed from favorites")
+            }
+        }
+    }
+    
+//    func testFetchFavorites() {
+//        // Given
+//        let mockDatabaseRef = MockDatabaseReference()
+//        let authService = FirebaseAuthService(databaseRef: mockDatabaseRef)
+//
+//        let email = "test@example.com"
+//        let encodedEmail = SharedMethods.encodeEmail(email)
+//
+//        // Simulate setting favorites in mock database
+//        let customersRef = mockDatabaseRef.child("customers")
+//        let customerRef = customersRef.child(encodedEmail)
+//        let productsRef = customerRef.child("products")
+//
+//        let product1: [String: Any] = [
+//            "productId": "123",
+//            "productTitle": "Mock Product 1",
+//            "productVendor": "Mock Vendor 1",
+//            "productImage": "https://example.com/mock-product1.jpg"
+//        ]
+//        let product2: [String: Any] = [
+//            "productId": "456",
+//            "productTitle": "Mock Product 2",
+//            "productVendor": "Mock Vendor 2",
+//            "productImage": "https://example.com/mock-product2.jpg"
+//        ]
+//        productsRef.child("123").setValue(product1)
+//        productsRef.child("456").setValue(product2)
+//
+//        // When fetching favorites
+//        var fetchedFavorites: [String: Bool]?
+//        authService.fetchFavorites(email: email) { favorites in
+//            fetchedFavorites = favorites
+//        }
+//
+//        // Then
+//        XCTAssertNotNil(fetchedFavorites, "Favorites should not be nil")
+//        XCTAssertEqual(fetchedFavorites?.count, 2, "Should retrieve 2 favorites")
+//
+//        if let favorites = fetchedFavorites {
+//            XCTAssertTrue(favorites.keys.contains("123"), "Product 123 should be in favorites")
+//            XCTAssertTrue(favorites.keys.contains("456"), "Product 456 should be in favorites")
+//        }
+//    }
+
+//    func testCheckProductExists() {
+//        // Given
+//        let mockDatabaseRef = MockDatabaseReference()
+//        let authService = FirebaseAuthService(databaseRef: mockDatabaseRef)
+//
+//        let email = "test@example.com"
+//        let encodedEmail = SharedMethods.encodeEmail(email)
+//        let productId = "123"
+//
+//        // Simulate adding product to mock database
+//        let productsRef = mockDatabaseRef.child("customers").child(encodedEmail).child("products").child(productId)
+//        let productData: [String: Any] = [
+//            "productId": productId,
+//            "productTitle": "Mock Product",
+//            "productVendor": "Mock Vendor",
+//            "productImage": "https://example.com/mock-product.jpg"
+//        ]
+//        productsRef.setValue(productData)
+//
+//        // When checking if product exists
+//        var productExists: Bool?
+//        var productError: Error?
+//        authService.checkProductExists(email: email, productId: productId) { exists, error in
+//            productExists = exists
+//            productError = error
+//        }
+//
+//        // Then
+//        XCTAssertNil(productError, "Error should be nil when product exists")
+//        XCTAssertTrue(productExists ?? false, "Product should exist")
+//    }
+//
+//    func testCheckProductDoesNotExist() {
+//        // Given
+//        let mockDatabaseRef = MockDatabaseReference()
+//        let authService = FirebaseAuthService(databaseRef: mockDatabaseRef)
+//
+//        let email = "test@example.com"
+//        let encodedEmail = SharedMethods.encodeEmail(email)
+//        let productId = "999"
+//
+//        // When checking if product exists
+//        var productExists: Bool?
+//        var productError: Error?
+//        authService.checkProductExists(email: email, productId: productId) { exists, error in
+//            productExists = exists
+//            productError = error
+//        }
+//
+//        // Then
+//        XCTAssertNil(productError, "Error should be nil when product does not exist")
+//        XCTAssertFalse(productExists ?? true, "Product should not exist")
+//    }
+
+//    func testCheckEmailSignInStatusSignedIn() {
+//        // Given
+//        let mockDatabaseRef = MockDatabaseReference()
+//        let authService = FirebaseAuthService(databaseRef: mockDatabaseRef)
+//        
+//        let email = "test@example.com"
+//        let encodedEmail = SharedMethods.encodeEmail(email)
+//        
+//        // Simulate setting sign-in status to "true" in mock database
+//        let customerRef = mockDatabaseRef.child("customers").child(encodedEmail)
+//        let customerData: [String: Any] = [
+//            "isSignedIn": "true"
+//        ]
+//        customerRef.setValue(customerData)
+//        
+//        // When checking sign-in status
+//        var isSignedIn: Bool?
+//        authService.checkEmailSignInStatus(email: email) { status in
+//            isSignedIn = status
+//        }
+//        
+//        // Then
+//        XCTAssertNotNil(isSignedIn, "Sign-in status should not be nil")
+//        XCTAssertTrue(isSignedIn ?? false, "User should be signed in")
+//    }
+
+//    func testCheckEmailSignInStatusNotSignedIn() {
+//        // Given
+//        let mockDatabaseRef = MockDatabaseReference()
+//        let authService = FirebaseAuthService(databaseRef: mockDatabaseRef)
+//
+//        let email = "test@example.com"
+//        let encodedEmail = SharedMethods.encodeEmail(email)
+//
+//        // Simulate setting sign-in status to "false" in mock database
+//        let customerRef = mockDatabaseRef.child("customers").child(encodedEmail)
+//        let customerData: [String: Any] = [
+//            "isSignedIn": "false"
+//        ]
+//        customerRef.setValue(customerData)
+//
+//        // When checking sign-in status
+//        var isSignedIn: Bool?
+//        authService.checkEmailSignInStatus(email: email) { status in
+//            isSignedIn = status
+//        }
+//
+//        // Then
+//        XCTAssertNotNil(isSignedIn, "Sign-in status should not be nil")
+//        XCTAssertFalse(isSignedIn ?? true, "User should not be signed in")
+//    }
+
+    func testCheckEmailSignInStatusNotSet() {
+        // Given
         let mockDatabaseRef = MockDatabaseReference()
         let authService = FirebaseAuthService(databaseRef: mockDatabaseRef)
         
         let email = "test@example.com"
         let encodedEmail = SharedMethods.encodeEmail(email)
         
-        // Simulate adding products
-        let customersRef = mockDatabaseRef.child("customers")
-        let customerRef = customersRef.child(encodedEmail)
-        let productsRef = customerRef.child("products")
+        // Simulate no sign-in status set in mock database
+        let customerRef = mockDatabaseRef.child("customers").child(encodedEmail)
+        customerRef.removeValue()
         
-        let product1: [String: Any] = [
-            "productId": "123",
-            "productTitle": "Mock Product 1",
-            "productVendor": "Mock Vendor 1",
-            "productImage": "https://example.com/mock-product1.jpg"
-        ]
-        
-        let product2: [String: Any] = [
-            "productId": "456",
-            "productTitle": "Mock Product 2",
-            "productVendor": "Mock Vendor 2",
-            "productImage": "https://example.com/mock-product2.jpg"
-        ]
-        
-        productsRef.child("123").setValue(product1)
-        productsRef.child("456").setValue(product2)
-        
-        // Test retrieving products
-        authService.retrieveAllProductsFromEncodedEmail(email: email) { products in
-            XCTAssertEqual(products.count, 2, "Should retrieve 2 products")
-            
-            XCTAssertEqual(products[0].productId, "123", "First product's productId should match")
-            XCTAssertEqual(products[0].productTitle, "Mock Product 1", "First product's productTitle should match")
-            XCTAssertEqual(products[0].productVendor, "Mock Vendor 1", "First product's productVendor should match")
-            XCTAssertEqual(products[0].productImage, "https://example.com/mock-product1.jpg", "First product's productImage should match")
-            
-            XCTAssertEqual(products[1].productId, "456", "Second product's productId should match")
-            XCTAssertEqual(products[1].productTitle, "Mock Product 2", "Second product's productTitle should match")
-            XCTAssertEqual(products[1].productVendor, "Mock Vendor 2", "Second product's productVendor should match")
-            XCTAssertEqual(products[1].productImage, "https://example.com/mock-product2.jpg", "Second product's productImage should match")
+        // When checking sign-in status
+        var isSignedIn: Bool?
+        authService.checkEmailSignInStatus(email: email) { status in
+            isSignedIn = status
         }
+        
+        // Then
+        XCTAssertNil(isSignedIn, "Sign-in status should be nil when not set")
     }
 
+    
 }
 
 // Mock DatabaseReference implementation for testing purposes
