@@ -16,6 +16,11 @@ class AllProductsViewController: UIViewController , UISearchBarDelegate{
     
     let viewModel = AllProductsViewModel()
  
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchUserFavorites()
+    }
+    
     override func viewDidLoad() {
             super.viewDidLoad()
             self.title = "All Products"
@@ -50,7 +55,8 @@ class AllProductsViewController: UIViewController , UISearchBarDelegate{
         @objc func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
             searchBar.resignFirstResponder()
         }
-        
+
+    
         
         // MARK: - Collection View Layout
         
@@ -135,8 +141,7 @@ class AllProductsViewController: UIViewController , UISearchBarDelegate{
 
 extension AllProductsViewController: ProductsCollectionViewCellDelegate{
 
-        
-        
+    
     func didTapFavoriteButton(index: Int) {
         guard index < viewModel.filteredProducts.count else { return }
         let productId = "\(viewModel.filteredProducts[index].id)"
@@ -151,21 +156,21 @@ extension AllProductsViewController: ProductsCollectionViewCellDelegate{
         }
     }
 
-        
-        
-        func productsCollectionViewCellDidToggleFavorite(at index: Int) {
-            guard index < viewModel.products.count else { return }
-            
-            viewModel.toggleFavorite(productId:  "\(viewModel.products[index].id)") { error in
-                if let error = error {
-                    print("Error toggling favorite status: \(error.localizedDescription)")
-                    // Handle error if needed
-                } else {
-                    // Update UI or perform any post-toggle actions
-                    DispatchQueue.main.async {
-                        self.collectionView.reloadData()
-                    }
-                }
-            }
-        }
+         
+         
+         func productsCollectionViewCellDidToggleFavorite(at index: Int) {
+             guard index < viewModel.filteredProducts.count else { return }
+             
+             viewModel.toggleFavorite(productId:  "\(viewModel.filteredProducts[index].id)") { error in
+                 if let error = error {
+                     print("Error toggling favorite status: \(error.localizedDescription)")
+                     // Handle error if needed
+                 } else {
+                     // Update UI or perform any post-toggle actions
+                     DispatchQueue.main.async {
+                         self.collectionView.reloadData()
+                     }
+                 }
+             }
+         }
     }

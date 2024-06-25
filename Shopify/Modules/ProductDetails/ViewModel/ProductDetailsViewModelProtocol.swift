@@ -9,7 +9,13 @@ import Foundation
 
 
 protocol ProductDetailsViewModelProtocol {
-
+    
+    func saveAddedToCartStateShoppingCart(_ added: Bool , productId:Int) 
+    func saveButtonTitleStateShoppingCart(addToCartUI:CustomButton , productId:Int)
+    func deleteProductFromShoppingCart(productId:Int)
+    var exchangeRates: [String: Double] {get set}
+    func inventoryQuantityLabel() -> String 
+    func fetchExchangeRates()
     var product: ProductResponseFromApi? {get set}
     var bindProductDetailsViewModelToController: (() -> ()) {get set}
     func getProductDetails()

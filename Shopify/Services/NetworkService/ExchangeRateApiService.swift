@@ -9,7 +9,7 @@ import Foundation
 class ExchangeRateApiService {
     private let apiKey = "b1b362324215ea59af2d3263"
     private let baseUrl = "https://v6.exchangerate-api.com/v6/"
-    
+   
     func getLatestRates(completion: @escaping (Result<ExchangeRatesResponse, Error>) -> Void) {
         let urlString = "\(baseUrl)\(apiKey)/latest/USD"
         
