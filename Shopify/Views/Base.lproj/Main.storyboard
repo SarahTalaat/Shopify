@@ -210,7 +210,7 @@
         <scene sceneID="dvJ-ga-xNe">
             <objects>
                 <viewController storyboardIdentifier="FavouriteVC" id="nv0-GH-gei" customClass="FavouriteVC" customModule="Shopify" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="gPN-so-u4R">
+                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="gPN-so-u4R">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>

@@ -77,8 +77,12 @@
 		B6186B0B2C299A5900AA6D15 /* MockDataSnapshotMockTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B0A2C299A5900AA6D15 /* MockDataSnapshotMockTest.swift */; };
 		B6186B0D2C299D3500AA6D15 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B0C2C299D3500AA6D15 /* MockUser.swift */; };
 		B6186B0F2C29FE7300AA6D15 /* FirebaseAuthServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B0E2C29FE7300AA6D15 /* FirebaseAuthServiceTest.swift */; };
-		B6186B112C2A55CB00AA6D15 /* MockAuthTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B102C2A55CB00AA6D15 /* MockAuthTest.swift */; };
+		B6186B112C2A55CB00AA6D15 /* MockAuthTestWorking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B102C2A55CB00AA6D15 /* MockAuthTestWorking.swift */; };
 		B6186B172C2AA4FA00AA6D15 /* FirebaseAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B162C2AA4FA00AA6D15 /* FirebaseAuthentication.swift */; };
+		B6186B1A2C2AC00100AA6D15 /* SignInVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B192C2AC00100AA6D15 /* SignInVM.swift */; };
+		B6186B1C2C2ADEAE00AA6D15 /* SignInVMTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B1B2C2ADEAE00AA6D15 /* SignInVMTest.swift */; };
+		B6186B1E2C2AE36100AA6D15 /* MockAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B1D2C2AE36100AA6D15 /* MockAuth.swift */; };
+		B6186B202C2AF05000AA6D15 /* MockAuthTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B1F2C2AF05000AA6D15 /* MockAuthTest.swift */; };
 		B6365B832C0A18BD00277D31 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6365B822C0A18BD00277D31 /* DatabaseManager.swift */; };
 		B6365B852C0A18CD00277D31 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6365B842C0A18CD00277D31 /* NetworkService.swift */; };
 		B6365B872C0A18DE00277D31 /* test24.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6365B862C0A18DE00277D31 /* test24.swift */; };
@@ -288,8 +292,12 @@
 		B6186B0A2C299A5900AA6D15 /* MockDataSnapshotMockTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataSnapshotMockTest.swift; sourceTree = "<group>"; };
 		B6186B0C2C299D3500AA6D15 /* MockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
 		B6186B0E2C29FE7300AA6D15 /* FirebaseAuthServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthServiceTest.swift; sourceTree = "<group>"; };
-		B6186B102C2A55CB00AA6D15 /* MockAuthTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthTest.swift; sourceTree = "<group>"; };
+		B6186B102C2A55CB00AA6D15 /* MockAuthTestWorking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthTestWorking.swift; sourceTree = "<group>"; };
 		B6186B162C2AA4FA00AA6D15 /* FirebaseAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthentication.swift; sourceTree = "<group>"; };
+		B6186B192C2AC00100AA6D15 /* SignInVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVM.swift; sourceTree = "<group>"; };
+		B6186B1B2C2ADEAE00AA6D15 /* SignInVMTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVMTest.swift; sourceTree = "<group>"; };
+		B6186B1D2C2AE36100AA6D15 /* MockAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuth.swift; sourceTree = "<group>"; };
+		B6186B1F2C2AF05000AA6D15 /* MockAuthTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthTest.swift; sourceTree = "<group>"; };
 		B6365B822C0A18BD00277D31 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		B6365B842C0A18CD00277D31 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		B6365B862C0A18DE00277D31 /* test24.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test24.swift; sourceTree = "<group>"; };
@@ -472,6 +480,8 @@
 			isa = PBXGroup;
 			children = (
 				B6186B012C298F0400AA6D15 /* SignInViewModelTest.swift */,
+				B6186B192C2AC00100AA6D15 /* SignInVM.swift */,
+				B6186B1B2C2ADEAE00AA6D15 /* SignInVMTest.swift */,
 			);
 			path = SignInViewModel;
 			sourceTree = "<group>";
@@ -485,10 +495,19 @@
 				B6186B0A2C299A5900AA6D15 /* MockDataSnapshotMockTest.swift */,
 				B6186B0C2C299D3500AA6D15 /* MockUser.swift */,
 				B6186B0E2C29FE7300AA6D15 /* FirebaseAuthServiceTest.swift */,
-				B6186B102C2A55CB00AA6D15 /* MockAuthTest.swift */,
+				B6186B102C2A55CB00AA6D15 /* MockAuthTestWorking.swift */,
 				B6186B162C2AA4FA00AA6D15 /* FirebaseAuthentication.swift */,
 			);
 			path = ServicesTest;
+			sourceTree = "<group>";
+		};
+		B6186B212C2AF7A000AA6D15 /* FirebaseClass */ = {
+			isa = PBXGroup;
+			children = (
+				B6186B1D2C2AE36100AA6D15 /* MockAuth.swift */,
+				B6186B1F2C2AF05000AA6D15 /* MockAuthTest.swift */,
+			);
+			path = FirebaseClass;
 			sourceTree = "<group>";
 		};
 		B6365B7B2C0A181200277D31 /* Modules */ = {
@@ -1075,6 +1094,7 @@
 		B69FA1832C09F050009D43B7 /* ShopifyTests */ = {
 			isa = PBXGroup;
 			children = (
+				B6186B212C2AF7A000AA6D15 /* FirebaseClass */,
 				B6186B032C298FBE00AA6D15 /* ServicesTest */,
 				B6186B002C298EA400AA6D15 /* SignInViewModel */,
 				B69FA1842C09F050009D43B7 /* ShopifyTests.swift */,
@@ -1550,12 +1570,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6186B072C29902C00AA6D15 /* NetworkServiceMockTest.swift in Sources */,
+				B6186B1A2C2AC00100AA6D15 /* SignInVM.swift in Sources */,
 				B6186B052C298FDF00AA6D15 /* AuthServiceMockTest.swift in Sources */,
 				B6186B092C2998DB00AA6D15 /* MockDatabaseReference.swift in Sources */,
 				B6186B022C298F0400AA6D15 /* SignInViewModelTest.swift in Sources */,
-				B6186B112C2A55CB00AA6D15 /* MockAuthTest.swift in Sources */,
+				B6186B112C2A55CB00AA6D15 /* MockAuthTestWorking.swift in Sources */,
 				B6186B0F2C29FE7300AA6D15 /* FirebaseAuthServiceTest.swift in Sources */,
+				B6186B202C2AF05000AA6D15 /* MockAuthTest.swift in Sources */,
 				B6186B172C2AA4FA00AA6D15 /* FirebaseAuthentication.swift in Sources */,
+				B6186B1C2C2ADEAE00AA6D15 /* SignInVMTest.swift in Sources */,
+				B6186B1E2C2AE36100AA6D15 /* MockAuth.swift in Sources */,
 				B69FA1852C09F050009D43B7 /* ShopifyTests.swift in Sources */,
 				B6186B0D2C299D3500AA6D15 /* MockUser.swift in Sources */,
 				B6186B0B2C299A5900AA6D15 /* MockDataSnapshotMockTest.swift in Sources */,
