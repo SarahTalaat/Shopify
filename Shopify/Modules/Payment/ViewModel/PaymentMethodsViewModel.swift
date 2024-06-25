@@ -32,11 +32,11 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     }
     
     func formatPriceWithCurrency(price: String) -> String {
-        guard let amount = Double(price) else { return "$0.00" }
+        guard let amount = Double(price) else { return "0.00" }
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.currencySymbol = "$"
-        return formatter.string(from: NSNumber(value: amount)) ?? "$0.00"
+        formatter.currencySymbol = ""
+        return formatter.string(from: NSNumber(value: amount)) ?? "0.00"
     }
 
     func updatePaymentSummaryItems(totalAmount: String) {
@@ -201,7 +201,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
                 return
             }
             
-            let urlString = "https://\(APIConfig.apiKey):\(APIConfig.password)@\(APIConfig.hostName)/admin/api/\(APIConfig.version)/customers/\(customerId)/addresses.json?limit"
+        let urlString = APIConfig.customers.urlForAddresses(customerId: customerId)
             
             networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { [weak self] (result: Result<AddressListResponse, Error>) in
                 guard let self = self else { return }

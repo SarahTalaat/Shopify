@@ -67,7 +67,7 @@ class SettingsViewModel: SettingsViewModelProtocol{
               return
           }
           
-          let urlString = "https://\(APIConfig.apiKey):\(APIConfig.password)@\(APIConfig.hostName)/admin/api/\(APIConfig.version)/customers/\(customerId)/addresses.json?limit"
+        let urlString = APIConfig.customers.urlForAddresses(customerId: customerId)
           networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { [weak self] (result: Result<AddressListResponse, Error>) in
               switch result {
               case .success(let response):

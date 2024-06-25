@@ -63,6 +63,9 @@ enum APIConfig {
     var url: String {
         return "https://\(APIConfig.apiKey):\(APIConfig.password)@\(APIConfig.hostName)/admin/api/\(APIConfig.version)/\(self.resource).json"
     }
+    func urlForAddresses(customerId: String) -> String {
+           return "https://\(APIConfig.apiKey):\(APIConfig.password)@\(APIConfig.hostName)/admin/api/\(APIConfig.version)/customers/\(customerId)/addresses.json?limit"
+       }
     
     var credentials: String {
         return "\(APIConfig.apiKey):\(APIConfig.password)"
