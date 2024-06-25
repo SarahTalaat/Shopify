@@ -85,6 +85,7 @@ class OrdersViewController: UIViewController {
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
           
             detailsModel.id = ordersViewModel.orders[indexPath.row].id ?? 0
+            print(ordersViewModel.orders[indexPath.row].id ?? 0)
             detailsModel.currency = ordersViewModel.orders[indexPath.row].currency
              let storyboard = UIStoryboard(name: "Second", bundle: nil)
              let orderDetailsViewController = storyboard.instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController

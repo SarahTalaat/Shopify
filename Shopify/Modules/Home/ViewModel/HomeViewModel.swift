@@ -10,8 +10,8 @@ import Reachability
 
 
 class HomeViewModel{
-    private let networkService = NetworkServiceAuthentication()
-    private var reachability: Reachability?
+     let networkService = NetworkServiceAuthentication()
+     var reachability: Reachability?
 
     var brands : [SmartCollection] = [] {
         didSet{
@@ -72,14 +72,7 @@ class HomeViewModel{
                 print("Not enough discount codes provided for all price rules.")
                 return
             }
-            
-            
-            
-            
-            
-            
-            
-
+       
             let discountCodeData = DiscountCode(price_rule_id: coupon.id, code: discountCodes[index])
             let urlString = APIConfig.endPoint("price_rules/\(coupon.id)/discount_codes").url
             networkService.requestFunction(urlString: urlString, method: .post, model: discountCodeData.toDictionary() ??  [:]) { (result: Result<DiscountCodeResponse, Error>) in
@@ -107,7 +100,7 @@ class HomeViewModel{
         }
     }
 
-    private func setupReachability() {
+     func setupReachability() {
            reachability = try? Reachability()
            reachability?.whenReachable = { reachability in
                self.networkStatusChanged?(reachability.connection == .wifi)

@@ -37,7 +37,7 @@ class OrderDetailsViewModel{
          }
      }
     
-    
+    private let networkService = NetworkServiceAuthentication()
     var bindOrders: (() -> ()) = {}
     var bindCurrency: (() -> ()) = {}
     var bindFilteredProducts: (() -> ()) = {}
@@ -47,19 +47,19 @@ class OrderDetailsViewModel{
     }
  
     func getOrderById(){
-        NetworkUtilities.fetchData(responseType: OrdersSend.self, endpoint: "orders/\(id).json"){ order in
-            self.orders = order?.order.line_items ?? []
-            
-        }
-        print(id)
-    }
-    
-    func getProducts() {
-        NetworkUtilities.fetchData(responseType: ProductResponse.self, endpoint: "products.json") { product in
-            self.products = product?.products ?? []
-        }
-    }
-    
+         NetworkUtilities.fetchData(responseType: OrdersSend.self, endpoint: "orders/\(id).json"){ order in
+             self.orders = order?.order.line_items ?? []
+             
+         }
+         print(id)
+     }
+     
+     func getProducts() {
+         NetworkUtilities.fetchData(responseType: ProductResponse.self, endpoint: "products.json") { product in
+             self.products = product?.products ?? []
+         }
+     }
+     
     func filterProductsByLineItems() {
         let lineItemTitles = orders.map { $0.title }
         filteredProducts = products.filter { product in

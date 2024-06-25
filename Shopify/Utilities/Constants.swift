@@ -46,6 +46,7 @@ enum APIConfig {
     case customers
     case endPoint(String)
     case smart_collections
+    case products
     
     var resource: String {
         switch self {
@@ -57,6 +58,8 @@ enum APIConfig {
             return "smart_collections"
         case .endPoint(let customResource):
             return customResource
+        case .products:
+            return "prodcuts"
             
         }
     }
@@ -67,6 +70,15 @@ enum APIConfig {
     
     var credentials: String {
         return "\(APIConfig.apiKey):\(APIConfig.password)"
+    }
+    
+    func endpointUrl() -> String {
+        switch self {
+        case .endPoint(let customResource):
+            return "https://\(APIConfig.apiKey):\(APIConfig.password)@\(APIConfig.hostName)/admin/api/\(APIConfig.version)/\(customResource).json"
+        default:
+            return "https://\(APIConfig.apiKey):\(APIConfig.password)@\(APIConfig.hostName)/admin/api/\(APIConfig.version)/\(self.resource).json"
+        }
     }
 }
 

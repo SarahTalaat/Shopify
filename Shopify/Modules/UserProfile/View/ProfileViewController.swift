@@ -50,9 +50,6 @@ class ProfileViewController: UIViewController {
         print("Profile: test name : \(userProfileViewModel.name)")
         print("Profile: test email : \(userProfileViewModel.email)")
 
-        
-        
-        
         func bindViewModel(){
             favouriteViewModel.bindProducts = { [weak self] in
                 DispatchQueue.main.async {
@@ -60,10 +57,6 @@ class ProfileViewController: UIViewController {
                 }
             }
         }
-        
-        
-
-        
         
         let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
 
@@ -108,9 +101,7 @@ class ProfileViewController: UIViewController {
                 self?.ordersLabel.text = "You have \(self?.viewModel.orders.count ?? 5) order"
             }
         }
-    
- 
-    
+        
     private func bindViewModel2() {
         userProfileViewModel.bindUserViewModelToController = { [weak self] in
             DispatchQueue.main.async {

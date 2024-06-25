@@ -22,11 +22,12 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     private var invoice: Invoice?
     private var invoiceResponse: InvoiceResponse?
     private var draftOrderId: Int?
-
+    
     var defCurrency: String = "EGP"
     var totalAmount: String?
     private var viewModel = ShoppingCartViewModel()
-    
+    private let networkService = NetworkServiceAuthentication()
+
     func selectPaymentMethod(_ method: PaymentMethod) {
         selectedPaymentMethod = method
     }
@@ -57,7 +58,6 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         request.countryCode = "EG"
         request.currencyCode = UserDefaults.standard.string(forKey: "Currency") == "EGP" ? "EGP" : "USD"
         
-        // Ensure the totalAmount is valid and can be converted to a valid NSDecimalNumber
         if let total = totalAmount, let amount = NSDecimalNumber(string: total) as NSDecimalNumber?, amount != NSDecimalNumber.notANumber {
             request.paymentSummaryItems = [PKPaymentSummaryItem(label: "Total Order", amount: amount)]
         } else {
@@ -75,7 +75,6 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
         completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
     }
-    
     
     func setupOrder(lineItem: [LineItem]) {
         if let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") {
@@ -138,18 +137,9 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             completion(false)
             return
         }
-        
-        NetworkUtilities.postData(data: ordersSend, endpoint: "orders.json") { success in
-            if success {
-                print("Order posted successfully!")
-                completion(true)
-            } else {
-                print("Failed to post order.")
-                completion(false)
-            }
-        }
     }
 
+    
     func setupInvoice() {
         guard let email = SharedDataRepository.instance.customerEmail else {
             print("Customer email is nil")
@@ -180,27 +170,39 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     }
     
     func postInvoice(draftOrderId: String) {
-        NetworkUtilities.postData(data: invoiceResponse, endpoint: "draft_orders/\(draftOrderId)/send_invoice.json") { success in
-            if success {
-                print("Invoice posted successfully!")
-            } else {
-                print("Invoice failed to post.")
-            }
-        }
-    }
+           guard let invoiceResponse = invoiceResponse else {
+               print("Invoice is not set up correctly")
+               return
+           }
+           
+           guard let invoiceResponseDict = try? invoiceResponse.asDictionary() else {
+               print("Failed to convert invoiceResponse to dictionary")
+               return
+           }
+           
+           let urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)/send_invoice").url
+           networkService.requestFunction(urlString: urlString, method: .post, model: invoiceResponseDict) { (result: Result<InvoiceResponse, Error>) in
+               switch result {
+               case .success:
+                   print("Invoice posted successfully!")
+               case .failure(let error):
+                   print("Failed to post invoice: \(error.localizedDescription)")
+               }
+           }
+       }
+       
     
     func getDraftOrderID(email: String, completion: @escaping (String?) -> Void) {
         FirebaseAuthService().getShoppingCartId(email: email) { shoppingCartId, error in
             if let error = error {
-                print("kkk *Failed* to retrieve shopping cart ID: \(error.localizedDescription)")
+                print("Failed to retrieve shopping cart ID: \(error.localizedDescription)")
                 completion(nil)
             } else if let shoppingCartId = shoppingCartId {
-                print("kkk *PD* Shopping cart ID found: \(shoppingCartId)")
+                print("Shopping cart ID found: \(shoppingCartId)")
                 SharedDataRepository.instance.draftOrderId = shoppingCartId
-                print("kkk *PD* Singleton draft id: \(SharedDataRepository.instance.draftOrderId)")
                 completion(shoppingCartId)
             } else {
-                print("kkk *PD* No shopping cart ID found for this user.")
+                print("No shopping cart ID found for this user.")
                 completion(nil)
             }
         }
@@ -224,5 +226,15 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             self.setupInvoice()
             self.postInvoice(draftOrderId: draftOrderId)
         }
+    }
+}
+
+extension Encodable {
+    func asDictionary() throws -> [String: Any] {
+        let data = try JSONEncoder().encode(self)
+        guard let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+            throw NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to convert to dictionary"])
+        }
+        return dictionary
     }
 }

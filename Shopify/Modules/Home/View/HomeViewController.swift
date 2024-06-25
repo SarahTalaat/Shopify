@@ -37,7 +37,7 @@ class HomeViewController: UIViewController {
         let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
         let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchBtn))
         
-        navigationItem.rightBarButtonItems = [firstButton, secondButton]
+        navigationItem.rightBarButtonItems = [ secondButton,firstButton]
         navigationItem.leftBarButtonItems = [searchButton]
         
         viewModel.bindBrandsData = {

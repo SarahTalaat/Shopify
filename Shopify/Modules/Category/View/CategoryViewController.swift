@@ -121,8 +121,7 @@ class CategoryViewController: UIViewController, UISearchBarDelegate {
               let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
               let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
        
-              navigationItem.rightBarButtonItems = [firstButton]
-              navigationItem.leftBarButtonItem = secondButton
+              navigationItem.rightBarButtonItems = [secondButton,firstButton]
      }
       // MARK: - FAB Button Design
       @IBAction func didClickMoreButton(_ sender: UIButton) {
