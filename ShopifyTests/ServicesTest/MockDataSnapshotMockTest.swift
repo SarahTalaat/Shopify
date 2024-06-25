@@ -1,10 +1,10 @@
+//////
+//////  MockDataSnapshotMockTest.swift
+//////  ShopifyTests
+//////
+//////  Created by Sara Talat on 24/06/2024.
+//////
 ////
-////  MockDataSnapshotMockTest.swift
-////  ShopifyTests
-////
-////  Created by Sara Talat on 24/06/2024.
-////
-//
 //import Foundation
 //import FirebaseDatabase
 //import XCTest
@@ -27,6 +27,6 @@
 //        return MockDataSnapshot(mockData: childData)
 //    }
 //}
-//
-//
-//
+////
+////
+////

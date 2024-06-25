@@ -77,6 +77,7 @@
 		B6186B0B2C299A5900AA6D15 /* MockDataSnapshotMockTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B0A2C299A5900AA6D15 /* MockDataSnapshotMockTest.swift */; };
 		B6186B0D2C299D3500AA6D15 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B0C2C299D3500AA6D15 /* MockUser.swift */; };
 		B6186B0F2C29FE7300AA6D15 /* FirebaseAuthServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B0E2C29FE7300AA6D15 /* FirebaseAuthServiceTest.swift */; };
+		B6186B112C2A55CB00AA6D15 /* MockAuthTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6186B102C2A55CB00AA6D15 /* MockAuthTest.swift */; };
 		B6365B832C0A18BD00277D31 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6365B822C0A18BD00277D31 /* DatabaseManager.swift */; };
 		B6365B852C0A18CD00277D31 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6365B842C0A18CD00277D31 /* NetworkService.swift */; };
 		B6365B872C0A18DE00277D31 /* test24.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6365B862C0A18DE00277D31 /* test24.swift */; };
@@ -286,6 +287,7 @@
 		B6186B0A2C299A5900AA6D15 /* MockDataSnapshotMockTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataSnapshotMockTest.swift; sourceTree = "<group>"; };
 		B6186B0C2C299D3500AA6D15 /* MockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
 		B6186B0E2C29FE7300AA6D15 /* FirebaseAuthServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthServiceTest.swift; sourceTree = "<group>"; };
+		B6186B102C2A55CB00AA6D15 /* MockAuthTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthTest.swift; sourceTree = "<group>"; };
 		B6365B822C0A18BD00277D31 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		B6365B842C0A18CD00277D31 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		B6365B862C0A18DE00277D31 /* test24.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test24.swift; sourceTree = "<group>"; };
@@ -481,6 +483,7 @@
 				B6186B0A2C299A5900AA6D15 /* MockDataSnapshotMockTest.swift */,
 				B6186B0C2C299D3500AA6D15 /* MockUser.swift */,
 				B6186B0E2C29FE7300AA6D15 /* FirebaseAuthServiceTest.swift */,
+				B6186B102C2A55CB00AA6D15 /* MockAuthTest.swift */,
 			);
 			path = ServicesTest;
 			sourceTree = "<group>";
@@ -1547,6 +1550,7 @@
 				B6186B052C298FDF00AA6D15 /* AuthServiceMockTest.swift in Sources */,
 				B6186B092C2998DB00AA6D15 /* MockDatabaseReference.swift in Sources */,
 				B6186B022C298F0400AA6D15 /* SignInViewModelTest.swift in Sources */,
+				B6186B112C2A55CB00AA6D15 /* MockAuthTest.swift in Sources */,
 				B6186B0F2C29FE7300AA6D15 /* FirebaseAuthServiceTest.swift in Sources */,
 				B69FA1852C09F050009D43B7 /* ShopifyTests.swift in Sources */,
 				B6186B0D2C299D3500AA6D15 /* MockUser.swift in Sources */,
