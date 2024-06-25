@@ -31,6 +31,7 @@ class FirebaseAuthServiceTests: XCTestCase {
         mockDatabaseRef = nil
         try super.tearDownWithError()
     }
+    
     func testSaveCustomerId() {
         // Given
         let name = "John Doe"
@@ -97,6 +98,139 @@ class FirebaseAuthServiceTests: XCTestCase {
             }
         }
     }
+    func testAddProductToEncodedEmail() {
+        let mockDatabaseRef = MockDatabaseReference()
+        let authService = FirebaseAuthService(databaseRef: mockDatabaseRef)
+        
+        let email = "test@example.com"
+        let productId = "123"
+        let productTitle = "Mock Product"
+        let productVendor = "Mock Vendor"
+        let productImage = "https://example.com/mock-product.jpg"
+        
+        authService.addProductToEncodedEmail(
+            email: email,
+            productId: productId,
+            productTitle: productTitle,
+            productVendor: productVendor,
+            productImage: productImage
+        )
+        
+        // Verify if product was added correctly
+        let expectedEncodedEmail = SharedMethods.encodeEmail(email)
+        let customersRef = mockDatabaseRef.child("customers")
+        let customerRef = customersRef.child(expectedEncodedEmail)
+        let productsRef = customerRef.child("products").child(productId)
+        
+        productsRef.observeSingleEvent(of: .value) { snapshot in
+            XCTAssertTrue(snapshot.exists(), "Product should exist in database")
+            
+            if let productData = snapshot.value as? [String: Any] {
+                XCTAssertEqual(productData["productId"] as? String, productId, "productId should match")
+                XCTAssertEqual(productData["productTitle"] as? String, productTitle, "productTitle should match")
+                XCTAssertEqual(productData["productVendor"] as? String, productVendor, "productVendor should match")
+                XCTAssertEqual(productData["productImage"] as? String, productImage, "productImage should match")
+            } else {
+                XCTFail("Product data format is incorrect or missing")
+            }
+        }
+    }
+
+    func testFetchCustomerId() {
+        let encodedEmail = "encodedEmail123"
+        let customerId = "mockCustomerId"
+
+        // Simulate setting up the customerId in mock database
+        let customersRef = mockDatabaseRef.child("customers")
+        let customerRef = customersRef.child(encodedEmail)
+        customerRef.child("customerId").setValue(customerId)
+
+        // Variable to store the fetched customerId
+        var fetchedCustomerId: String?
+
+        // Mock implementation of fetchCustomerId
+        authService.fetchCustomerId(encodedEmail: encodedEmail) { result in
+            fetchedCustomerId = result
+        }
+
+        // Assert the fetched customerId immediately after the completion block is executed
+        XCTAssertEqual(fetchedCustomerId, customerId, "Fetched customerId should match")
+    }
+
+    func testDeleteProductFromEncodedEmail() {
+        let mockDatabaseRef = MockDatabaseReference()
+        let authService = FirebaseAuthService(databaseRef: mockDatabaseRef)
+        
+        let encodedEmail = "test@example.com"
+        let productId = "123"
+        
+        // Simulate adding product first
+        let customersRef = mockDatabaseRef.child("customers")
+        let customerRef = customersRef.child(encodedEmail)
+        let productsRef = customerRef.child("products").child(productId)
+        
+        let productData: [String: Any] = [
+            "productId": productId,
+            "productTitle": "Mock Product",
+            "productVendor": "Mock Vendor",
+            "productImage": "https://example.com/mock-product.jpg"
+        ]
+        
+        productsRef.setValue(productData)
+        
+        // Now, delete the product
+        authService.deleteProductFromEncodedEmail(encodedEmail: encodedEmail, productId: productId)
+        
+        // Verify if product was deleted
+        productsRef.observeSingleEvent(of: .value) { snapshot in
+            XCTAssertFalse(snapshot.exists(), "Product should no longer exist in database after deletion")
+        }
+    }
+
+    func testRetrieveAllProductsFromEncodedEmail() {
+        let mockDatabaseRef = MockDatabaseReference()
+        let authService = FirebaseAuthService(databaseRef: mockDatabaseRef)
+        
+        let email = "test@example.com"
+        let encodedEmail = SharedMethods.encodeEmail(email)
+        
+        // Simulate adding products
+        let customersRef = mockDatabaseRef.child("customers")
+        let customerRef = customersRef.child(encodedEmail)
+        let productsRef = customerRef.child("products")
+        
+        let product1: [String: Any] = [
+            "productId": "123",
+            "productTitle": "Mock Product 1",
+            "productVendor": "Mock Vendor 1",
+            "productImage": "https://example.com/mock-product1.jpg"
+        ]
+        
+        let product2: [String: Any] = [
+            "productId": "456",
+            "productTitle": "Mock Product 2",
+            "productVendor": "Mock Vendor 2",
+            "productImage": "https://example.com/mock-product2.jpg"
+        ]
+        
+        productsRef.child("123").setValue(product1)
+        productsRef.child("456").setValue(product2)
+        
+        // Test retrieving products
+        authService.retrieveAllProductsFromEncodedEmail(email: email) { products in
+            XCTAssertEqual(products.count, 2, "Should retrieve 2 products")
+            
+            XCTAssertEqual(products[0].productId, "123", "First product's productId should match")
+            XCTAssertEqual(products[0].productTitle, "Mock Product 1", "First product's productTitle should match")
+            XCTAssertEqual(products[0].productVendor, "Mock Vendor 1", "First product's productVendor should match")
+            XCTAssertEqual(products[0].productImage, "https://example.com/mock-product1.jpg", "First product's productImage should match")
+            
+            XCTAssertEqual(products[1].productId, "456", "Second product's productId should match")
+            XCTAssertEqual(products[1].productTitle, "Mock Product 2", "Second product's productTitle should match")
+            XCTAssertEqual(products[1].productVendor, "Mock Vendor 2", "Second product's productVendor should match")
+            XCTAssertEqual(products[1].productImage, "https://example.com/mock-product2.jpg", "Second product's productImage should match")
+        }
+    }
 
 }
 
@@ -126,6 +260,11 @@ class MockDatabaseReference: DatabaseReference {
         block(nil, self)
     }
     
+    override func removeValue(completionBlock: @escaping (Error?, DatabaseReference) -> Void) {
+        self.value = nil
+        completionBlock(nil, self)
+    }
+    
     override func observeSingleEvent(of eventType: DataEventType, with block: @escaping (DataSnapshot) -> Void) {
         let snapshot = MockDataSnapshot(value: value)
         block(snapshot)
@@ -133,6 +272,7 @@ class MockDatabaseReference: DatabaseReference {
     
     // Add more methods as needed for mocking Firebase operations
 }
+
 
 // Mock DataSnapshot implementation for testing purposes
 class MockDataSnapshot: DataSnapshot {
@@ -159,5 +299,5 @@ class MockDataSnapshot: DataSnapshot {
         }
     }
     
-   
+    // Add more methods as needed
 }
