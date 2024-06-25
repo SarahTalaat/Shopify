@@ -186,66 +186,81 @@ class FirebaseAuthServiceTests: XCTestCase {
             XCTAssertFalse(snapshot.exists(), "Product should no longer exist in database after deletion")
         }
     }
-//
-//    func testRetrieveAllProductsFromEncodedEmail() {
-//        // Given
-//        let mockDatabaseRef = MockDatabaseReference()
-//        let authService = FirebaseAuthService(databaseRef: mockDatabaseRef)
-//
-//        let email = "test@example.com"
-//        let encodedEmail = SharedMethods.encodeEmail(email)
-//
-//        // Simulate adding products to the mock database
-//        let customersRef = mockDatabaseRef.child("customers")
-//        let customerRef = customersRef.child(encodedEmail)
-//        let productsRef = customerRef.child("products")
-//
-//        let product1: [String: Any] = [
-//            "productId": "123",
-//            "productTitle": "Mock Product 1",
-//            "productVendor": "Mock Vendor 1",
-//            "productImage": "https://example.com/mock-product1.jpg"
-//        ]
-//
-//        let product2: [String: Any] = [
-//            "productId": "456",
-//            "productTitle": "Mock Product 2",
-//            "productVendor": "Mock Vendor 2",
-//            "productImage": "https://example.com/mock-product2.jpg"
-//        ]
-//
-//        // Set up products in mock database
-//        productsRef.child("123").setValue(product1)
-//        productsRef.child("456").setValue(product2)
-//
-//        // When
-//        var retrievedProducts: [ProductFromFirebase]?
-//        authService.retrieveAllProductsFromEncodedEmail(email: email) { products in
-//            retrievedProducts = products
-//            print("xxx retrieved products \(retrievedProducts)")
-//            print("xxx products \(products)")
-//        }
-//
-//        // Then
-//        XCTAssertNotNil(retrievedProducts, "Products should not be nil")
-//        XCTAssertEqual(retrievedProducts?.count, 2, "Should retrieve 2 products")
-//
-//        print("xxx retrievedProducts count \(retrievedProducts?.count)")
-//
-//        if let products = retrievedProducts {
-//            // Assert details of the first product
-//            XCTAssertEqual(products[0].productId, "123", "First product's productId should match")
-//            XCTAssertEqual(products[0].productTitle, "Mock Product 1", "First product's productTitle should match")
-//            XCTAssertEqual(products[0].productVendor, "Mock Vendor 1", "First product's productVendor should match")
-//            XCTAssertEqual(products[0].productImage, "https://example.com/mock-product1.jpg", "First product's productImage should match")
-//
-//            // Assert details of the second product
-//            XCTAssertEqual(products[1].productId, "456", "Second product's productId should match")
-//            XCTAssertEqual(products[1].productTitle, "Mock Product 2", "Second product's productTitle should match")
-//            XCTAssertEqual(products[1].productVendor, "Mock Vendor 2", "Second product's productVendor should match")
-//            XCTAssertEqual(products[1].productImage, "https://example.com/mock-product2.jpg", "Second product's productImage should match")
-//        }
-//    }
+
+    func testRetrieveAllProductsFromEncodedEmail() {
+        // Given
+        let mockDatabaseRef = MockDatabaseReference()
+        let authService = FirebaseAuthService(databaseRef: mockDatabaseRef)
+
+        let email = "test@example.com"
+        let encodedEmail = SharedMethods.encodeEmail(email)
+
+        // Simulate adding products to the mock database
+        let customersRef = mockDatabaseRef.child("customers")
+        let customerRef = customersRef.child(encodedEmail)
+        let productsRef = customerRef.child("products")
+
+        let product1: [String: Any] = [
+            "productId": "123",
+            "productTitle": "Mock Product 1",
+            "productVendor": "Mock Vendor 1",
+            "productImage": "https://example.com/mock-product1.jpg"
+        ]
+
+        let product2: [String: Any] = [
+            "productId": "456",
+            "productTitle": "Mock Product 2",
+            "productVendor": "Mock Vendor 2",
+            "productImage": "https://example.com/mock-product2.jpg"
+        ]
+
+        // Set up products in mock database
+        productsRef.child("123").setValue(product1) { error, _ in
+            XCTAssertNil(error, "Error should be nil when setting product 1")
+        }
+        productsRef.child("456").setValue(product2) { error, _ in
+            XCTAssertNil(error, "Error should be nil when setting product 2")
+        }
+
+        // When
+        var retrievedProducts: [ProductFromFirebase]?
+
+        authService.retrieveAllProductsFromEncodedEmail(email: email) { products in
+            retrievedProducts = products
+            print("xxx retrieved products \(retrievedProducts)")
+            print("xxx products \(products)")
+        }
+
+        // Ensure the retrieval has time to complete
+        RunLoop.main.run(until: Date(timeIntervalSinceNow: 1))
+
+        // Then
+        XCTAssertNotNil(retrievedProducts, "Products should not be nil")
+        XCTAssertEqual(retrievedProducts?.count, 2, "Should retrieve 2 products")
+
+        if let products = retrievedProducts {
+            XCTAssertGreaterThanOrEqual(products.count, 2, "Products array should have at least 2 products")
+
+            if products.count >= 2 {
+                // Assert details of the first product
+                XCTAssertEqual(products[0].productId, "123", "First product's productId should match")
+                XCTAssertEqual(products[0].productTitle, "Mock Product 1", "First product's productTitle should match")
+                XCTAssertEqual(products[0].productVendor, "Mock Vendor 1", "First product's productVendor should match")
+                XCTAssertEqual(products[0].productImage, "https://example.com/mock-product1.jpg", "First product's productImage should match")
+
+                // Assert details of the second product
+                XCTAssertEqual(products[1].productId, "456", "Second product's productId should match")
+                XCTAssertEqual(products[1].productTitle, "Mock Product 2", "Second product's productTitle should match")
+                XCTAssertEqual(products[1].productVendor, "Mock Vendor 2", "Second product's productVendor should match")
+                XCTAssertEqual(products[1].productImage, "https://example.com/mock-product2.jpg", "Second product's productImage should match")
+            } else {
+                XCTFail("Products array does not have at least 2 elements")
+            }
+        } else {
+            XCTFail("Retrieved products is nil")
+        }
+    }
+
 
 
     func testToggleFavorite() {
@@ -354,13 +369,13 @@ class FirebaseAuthServiceTests: XCTestCase {
 //        productsRef.child("123").setValue(product1)
 //        productsRef.child("456").setValue(product2)
 //
-//        // When fetching favorites
+//        // When fetching favorites synchronously
 //        var fetchedFavorites: [String: Bool]?
 //        authService.fetchFavorites(email: email) { favorites in
 //            fetchedFavorites = favorites
 //        }
 //
-//        // Then
+//        // Immediately check the fetched favorites
 //        XCTAssertNotNil(fetchedFavorites, "Favorites should not be nil")
 //        XCTAssertEqual(fetchedFavorites?.count, 2, "Should retrieve 2 favorites")
 //
@@ -369,6 +384,7 @@ class FirebaseAuthServiceTests: XCTestCase {
 //            XCTAssertTrue(favorites.keys.contains("456"), "Product 456 should be in favorites")
 //        }
 //    }
+
 
 //    func testCheckProductExists() {
 //        // Given
@@ -497,67 +513,222 @@ class FirebaseAuthServiceTests: XCTestCase {
         // Then
         XCTAssertNil(isSignedIn, "Sign-in status should be nil when not set")
     }
+ 
+//    func testFetchCustomerDataFromRealTimeDatabase() {
+//        // Given
+//        let authService = FirebaseAuthService()
+//        let mockDatabaseRef = MockDatabaseReference()
+//        authService.databaseRef = mockDatabaseRef
+//
+//        let email = "test@example.com"
+//
+//        // When
+//        var fetchedCustomer: CustomerData?
+//        authService.fetchCustomerDataFromRealTimeDatabase(forEmail: email) { customer in
+//            fetchedCustomer = customer
+//        }
+//
+//        // Then
+//        XCTAssertNotNil(fetchedCustomer, "Customer data should not be nil")
+//
+//        // Additional assertions if needed to validate customer data
+//    }
+//
+
+    func testSetShoppingCartId() {
+        // Given
+        let authService = FirebaseAuthService()
+        let mockDatabaseRef = MockDatabaseReference()
+        authService.databaseRef = mockDatabaseRef
+        
+        let email = "test@example.com"
+        let shoppingCartId = "cart123"
+        
+        // When
+        var error: Error?
+        authService.setShoppingCartId(email: email, shoppingCartId: shoppingCartId) { err in
+            error = err
+        }
+        
+        // Then
+        XCTAssertNil(error, "Error should be nil")
+        
+        // Validate the value in mockDatabaseRef if necessary
+        // For example, you can assert the shoppingCartId set in mockDatabaseRef here
+    }
+    
+//    func testGetShoppingCartId() {
+//        // Given
+//        let authService = FirebaseAuthService()
+//        let mockDatabaseRef = MockDatabaseReference()
+//        authService.databaseRef = mockDatabaseRef
+//        
+//        let email = "test@example.com"
+//        
+//        // When
+//        var fetchedCartId: String?
+//        var error: Error?
+//        authService.getShoppingCartId(email: email) { cartId, err in
+//            fetchedCartId = cartId
+//            error = err
+//        }
+//        
+//        // Then
+//        XCTAssertNotNil(fetchedCartId, "Shopping cart ID should not be nil")
+//        XCTAssertNil(error, "Error should be nil")
+//        
+//        // Additional assertions if needed to validate fetchedCartId
+//    }
+
+
 
     
 }
 
-// Mock DatabaseReference implementation for testing purposes
-class MockDatabaseReference: DatabaseReference {
+
+class AuthServiceTests: XCTestCase {
     
-    private var childRefs: [String: MockDatabaseReference]
-    private var value: Any?
+    var authService: FirebaseAuthService!
+    var mockDatabaseRef: MockDatabaseReference!
     
-    override init() {
-        childRefs = [:]
-        value = nil
+    override func setUp() {
+        super.setUp()
+        // Initialize AuthService and mock dependencies before each test
+        authService = FirebaseAuthService()
+        mockDatabaseRef = MockDatabaseReference()
+        authService.databaseRef = mockDatabaseRef
     }
     
+    override func tearDown() {
+        // Clean up any resources after each test if needed
+        authService = nil
+        mockDatabaseRef = nil
+        super.tearDown()
+    }
+    
+    // Example test case for updateSignInStatus
+    func testUpdateSignInStatus() {
+        // Given
+        let email = "test@example.com"
+        let isSignedIn = "true"
+        
+        // When
+        var success = false
+        authService.updateSignInStatus(email: email, isSignedIn: isSignedIn) { updated in
+            success = updated
+        }
+        
+        // Then
+        XCTAssertTrue(success, "Update should succeed")
+        // Additional assertions if needed
+    }
+//    func testIsEmailTaken() {
+//        // Given
+//        let authService = FirebaseAuthService()
+//        let mockDatabaseRef = MockDatabaseReference()
+//        authService.databaseRef = mockDatabaseRef
+//
+//        let email = "test@example.com"
+//
+//        // When
+//        var isTaken = false
+//        authService.isEmailTaken(email: email) { taken in
+//            print("take? : \(taken)")
+//            isTaken = taken
+//        }
+//
+//        // Then
+//        XCTAssertTrue(isTaken, "Email should be taken")
+//    }
+
+    
+    // Add more test cases for other AuthService methods as needed
+    
+}
+class MockDatabaseReference: DatabaseReference {
+    private var childRefs: [String: MockDatabaseReference] = [:]
+    private var value: Any?
+    private var path: String
+
+    override init() {
+        self.path = ""
+        super.init()
+    }
+
+    private init(path: String) {
+        self.path = path
+        super.init()
+    }
+
     override func child(_ path: String) -> DatabaseReference {
         if let existingRef = childRefs[path] {
             return existingRef
         } else {
-            let newRef = MockDatabaseReference()
+            let newRef = MockDatabaseReference(path: "\(self.path)/\(path)")
             childRefs[path] = newRef
             return newRef
         }
     }
-    
+
     override func setValue(_ value: Any?, withCompletionBlock block: @escaping (Error?, DatabaseReference) -> Void) {
+        print("Setting value at path: \(self.path), value: \(String(describing: value))")
         self.value = value
         block(nil, self)
     }
-    
-    override func removeValue(completionBlock: @escaping (Error?, DatabaseReference) -> Void) {
-        self.value = nil
-        completionBlock(nil, self)
+
+    override func updateChildValues(_ values: [AnyHashable: Any], withCompletionBlock block: @escaping (Error?, DatabaseReference) -> Void) {
+        if var valueDict = self.value as? [String: Any] {
+            for (key, value) in values {
+                valueDict[key as! String] = value
+            }
+            self.value = valueDict
+        } else {
+            self.value = values
+        }
+        block(nil, self)
     }
-    
+
     override func observeSingleEvent(of eventType: DataEventType, with block: @escaping (DataSnapshot) -> Void) {
-        let snapshot = MockDataSnapshot(value: value)
+        print("Observing value at path: \(self.path), value: \(String(describing: value))")
+        let snapshot = MockDataSnapshot(value: collectValues())
         block(snapshot)
     }
-    
-    // Add more methods as needed for mocking Firebase operations
-}
 
+    override func removeValue(completionBlock: ((Error?, DatabaseReference) -> Void)? = nil) {
+        self.value = nil
+        completionBlock?(nil, self)
+    }
+
+    private func collectValues() -> Any? {
+        var collectedValues: [String: Any] = [:]
+
+        for (key, childRef) in childRefs {
+            if let childValue = childRef.collectValues() {
+                collectedValues[key] = childValue
+            }
+        }
+
+        return collectedValues.isEmpty ? value : collectedValues
+    }
+}
 
 // Mock DataSnapshot implementation for testing purposes
 class MockDataSnapshot: DataSnapshot {
-    
     private let mockValue: Any?
-    
+
     init(value: Any?) {
         self.mockValue = value
+        super.init()
     }
-    
+
     override func exists() -> Bool {
         return mockValue != nil
     }
-    
+
     override var value: Any? {
         return mockValue
     }
-    
+
     override func childSnapshot(forPath path: String) -> DataSnapshot {
         if let valueDict = mockValue as? [String: Any], let childValue = valueDict[path] {
             return MockDataSnapshot(value: childValue)
@@ -565,6 +736,4 @@ class MockDataSnapshot: DataSnapshot {
             return MockDataSnapshot(value: nil)
         }
     }
-    
-    // Add more methods as needed
 }

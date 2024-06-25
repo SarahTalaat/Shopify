@@ -212,47 +212,47 @@
 ////    func fetchCustomerDataFromRealTimeDatabase(forEmail email: String, completion: @escaping (CustomerData?) -> Void) {
 ////        <#code#>
 ////    }
-////    
+////
 ////    func isEmailTaken(email: String, completion: @escaping (Bool) -> Void) {
 ////        <#code#>
 ////    }
-////    
+////
 ////    func deleteProductFromEncodedEmail(encodedEmail: String, productId: String) {
 ////        <#code#>
 ////    }
-////    
+////
 ////    func retrieveAllProductsFromEncodedEmail(email: String, completion: @escaping ([ProductFromFirebase]) -> Void) {
 ////        <#code#>
 ////    }
-////    
+////
 ////    func checkProductExists(email: String, productId: String, completion: @escaping (Bool, Error?) -> Void) {
 ////        <#code#>
 ////    }
-////    
+////
 ////    func checkEmailSignInStatus(email: String, completion: @escaping (Bool?) -> Void) {
 ////        <#code#>
 ////    }
-////    
+////
 ////    func updateSignInStatus(email: String, isSignedIn: String, completion: @escaping (Bool) -> Void) {
 ////        <#code#>
 ////    }
-////    
+////
 ////    func toggleFavorite(email: String, productId: String, productTitle: String, productVendor: String, productImage: String, isFavorite: Bool, completion: @escaping (Error?) -> Void) {
 ////        <#code#>
 ////    }
-////    
+////
 ////    func setShoppingCartId(email: String, shoppingCartId: String, completion: @escaping (Error?) -> Void) {
 ////        <#code#>
 ////    }
-////    
+////
 ////    func getShoppingCartId(email: String, completion: @escaping (String?, Error?) -> Void) {
 ////        <#code#>
 ////    }
-////    
+////
 ////    func fetchCustomerId(encodedEmail: String, completion: @escaping (String?) -> Void) {
 ////        <#code#>
 ////    }
-////    
+////
 ////    func fetchFavorites(email: String, completion: @escaping ([String : Bool]) -> Void) {
 ////        <#code#>
 ////    }

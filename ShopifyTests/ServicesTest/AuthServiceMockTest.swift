@@ -56,44 +56,44 @@
 ////
 ////        // Assert: Verify the result
 ////        // Verify that the customer data was correctly saved in the mock database reference
-////        XCTAssertEqual(mockDatabaseReference.data["customers/test@example.com/customerId"], customerId)
-////        XCTAssertEqual(mockDatabaseReference.data["customers/test@example.com/favouriteId"], favouriteId)
-////        XCTAssertEqual(mockDatabaseReference.data["customers/test@example.com/shoppingCartId"], shoppingCartId)
-////        XCTAssertEqual(mockDatabaseReference.data["products/productId/productTitle"], productTitle)
-////        XCTAssertEqual(mockDatabaseReference.data["products/productId/productVendor"], productVendor)
-////        XCTAssertEqual(mockDatabaseReference.data["products/productId/productImage"], productImage)
+////        XCTAssertEqual(mockDatabaseReference.data["customers/test@example.com/customerId"] as! String, customerId)
+////        XCTAssertEqual(mockDatabaseReference.data["customers/test@example.com/favouriteId"] as! String, favouriteId)
+////        XCTAssertEqual(mockDatabaseReference.data["customers/test@example.com/shoppingCartId"] as! String, shoppingCartId)
+////        XCTAssertEqual(mockDatabaseReference.data["products/productId/productTitle"] as! String, productTitle)
+////        XCTAssertEqual(mockDatabaseReference.data["products/productId/productVendor"] as! String, productVendor)
+////        XCTAssertEqual(mockDatabaseReference.data["products/productId/productImage"] as! String, productImage)
 ////        XCTAssertEqual(mockDatabaseReference.data["customers/test@example.com/isSignedIn"], isSignedIn)
 ////        // Adjust these keys and values based on how your mockDatabaseReference structures data.
 ////    }
 //
 //
-//    func testAddProductToEncodedEmail_Success() {
-//        // Arrange: Set up initial conditions
-//        let email = "test_at_example,com"
-//        let productId = "productId"
-//        let productTitle = "Product"
-//        let productVendor = "Vendor"
-//        let productImage = "Image"
-//
-//        // Expected data structure
-//        let expectedData: [String: Any] = [
-//            "customers/\(email)/products/\(productId)/productTitle": productTitle,
-//            "customers/\(email)/products/\(productId)/productVendor": productVendor,
-//            "customers/\(email)/products/\(productId)/productImage": productImage
-//        ]
-//
-//        // Act: Call the method under test
-//        firebaseAuthService.addProductToEncodedEmail(email: email, productId: productId, productTitle: productTitle, productVendor: productVendor, productImage: productImage)
-//
-//        // Assert: Verify the result
-//        for (key, expectedValue) in expectedData {
-//            if let value = value(forKeyPath: key, in: mockDatabaseReference.data) as? String {
-//                XCTAssertEqual(value, expectedValue as? String, "Expected \(key) with value \(expectedValue) not found in mockDatabaseReference")
-//            } else {
-//                XCTFail("Expected \(key) with value \(expectedValue) not found in mockDatabaseReference")
-//            }
-//        }
-//    }
+////    func testAddProductToEncodedEmail_Success() {
+////        // Arrange: Set up initial conditions
+////        let email = "test_at_example,com"
+////        let productId = "productId"
+////        let productTitle = "Product"
+////        let productVendor = "Vendor"
+////        let productImage = "Image"
+////
+////        // Expected data structure
+////        let expectedData: [String: Any] = [
+////            "customers/\(email)/products/\(productId)/productTitle": productTitle,
+////            "customers/\(email)/products/\(productId)/productVendor": productVendor,
+////            "customers/\(email)/products/\(productId)/productImage": productImage
+////        ]
+////
+////        // Act: Call the method under test
+////        firebaseAuthService.addProductToEncodedEmail(email: email, productId: productId, productTitle: productTitle, productVendor: productVendor, productImage: productImage)
+////
+////        // Assert: Verify the result
+////        for (key, expectedValue) in expectedData {
+////            if let value = value(forKeyPath: key, in: mockDatabaseReference.data) as? String {
+////                XCTAssertEqual(value, expectedValue as? String, "Expected \(key) with value \(expectedValue) not found in mockDatabaseReference")
+////            } else {
+////                XCTFail("Expected \(key) with value \(expectedValue) not found in mockDatabaseReference")
+////            }
+////        }
+////    }
 //
 //    // Helper function to get value from a nested dictionary using key path
 //    func value(forKeyPath keyPath: String, in dictionary: [String: Any]) -> Any? {
