@@ -13,7 +13,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
     @IBOutlet weak var totalAmount: UILabel!
     @IBOutlet weak var shoppingCartTableView: UITableView!
 
-    let draftOrderService = DraftOrderNetworkService()
+   
 
     var draftOrder: DraftOrderPUT?
     private let viewModel = ShoppingCartViewModel()
@@ -39,11 +39,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
            bindViewModel()
        //    viewModel.fetchDraftOrders()
            print("Total amount before navigating to PaymentVC: \(viewModel.totalAmount)")
-//           shoppingCartTableView.layer.cornerRadius = 8.0
-//               shoppingCartTableView.layer.borderWidth = 1.0
-//               shoppingCartTableView.layer.borderColor = UIColor.lightGray.cgColor
-//               shoppingCartTableView.layer.masksToBounds = true
-           addBottomBorder(to: shoppingCartTableView)
+
        }
          
     func addBottomBorder(to tableView: UITableView) {
@@ -92,38 +88,39 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
               return viewModel.draftOrder?.draftOrder?.lineItems.count ?? 0
           }
           
-       func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-           let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
 
-              if let lineItem = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row] {
-                  let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
-                  cell.productName.text = productName
+        if let lineItem = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row] {
+            let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: .whitespaces) ?? ""
+            cell.productName.text = productName
 
-                  let productColor = lineItem.variantTitle?.split(separator: "/").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
-                  cell.productColor.text = productColor
+            let productColor = lineItem.variantTitle?.split(separator: "/").last?.trimmingCharacters(in: .whitespaces) ?? ""
+            cell.productColor.text = productColor
 
-                  cell.productAmount.text = "\(lineItem.quantity)"
-                  cell.productPrice.text = viewModel.formatPriceWithCurrency(price: lineItem.price)
+            cell.productAmount.text = "\(lineItem.quantity)"
+            cell.productPrice.text = viewModel.formatPriceWithCurrency(price: lineItem.price)
 
-                  draftOrderService.fetchProduct(productId: lineItem.productId ?? 0) { result in
-                      switch result {
-                      case .success(let product):
-                          let imageUrl = product.image.src
-                          if let url = URL(string: imageUrl) {
-                              DispatchQueue.main.async {
-                                  cell.productimage.kf.setImage(with: url)
-                              }
-                          }
-                      case .failure(let error):
-                          print("Failed to fetch product image: \(error.localizedDescription)")
-                      }
-                  }
+            // Fetch product details asynchronously
+            viewModel.fetchProductDetails(for: lineItem.productId ?? 0) { [weak self] result in
+                switch result {
+                case .success(let product):
+                    let imageUrl = product.product.image.src
+                    if let url = URL(string: imageUrl) {
+                        DispatchQueue.main.async {
+                            cell.productimage.kf.setImage(with: url)
+                        }
+                    }
+                case .failure(let error):
+                    print("Failed to fetch product image: \(error.localizedDescription)")
+                }
+            }
 
-                  cell.delegate = self
-              }
+            cell.delegate = self
+        }
 
-              return cell
-       }
+        return cell
+    }
 
           func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
               return 100

@@ -14,7 +14,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         case cash
         case applePay
     }
-    
+    private let networkService = NetworkServiceAuthentication()
     var selectedPaymentMethod: PaymentMethod?
     private var lineItem: LineItem?
     private var order: Orders?
@@ -22,9 +22,9 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     private var invoice: Invoice?
     private var invoiceResponse: InvoiceResponse?
     private var draftOrderId: Int?
-
     var defCurrency: String = "EGP"
     var totalAmount: String?
+    private var addresses: [Address] = []
     private var viewModel = ShoppingCartViewModel()
     
     func selectPaymentMethod(_ method: PaymentMethod) {
@@ -194,7 +194,33 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             }
         }
     }
-    
+    func fetchDefaultAddress(completion: @escaping (Result<Address, Error>) -> Void) {
+            guard let customerId = SharedDataRepository.instance.customerId else {
+                let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Customer ID is missing"])
+                completion(.failure(error))
+                return
+            }
+            
+            let urlString = "https://\(APIConfig.apiKey):\(APIConfig.password)@\(APIConfig.hostName)/admin/api/\(APIConfig.version)/customers/\(customerId)/addresses.json?limit"
+            
+            networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { [weak self] (result: Result<AddressListResponse, Error>) in
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(let response):
+                    if let defaultAddress = response.addresses.first(where: { $0.default == true }) {
+                        self.addresses = response.addresses
+                        completion(.success(defaultAddress))
+                    } else {
+                        let error = NSError(domain: "PaymentMethodsViewModel", code: 404, userInfo: [NSLocalizedDescriptionKey: "No default address found"])
+                        completion(.failure(error))
+                    }
+                case .failure(let error):
+                    print("Failed to fetch addresses: \(error)")
+                    completion(.failure(error))
+                }
+            }
+        }
     func getDraftOrderID(email: String, completion: @escaping (String?) -> Void) {
         FirebaseAuthService().getShoppingCartId(email: email) { shoppingCartId, error in
             if let error = error {

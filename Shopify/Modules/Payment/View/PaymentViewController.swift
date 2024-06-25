@@ -56,7 +56,7 @@ class PaymentViewController: UIViewController {
     
     
     private func setupUI() {
-        [cashView, applePayView, addressView].forEach { view in
+        [cashView, applePayView,addressView].forEach { view in
             view?.layer.shadowRadius = 4.0
             view?.layer.cornerRadius = 10.0
             view?.layer.shadowColor = UIColor.black.cgColor
@@ -148,10 +148,9 @@ class PaymentViewController: UIViewController {
     @IBAction func cashBtn(_ sender: UIButton) {
         print(totalAmount ?? "No total amount")
            
-           // Remove non-numeric characters (except the decimal point)
            let numericAmount = totalAmount?.replacingOccurrences(of: "[^0-9.]", with: "", options: .regularExpression)
            
-           // Convert to Double
+
            if let totalAmountDouble = Double(numericAmount ?? "0.0"), totalAmountDouble > 500 {
                let alert = UIAlertController(title: "Payment Alert", message: "Total amount exceeds 500. Please choose another payment method.", preferredStyle: .alert)
                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -166,16 +165,24 @@ class PaymentViewController: UIViewController {
     }
     
     private func selectPaymentMethod(_ method: PaymentMethodsViewModel.PaymentMethod) {
-            viewModel.selectPaymentMethod(method)
-            switch method {
-            case .cash:
-                cashView.backgroundColor = UIColor.green.withAlphaComponent(0.3)
-                applePayView.backgroundColor = UIColor.clear
-            case .applePay:
-                cashView.backgroundColor = UIColor.clear
-                applePayView.backgroundColor = UIColor.green.withAlphaComponent(0.3)
-            }
+        viewModel.selectPaymentMethod(method)
+        switch method {
+        case .cash:
+            cashView.layer.borderWidth = 2.0
+            cashView.layer.borderColor = UIColor.green.cgColor
+            cashView.backgroundColor = UIColor.green.withAlphaComponent(0.3)
+            
+            applePayView.layer.borderWidth = 0.0
+            applePayView.backgroundColor = UIColor.clear
+        case .applePay:
+            applePayView.layer.borderWidth = 2.0
+            applePayView.layer.borderColor = UIColor.green.cgColor
+            applePayView.backgroundColor = UIColor.green.withAlphaComponent(0.3)
+            
+            cashView.layer.borderWidth = 0.0
+            cashView.backgroundColor = UIColor.clear
         }
+    }
         
     @objc private func cashViewTapped() {
         selectPaymentMethod(.cash)
@@ -187,17 +194,16 @@ class PaymentViewController: UIViewController {
         }
         
         private func fetchDefaultAddress() {
-            TryAddressNetworkService.shared.getAddresses { result in
-                switch result {
-                case .success(let addresses):
-                    if let defaultAddress = addresses.first(where: { $0.default == true }) {
-                        self.defaultAddress = defaultAddress
-                        self.updateAddressLabel()
-                    }
-                case .failure(let error):
-                    print("Failed to fetch addresses: \(error)")
-                }
-            }
+            viewModel.fetchDefaultAddress { result in
+                       switch result {
+                       case .success(let defaultAddress):
+                           self.defaultAddress = defaultAddress
+                           self.updateAddressLabel()
+                       case .failure(let error):
+                           print("Failed to fetch default address: \(error)")
+                           // Handle error scenario if needed
+                       }
+                   }
         }
         
         func updateAddressLabel() {

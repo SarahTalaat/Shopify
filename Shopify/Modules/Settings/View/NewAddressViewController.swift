@@ -52,8 +52,6 @@ class NewAddressViewController: UIViewController,UIPickerViewDelegate, UIPickerV
         } else {
             print("Error: customerId is nil")
         }
-        
-        // Setup reachability
         setupReachability()
     }
     

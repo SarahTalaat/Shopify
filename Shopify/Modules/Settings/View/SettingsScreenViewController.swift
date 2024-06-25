@@ -12,11 +12,8 @@ class SettingsScreenViewController: UIViewController {
     @IBOutlet weak var addressView: UIView!
     @IBOutlet weak var currentAddress: UILabel!
 
-
-
     var settingsViewModel: SettingsViewModelProtocol!
 
-   
     @IBAction func addressBtn(_ sender: UIButton) {
          let addressVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "addressViewController") as! AddressViewController
       
@@ -50,8 +47,6 @@ class SettingsScreenViewController: UIViewController {
         settingsViewModel.signOut(isSignedOut: true)
     }
    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -121,26 +116,19 @@ class SettingsScreenViewController: UIViewController {
             currentCurrency.text = "No Currency Selected"
         }
     }
-      private func fetchDefaultAddress() {
-          TryAddressNetworkService.shared.getAddresses { result in
-              switch result {
-              case .success(let addresses):
-                  if let defaultAddress = addresses.first(where: { $0.default == true }) {
-                      DispatchQueue.main.async {
-                          self.updateCurrentAddressLabel(with: defaultAddress.city)
-                      }
-                  } else {
-                      DispatchQueue.main.async {
-                          self.updateCurrentAddressLabel(with: "No Default Address")
-                      }
-                  }
-              case .failure(let error):
-                  print("Failed to fetch addresses: \(error)")
-              }
-          }
-      }
-       
-
+    private func fetchDefaultAddress() {
+           settingsViewModel.fetchDefaultAddress { result in
+               switch result {
+               case .success:
+                   DispatchQueue.main.async {
+                       self.updateCurrentAddressLabel(with: self.settingsViewModel.currentAddress)
+                   }
+               case .failure(let error):
+                   print("Failed to fetch default address: \(error)")
+               }
+           }
+       }
+    
     func bindViewModel() {
         settingsViewModel.bindLogOutStatusViewModelToController = {
             DispatchQueue.main.async {

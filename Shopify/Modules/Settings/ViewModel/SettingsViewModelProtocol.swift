@@ -14,4 +14,6 @@ protocol SettingsViewModelProtocol {
     var bindLogOutStatusViewModelToController: (() -> ()) { get set }
     var bindErrorViewModelToController: (() -> ()) { get set }
     func signOut(isSignedOut: Bool)
+    var currentAddress: String { get }
+    func fetchDefaultAddress(completion: @escaping (Result<Void, Error>) -> Void)
 }

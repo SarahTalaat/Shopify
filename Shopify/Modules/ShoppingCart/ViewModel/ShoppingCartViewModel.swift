@@ -12,7 +12,7 @@ import RxSwift
 import Cosmos
 
 class ShoppingCartViewModel {
-    private let draftOrderService = DraftOrderNetworkService()
+    private let networkService = NetworkServiceAuthentication()
     private let disposeBag = DisposeBag()
     private let exchangeRateApiService = ExchangeRateApiService()
     var exchangeRates: [String: Double] = [:]
@@ -47,23 +47,34 @@ class ShoppingCartViewModel {
     }
     
     func fetchDraftOrders() {
-        guard let draftOrderIdString = UserDefaults.standard.string(forKey: Constants.userDraftId),
-              let draftOrderId = Int(draftOrderIdString) else {
-            return
+            guard let draftOrderIdString = UserDefaults.standard.string(forKey: Constants.userDraftId),
+                  let draftOrderId = Int(draftOrderIdString) else {
+                return
+            }
+            print("SC: draftOrderId fetchDraftOrders: \(draftOrderId)")
+        let urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
+            networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
+                switch result {
+                case .success(let draftOrder):
+                    self?.draftOrder = draftOrder
+                    self?.onDraftOrderUpdated?()
+                case .failure(let error):
+                    print("Failed to fetch draft orders: \(error.localizedDescription)")
+                }
+            }
         }
-        print("SC: draftOrderId fetchDraftOrders: \(draftOrderId)")
-
-        draftOrderService.fetchDraftOrders { [weak self] result in
+    func fetchProductDetails(for productId: Int, completion: @escaping (Result<OneProductResponse, Error>) -> Void) {
+        let urlString = APIConfig.endPoint("products/\(productId)").url
+        
+        networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<OneProductResponse, Error>) in
             switch result {
-            case .success(let draftOrder):
-                self?.draftOrder = draftOrder
-                self?.onDraftOrderUpdated?()
+            case .success(let product):
+                completion(.success(product))
             case .failure(let error):
-                print("Failed to fetch draft orders: \(error.localizedDescription)")
+                completion(.failure(error))
             }
         }
     }
-    
     func updateTotalAmount() {
         guard let draftOrder = draftOrder else { return }
         let totalPrice = draftOrder.draftOrder?.lineItems.reduce(0.0) { result, lineItem in
@@ -82,19 +93,17 @@ class ShoppingCartViewModel {
     
     func incrementQuantity(at index: Int) {
         guard let lineItem = draftOrder?.draftOrder?.lineItems[index],
-              let productId = lineItem.productId else { return }
+              let productId = lineItem.productId else {
+            return
+        }
         
-        draftOrderService.fetchProduct(productId: productId) { [weak self] result in
+        let urlString = APIConfig.endPoint("products/\(productId)").url
+        
+        networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { [weak self] (result: Result<OneProductResponse, Error>) in
             switch result {
-            case .success(let product):
-                let inventoryQuantity = product.variants.first?.inventory_quantity ?? 0
-                let maxQuantity: Int
-                
-                if inventoryQuantity <= 5 {
-                    maxQuantity = inventoryQuantity
-                } else {
-                    maxQuantity = inventoryQuantity / 2
-                }
+            case .success(let productResponse):
+                let inventoryQuantity = productResponse.product.variants.first?.inventory_quantity ?? 0
+                let maxQuantity = inventoryQuantity <= 5 ? inventoryQuantity : inventoryQuantity / 2
                 
                 if lineItem.quantity + 1 > maxQuantity {
                     self?.onAlertMessage?("You cannot add more of this item. Maximum allowed quantity is \(maxQuantity).")
@@ -106,6 +115,9 @@ class ShoppingCartViewModel {
                 
             case .failure(let error):
                 print("Failed to fetch product: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    self?.onAlertMessage?("Failed to fetch product details")
+                }
             }
         }
     }
@@ -130,23 +142,31 @@ class ShoppingCartViewModel {
     
     func updateDraftOrder() {
         guard let draftOrderIdString = UserDefaults.standard.string(forKey: Constants.userDraftId),
-              let draftOrderId = Int(draftOrderIdString) else {
+              let draftOrderId = Int(draftOrderIdString),
+              let draftOrder = draftOrder else {
             return
         }
         print("SC: draftOrderId fetchDraftOrders: \(draftOrderId)")
-        
-        guard let draftOrder = draftOrder else { return }
-        draftOrderService.updateDraftOrder(draftOrder: draftOrder) { [weak self] result in
-            switch result {
-            case .success(let updatedDraftOrder):
-                self?.draftOrder = updatedDraftOrder
-                self?.onDraftOrderUpdated?()
-            case .failure(let error):
-                print("Failed to update draft order: \(error.localizedDescription)")
-            }
-        }
-    }
 
+        let urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
+
+        // Convert draft order to dictionary representation
+        guard let draftOrderDetails = draftOrder.draftOrder else {
+            print("Draft order details are nil")
+            return
+        }
+        let draftOrderDictionary: [String: Any] = ["draft_order": draftOrderDetails.toDictionary()]
+
+//        networkService.requestFunction(urlString: urlString, method: .put, model: draftOrderDictionary) { [weak self] (result: Result<OneDraftOrderResponseDe, Error>) in
+//            switch result {
+//            case .success(let updatedDraftOrder):
+//                self?.draftOrder = updatedDraftOrder.draftOrder
+//                self?.onDraftOrderUpdated?()
+//            case .failure(let error):
+//                print("Failed to update draft order: \(error.localizedDescription)")
+//            }
+//        }
+    }
     func formatPriceWithCurrency(price: String) -> String {
         let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
         let exchangeRate = exchangeRates[selectedCurrency] ?? 1.0
@@ -200,4 +220,5 @@ class ShoppingCartViewModel {
             self.draftOrder?.draftOrder?.lineItems = lineItems
         }
     }
+    
 }
