@@ -53,6 +53,7 @@ enum APIConfig {
     case draft_orders
     case customers
     case usd
+    case addresses(customerId: String)
     case endPoint(String)
     case all
     
@@ -66,6 +67,8 @@ enum APIConfig {
             return "USD"
         case .all:
             return "ALL"
+        case .addresses(let customerId):
+            return "customers/\(customerId)/addresses"
         case .endPoint(let customResource):
             return customResource
         }

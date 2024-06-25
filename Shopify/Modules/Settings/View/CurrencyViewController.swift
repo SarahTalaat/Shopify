@@ -25,7 +25,6 @@ class CurrencyViewController: UIViewController
         searchCurrency.delegate = self
         currencyTableView.separatorStyle = .none
         currencyTableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
-        
         viewModel.setDefaultCurrencyIfNeeded(customerId: SharedDataRepository.instance.customerId!)
         viewModel.fetchCurrencies {
             DispatchQueue.main.async {
@@ -65,11 +64,52 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedCurrency = viewModel.filteredCurrencies[indexPath.row]
-        UserDefaults.standard.set(selectedCurrency, forKey: "selectedCurrency")
-        navigationController?.popViewController(animated: true)
+                if let indexPaths = tableView.indexPathsForVisibleRows {
+                    for indexPath in indexPaths {
+                        if let cell = tableView.cellForRow(at: indexPath) as? CurrencyTableViewCell {
+                            cell.contentView.layer.borderColor = UIColor.lightGray.cgColor
+                        }
+                    }
+                }
+                if let selectedCell = tableView.cellForRow(at: indexPath) as? CurrencyTableViewCell {
+                    selectedCell.contentView.layer.borderColor = UIColor.red.cgColor
+                }
+                let selectedCurrency = viewModel.filteredCurrencies[indexPath.row]
+                UserDefaults.standard.set(selectedCurrency, forKey: "selectedCurrency")
+                navigationController?.popViewController(animated: true)
+        
     }
-}
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+            if let deselectedCell = tableView.cellForRow(at: indexPath) as? CurrencyTableViewCell {
+                deselectedCell.contentView.layer.borderColor = UIColor.lightGray.cgColor
+            }
+        }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+           return 60
+       }
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+            cell.contentView.layer.cornerRadius = 8
+            cell.contentView.layer.masksToBounds = true
+            cell.backgroundColor = .clear
+        }
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+            let footerView = UIView()
+            footerView.backgroundColor = .clear
+            return footerView
+        }
+
+        func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+            return 40
+        }
+        func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+            let headerView = UIView()
+            headerView.backgroundColor = .clear
+            return headerView
+        }
+
+        func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+            return 20
+        }}
 
 extension CurrencyViewController: UISearchBarDelegate {
     

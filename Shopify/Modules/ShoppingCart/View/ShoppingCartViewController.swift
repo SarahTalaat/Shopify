@@ -13,7 +13,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
     @IBOutlet weak var totalAmount: UILabel!
     @IBOutlet weak var shoppingCartTableView: UITableView!
 
-    let draftOrderService = DraftOrderNetworkService()
+   
 
     var draftOrder: DraftOrderPUT?
     private let viewModel = ShoppingCartViewModel()
@@ -38,9 +38,24 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
               
            bindViewModel()
        //    viewModel.fetchDraftOrders()
+           print("Total amount before navigating to PaymentVC: \(viewModel.totalAmount)")
+
        }
          
-
+    func addBottomBorder(to tableView: UITableView) {
+        let border = UIView()
+        border.translatesAutoresizingMaskIntoConstraints = false
+        border.backgroundColor = UIColor.lightGray // Set the border color
+        
+        tableView.addSubview(border)
+        
+        NSLayoutConstraint.activate([
+            border.heightAnchor.constraint(equalToConstant: 1), // Set the border height
+            border.leadingAnchor.constraint(equalTo: tableView.leadingAnchor),
+            border.trailingAnchor.constraint(equalTo: tableView.trailingAnchor),
+            border.bottomAnchor.constraint(equalTo: tableView.bottomAnchor)
+        ])
+    }
       private func bindViewModel() {
           viewModel.onDraftOrderUpdated = { [weak self] in
               DispatchQueue.main.async {
@@ -49,12 +64,13 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
           }
 
           viewModel.onTotalAmountUpdated = { [weak self] in
-              DispatchQueue.main.async {
-                  self?.totalAmount.text = self?.viewModel.formatPriceWithCurrency(price: self?.viewModel.totalAmount ?? "")
-                  if let paymentVC = self?.navigationController?.viewControllers.last as? PaymentViewController {
-                      paymentVC.totalAmount = self?.viewModel.totalAmount
+                  DispatchQueue.main.async {
+                      self?.totalAmount.text = self?.viewModel.formatPriceWithCurrency(price: self?.viewModel.totalAmount ?? "")
+                      if let paymentVC = self?.navigationController?.viewControllers.last as? PaymentViewController {
+                          paymentVC.totalAmount = self?.viewModel.totalAmount
+                      }
                   }
-              }
+              
           }
 
           viewModel.onAlertMessage = { [weak self] message in
@@ -72,42 +88,74 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
               return viewModel.draftOrder?.draftOrder?.lineItems.count ?? 0
           }
           
-       func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-           let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
 
-              if let lineItem = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row] {
-                  let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
-                  cell.productName.text = productName
+//        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
 
-                  let productColor = lineItem.variantTitle?.split(separator: "/").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
-                  cell.productColor.text = productColor
+//               if let lineItem = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row] {
+//                   let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
+//                   cell.productName.text = productName
 
-                  cell.productAmount.text = "\(lineItem.quantity)"
-                  cell.productPrice.text = viewModel.formatPriceWithCurrency(price: lineItem.price)
+//                   let productColor = lineItem.variantTitle?.split(separator: "/").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
+//                   cell.productColor.text = productColor
 
-                  draftOrderService.fetchProduct(productId: lineItem.productId ?? 0) { result in
-                      switch result {
-                      case .success(let product):
-                          let imageUrl = product.image.src
-                          if let url = URL(string: imageUrl) {
-                              DispatchQueue.main.async {
-                                  cell.productimage.kf.setImage(with: url)
-                              }
-                          }
-                      case .failure(let error):
-                          print("Failed to fetch product image: \(error.localizedDescription)")
-                      }
-                  }
+//                   cell.productAmount.text = "\(lineItem.quantity)"
+//                   cell.productPrice.text = viewModel.formatPriceWithCurrency(price: lineItem.price)
+
+//                   draftOrderService.fetchProduct(productId: lineItem.productId ?? 0) { result in
+//                       switch result {
+//                       case .success(let product):
+//                           let imageUrl = product.image.src
+//                           if let url = URL(string: imageUrl) {
+//                               DispatchQueue.main.async {
+//                                   cell.productimage.kf.setImage(with: url)
+//                               }
+//                           }
+//                       case .failure(let error):
+//                           print("Failed to fetch product image: \(error.localizedDescription)")
+//                       }
+//                   }
                   
                  
-                  cell.productId = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row].id
+// //                   cell.productId = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row].id
 
                
-                  cell.delegate = self
-              }
+//                   cell.delegate = self
+//               }
 
-              return cell
-       }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
+
+        if let lineItem = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row] {
+            let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: .whitespaces) ?? ""
+            cell.productName.text = productName
+
+            let productColor = lineItem.variantTitle?.split(separator: "/").last?.trimmingCharacters(in: .whitespaces) ?? ""
+            cell.productColor.text = productColor
+
+            cell.productAmount.text = "\(lineItem.quantity)"
+            cell.productPrice.text = viewModel.formatPriceWithCurrency(price: lineItem.price)
+
+            // Fetch product details asynchronously
+            viewModel.fetchProductDetails(for: lineItem.productId ?? 0) { [weak self] result in
+                switch result {
+                case .success(let product):
+                    let imageUrl = product.product.image.src
+                    if let url = URL(string: imageUrl) {
+                        DispatchQueue.main.async {
+                            cell.productimage.kf.setImage(with: url)
+                        }
+                    }
+                case .failure(let error):
+                    print("Failed to fetch product image: \(error.localizedDescription)")
+                }
+            }
+            cell.productId = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row].id
+            cell.delegate = self
+        }
+
+        return cell
+    }
 
           func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
               return 100
@@ -129,15 +177,13 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
        
        @IBAction func processedToPaymentBtn(_ sender: UIButton) {
            let storyboard = UIStoryboard(name: "Third", bundle: nil)
-               if let paymentVC = storyboard.instantiateViewController(withIdentifier: "PaymentVC") as? PaymentViewController {
-                   paymentVC.totalAmount = viewModel.totalAmount  
-                   if let firstLineItem = viewModel.draftOrder?.draftOrder?.lineItems {
-                       paymentVC.lineItems = firstLineItem
-                   } else {
-                       // Handle the case where draftOrder or line_items is nil
-                   }
-                   navigationController?.pushViewController(paymentVC, animated: true)
-               }
+             if let paymentVC = storyboard.instantiateViewController(withIdentifier: "PaymentVC") as? PaymentViewController {
+                 paymentVC.totalAmount = totalAmount.text // Directly use the updated amount
+                 if let firstLineItem = viewModel.draftOrder?.draftOrder?.lineItems {
+                     paymentVC.lineItems = firstLineItem
+                 }
+                 navigationController?.pushViewController(paymentVC, animated: true)
+             }
        }
     func didTapPlusButton(on cell: CartTableViewCell) {
         guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
@@ -182,12 +228,10 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
         }))
         present(alert, animated: true, completion: nil)
     }
-
-            func updateTotalAmount() {
-                viewModel.updateTotalAmount()
-                totalAmount.text = viewModel.totalAmount
-            }
-    
+    private func updateTotalAmount() {
+        viewModel.updateTotalAmount()
+        totalAmount.text = viewModel.formatPriceWithCurrency(price: viewModel.totalAmount)
+    }
     @IBAction func addCouponBtn(_ sender: UIButton) {
         let couponVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "CouponViewController") as! CouponViewController
             couponVC.subtotal = viewModel.totalAmount
@@ -200,7 +244,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
                }
          
               present(couponVC, animated: true, completion: nil)
-        
+        print("ssssss")
     }
     
     @IBOutlet weak var couponView: UIView!
@@ -213,20 +257,24 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
 
 extension ShoppingCartViewController: CouponViewControllerDelegate {
     func updateTotalAmount(with amount: String) {
-           viewModel.totalAmount = amount
-           totalAmount.text = viewModel.formatPriceWithCurrency(price: amount)
-           // Update the total amount in the PaymentViewController if it is already presented
-           if let paymentVC = navigationController?.viewControllers.first(where: { $0 is PaymentViewController }) as? PaymentViewController {
-               paymentVC.totalAmount = amount
-           }
-       }
-    
+        viewModel.totalAmount = amount
+        totalAmount.text = viewModel.formatPriceWithCurrency(price: amount)
+        updatePaymentViewControllerTotalAmount(with: amount)
+    }
+
     func updateGrandTotal(with amount: String) {
         totalAmount.text = amount
     }
 
     func updateGrandTotalFromCoupon(with amount: String) {
-        totalAmount.text = amount 
+        totalAmount.text = amount
+    }
+    
+    private func updatePaymentViewControllerTotalAmount(with amount: String) {
+        if let paymentVC = navigationController?.viewControllers.first(where: { $0 is PaymentViewController }) as? PaymentViewController {
+            paymentVC.totalAmount = amount
+            paymentVC.updateGrandTotal(with: amount) // Ensure this method updates the UI in PaymentViewController
+        }
     }
 }
 

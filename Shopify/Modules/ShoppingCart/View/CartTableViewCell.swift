@@ -27,8 +27,6 @@ class CartTableViewCell: UITableViewCell {
            self.layer.cornerRadius = 15.0
            self.layer.shadowColor = UIColor.gray.cgColor
            self.layer.shadowOffset = CGSize(width: 2, height: 2)
-         
-           self.layer.shadowOpacity = 0.5
            self.layer.masksToBounds = false
            productimage.layer.cornerRadius = 15.0
            productimage.clipsToBounds = true

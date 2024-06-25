@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
@@ -18,23 +18,23 @@
                 <rect key="frame" x="0.0" y="0.0" width="344" height="121"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" image="try" translatesAutoresizingMaskIntoConstraints="NO" id="sni-Hf-Zl9">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" image="loading 1" translatesAutoresizingMaskIntoConstraints="NO" id="sni-Hf-Zl9">
                         <rect key="frame" x="0.0" y="0.0" width="108" height="121"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="752" text="Pullover" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d9S-Vi-gKU">
-                        <rect key="frame" x="130" y="6.0000000000000018" width="64" height="21.666666666666671"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="752" text="Pullover" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d9S-Vi-gKU">
+                        <rect key="frame" x="130" y="6" width="58" height="21.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" text="Color:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HD3-Jf-Aij">
-                        <rect key="frame" x="130" y="29.333333333333332" width="34" height="14.333333333333332"/>
+                        <rect key="frame" x="130" y="29" width="34" height="14"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Black" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZNp-Nz-EwC">
-                        <rect key="frame" x="166" y="29.999999999999996" width="31" height="13.333333333333332"/>
+                        <rect key="frame" x="166" y="30" width="31" height="13.5"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -68,10 +68,10 @@
                             <action selector="plus:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="5gT-cH-EJ5"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1$" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Pja-xS-PbI">
-                        <rect key="frame" x="269" y="61" width="68" height="30"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1$" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Pja-xS-PbI">
+                        <rect key="frame" x="242" y="61" width="102" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -115,14 +115,14 @@
                 <outlet property="productPrice" destination="Pja-xS-PbI" id="zmO-GP-KXf"/>
                 <outlet property="productimage" destination="sni-Hf-Zl9" id="KrB-Ra-m5B"/>
             </connections>
-            <point key="canvasLocation" x="125.19083969465649" y="-27.112676056338028"/>
+            <point key="canvasLocation" x="124.6376811594203" y="-27.120535714285712"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="loading 1" width="225" height="225"/>
         <image name="minus.circle" catalog="system" width="128" height="123"/>
         <image name="plus.circle" catalog="system" width="128" height="123"/>
         <image name="trash" catalog="system" width="117" height="128"/>
-        <image name="try" width="201" height="251"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

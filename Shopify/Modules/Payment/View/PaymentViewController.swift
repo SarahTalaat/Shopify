@@ -14,41 +14,49 @@ class PaymentViewController: UIViewController {
     
     private var viewModel = PaymentMethodsViewModel()
     
-    var totalAmount: String?
     var defaultAddress: Address?
     var lineItems: [LineItem]?
     
     @IBOutlet weak var appleButton: UIButton!
-    private var totalAmountValue: Double? {
-        didSet {
-            if isViewLoaded {
-                // Do something with the updated totalAmountValue
+    var totalAmount: String? {
+            didSet {
+                if isViewLoaded {
+                    updateTotalAmountLabel()
+                }
             }
         }
-    }
-    
-    override func viewDidLoad() {
+
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            setupUI()
+            setupGestures()
+            self.title = "Choose Payment Method"
+            fetchDefaultAddress()
+            if let lineItems = lineItems {
+                viewModel.setupOrder(lineItem: lineItems)
+            }
+            updateTotalAmountLabel()
+        }
+
+        private func updateTotalAmountLabel() {
+            if let totalAmount = totalAmount {
+                viewModel.setTotalAmount(totalAmount)
+                    
+                viewModel.updatePaymentSummaryItems(totalAmount: totalAmount)
+            }
         
-        super.viewDidLoad()
-        setupUI()
-        setupGestures()
-        self.title = "Choose Payment Method"
-        fetchDefaultAddress()
-        if let lineItems = lineItems {
-            viewModel.setupOrder(lineItem: lineItems)
+
+        func updateGrandTotal(with amount: String) {
+            totalAmount = amount
+            updateTotalAmountLabel()
         }
-        if let totalAmountString = totalAmount {
-            totalAmountValue = Double(totalAmountString)
-            viewModel.updatePaymentSummaryItems(totalAmount: "\(totalAmountValue ?? 0.0)")
-        }
-        if let subtotal = totalAmount {
-            viewModel.updatePaymentSummaryItems(totalAmount: subtotal)
-        }
+        print("Received total amount in PaymentVC: \(totalAmount)")
+        print("Total amount value in view model: \(viewModel.totalAmount)")
     }
     
     
     private func setupUI() {
-        [cashView, applePayView, addressView].forEach { view in
+        [cashView, applePayView,addressView].forEach { view in
             view?.layer.shadowRadius = 4.0
             view?.layer.cornerRadius = 10.0
             view?.layer.shadowColor = UIColor.black.cgColor
@@ -84,30 +92,43 @@ class PaymentViewController: UIViewController {
     
     @IBAction func placeOrderBtn(_ sender: UIButton) {
         guard let lineItems = lineItems else {
-            print("Line items are not set")
-            return
-        }
-        
-        
-        viewModel.postOrder { success in
-            DispatchQueue.main.async {
-                let title: String
-                let message: String
-                if success {
-                    title = "Order Placed"
-                    message = "Your order has been successfully placed."
-                } else {
-                    title = "Error"
-                    message = "Failed to place order. Please try again."
-                }
-                
-                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                   print("Line items are not set")
+                   return
+               }
+    
+               guard let selectedPaymentMethod = viewModel.selectedPaymentMethod else {
+                   let alert = UIAlertController(title: "Payment Method", message: "Please select a payment method.", preferredStyle: .alert)
+                   alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                   self.present(alert, animated: true, completion: nil)
+                   return
+               }
+               
+        guard let addressLabel = customerPaymentAddress, addressLabel.text != "Address Details" else {
+                let alert = UIAlertController(title: "Address", message: "Please provide a shipping address.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
+                return
             }
-        }
-    
-        viewModel.processInvoicePosting()
+   
+               viewModel.postOrder { success in
+                   DispatchQueue.main.async {
+                       let title: String
+                       let message: String
+                       if success {
+                           title = "Order Placed"
+                           message = "Your order has been successfully placed."
+                       } else {
+                           title = "Error"
+                           message = "Failed to place order. Please try again."
+                       }
+                       
+                       let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                       alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                       self.present(alert, animated: true, completion: nil)
+                   }
+               }
+               
+               viewModel.processInvoicePosting()
     }
 
     @IBOutlet weak var cashView: UIView!
@@ -125,7 +146,12 @@ class PaymentViewController: UIViewController {
     }
   
     @IBAction func cashBtn(_ sender: UIButton) {
-        if let totalAmountDouble = Double(totalAmount ?? "0.0"), totalAmountDouble > 500 {
+        print(totalAmount ?? "No total amount")
+           
+           let numericAmount = totalAmount?.replacingOccurrences(of: "[^0-9.]", with: "", options: .regularExpression)
+           
+
+           if let totalAmountDouble = Double(numericAmount ?? "0.0"), totalAmountDouble > 500 {
                let alert = UIAlertController(title: "Payment Alert", message: "Total amount exceeds 500. Please choose another payment method.", preferredStyle: .alert)
                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                present(alert, animated: true, completion: nil)
@@ -139,22 +165,28 @@ class PaymentViewController: UIViewController {
     }
     
     private func selectPaymentMethod(_ method: PaymentMethodsViewModel.PaymentMethod) {
-            viewModel.selectPaymentMethod(method)
-            switch method {
-            case .cash:
-                cashView.backgroundColor = UIColor.green.withAlphaComponent(0.3)
-                applePayView.backgroundColor = UIColor.clear
-            case .applePay:
-                cashView.backgroundColor = UIColor.clear
-                applePayView.backgroundColor = UIColor.green.withAlphaComponent(0.3)
-            }
+        viewModel.selectPaymentMethod(method)
+        switch method {
+        case .cash:
+            cashView.layer.borderWidth = 2.0
+            cashView.layer.borderColor = UIColor.green.cgColor
+            cashView.backgroundColor = UIColor.green.withAlphaComponent(0.3)
+            
+            applePayView.layer.borderWidth = 0.0
+            applePayView.backgroundColor = UIColor.clear
+        case .applePay:
+            applePayView.layer.borderWidth = 2.0
+            applePayView.layer.borderColor = UIColor.green.cgColor
+            applePayView.backgroundColor = UIColor.green.withAlphaComponent(0.3)
+            
+            cashView.layer.borderWidth = 0.0
+            cashView.backgroundColor = UIColor.clear
         }
+    }
         
     @objc private func cashViewTapped() {
         selectPaymentMethod(.cash)
-        if let totalAmount = totalAmountValue {
-            print("Total Amount: \(totalAmount)")
-        }
+        print(totalAmount)
     }
         
         @objc private func applePayViewTapped() {
@@ -162,17 +194,16 @@ class PaymentViewController: UIViewController {
         }
         
         private func fetchDefaultAddress() {
-            TryAddressNetworkService.shared.getAddresses { result in
-                switch result {
-                case .success(let addresses):
-                    if let defaultAddress = addresses.first(where: { $0.default == true }) {
-                        self.defaultAddress = defaultAddress
-                        self.updateAddressLabel()
-                    }
-                case .failure(let error):
-                    print("Failed to fetch addresses: \(error)")
-                }
-            }
+            viewModel.fetchDefaultAddress { result in
+                       switch result {
+                       case .success(let defaultAddress):
+                           self.defaultAddress = defaultAddress
+                           self.updateAddressLabel()
+                       case .failure(let error):
+                           print("Failed to fetch default address: \(error)")
+                           // Handle error scenario if needed
+                       }
+                   }
         }
         
         func updateAddressLabel() {
