@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,33 +15,33 @@
                 <rect key="frame" x="0.0" y="0.0" width="344" height="121"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bagplaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="QbF-hP-3dm">
-                        <rect key="frame" x="0.0" y="0.0" width="108" height="121"/>
-                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6hx-eg-EDa">
-                        <rect key="frame" x="126" y="35" width="60" height="21"/>
+                        <rect key="frame" x="124" y="35" width="60" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vendor:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gnc-Q5-vVp">
-                        <rect key="frame" x="126" y="69" width="60" height="21"/>
+                        <rect key="frame" x="124" y="69" width="60" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shirt" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="64I-IU-F5B">
-                        <rect key="frame" x="199" y="35" width="125" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shirt" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="64I-IU-F5B">
+                        <rect key="frame" x="197" y="35" width="125" height="21"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adidas" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gUY-h9-V0u">
-                        <rect key="frame" x="199" y="69" width="125" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adidas" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gUY-h9-V0u">
+                        <rect key="frame" x="197" y="69" width="125" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bagplaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="QbF-hP-3dm">
+                        <rect key="frame" x="18" y="17" width="88" height="87"/>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="gUY-h9-V0u" firstAttribute="width" secondItem="fhz-kk-z8S" secondAttribute="width" multiplier="0.363372" id="BZv-kV-qbe"/>
@@ -50,16 +49,16 @@
                     <constraint firstItem="64I-IU-F5B" firstAttribute="height" secondItem="fhz-kk-z8S" secondAttribute="height" multiplier="0.173554" id="ESe-u0-TmY"/>
                     <constraint firstItem="gnc-Q5-vVp" firstAttribute="height" secondItem="fhz-kk-z8S" secondAttribute="height" multiplier="0.173554" id="HvW-if-Beo"/>
                     <constraint firstItem="gnc-Q5-vVp" firstAttribute="leading" secondItem="6hx-eg-EDa" secondAttribute="leading" id="LSH-LR-Mt6"/>
-                    <constraint firstItem="QbF-hP-3dm" firstAttribute="height" secondItem="fhz-kk-z8S" secondAttribute="height" id="MIc-VQ-iTf"/>
+                    <constraint firstItem="QbF-hP-3dm" firstAttribute="height" secondItem="fhz-kk-z8S" secondAttribute="height" constant="-34" id="MIc-VQ-iTf"/>
                     <constraint firstItem="6hx-eg-EDa" firstAttribute="width" secondItem="fhz-kk-z8S" secondAttribute="width" multiplier="0.174419" id="QNV-td-c8h"/>
-                    <constraint firstItem="QbF-hP-3dm" firstAttribute="width" secondItem="fhz-kk-z8S" secondAttribute="width" multiplier="0.313953" id="RO8-DT-LsY"/>
+                    <constraint firstItem="QbF-hP-3dm" firstAttribute="width" secondItem="fhz-kk-z8S" secondAttribute="width" multiplier="0.313953" constant="-19.999831999999998" id="RO8-DT-LsY"/>
                     <constraint firstItem="gUY-h9-V0u" firstAttribute="leading" secondItem="64I-IU-F5B" secondAttribute="leading" id="Rp7-O1-4X9"/>
                     <constraint firstItem="gnc-Q5-vVp" firstAttribute="width" secondItem="fhz-kk-z8S" secondAttribute="width" multiplier="0.174419" id="VZ7-1u-Yud"/>
-                    <constraint firstItem="QbF-hP-3dm" firstAttribute="top" secondItem="fhz-kk-z8S" secondAttribute="top" id="W7Z-QL-4Fk"/>
+                    <constraint firstItem="QbF-hP-3dm" firstAttribute="top" secondItem="fhz-kk-z8S" secondAttribute="top" constant="17" id="W7Z-QL-4Fk"/>
                     <constraint firstItem="6hx-eg-EDa" firstAttribute="top" secondItem="fhz-kk-z8S" secondAttribute="top" constant="35" id="WIv-2J-kIM"/>
-                    <constraint firstItem="QbF-hP-3dm" firstAttribute="leading" secondItem="fhz-kk-z8S" secondAttribute="leading" id="aKJ-Mq-5iW"/>
+                    <constraint firstItem="QbF-hP-3dm" firstAttribute="leading" secondItem="fhz-kk-z8S" secondAttribute="leading" constant="18" id="aKJ-Mq-5iW"/>
                     <constraint firstItem="gUY-h9-V0u" firstAttribute="top" secondItem="64I-IU-F5B" secondAttribute="bottom" constant="13" id="b2X-d0-PqP"/>
-                    <constraint firstAttribute="bottom" secondItem="QbF-hP-3dm" secondAttribute="bottom" id="bqG-re-msb"/>
+                    <constraint firstAttribute="bottom" secondItem="QbF-hP-3dm" secondAttribute="bottom" constant="17" id="bqG-re-msb"/>
                     <constraint firstItem="gUY-h9-V0u" firstAttribute="height" secondItem="fhz-kk-z8S" secondAttribute="height" multiplier="0.173554" id="cUv-ia-Tuy"/>
                     <constraint firstItem="6hx-eg-EDa" firstAttribute="height" secondItem="fhz-kk-z8S" secondAttribute="height" multiplier="0.173554" id="exi-0o-Qeb"/>
                     <constraint firstItem="6hx-eg-EDa" firstAttribute="leading" secondItem="QbF-hP-3dm" secondAttribute="trailing" constant="18" id="lV6-sx-eAM"/>

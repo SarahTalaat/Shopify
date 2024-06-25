@@ -12,42 +12,37 @@ import FirebaseDatabase
 
 class FirebaseAuthService: AuthServiceProtocol {
     
-    
-    var databaseRef: DatabaseReference
-    
-    init(databaseRef: DatabaseReference = Database.database().reference()) {
-        self.databaseRef = databaseRef
-    }
 
-    func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
-        Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
 
-            guard let user = result?.user else {
-                let unknownError = NSError(domain: "FirebaseAuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
-                completion(.failure(unknownError))
-                return
-            }
-
-            self?.checkEmailVerification(for: user) { isVerified, error in
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-
-                if isVerified {
-                    let userModel = UserModel(uid: user.uid, email: user.email ?? "")
-                    completion(.success(userModel))
-                } else {
-                    completion(.failure(AuthErrorCode.emailNotVerified))
-                }
-            }
-        }
-    }
+//    func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+//        Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
+//            if let error = error {
+//                completion(.failure(error))
+//                return
+//            }
 //
+//            guard let user = result?.user else {
+//                let unknownError = NSError(domain: "FirebaseAuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
+//                completion(.failure(unknownError))
+//                return
+//            }
+//
+//            self?.checkEmailVerification(for: user) { isVerified, error in
+//                if let error = error {
+//                    completion(.failure(error))
+//                    return
+//                }
+//
+//                if isVerified {
+//                    let userModel = UserModel(uid: user.uid, email: user.email ?? "")
+//                    completion(.success(userModel))
+//                } else {
+//                    completion(.failure(AuthErrorCode.emailNotVerified))
+//                }
+//            }
+//        }
+//    }
+
     func signOut(completion: @escaping (Result<Void, Error>) -> Void) {
         do {
             try Auth.auth().signOut()
@@ -56,36 +51,36 @@ class FirebaseAuthService: AuthServiceProtocol {
             completion(.failure(signOutError))
         }
     }
-
-    
-    func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
-        Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
-            guard self != nil else { return }
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-
-            guard let user = result?.user else {
-                let unknownError = NSError(domain: "FirebaseAuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
-                completion(.failure(unknownError))
-                return
-            }
-
-            // Send verification email
-            user.sendEmailVerification { error in
-                if let error = error {
-                    print("Firebase: Error sending verification email: \(error.localizedDescription)")
-                } else {
-                    print("Firebase: Verification email sent successfully.")
-                }
-            }
-
-            let userModel = UserModel(uid: user.uid, email: user.email ?? "")
-            print("Firebase: The user iddd: \(userModel.uid)")
-            completion(.success(userModel))
-        }
-    }
+//
+//
+//    func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+//        Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
+//            guard self != nil else { return }
+//            if let error = error {
+//                completion(.failure(error))
+//                return
+//            }
+//
+//            guard let user = result?.user else {
+//                let unknownError = NSError(domain: "FirebaseAuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])
+//                completion(.failure(unknownError))
+//                return
+//            }
+//
+//            // Send verification email
+//            user.sendEmailVerification { error in
+//                if let error = error {
+//                    print("Firebase: Error sending verification email: \(error.localizedDescription)")
+//                } else {
+//                    print("Firebase: Verification email sent successfully.")
+//                }
+//            }
+//
+//            let userModel = UserModel(uid: user.uid, email: user.email ?? "")
+//            print("Firebase: The user iddd: \(userModel.uid)")
+//            completion(.success(userModel))
+//        }
+//    }
 
     
     private func handleAuthResult(result: AuthDataResult?, error: Error?, completion: @escaping (Result<UserModel, Error>) -> Void) {
@@ -117,6 +112,7 @@ class FirebaseAuthService: AuthServiceProtocol {
     func saveCustomerId(name: String, email: String, id: String, favouriteId: String, shoppingCartId: String, productId: String, productTitle: String, productVendor: String, productImage: String, isSignedIn: String) {
       //  let ref = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
+        var databaseRef = Database.database().reference()
         let customersRef = databaseRef.child("customers")
         let customerRef = customersRef.child(encodedEmail)
         
@@ -150,6 +146,7 @@ class FirebaseAuthService: AuthServiceProtocol {
     
     func addProductToEncodedEmail(email: String, productId: String, productTitle: String, productVendor: String, productImage: String) {
       //  let ref = Database.database().reference()
+        var databaseRef = Database.database().reference()
         let customersRef = databaseRef.child("customers")
         let encodedEmail = SharedMethods.encodeEmail(email)
         let customerRef = customersRef.child(encodedEmail)
@@ -172,6 +169,7 @@ class FirebaseAuthService: AuthServiceProtocol {
     }
 
     func fetchCustomerId(encodedEmail: String, completion: @escaping (String?) -> Void) {
+        var databaseRef = Database.database().reference()
         let customersRef = databaseRef.child("customers").child(encodedEmail).child("customerId")
         
         customersRef.observeSingleEvent(of: .value) { (snapshot) in
@@ -187,6 +185,7 @@ class FirebaseAuthService: AuthServiceProtocol {
     
     func deleteProductFromEncodedEmail(encodedEmail: String, productId: String) {
        // let ref = Database.database().reference()
+        var databaseRef = Database.database().reference()
         let customersRef = databaseRef.child("customers")
         let customerRef = customersRef.child(encodedEmail)
         let productsRef = customerRef.child("products")
@@ -202,6 +201,7 @@ class FirebaseAuthService: AuthServiceProtocol {
 
     func retrieveAllProductsFromEncodedEmail(email: String, completion: @escaping ([ProductFromFirebase]) -> Void) {
        // let ref = Database.database().reference()
+        var databaseRef = Database.database().reference()
         let customersRef = databaseRef.child("customers")
         let encodedEmail = SharedMethods.encodeEmail(email)
         let customerRef = customersRef.child(encodedEmail)
@@ -236,6 +236,7 @@ class FirebaseAuthService: AuthServiceProtocol {
 
     func toggleFavorite(email: String, productId: String, productTitle: String, productVendor: String, productImage: String, isFavorite: Bool, completion: @escaping (Error?) -> Void) {
           //  let databaseRef = Database.database().reference()
+            var databaseRef = Database.database().reference()
             let encodedEmail = SharedMethods.encodeEmail(email)
             let productRef = databaseRef.child("customers").child(encodedEmail).child("products").child(productId)
             
@@ -258,6 +259,7 @@ class FirebaseAuthService: AuthServiceProtocol {
 
         func fetchFavorites(email: String, completion: @escaping ([String: Bool]) -> Void) {
           //  let databaseRef = Database.database().reference()
+            var databaseRef = Database.database().reference()
             let encodedEmail = SharedMethods.encodeEmail(email)
             let favoritesRef = databaseRef.child("customers").child(encodedEmail).child("products")
             
@@ -275,6 +277,7 @@ class FirebaseAuthService: AuthServiceProtocol {
     
     func checkProductExists(email: String, productId: String, completion: @escaping (Bool, Error?) -> Void) {
         var encodedEmail = SharedMethods.encodeEmail(email)
+        var databaseRef = Database.database().reference()
        // let ref = Database.database().reference()
         let productsRef = databaseRef.child("customers").child(encodedEmail).child("products").child(productId)
         
@@ -293,6 +296,7 @@ class FirebaseAuthService: AuthServiceProtocol {
 
     func checkEmailSignInStatus(email: String, completion: @escaping (Bool?) -> Void) {
     //    let ref = Database.database().reference()
+        var databaseRef = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
         let customerRef = databaseRef.child("customers").child(encodedEmail)
         
@@ -313,6 +317,7 @@ class FirebaseAuthService: AuthServiceProtocol {
 
     func updateSignInStatus(email: String, isSignedIn: String, completion: @escaping (Bool) -> Void) {
       //  let ref = Database.database().reference()
+        var databaseRef = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
         let customerRef = databaseRef.child("customers").child(encodedEmail)
         
@@ -334,6 +339,7 @@ class FirebaseAuthService: AuthServiceProtocol {
     
     func fetchCustomerDataFromRealTimeDatabase(forEmail email: String, completion: @escaping (CustomerData?) -> Void) {
      //   let ref = Database.database().reference()
+        var databaseRef = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
         let customersRef = databaseRef.child("customers").child(encodedEmail)
         
@@ -368,6 +374,7 @@ class FirebaseAuthService: AuthServiceProtocol {
     
     func isEmailTaken(email: String, completion: @escaping (Bool) -> Void) {
     //    let ref = Database.database().reference()
+        var databaseRef = Database.database().reference()
         let encodedEmail = SharedMethods.encodeEmail(email)
         let customersRef = databaseRef.child("customers").child(encodedEmail)
 
@@ -382,6 +389,7 @@ class FirebaseAuthService: AuthServiceProtocol {
     
     func setShoppingCartId(email: String, shoppingCartId: String, completion: @escaping (Error?) -> Void) {
          //   let ref = Database.database().reference()
+        var databaseRef = Database.database().reference()
             let encodedEmail = SharedMethods.encodeEmail(email)
             print("qa encodedEmail: \(encodedEmail)")
             let customerRef = databaseRef.child("customers").child(encodedEmail)
@@ -398,6 +406,7 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     func getShoppingCartId(email: String, completion: @escaping (String?, Error?) -> Void) {
          //   let ref = Database.database().reference()
+            var databaseRef = Database.database().reference()
             let encodedEmail = SharedMethods.encodeEmail(email)
             let customerRef = databaseRef.child("customers").child(encodedEmail).child("shoppingCartId")
             
@@ -412,6 +421,20 @@ class FirebaseAuthService: AuthServiceProtocol {
             } withCancel: { error in
                 print("Error retrieving shoppingCartId: \(error.localizedDescription)")
                 completion(nil, error)
+            }
+        }
+    
+        func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+            Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
+                self?.handleAuthResult(result: result, error: error, completion: completion)
+            }
+    
+    
+        }
+        
+        func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+            Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
+                self?.handleAuthResult(result: result, error: error, completion: completion)
             }
         }
 

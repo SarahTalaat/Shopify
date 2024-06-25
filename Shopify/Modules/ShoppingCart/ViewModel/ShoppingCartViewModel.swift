@@ -81,7 +81,7 @@ class ShoppingCartViewModel {
             if lineItem.variantId != excludedVariantId {
                 let price = (lineItem.price as NSString).doubleValue
                 let quantity = Double(lineItem.quantity)
-                return result + (price * quantity)
+                return (result ?? 0.0) + (price * quantity)
             } else {
                 return result
             }
@@ -155,7 +155,7 @@ class ShoppingCartViewModel {
             print("Draft order details are nil")
             return
         }
-        let draftOrderDictionary: [String: Any] = ["draft_order": draftOrderDetails.toDictionary()]
+//        let draftOrderDictionary: [String: Any] = ["draft_order": draftOrderDetails.toDictionary()]
 
 //        networkService.requestFunction(urlString: urlString, method: .put, model: draftOrderDictionary) { [weak self] (result: Result<OneDraftOrderResponseDe, Error>) in
 //            switch result {
