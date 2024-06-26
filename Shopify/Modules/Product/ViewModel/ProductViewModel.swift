@@ -136,6 +136,13 @@ class ProductViewModel {
         }
     }
     
+    
+    func isGuest()->Bool? {
+      return  SharedDataRepository.instance.isSignedIn
+       
+    }
+    
+    
     private func fetchExchangeRates() {
         let exchangeRateApiService = ExchangeRateApiService()
         exchangeRateApiService.getLatestRates { [weak self] result in

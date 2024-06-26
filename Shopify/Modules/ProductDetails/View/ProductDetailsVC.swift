@@ -189,7 +189,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
              favouriteButton.tintColor = isFavorited ? .red : .lightGray
              let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
              favouriteButton.setImage(image, for: .normal)
-   
+        
         
         
 
