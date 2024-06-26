@@ -313,9 +313,8 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             UserDefaults.standard.synchronize()
             return "Out of stock"
         }else{
-            UserDefaults.standard.removeObject(forKey: Constants.inventoryQuantity)
-            UserDefaults.standard.synchronize()
-            return ""
+            
+            return "Quantity: \(inventoryQuantity)"
         }
     }
 

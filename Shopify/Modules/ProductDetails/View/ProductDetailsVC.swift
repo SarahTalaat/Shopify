@@ -75,8 +75,11 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateFavoriteButton()
+        viewModel.getUserDraftOrderId()
+        viewModel.getProductDetails()
+        viewModel.getCartId()
         viewModel.fetchExchangeRates()
-        
+        bindViewModel()
         
     }
     
@@ -265,6 +268,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
                 ///
                 self?.priceCurrency(priceLabel: (self?.priceLabel ?? self?.defaultPriceLabel) ?? UILabel() )
                 self?.descriptionLabel.text = self?.viewModel.product?.product?.body_html
+                
                 
                 self?.inventroyQuantityLabel.text = self?.viewModel.inventoryQuantityLabel()
                 self?.setupDropdownButtons()
