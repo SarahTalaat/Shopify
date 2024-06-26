@@ -38,6 +38,7 @@ class AllProductsViewModel {
                   self.products = response.products
                   self.filteredProducts = self.products
               case .failure(let error):
+                  self.products = []
                   print("Failed to fetch products: \(error.localizedDescription)")
               }
           }

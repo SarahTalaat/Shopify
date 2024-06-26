@@ -9,7 +9,7 @@ import Foundation
 import Reachability
 
 class HomeViewModel {
-    let networkService: NetworkServiceAuthenticationProtocol
+    private let networkService = NetworkServiceAuthentication()
     var reachability: Reachability?
 
     var brands: [SmartCollection] = [] {
@@ -29,7 +29,6 @@ class HomeViewModel {
     var networkStatusChanged: ((Bool) -> Void)?
 
     init() {
-        self.networkService = networkService
         setupReachability()
         getBrands()
         getCoupons()
