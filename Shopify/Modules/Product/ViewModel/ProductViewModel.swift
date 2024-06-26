@@ -8,7 +8,7 @@
 import Foundation
 
 class ProductViewModel {
-    
+    var error: Error?
     var minPrice: Float = 0
     var maxPrice: Float = 1000
     
@@ -74,6 +74,8 @@ class ProductViewModel {
              case .success(let response):
                  self.products = response.products
              case .failure(let error):
+                 self.error = error
+                 self.products = []
                  print("Failed to fetch products: \(error.localizedDescription)")
              }
          }

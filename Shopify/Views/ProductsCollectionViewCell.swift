@@ -24,14 +24,12 @@ class ProductsCollectionViewCell: UICollectionViewCell {
     var indexPath: IndexPath?
     
     @IBAction func addToFav(_ sender: UIButton) {
-        if SharedDataRepository.instance.customerEmail != nil{
             if let indexPath = indexPath {
                 delegate?.didTapFavoriteButton(index: indexPath.row)
                 print("fff addToFavButton index: \(indexPath.row)")
             }
         }
       
-    }
     
     
  

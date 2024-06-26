@@ -19,13 +19,13 @@ class UserProfileViewModel: UserProfileViewModelProfileProtocol {
         }
     }
 
-    
     var orders: [Orders] = [] {
         didSet {
             bindAllOrders()
         }
     }
     
+    var customerEmail = SharedDataRepository.instance.customerEmail
     var bindAllOrders: (() -> ()) = {}
     var bindUserViewModelToController: (() -> ()) = {}
     private let networkService = NetworkServiceAuthentication()

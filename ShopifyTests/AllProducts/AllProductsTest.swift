@@ -37,22 +37,6 @@ class AllProductsViewModelTests: XCTestCase {
         wait(for: [expectation], timeout: 5.0)
     }
 
-//    func testGetProductsFailure() {
-//        // Given
-//        let expectation = XCTestExpectation(description: "Get products failure")
-//        let error = NSError(domain: "Error", code: 0, userInfo: nil)
-//
-//        // When
-//        networkServiceMock.result = .failure(error)
-//        viewModel.getProducts()
-//
-//        // Then
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//            XCTAssertNil(self.viewModel.products)
-//            expectation.fulfill()
-//        }
-//        wait(for: [expectation], timeout: 5.0)
-//    }
     func testFilterProducts() {
         // Given
         let expectation = XCTestExpectation(description: "Filter products")

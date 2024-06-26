@@ -33,13 +33,9 @@ class ProfileViewController: UIViewController {
         ordersCollectionView.collectionViewLayout = ordersCollectionViewLayout()
         wishlistCollectionView.collectionViewLayout = wishlistCollectionViewLayout()
         sharedMethods = SharedMethods(viewController: self)
-        
-
-        
-
+     
         wishlistCollectionView.reloadData()
        
-
         print("Profile View Controller ViewDidLoad")
         userProfileViewModel = DependencyProvider.userProfileViewModel
         favouriteViewModel = DependencyProvider.favouriteViewModel
@@ -108,7 +104,7 @@ class ProfileViewController: UIViewController {
                 self?.welcomeLabel.text = "Welcome \(self?.userProfileViewModel?.name ?? "No value for name!")"
                 print("Profile: View: name: \(self?.userProfileViewModel?.name ?? "there is no value for name!!")")
                 
-                if SharedDataRepository.instance.customerEmail == nil {
+                if self?.viewModel.customerEmail == nil {
                     self?.usernameLabel.text  = "Join us to enjoy exclusive features!"
                     
                     self?.gmailLabel.text = "View your orders,create a personalized wishlist and receive discounts"
@@ -122,7 +118,7 @@ class ProfileViewController: UIViewController {
         }
     }
     func guestMode(){
-        if SharedDataRepository.instance.customerEmail == nil{
+        if viewModel.customerEmail == nil{
             login.isHidden = false
             register.isHidden = false
             ordersCollectionView.isHidden = true

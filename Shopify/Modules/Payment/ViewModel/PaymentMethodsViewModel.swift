@@ -122,17 +122,18 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         print(email)
         print(defCurrency)
         print(unwrappedLineItems)
-        
+        print(totalAmount)
         order = Orders(
             id: nil,
             order_number: nil,
             created_at: nil,
             currency: defCurrency,
             email: email,
-            total_price: nil,
+            total_price:totalAmount,
             total_discounts: nil,
             total_tax: nil,
-            line_items: unwrappedLineItems
+            line_items: unwrappedLineItems,
+            inventory_behaviour: "decrement_obeying_policy"
         )
         
         ordersSend = OrdersSend(order: order!)
