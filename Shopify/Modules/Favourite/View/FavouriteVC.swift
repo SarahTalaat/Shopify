@@ -124,7 +124,7 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
 //    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return 130
+        return 110
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
