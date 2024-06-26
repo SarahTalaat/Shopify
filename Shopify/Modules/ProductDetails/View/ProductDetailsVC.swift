@@ -85,6 +85,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     
     private func configureRatingView() {
         ratingView.settings.fillMode = .half
+        ratingView.isUserInteractionEnabled = false
         ratingView.didFinishTouchingCosmos = { rating in
             // Handle the rating value here
             print("User rated: \(rating)")
