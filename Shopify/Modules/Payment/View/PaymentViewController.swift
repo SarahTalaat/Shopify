@@ -9,9 +9,6 @@ import UIKit
 import PassKit
 class PaymentViewController: UIViewController {
     
-    
-    
-    
     private var viewModel = PaymentMethodsViewModel()
     
     var defaultAddress: Address?

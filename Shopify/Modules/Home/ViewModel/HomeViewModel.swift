@@ -8,48 +8,45 @@
 import Foundation
 import Reachability
 
+class HomeViewModel {
+    let networkService: NetworkServiceAuthenticationProtocol
+    var reachability: Reachability?
 
-class HomeViewModel{
-     let networkService = NetworkServiceAuthentication()
-     var reachability: Reachability?
-
-    var brands : [SmartCollection] = [] {
-        didSet{
+    var brands: [SmartCollection] = [] {
+        didSet {
             self.bindBrandsData()
         }
     }
-    
-    var coupons : [PriceRules] = []{
-        didSet{
-         self.bindBrandsData()
+
+    var coupons: [PriceRules] = [] {
+        didSet {
+            self.bindCouponsData?()
         }
     }
-    
-    var bindBrandsData : (() -> ()) = {}
+
+    var bindBrandsData: (() -> ()) = {}
     var bindCouponsData: (() -> Void)?
     var networkStatusChanged: ((Bool) -> Void)?
 
-    
-    init(){
+    init() {
+        self.networkService = networkService
         setupReachability()
         getBrands()
         getCoupons()
-
     }
-    
+
     func getBrands() {
-           let urlString = APIConfig.smart_collections.url
-           networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<CollectionResponse, Error>) in
-               switch result {
-               case .success(let response):
-                   self.brands = response.smart_collections
-                   self.bindBrandsData()
-               case .failure(let error):
-                   print("Failed to fetch brands: \(error.localizedDescription)")
-               }
-           }
-       }
-    
+        let urlString = APIConfig.smart_collections.url
+        networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<CollectionResponse, Error>) in
+            switch result {
+            case .success(let response):
+                self.brands = response.smart_collections
+                self.bindBrandsData()
+            case .failure(let error):
+                print("Failed to fetch brands: \(error.localizedDescription)")
+            }
+        }
+    }
 
     func getCoupons() {
         let urlString = APIConfig.endPoint("price_rules").url
@@ -72,10 +69,10 @@ class HomeViewModel{
                 print("Not enough discount codes provided for all price rules.")
                 return
             }
-       
+
             let discountCodeData = DiscountCode(price_rule_id: coupon.id, code: discountCodes[index])
             let urlString = APIConfig.endPoint("price_rules/\(coupon.id)/discount_codes").url
-            networkService.requestFunction(urlString: urlString, method: .post, model: discountCodeData.toDictionary() ??  [:]) { (result: Result<DiscountCodeResponse, Error>) in
+            networkService.requestFunction(urlString: urlString, method: .post, model: discountCodeData.toDictionary() ?? [:]) { (result: Result<DiscountCodeResponse, Error>) in
                 switch result {
                 case .success:
                     print("Discount code '\(discountCodes[index])' posted successfully for price rule with ID \(coupon.id)")
@@ -100,20 +97,20 @@ class HomeViewModel{
         }
     }
 
-     func setupReachability() {
-           reachability = try? Reachability()
-           reachability?.whenReachable = { reachability in
-               self.networkStatusChanged?(reachability.connection == .wifi)
-               print("wifi connection")
-           }
-           reachability?.whenUnreachable = { _ in
-               self.networkStatusChanged?(false)
-           }
-           
-           do {
-               try reachability?.startNotifier()
-           } catch {
-               print("Unable to start notifier")
-           }
-       }
+    func setupReachability() {
+        reachability = try? Reachability()
+        reachability?.whenReachable = { reachability in
+            self.networkStatusChanged?(reachability.connection == .wifi)
+            print("wifi connection")
+        }
+        reachability?.whenUnreachable = { _ in
+            self.networkStatusChanged?(false)
+        }
+
+        do {
+            try reachability?.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
+    }
 }
