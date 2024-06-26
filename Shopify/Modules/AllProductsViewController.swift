@@ -143,17 +143,24 @@ extension AllProductsViewController: ProductsCollectionViewCellDelegate{
 
     
     func didTapFavoriteButton(index: Int) {
-        guard index < viewModel.filteredProducts.count else { return }
-        let productId = "\(viewModel.filteredProducts[index].id)"
-        viewModel.toggleFavorite(productId: productId) { error in
-            if let error = error {
-                print("Error toggling favorite status: \(error.localizedDescription)")
-            } else {
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+        
+        if viewModel.isGuest() == false {
+          showGuestAlert()
+        }else{
+            guard index < viewModel.filteredProducts.count else { return }
+            let productId = "\(viewModel.filteredProducts[index].id)"
+            viewModel.toggleFavorite(productId: productId) { error in
+                if let error = error {
+                    print("Error toggling favorite status: \(error.localizedDescription)")
+                } else {
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
                 }
             }
         }
+        
+
     }
 
          
@@ -161,16 +168,21 @@ extension AllProductsViewController: ProductsCollectionViewCellDelegate{
          func productsCollectionViewCellDidToggleFavorite(at index: Int) {
              guard index < viewModel.filteredProducts.count else { return }
              
-             viewModel.toggleFavorite(productId:  "\(viewModel.filteredProducts[index].id)") { error in
-                 if let error = error {
-                     print("Error toggling favorite status: \(error.localizedDescription)")
-                     // Handle error if needed
-                 } else {
-                     // Update UI or perform any post-toggle actions
-                     DispatchQueue.main.async {
-                         self.collectionView.reloadData()
+             if viewModel.isGuest() == false {
+                 showGuestAlert()
+             }else{
+                 viewModel.toggleFavorite(productId:  "\(viewModel.filteredProducts[index].id)") { error in
+                     if let error = error {
+                         print("Error toggling favorite status: \(error.localizedDescription)")
+                         // Handle error if needed
+                     } else {
+                         // Update UI or perform any post-toggle actions
+                         DispatchQueue.main.async {
+                             self.collectionView.reloadData()
+                         }
                      }
                  }
              }
+
          }
     }

@@ -59,6 +59,10 @@ class AllProductsViewModel {
 }
 extension AllProductsViewModel {
     
+    func isGuest()->Bool? {
+      return  SharedDataRepository.instance.isSignedIn
+       
+    }
     
     func toggleFavorite(productId: String, completion: @escaping (Error?) -> Void) {
         let isFavorite = isProductFavorite(productId: productId)
