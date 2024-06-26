@@ -10,6 +10,7 @@ import Foundation
 
 protocol ProductDetailsViewModelProtocol {
     
+    func isGuest()->Bool?
     func saveAddedToCartStateShoppingCart(_ added: Bool , productId:Int) 
     func saveButtonTitleStateShoppingCart(addToCartUI:CustomButton , productId:Int)
     func deleteProductFromShoppingCart(productId:Int)

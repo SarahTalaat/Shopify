@@ -10,6 +10,7 @@ import UIKit
 
 class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
+
     
 
     var exchangeRates: [String: Double] = [:]
@@ -319,6 +320,9 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     }
 
     
+    func isGuest()->Bool? {
+      return  SharedDataRepository.instance.isSignedIn
+    }
     
     func draftOrder() -> [String:Any] {
         var variantLineItemId = UserDefaults.standard.string(forKey: Constants.variantId)

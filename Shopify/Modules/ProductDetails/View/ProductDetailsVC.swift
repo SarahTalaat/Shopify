@@ -76,6 +76,8 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         super.viewWillAppear(animated)
         updateFavoriteButton()
         viewModel.fetchExchangeRates()
+        
+        
     }
     
     override func viewDidLoad() {
@@ -87,6 +89,14 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         viewModel.getCartId()
         viewModel.loadFavoriteProducts()
         viewModel.getCustomerIdFromFirebase()
+        
+        
+        if viewModel.isGuest() == false {
+            let imageName =  "heart"
+            favouriteButton.tintColor = .lightGray
+            let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
+            favouriteButton.setImage(image, for: .normal)
+        }
         
         bindViewModel()
         
@@ -160,20 +170,29 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
     @IBAction func favouriteButtonTapped(_ sender: UIButton) {
         
-        viewModel.toggleFavorite()
-        updateFavoriteButton()
-        
-
+       
+        if viewModel.isGuest() == false {
+            showGuestAlert()
+        }else{
+            viewModel.toggleFavorite()
+            updateFavoriteButton()
+            
+        }
         
     }
     
     func updateFavoriteButton() {
-        let isFavorited = viewModel.checkIfFavorited()
-        let imageName = isFavorited ? "heart.fill" : "heart"
+        
+             let isFavorited = viewModel.checkIfFavorited()
+             let imageName = isFavorited ? "heart.fill" : "heart"
 
-        favouriteButton.tintColor = isFavorited ? .red : .lightGray
-        let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
-        favouriteButton.setImage(image, for: .normal)
+             favouriteButton.tintColor = isFavorited ? .red : .lightGray
+             let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
+             favouriteButton.setImage(image, for: .normal)
+   
+        
+        
+
     }
 
     
