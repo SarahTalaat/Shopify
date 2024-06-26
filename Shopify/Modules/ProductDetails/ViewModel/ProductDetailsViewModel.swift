@@ -314,7 +314,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         }else{
             UserDefaults.standard.removeObject(forKey: Constants.inventoryQuantity)
             UserDefaults.standard.synchronize()
-            return "in stock"
+            return ""
         }
     }
 
