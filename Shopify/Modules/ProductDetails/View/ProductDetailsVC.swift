@@ -7,9 +7,11 @@
 
 import UIKit
 import Kingfisher
+import Cosmos
 
 class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource , ShoppingCartDeletionDeletegate {
     
+    @IBOutlet weak var ratingView: CosmosView!
     @IBOutlet weak var inventroyQuantityLabel: UILabel!
     
     var cartCell = CartTableViewCell()
@@ -28,8 +30,6 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         if SharedDataRepository.instance.customerEmail == nil {
             showGuestAlert()
         }else{
-            //             viewModel.isDataBound = true
-            //             viewModel.addToCart()
             if addToCartUI.isAddedToCart {
                 removeFromCart()
             } else {
@@ -39,7 +39,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     }
     @IBOutlet weak var brandNameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var ratingView: UIView!
+ 
     @IBOutlet weak var brandTitleLabel: UILabel!
     
     @IBOutlet weak var reviewTextView2: UITextView!
@@ -83,6 +83,20 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         
     }
     
+    private func configureRatingView() {
+        ratingView.settings.fillMode = .half
+        ratingView.didFinishTouchingCosmos = { rating in
+            // Handle the rating value here
+            print("User rated: \(rating)")
+            // Optionally save the rating or perform other actions
+        }
+    }
+    
+    private func updateRating() {
+        let rating = viewModel.getRating()
+        ratingView.rating = Double(rating)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -102,7 +116,8 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         }
         
         bindViewModel()
-        
+        configureRatingView()
+        updateRating()
         
         addToCartUI.isAddedToCart = false
         viewModel.saveButtonTitleState(addToCartUI:addToCartUI)
