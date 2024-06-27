@@ -158,6 +158,7 @@ class ProductViewModel {
             }
             
         }
+    }
 }
 extension ProductViewModel {
     

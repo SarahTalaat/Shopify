@@ -24,7 +24,7 @@ class CouponsViewModel {
 
     func fetchExchangeRates() {
             
-            network.requestFunction(urlString: APIConfig.usd.url3, method: .get, model: [:]){ (result: Result<ExchangeRatesResponse, Error>) in
+            network.requestFunction(urlString: APIConfig.usd.url2, method: .get, model: [:]){ (result: Result<ExchangeRatesResponse, Error>) in
                 switch result {
                 case .success(let response):
                     print("PD Exchange Rates Response\(response)")
