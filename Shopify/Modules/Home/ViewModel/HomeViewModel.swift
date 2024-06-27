@@ -23,7 +23,7 @@ class HomeViewModel {
             self.bindCouponsData?()
         }
     }
-
+    var customerEmail = SharedDataRepository.instance.customerEmail
     var bindBrandsData: (() -> ()) = {}
     var bindCouponsData: (() -> Void)?
     var networkStatusChanged: ((Bool) -> Void)?

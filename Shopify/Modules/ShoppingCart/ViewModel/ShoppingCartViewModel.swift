@@ -19,7 +19,7 @@ class ShoppingCartViewModel {
     var isVariantExcluded: Bool = false
     var draftOrder: OneDraftOrderResponse? {
         didSet {
-            filterLineItems()
+          //  filterLineItems()
             updateTotalAmount()
         }
     }
@@ -63,20 +63,10 @@ class ShoppingCartViewModel {
     }
     
     func updateTotalAmount() {
-            guard let draftOrder = draftOrder else { return }
-            let totalPrice = draftOrder.draftOrder?.lineItems.reduce(0.0) { result, lineItem in
-                if lineItem.variantId != excludedVariantId {
-                    let price = (lineItem.price as NSString).doubleValue
-                    let quantity = Double(lineItem.quantity)
-                    return result + (price * quantity)
-                } else {
-                    return result
-                }
-            } ?? 0.0
-            
-            totalAmount = String(format: "%.2f", totalPrice)
-            onTotalAmountUpdated?()
-        }
+               guard let draftOrder = draftOrder else { return }
+               totalAmount = draftOrder.draftOrder?.totalPrice ?? "total price"
+               onTotalAmountUpdated?()
+           }
     
     func incrementQuantity(at index: Int) {
         guard let lineItem = draftOrder?.draftOrder?.lineItems[index],
@@ -190,11 +180,11 @@ class ShoppingCartViewModel {
         }
     }
 
-    private func filterLineItems() {
-        guard let draftOrder = draftOrder, var lineItems = draftOrder.draftOrder?.lineItems else { return }
-        if let index = lineItems.firstIndex(where: { $0.variantId == 44382096457889 }) {
-            lineItems.remove(at: index)
-            self.draftOrder?.draftOrder?.lineItems = lineItems
-        }
-    }
+//    private func filterLineItems() {
+//        guard let draftOrder = draftOrder, var lineItems = draftOrder.draftOrder?.lineItems else { return }
+//        if let index = lineItems.firstIndex(where: { $0.variantId == 44382096457889 }) {
+//            lineItems.remove(at: index)
+//            self.draftOrder?.draftOrder?.lineItems = lineItems
+//        }
+//    }
 }

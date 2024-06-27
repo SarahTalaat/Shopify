@@ -104,7 +104,7 @@ class HomeViewController: UIViewController {
     // MARK: - Navigation Bar Items
     
     @objc func navToCart(){
-        if SharedDataRepository.instance.customerEmail == nil{
+        if viewModel.customerEmail == nil{
             showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
         }else{
             print("Cart ")
@@ -117,7 +117,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc func navToFav(){
-        if SharedDataRepository.instance.customerEmail == nil {
+        if viewModel.customerEmail == nil {
             showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
         }else{
             print("Favourite ")
@@ -240,7 +240,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             print(vm.brandID)
             navigationController?.pushViewController(brandsViewController, animated: true)
         default:
-            if SharedDataRepository.instance.customerEmail == nil {
+            if viewModel.customerEmail == nil {
                 showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
             } else {
                 let item = indexPath.row

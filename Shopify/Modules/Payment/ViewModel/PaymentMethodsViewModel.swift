@@ -15,17 +15,17 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         case applePay
     }
     private let networkService = NetworkServiceAuthentication()
-    var selectedPaymentMethod: PaymentMethod?
-    private var lineItem: LineItem?
-    private var order: Orders?
-    private var ordersSend: OrdersSend?
-    private var invoice: Invoice?
-    private var invoiceResponse: InvoiceResponse?
-    private var draftOrderId: Int?
-    var defCurrency: String = "EGP"
-    var totalAmount: String?
-    private var addresses: [Address] = []
-    private var viewModel = ShoppingCartViewModel()
+     var selectedPaymentMethod: PaymentMethod?
+     var lineItem: LineItem?
+     var order: Orders?
+     var ordersSend: OrdersSend?
+     var invoice: Invoice?
+     var invoiceResponse: InvoiceResponse?
+     var draftOrderId: Int?
+     var defCurrency: String = "EGP"
+     var totalAmount: String?
+     var addresses: [Address] = []
+     var viewModel = ShoppingCartViewModel()
     
     func selectPaymentMethod(_ method: PaymentMethod) {
         selectedPaymentMethod = method
