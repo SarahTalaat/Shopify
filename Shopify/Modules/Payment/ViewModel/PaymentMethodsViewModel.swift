@@ -15,28 +15,29 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         case applePay
     }
     private let networkService = NetworkServiceAuthentication()
-     var selectedPaymentMethod: PaymentMethod?
-     var lineItem: LineItem?
-     var order: Orders?
-     var ordersSend: OrdersSend?
-     var invoice: Invoice?
-     var invoiceResponse: InvoiceResponse?
-     var draftOrderId: Int?
-     var defCurrency: String = "EGP"
-     var totalAmount: String?
-     var addresses: [Address] = []
-     var viewModel = ShoppingCartViewModel()
+
+    var selectedPaymentMethod: PaymentMethod?
+    private var lineItem: LineItem?
+    private var order: Orders?
+    private var ordersSend: OrdersSend?
+    private var invoice: Invoice?
+    private var invoiceResponse: InvoiceResponse?
+    private var draftOrderId: Int?
+    var defCurrency: String = "EGP"
+    var totalAmount: String?
+    private var addresses: [Address] = []
+    private var viewModel = ShoppingCartViewModel()
     
     func selectPaymentMethod(_ method: PaymentMethod) {
         selectedPaymentMethod = method
     }
     
     func formatPriceWithCurrency(price: String) -> String {
-        guard let amount = Double(price) else { return "$0.00" }
+        guard let amount = Double(price) else { return "0.00" }
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.currencySymbol = "$"
-        return formatter.string(from: NSNumber(value: amount)) ?? "$0.00"
+        formatter.currencySymbol = ""
+        return formatter.string(from: NSNumber(value: amount)) ?? "0.00"
     }
 
     func updatePaymentSummaryItems(totalAmount: String) {
@@ -79,8 +80,12 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     }
     
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
-        completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
-    }
+            // Call your method to update UI or perform any actions after payment authorization
+        //    updateAfterPaymentAuthorization()
+
+            // Complete the payment authorization with success
+            completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
+        }
     
     
     func setupOrder(lineItem: [LineItem]) {
@@ -202,7 +207,8 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
                 return
             }
             
-            let urlString = "https://\(APIConfig.apiKey):\(APIConfig.password)@\(APIConfig.hostName)/admin/api/\(APIConfig.version)/customers/\(customerId)/addresses.json?limit"
+
+        let urlString = APIConfig.customers.urlForAddresses(customerId: customerId)
             
             networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { [weak self] (result: Result<AddressListResponse, Error>) in
                 guard let self = self else { return }
@@ -258,4 +264,30 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             self.postInvoice(draftOrderId: draftOrderId)
         }
     }
+//    private func updateAfterPaymentAuthorization() {
+//           postOrder { success in
+//               DispatchQueue.main.async {
+//                   let title: String
+//                   let message: String
+//                   if success {
+//                       title = "Order Placed"
+//                       message = "Your order has been successfully placed."
+//                       
+//                       // Assuming HomeViewController is your home screen
+//                       if let homeViewController = self.navigationController?.viewControllers.first(where: { $0 is HomeViewController }) {
+//                           self.navigationController?.popToViewController(homeViewController, animated: true)
+//                       }
+//                   } else {
+//                       title = "Error"
+//                       message = "Failed to place order. Please try again."
+//                   }
+//                   
+//                   let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//                   alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//                   // You should ideally present this alert from your view controller
+//                   // For now, I'm printing it
+//                   print(alert)
+//               }
+//           }
+//       }
 }

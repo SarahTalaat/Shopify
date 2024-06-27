@@ -7,18 +7,30 @@
 
 import UIKit
 import Kingfisher
+import Cosmos
 
-class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource {
+class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource , ShoppingCartDeletionDeletegate , deleteProductDelegate {
+    
+    @IBOutlet weak var ratingView: CosmosView!
+    @IBOutlet weak var inventroyQuantityLabel: UILabel!
+    
+    var cartCell = CartTableViewCell()
+    
+    func didDeleteProduct(id: Int, cartCell: CartTableViewCell) {
+        viewModel.deleteProductFromShoppingCart(productId: id)
+        addToCartUI.isAddedToCart = false
+        viewModel.saveAddedToCartStateShoppingCart(false, productId: id)
+        viewModel.saveButtonTitleStateShoppingCart(addToCartUI: addToCartUI, productId: id)
+    }
 
     @IBOutlet weak var addToCartUI: CustomButton!
+    
     @IBAction func addToCartButton(_ sender: CustomButton) {
         
         if SharedDataRepository.instance.customerEmail == nil {
             showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
 
         }else{
-            //             viewModel.isDataBound = true
-            //             viewModel.addToCart()
             if addToCartUI.isAddedToCart {
                 removeFromCart()
             } else {
@@ -28,12 +40,12 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     }
     @IBOutlet weak var brandNameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var ratingView: UIView!
+ 
     @IBOutlet weak var brandTitleLabel: UILabel!
     
     @IBOutlet weak var reviewTextView2: UITextView!
     @IBOutlet weak var reviewTextView1: UITextView!
-
+   
     @IBOutlet weak var favouriteButton: UIButton!
     @IBOutlet weak var descriptionLabel: UITextView!
     @IBOutlet var myCollectionView: UICollectionView!
@@ -53,9 +65,38 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     var viewModel: ProductDetailsViewModelProtocol!
     var activityIndicator: UIActivityIndicatorView!
     
+    // Default label with a default value
+    let defaultPriceLabel: UILabel = {
+        let label = UILabel()
+        label.text = "200 USD" // Default text
+        return label
+    }()
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateFavoriteButton()
+        viewModel.getUserDraftOrderId()
+        viewModel.getProductDetails()
+        viewModel.getCartId()
+        viewModel.fetchExchangeRates()
+        bindViewModel()
+        
+    }
+    
+    private func configureRatingView() {
+        ratingView.settings.fillMode = .half
+        ratingView.isUserInteractionEnabled = false
+        ratingView.didFinishTouchingCosmos = { rating in
+            // Handle the rating value here
+            print("User rated: \(rating)")
+            // Optionally save the rating or perform other actions
+        }
+    }
+    
+    private func updateRating() {
+        let rating = viewModel.getRating()
+        ratingView.rating = Double(rating)
     }
     
     override func viewDidLoad() {
@@ -68,18 +109,27 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         viewModel.loadFavoriteProducts()
         viewModel.getCustomerIdFromFirebase()
         
-        bindViewModel()
         
+        if viewModel.isGuest() == false {
+            let imageName =  "heart"
+            favouriteButton.tintColor = .lightGray
+            let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
+            favouriteButton.setImage(image, for: .normal)
+        }
+        
+        bindViewModel()
+        configureRatingView()
+        updateRating()
         
         addToCartUI.isAddedToCart = false
         viewModel.saveButtonTitleState(addToCartUI:addToCartUI)
+       
         updateFavoriteButton()
       
         
-        
-        
+        cartCell.shoppingCartDeletionDeletegate = self
        
-        
+    
         
         settingUpCollectionView()
 
@@ -140,19 +190,31 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
     @IBAction func favouriteButtonTapped(_ sender: UIButton) {
         
-        viewModel.toggleFavorite()
-        updateFavoriteButton()
-        
-
+       
+        if viewModel.isGuest() == false {
+            showGuestAlert()
+        }else{
+            viewModel.toggleFavorite()
+            updateFavoriteButton()
+            
+        }
         
     }
     
     func updateFavoriteButton() {
-        let isFavorited = viewModel.checkIfFavorited()
-        let imageName = isFavorited ? "heart.fill" : "heart"
-        let image = UIImage(systemName: imageName)
-        favouriteButton.setImage(image, for: .normal)
+        
+             let isFavorited = viewModel.checkIfFavorited()
+             let imageName = isFavorited ? "heart.fill" : "heart"
+
+             favouriteButton.tintColor = isFavorited ? .red : .lightGray
+             let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
+             favouriteButton.setImage(image, for: .normal)
+        
+        
+        
+
     }
+
     
     func setUpFavouriteButton(){
         // Make the button circular
@@ -218,13 +280,30 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
                 
                 self?.brandNameLabel.text = self?.viewModel.product?.product?.vendor
                 self?.brandTitleLabel.text = self?.viewModel.product?.product?.title
-                self?.priceLabel.text = self?.viewModel.product?.product?.variants?.first?.price
+                
+////                self?.priceLabel.text = self?.viewModel.product?.product?.variants?.first?.price
+                ///
+                self?.priceCurrency(priceLabel: (self?.priceLabel ?? self?.defaultPriceLabel) ?? UILabel() )
                 self?.descriptionLabel.text = self?.viewModel.product?.product?.body_html
+                
+                
+                self?.inventroyQuantityLabel.text = self?.viewModel.inventoryQuantityLabel()
                 self?.setupDropdownButtons()
                 self?.updateFavoriteButton()
             }
         }
     }
+    
+    func priceCurrency(priceLabel:UILabel){
+        let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+        let exchangeRate = viewModel.exchangeRates[selectedCurrency] ?? 1.0
+        if let price = Double(self.viewModel.product?.product?.variants?.first?.price ?? "200") {
+            
+            let convertedPrice = price * exchangeRate
+            priceLabel.text = "\(String(format: "%.2f", convertedPrice))\(selectedCurrency)"
+        }
+    }
+    
     
     func setupDropdownTableView1(dropDowntableView: UITableView) {
         dropDowntableView.layer.borderWidth = 1.0
@@ -329,13 +408,13 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     }
     
     
-    
-
-    
-    
-
+    func deleteProuct(isAddedToCart: Bool) {
+        addToCartUI.isAddedToCart = isAddedToCart
     }
 
+    
+
+}
 
 
     
@@ -355,3 +434,6 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
 
 
+protocol deleteProductDelegate {
+    func deleteProuct(isAddedToCart: Bool)
+}

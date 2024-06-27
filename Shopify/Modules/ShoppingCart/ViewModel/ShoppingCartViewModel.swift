@@ -12,14 +12,15 @@ import RxSwift
 import Cosmos
 
 class ShoppingCartViewModel {
-    private let draftOrderService = DraftOrderNetworkService()
+    private let networkService = NetworkServiceAuthentication()
     private let disposeBag = DisposeBag()
-    private let exchangeRateApiService = ExchangeRateApiService()
+  
     var exchangeRates: [String: Double] = [:]
     var isVariantExcluded: Bool = false
     var draftOrder: OneDraftOrderResponse? {
         didSet {
           //  filterLineItems()
+
             updateTotalAmount()
         }
     }
@@ -38,6 +39,8 @@ class ShoppingCartViewModel {
                 self?.updateDraftOrder()
             })
             .disposed(by: disposeBag)
+        
+        fetchExchangeRates()
     }
     
     func saveChanges() {
@@ -45,44 +48,69 @@ class ShoppingCartViewModel {
     }
     
     func fetchDraftOrders() {
-        guard let draftOrderIdString = UserDefaults.standard.string(forKey: Constants.userDraftId),
-              let draftOrderId = Int(draftOrderIdString) else {
-            return
+            guard let draftOrderIdString = UserDefaults.standard.string(forKey: Constants.userDraftId),
+                  let draftOrderId = Int(draftOrderIdString) else {
+                return
+            }
+            print("SC: draftOrderId fetchDraftOrders: \(draftOrderId)")
+        let urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
+            networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
+                switch result {
+                case .success(let draftOrder):
+                    self?.draftOrder = draftOrder
+                    self?.onDraftOrderUpdated?()
+                case .failure(let error):
+                    print("Failed to fetch draft orders: \(error.localizedDescription)")
+                }
+            }
         }
-        print("SC: draftOrderId fetchDraftOrders: \(draftOrderId)")
-
-        draftOrderService.fetchDraftOrders { [weak self] result in
+    func fetchProductDetails(for productId: Int, completion: @escaping (Result<OneProductResponse, Error>) -> Void) {
+        let urlString = APIConfig.endPoint("products/\(productId)").url
+        
+        networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<OneProductResponse, Error>) in
             switch result {
-            case .success(let draftOrder):
-                self?.draftOrder = draftOrder
-                self?.onDraftOrderUpdated?()
+            case .success(let product):
+                completion(.success(product))
             case .failure(let error):
-                print("Failed to fetch draft orders: \(error.localizedDescription)")
+                completion(.failure(error))
             }
         }
     }
-    
     func updateTotalAmount() {
-               guard let draftOrder = draftOrder else { return }
-               totalAmount = draftOrder.draftOrder?.totalPrice ?? "total price"
-               onTotalAmountUpdated?()
-           }
+           guard let draftOrder = draftOrder else { return }
+           totalAmount = draftOrder.draftOrder?.totalPrice ?? "total price"
+           onTotalAmountUpdated?()
+       }
+
+//         guard let draftOrder = draftOrder else { return }
+//         let totalPrice = draftOrder.draftOrder?.lineItems.reduce(0.0) { result, lineItem in
+//             if lineItem.variantId != excludedVariantId {
+//                 let price = (lineItem.price as NSString).doubleValue
+//                 let quantity = Double(lineItem.quantity)
+//                 return (result ?? 0.0) + (price * quantity)
+//             } else {
+//                 return result
+//             }
+//         } ?? 0.0
+        
+//         totalAmount = String(format: "%.2f", totalPrice)
+//         onTotalAmountUpdated?()
+//     }
+  
     
     func incrementQuantity(at index: Int) {
         guard let lineItem = draftOrder?.draftOrder?.lineItems[index],
-              let productId = lineItem.productId else { return }
+              let productId = lineItem.productId else {
+            return
+        }
         
-        draftOrderService.fetchProduct(productId: productId) { [weak self] result in
+        let urlString = APIConfig.endPoint("products/\(productId)").url
+        
+        networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { [weak self] (result: Result<OneProductResponse, Error>) in
             switch result {
-            case .success(let product):
-                let inventoryQuantity = product.variants.first?.inventory_quantity ?? 0
-                let maxQuantity: Int
-                
-                if inventoryQuantity <= 5 {
-                    maxQuantity = inventoryQuantity
-                } else {
-                    maxQuantity = inventoryQuantity / 2
-                }
+            case .success(let productResponse):
+                let inventoryQuantity = productResponse.product.variants.first?.inventory_quantity ?? 0
+                let maxQuantity = inventoryQuantity <= 5 ? inventoryQuantity : inventoryQuantity / 2
                 
                 if lineItem.quantity + 1 > maxQuantity {
                     self?.onAlertMessage?("You cannot add more of this item. Maximum allowed quantity is \(maxQuantity).")
@@ -94,6 +122,9 @@ class ShoppingCartViewModel {
                 
             case .failure(let error):
                 print("Failed to fetch product: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    self?.onAlertMessage?("Failed to fetch product details")
+                }
             }
         }
     }
@@ -103,6 +134,7 @@ class ShoppingCartViewModel {
         lineItem.quantity -= 1
         updateLineItem(at: index, with: lineItem)
     }
+    
     func deleteItem(at index: Int) {
         draftOrder?.draftOrder?.lineItems.remove(at: index)
         updateDraftOrder()
@@ -116,24 +148,41 @@ class ShoppingCartViewModel {
     }
     
     func updateDraftOrder() {
-        guard let draftOrderIdString = UserDefaults.standard.string(forKey: Constants.userDraftId),
-              let draftOrderId = Int(draftOrderIdString) else {
+            guard let draftOrderIdString = UserDefaults.standard.string(forKey: Constants.userDraftId),
+                  let draftOrderId = Int(draftOrderIdString),
+                  let draftOrder = draftOrder else {
+                return
+            }
+
+            print("SC: draftOrderId fetchDraftOrders: \(draftOrderId)")
+
+
+            let urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
+            guard let draftOrderDetails = draftOrder.draftOrder else {
+                print("Draft order details are nil")
+                return
+            }
+
+        // Convert draft order to dictionary representation
+        guard let draftOrderDetails = draftOrder.draftOrder else {
+            print("Draft order details are nil")
             return
         }
-        print("SC: draftOrderId fetchDraftOrders: \(draftOrderId)")
-        
-        guard let draftOrder = draftOrder else { return }
-        draftOrderService.updateDraftOrder(draftOrder: draftOrder) { [weak self] result in
-            switch result {
-            case .success(let updatedDraftOrder):
-                self?.draftOrder = updatedDraftOrder
-                self?.onDraftOrderUpdated?()
-            case .failure(let error):
-                print("Failed to update draft order: \(error.localizedDescription)")
+//        let draftOrderDictionary: [String: Any] = ["draft_order": draftOrderDetails.toDictionary()]
+
+
+            let draftOrderDictionary = draftOrderDetails.toDraftOrderDictionary()
+
+            networkService.requestFunction(urlString: urlString, method: .put, model: ["draft_order": draftOrderDictionary]) { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
+                switch result {
+                case .success(let updatedDraftOrder):
+                    self?.draftOrder = updatedDraftOrder
+                    self?.onDraftOrderUpdated?()
+                case .failure(let error):
+                    print("Failed to update draft order: \(error.localizedDescription)")
+                }
             }
         }
-    }
-
     func formatPriceWithCurrency(price: String) -> String {
         let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
         let exchangeRate = exchangeRates[selectedCurrency] ?? 1.0
@@ -146,16 +195,20 @@ class ShoppingCartViewModel {
     }
     
     func fetchExchangeRates() {
-        exchangeRateApiService.getLatestRates { [weak self] result in
-            switch result {
-            case .success(let response):
-                self?.exchangeRates = response.conversion_rates
-            case .failure(let error):
-                print("Error fetching exchange rates: \(error)")
+            
+            networkService.requestFunction(urlString: APIConfig.usd.url2, method: .get, model: [:]){ (result: Result<ExchangeRatesResponse, Error>) in
+                switch result {
+                case .success(let response):
+                    print("PD Exchange Rates Response\(response)")
+                    self.exchangeRates = response.conversion_rates
+                    self.onDraftOrderUpdated?()
+                case .failure(let error):
+                    print(error)
+                }
+              
             }
-            // Notify any observers that the exchange rates have been fetched
+            
         }
-    }
 
     func getDraftOrderID(email: String) {
         FirebaseAuthService().getShoppingCartId(email: email) { shoppingCartId, error in
@@ -187,4 +240,77 @@ class ShoppingCartViewModel {
 //            self.draftOrder?.draftOrder?.lineItems = lineItems
 //        }
 //    }
+
+    
+}
+extension OneDraftOrderResponseDetails {
+    func toDraftOrderDictionary() -> [String: Any] {
+        var dictionary: [String: Any] = [
+            "id": id as Any,
+            "note": note as Any,
+            "email": email as Any,
+            "taxes_included": taxesIncluded as Any,
+            "currency": currency as Any,
+            "invoice_sent_at": invoiceSentAt as Any,
+            "created_at": createdAt as Any,
+            "updated_at": updatedAt as Any,
+            "tax_exempt": taxExempt as Any,
+            "completed_at": completedAt as Any,
+            "name": name as Any,
+            "status": status as Any,
+            "line_items": lineItems.map { $0.toLineItemDictionary() },
+            "shipping_address": shippingAddress as Any,
+            "billing_address": billingAddress as Any,
+            "invoice_url": invoiceUrl as Any,
+            "applied_discount": appliedDiscount as Any,
+            "order_id": orderId as Any,
+            "shipping_line": shippingLine as Any,
+            "tax_lines": taxLines?.map { $0.toTaxLineDictionary() } as Any,
+            "tags": tags as Any,
+            "note_attributes": noteAttributes as Any,
+            "total_price": totalPrice,
+            "subtotal_price": subtotalPrice,
+            "total_tax": totalTax as Any,
+            "payment_terms": paymentTerms as Any,
+            "admin_graphql_api_id": adminGraphqlApiId as Any
+        ]
+        return dictionary
+    }
+}
+
+extension LineItem {
+    func toLineItemDictionary() -> [String: Any] {
+        return [
+            "id": id as Any,
+            "variant_id": variantId as Any,
+            "product_id": productId as Any,
+            "title": title,
+            "variant_title": variantTitle as Any,
+            "sku": sku as Any,
+            "vendor": vendor as Any,
+            "quantity": quantity,
+            "requires_shipping": requiresShipping as Any,
+            "taxable": taxable as Any,
+            "gift_card": giftCard as Any,
+            "fulfillment_service": fulfillmentService as Any,
+            "grams": grams as Any,
+            "tax_lines": taxLines?.map { $0.toTaxLineDictionary() } as Any,
+            "applied_discount": appliedDiscount as Any,
+            "name": name as Any,
+            "properties": properties as Any,
+            "custom": custom as Any,
+            "price": price,
+            "admin_graphql_api_id": adminGraphqlApiId as Any
+        ]
+    }
+}
+
+extension TaxLine {
+    func toTaxLineDictionary() -> [String: Any] {
+        return [
+            "rate": rate as Any,
+            "title": title as Any,
+            "price": price as Any
+        ]
+    }
 }

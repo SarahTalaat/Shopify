@@ -14,4 +14,5 @@ protocol FavouriteViewModelProtocol {
     var products: [ProductFromFirebase]? {get set}
     func deleteProductFromFirebase(index: Int)
     func getproductId(index: Int)
+    func isProductsEmpty() -> Bool
 }

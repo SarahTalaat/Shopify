@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,25 +18,52 @@
                 <rect key="frame" x="0.0" y="0.0" width="317" height="62"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="18t-F0-ENg">
-                        <rect key="frame" x="90" y="21" width="93" height="24"/>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sqp-3K-rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="317" height="62"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bTh-JY-wSO">
+                                <rect key="frame" x="14" y="5" width="64" height="54"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="money"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USD" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4oC-kJ-IPJ">
+                                <rect key="frame" x="105" y="19" width="41.666666666666657" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="4oC-kJ-IPJ" secondAttribute="trailing" constant="170.33000000000001" id="JMP-6E-hA7"/>
+                            <constraint firstItem="4oC-kJ-IPJ" firstAttribute="leading" secondItem="bTh-JY-wSO" secondAttribute="trailing" constant="27" id="NI2-cX-vAT"/>
+                            <constraint firstItem="bTh-JY-wSO" firstAttribute="top" secondItem="Sqp-3K-rvc" secondAttribute="top" constant="5" id="TO2-fI-wGo"/>
+                            <constraint firstAttribute="bottom" secondItem="bTh-JY-wSO" secondAttribute="bottom" constant="3" id="XVB-TF-sIQ"/>
+                            <constraint firstItem="4oC-kJ-IPJ" firstAttribute="top" secondItem="Sqp-3K-rvc" secondAttribute="top" constant="19" id="oaD-7u-Z0k"/>
+                            <constraint firstAttribute="bottom" secondItem="4oC-kJ-IPJ" secondAttribute="bottom" constant="19" id="ygJ-p4-7ga"/>
+                            <constraint firstItem="bTh-JY-wSO" firstAttribute="leading" secondItem="Sqp-3K-rvc" secondAttribute="leading" constant="14" id="zRp-dU-Wdx"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="18t-F0-ENg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="21" id="6A3-dp-LEl"/>
-                    <constraint firstItem="18t-F0-ENg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="90" id="K3H-Iy-rs0"/>
-                    <constraint firstAttribute="bottom" secondItem="18t-F0-ENg" secondAttribute="bottom" constant="17" id="LaQ-ip-hA4"/>
-                    <constraint firstAttribute="trailing" secondItem="18t-F0-ENg" secondAttribute="trailing" constant="134" id="YLL-pF-dAc"/>
+                    <constraint firstAttribute="trailing" secondItem="Sqp-3K-rvc" secondAttribute="trailing" id="2h5-Tq-Kj9"/>
+                    <constraint firstItem="Sqp-3K-rvc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="F8O-CL-dc0"/>
+                    <constraint firstItem="Sqp-3K-rvc" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="aTz-Vt-5Eo"/>
+                    <constraint firstItem="Sqp-3K-rvc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="w75-NI-bLd"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="currency" destination="18t-F0-ENg" id="C4u-pR-0RY"/>
+                <outlet property="currency" destination="4oC-kJ-IPJ" id="HWK-SI-chM"/>
+                <outlet property="currencyView" destination="Sqp-3K-rvc" id="wfm-mM-0Ep"/>
             </connections>
             <point key="canvasLocation" x="127.48091603053435" y="-4.9295774647887329"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="money" width="40" height="40"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

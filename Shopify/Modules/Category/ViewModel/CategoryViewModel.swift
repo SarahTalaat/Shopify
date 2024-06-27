@@ -13,7 +13,7 @@ class CategoryViewModel{
     
     var userFavorites: [String: Bool] = [:]
     var productsFromFirebase: [ProductFromFirebase] = []
-
+    var network = NetworkServiceAuthentication()
     var category: [Product] = [] {
          didSet {
              applyFilters()
@@ -98,23 +98,27 @@ class CategoryViewModel{
         filteredProducts = filtered
     }
     
-      func fetchExchangeRates() {
-            let exchangeRateApiService = ExchangeRateApiService()
-            exchangeRateApiService.getLatestRates { [weak self] result in
+    func fetchExchangeRates() {
+            
+            network.requestFunction(urlString: APIConfig.usd.url2, method: .get, model: [:]){ (result: Result<ExchangeRatesResponse, Error>) in
                 switch result {
                 case .success(let response):
-                    self?.exchangeRates = response.conversion_rates
+                    print("PD Exchange Rates Response\(response)")
+                    self.exchangeRates = response.conversion_rates
                 case .failure(let error):
-                    print("Error fetching exchange rates: \(error)")
+                    print(error)
                 }
-                self?.bindCategory()
+              
             }
+            
         }
+
     
  
 }
 
 extension CategoryViewModel {
+    
     
     func toggleFavorite(productId: String, completion: @escaping (Error?) -> Void) {
         let isFavorite = isProductFavorite(productId: productId)
@@ -139,7 +143,7 @@ extension CategoryViewModel {
         
         FirebaseAuthService().fetchFavorites(email: email) { [weak self] favorites in
             self?.userFavorites = favorites
-      
+            self?.applyFilters()
         }
     }
     
@@ -159,8 +163,10 @@ extension CategoryViewModel {
     }
     
     func getproductId(index: Int){
-        var productId = category[index].id
+        var productId = filteredProducts[index].id
         addValueToUserDefaults(value: productId, forKey: Constants.productId)
+        print("fff getProductId")
+        print("fff productID \(productId)")
     }
     
     func retrieveAllProductsFromEncodedEmail(email: String, completion: @escaping ([ProductFromFirebase]) -> Void) {
@@ -174,9 +180,10 @@ extension CategoryViewModel {
         return UserDefaults.standard.string(forKey: key)
     }
     
-
-    
-
+    func isGuest()->Bool? {
+      return  SharedDataRepository.instance.isSignedIn
+       
+    }
 
 }
 

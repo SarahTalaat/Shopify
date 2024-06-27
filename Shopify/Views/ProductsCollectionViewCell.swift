@@ -23,13 +23,17 @@ class ProductsCollectionViewCell: UICollectionViewCell {
     weak var delegate: ProductsCollectionViewCellDelegate?
     var indexPath: IndexPath?
     
+    var viewModel: ProductViewModel = ProductViewModel()
+    
     @IBAction func addToFav(_ sender: UIButton) {
+        if viewModel.isGuest() == true {
             if let indexPath = indexPath {
                 delegate?.didTapFavoriteButton(index: indexPath.row)
                 print("fff addToFavButton index: \(indexPath.row)")
             }
         }
-      
+
+    }
     
     
  
@@ -57,10 +61,12 @@ class ProductsCollectionViewCell: UICollectionViewCell {
     }
 
     func updateFavoriteUI(isFavorite: Bool) {
-        let imageName = isFavorite ? "heart.fill" : "heart"
-        let image = UIImage(systemName: imageName)
-        favBtn.tintColor = isFavorite ? .red : .lightGray
-        favBtn.setImage(image, for: .normal)
+        if viewModel.isGuest() == true {
+            let imageName = isFavorite ? "heart.fill" : "heart"
+            let image = UIImage(systemName: imageName)
+            favBtn.tintColor = isFavorite ? .red : .lightGray
+            favBtn.setImage(image, for: .normal)
+        }
     }
     
     @objc private func toggleFavorite() {

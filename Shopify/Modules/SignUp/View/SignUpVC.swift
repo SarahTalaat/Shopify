@@ -129,12 +129,24 @@ class SignUpVC: UIViewController {
     
     
     @IBAction private func signUpButton(_ sender: UIButton) {
-        guard let firstName = firstNameCustomTextField.text,
-              let email = emailCustomTextField.text,
-              let password = passwordCustomTextField.text else { return }
-        viewModel.signUp(email: email, password: password, firstName: firstName)
+
         
+        guard let firstName = firstNameCustomTextField.text, !firstName.isEmpty,
+              let email = emailCustomTextField.text, !email.isEmpty,
+              let password = passwordCustomTextField.text, !password.isEmpty else {
+            
+            // Show alert if any field is empty
+            showSignSuccessfulAlert(title: "Error", message: "All fields are required.", button1Title: "Ok"){
+                print("Alert dismissed")
+            }
+            return
+        }
+        
+        // Call the sign up method if all fields are entered
+        viewModel.signUp(email: email, password: password, firstName: firstName)
     }
+        
+    
     
     private func bindViewModel() {
         viewModel.bindUserViewModelToController = {

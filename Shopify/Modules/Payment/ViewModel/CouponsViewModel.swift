@@ -8,17 +8,38 @@
 import Foundation
 class CouponsViewModel {
     
-    let network = NetworkServiceAuthentication()
+    var network = NetworkServiceAuthentication()
     private(set) var discountCodes: [String] = []
+    var exchangeRates: [String: Double] = [:]
 
     var staticSubTotal: Double = 100.00
 
-    var subTotal: String = String(format: "$%.2f", 100.00) {
+    var subTotal: String = String(format: "%.2f", 100.00) {
         didSet {
-            if let subTotalValue = Double(subTotal.replacingOccurrences(of: "$", with: "")) {
+            if let subTotalValue = Double(subTotal.replacingOccurrences(of: "", with: "")) {
                 staticSubTotal = subTotalValue
             }
         }
+    }
+
+    func fetchExchangeRates() {
+            
+            network.requestFunction(urlString: APIConfig.usd.url2, method: .get, model: [:]){ (result: Result<ExchangeRatesResponse, Error>) in
+                switch result {
+                case .success(let response):
+                    print("PD Exchange Rates Response\(response)")
+                    self.exchangeRates = response.conversion_rates
+                case .failure(let error):
+                    print(error)
+                }
+              
+            }
+            
+        }
+
+    func getConvertedValue(for amount: Double, in currency: String) -> Double {
+        let exchangeRate = exchangeRates[currency] ?? 1.0
+        return amount * exchangeRate
     }
 
     func validateCoupon(_ couponCode: String, completion: @escaping (Double?) -> Void) {
@@ -34,11 +55,14 @@ class CouponsViewModel {
         completion(discountAmount)
     }
 
-    func updateTotals(with discountAmount: Double) -> (discount: String, grandTotal: String) {
+    func updateTotals(with discountAmount: Double, in currency: String) -> (discount: String, grandTotal: String) {
         let discountValue = staticSubTotal * (discountAmount / 100.0)
         let grandTotalValue = staticSubTotal - discountValue
 
-        return (String(format: "$%.2f", discountValue), String(format: "$%.2f", grandTotalValue))
+        let convertedDiscount = getConvertedValue(for: discountValue, in: currency)
+        let convertedGrandTotal = getConvertedValue(for: grandTotalValue, in: currency)
+
+        return (String(format: "%.2f", convertedDiscount) + " \(currency)", String(format: "%.2f", convertedGrandTotal) + " \(currency)")
     }
 
     func saveCouponCode(_ couponCode: String, for customerId: String) {

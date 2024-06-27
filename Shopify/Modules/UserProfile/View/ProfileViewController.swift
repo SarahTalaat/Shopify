@@ -41,6 +41,7 @@ class ProfileViewController: UIViewController {
         favouriteViewModel = DependencyProvider.favouriteViewModel
         favouriteViewModel.retriveProducts()
         
+        bindViewModel()
         bindViewModel2()
         userProfileViewModel.userPersonalData()
         print("Profile: test name : \(userProfileViewModel.name)")
@@ -53,7 +54,7 @@ class ProfileViewController: UIViewController {
                 }
             }
         }
-        
+
         let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
 
         let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
@@ -76,11 +77,23 @@ class ProfileViewController: UIViewController {
         print(viewModel.orders.count)
     }
 
+    
+    
+    func bindViewModel(){
+        favouriteViewModel.bindProducts = { [weak self] in
+            DispatchQueue.main.async {
+                self?.wishlistCollectionView.reloadData()
+                self?.wishlistLabel.text = "You have \(self?.favouriteViewModel.products?.count ?? 0) favourite products"
+            }
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
           super.viewWillAppear(animated)
           viewModel.getOrders()
           updateCollection()
         initializeButtonStyles()
+        favouriteViewModel.retriveProducts()
         }
         
         func initializeButtonStyles() {
@@ -207,6 +220,8 @@ class ProfileViewController: UIViewController {
             {
             case ordersCollectionView :
                 return min(viewModel.orders.count, 2)
+            case wishlistCollectionView:
+                return min(favouriteViewModel.products?.count ?? 2, 2)
             default:
                 return 2
             }
@@ -234,12 +249,24 @@ class ProfileViewController: UIViewController {
             } else {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WishlistCollectionViewCell", for: indexPath) as! WishlistCollectionViewCell
                 
-                if indexPath.row < 2 {
-                    if favouriteViewModel.products?[indexPath.row] != nil {
-                    
-                        cell.productName.text = favouriteViewModel.products?[indexPath.row].productTitle
+                if favouriteViewModel.products?.count == 0 {
+                    cell.isHidden = true
+                }else if favouriteViewModel.products?.count == 1 {
+                    if indexPath.row == 1 {
+                        cell.isHidden = true
+                    } else {
+                        cell.isHidden = false
+                        if let product = favouriteViewModel.products?[indexPath.row] {
+                            cell.productName.text = product.productTitle
+                        }
                     }
+              }else{
+                    if favouriteViewModel.products?[indexPath.row] != nil {
+                    cell.productName.text = favouriteViewModel.products?[indexPath.row].productTitle
+                    }
+                    
                 }
+            
 
                 return cell
             }
