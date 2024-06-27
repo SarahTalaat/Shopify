@@ -25,6 +25,7 @@ class SignInViewModelTests: XCTestCase {
         var checkEmailSignInStatusResult: Bool?
         var postDraftOrderResult: Result<OneDraftOrderResponse, Error>?
         var fetchCustomerDataResult: CustomerData?
+        var getShoppingCartIdResult: String?
 
 
         override func updateSignInStatus(email: String, isSignedIn: String, completion: @escaping (Bool) -> Void) {
@@ -200,7 +201,70 @@ class SignInViewModelTests: XCTestCase {
             waitForExpectations(timeout: 30.0, handler: nil)
         }
 
+    func testAddValueToUserDefaults() {
+            let key = "TestKey"
+            let value = "TestValue"
+
+            viewModel.addValueToUserDefaults(value: value, forKey: key)
+
+            XCTAssertEqual(UserDefaults.standard.string(forKey: key), value)
+        }
+
+        func testSetDraftOrderId() {
+            let expectation = self.expectation(description: "Set draft order ID expectation")
+            let mockAuthService = MockFirebaseAuthService3(forTesting: true)
+            viewModel.authService = mockAuthService
+            let email = "shopifyapp.test7@gmail.com"
+            let shoppingCartID = "1036337250465"
+
+            viewModel.setDraftOrderId(email: email, shoppingCartID: shoppingCartID)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 30.0) {
+                // Add assertion if there's a way to verify the ID was set
+                
+                
+                expectation.fulfill()
+            }
+
+            waitForExpectations(timeout: 30.0, handler: nil)
+        }
+
+
+    func testGetDraftOrderID() {
+          let expectation = self.expectation(description: "Get draft order ID expectation")
+          let mockAuthService = MockFirebaseAuthService3(forTesting: true)
+          viewModel.authService = mockAuthService
+          let email = "shopifyapp.test7@gmail.com"
+          let shoppingCartID = "1036337250465"
+          mockAuthService.getShoppingCartIdResult = shoppingCartID
+
+          viewModel.getDraftOrderID(email: email)
+
+          DispatchQueue.main.asyncAfter(deadline: .now() + 30.0) {
+              XCTAssertEqual(SharedDataRepository.instance.draftOrderId, shoppingCartID)
+              XCTAssertEqual(UserDefaults.standard.string(forKey: Constants.userDraftId), shoppingCartID)
+              expectation.fulfill()
+          }
+
+          waitForExpectations(timeout: 30.0, handler: nil)
+      }
     
+    func testGetUserDraftOrderId() {
+        let expectation = self.expectation(description: "Get user draft order ID expectation")
+        let mockAuthService = MockFirebaseAuthService3(forTesting: true)
+        viewModel.authService = mockAuthService
+        let email = "shopifyapp.test7@gmail.com"
+        SharedDataRepository.instance.customerEmail = email
+
+        viewModel.getUserDraftOrderId()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 30.0) {
+            XCTAssertNotNil(UserDefaults.standard.string(forKey: Constants.userDraftId))
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 30.0, handler: nil)
+    }
     
 //
 //    func testUpdateSignInStatus() {
