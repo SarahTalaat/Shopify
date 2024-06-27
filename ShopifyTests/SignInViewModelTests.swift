@@ -15,61 +15,6 @@ class SignInViewModelTests: XCTestCase {
         super.tearDown()
     }
 
-
-    // Mock FirebaseAuthService for testing
-    class MockFirebaseAuthService3: FirebaseAuthService {
-
-        var signInResult: Result<UserModel, Error>?
-        var updateSignInStatusResult: Result<Void, Error>?
-        
-        var checkEmailSignInStatusResult: Bool?
-        var postDraftOrderResult: Result<OneDraftOrderResponse, Error>?
-        var fetchCustomerDataResult: CustomerData?
-        var getShoppingCartIdResult: String?
-
-
-        override func updateSignInStatus(email: String, isSignedIn: String, completion: @escaping (Bool) -> Void) {
-            if let updateSignInStatusResult = updateSignInStatusResult {
-                switch updateSignInStatusResult {
-                case .success:
-                    completion(true)
-                case .failure:
-                    completion(false)
-                }
-            } else {
-                completion(false)
-            }
-        }
-
-        override func checkEmailSignInStatus(email: String, completion: @escaping (Bool?) -> Void) {
-            completion(checkEmailSignInStatusResult)
-        }
-
-        override func fetchCustomerDataFromRealTimeDatabase(forEmail email: String, completion: @escaping (CustomerData?) -> Void) {
-            completion(fetchCustomerDataResult)
-        }
-
-        override func setShoppingCartId(email: String, shoppingCartId: String, completion: @escaping (Error?) -> Void) {
-            completion(nil)
-        }
-
-        override func getShoppingCartId(email: String, completion: @escaping (String?, Error?) -> Void) {
-            completion(nil, nil)
-        }
-        override func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
-            if let signInResult = signInResult {
-                completion(signInResult)
-            } else {
-                // Simulate default behavior or handle as needed
-                completion(.failure(NSError(domain: "MockAuthService", code: 500, userInfo: nil)))
-            }
-        }
-
-
-        // Add more overrides for other FirebaseAuthService methods used in SignInViewModel
-    }
-
-    // Mock NetworkServiceAuthentication for testing
     class MockNetworkServiceAuthentication3: NetworkServiceAuthentication {
 
         var requestFunctionResult: Result<OneDraftOrderResponse, Error>?
@@ -82,7 +27,6 @@ class SignInViewModelTests: XCTestCase {
             }
         }
 
-        // Add more overrides for other NetworkServiceAuthentication methods used in SignInViewModel
     }
 
     // Example test case for signIn method
@@ -210,24 +154,8 @@ class SignInViewModelTests: XCTestCase {
             XCTAssertEqual(UserDefaults.standard.string(forKey: key), value)
         }
 
-        func testSetDraftOrderId() {
-            let expectation = self.expectation(description: "Set draft order ID expectation")
-            let mockAuthService = MockFirebaseAuthService3(forTesting: true)
-            viewModel.authService = mockAuthService
-            let email = "shopifyapp.test7@gmail.com"
-            let shoppingCartID = "1036337250465"
 
-            viewModel.setDraftOrderId(email: email, shoppingCartID: shoppingCartID)
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 30.0) {
-                // Add assertion if there's a way to verify the ID was set
-                
-                
-                expectation.fulfill()
-            }
-
-            waitForExpectations(timeout: 30.0, handler: nil)
-        }
 
 
     func testGetDraftOrderID() {
@@ -265,7 +193,10 @@ class SignInViewModelTests: XCTestCase {
 
         waitForExpectations(timeout: 30.0, handler: nil)
     }
-    
+}
+
+
+
 //
 //    func testUpdateSignInStatus() {
 //        // Arrange
@@ -425,4 +356,4 @@ class SignInViewModelTests: XCTestCase {
 //
 //        waitForExpectations(timeout: 5.0, handler: nil)
 //    }
-}
+
