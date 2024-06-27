@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SettingsViewModel: SettingsViewModelProtocol{
+class SettingsViewModel{
   
 
 

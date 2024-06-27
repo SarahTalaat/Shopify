@@ -12,7 +12,7 @@ class SettingsScreenViewController: UIViewController {
     @IBOutlet weak var addressView: UIView!
     @IBOutlet weak var currentAddress: UILabel!
 
-    var settingsViewModel: SettingsViewModelProtocol!
+    var settingsViewModel: SettingsViewModel!
 
     @IBAction func addressBtn(_ sender: UIButton) {
          let addressVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "addressViewController") as! AddressViewController
