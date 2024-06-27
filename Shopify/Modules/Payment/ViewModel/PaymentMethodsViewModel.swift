@@ -14,19 +14,19 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         case cash
         case applePay
     }
-    private let networkService = NetworkServiceAuthentication()
+    let networkService = NetworkServiceAuthentication.instance
 
     var selectedPaymentMethod: PaymentMethod?
-    private var lineItem: LineItem?
-    private var order: Orders?
-    private var ordersSend: OrdersSend?
-    private var invoice: Invoice?
-    private var invoiceResponse: InvoiceResponse?
-    private var draftOrderId: Int?
+     var lineItem: LineItem?
+     var order: Orders?
+     var ordersSend: OrdersSend?
+     var invoice: Invoice?
+     var invoiceResponse: InvoiceResponse?
+     var draftOrderId: Int?
     var defCurrency: String = "EGP"
     var totalAmount: String?
-    private var addresses: [Address] = []
-    private var viewModel = ShoppingCartViewModel()
+     var addresses: [Address] = []
+     var viewModel = ShoppingCartViewModel()
     
     func selectPaymentMethod(_ method: PaymentMethod) {
         selectedPaymentMethod = method
@@ -229,7 +229,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             }
         }
     func getDraftOrderID(email: String, completion: @escaping (String?) -> Void) {
-        FirebaseAuthService().getShoppingCartId(email: email) { shoppingCartId, error in
+        FirebaseAuthService.instance.getShoppingCartId(email: email) { shoppingCartId, error in
             if let error = error {
                 print("kkk *Failed* to retrieve shopping cart ID: \(error.localizedDescription)")
                 completion(nil)
@@ -264,7 +264,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             self.postInvoice(draftOrderId: draftOrderId)
         }
     }
-//    private func updateAfterPaymentAuthorization() {
+//     func updateAfterPaymentAuthorization() {
 //           postOrder { success in
 //               DispatchQueue.main.async {
 //                   let title: String

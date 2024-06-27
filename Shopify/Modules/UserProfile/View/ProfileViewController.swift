@@ -25,8 +25,8 @@ class ProfileViewController: UIViewController {
     let viewModel = UserProfileViewModel()
     var detailsModel = OrderDetailsViewModel()
     var sharedMethods: SharedMethods?
-    var userProfileViewModel: UserProfileViewModelProfileProtocol!
-    var favouriteViewModel: FavouriteViewModelProtocol!
+    var userProfileViewModel: UserProfileViewModel!
+    var favouriteViewModel: FavouriteViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()

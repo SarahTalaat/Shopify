@@ -12,7 +12,7 @@ import RxSwift
 import Cosmos
 
 class ShoppingCartViewModel {
-    private let networkService = NetworkServiceAuthentication()
+    private let networkService = NetworkServiceAuthentication.instance
     private let disposeBag = DisposeBag()
   
     var exchangeRates: [String: Double] = [:]
@@ -211,7 +211,7 @@ class ShoppingCartViewModel {
         }
 
     func getDraftOrderID(email: String) {
-        FirebaseAuthService().getShoppingCartId(email: email) { shoppingCartId, error in
+        FirebaseAuthService.instance.getShoppingCartId(email: email) { shoppingCartId, error in
             if let error = error {
                 print("kkk Failed to retrieve shopping cart ID: \(error.localizedDescription)")
             } else if let shoppingCartId = shoppingCartId {

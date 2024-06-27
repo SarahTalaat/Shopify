@@ -110,7 +110,7 @@ class SignUpVC: UIViewController {
     @IBOutlet var alreadySignedInCustomButton: UIButton!
     @IBOutlet var emailCustomTextField: CustomTextField!
     @IBOutlet var firstNameCustomTextField: CustomTextField!
-    var viewModel: SignUpViewModelProtocol!
+    var viewModel: SignUpViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()

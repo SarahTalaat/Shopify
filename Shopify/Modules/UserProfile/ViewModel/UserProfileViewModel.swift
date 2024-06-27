@@ -7,7 +7,7 @@
 
 import Foundation
 
-class UserProfileViewModel: UserProfileViewModelProfileProtocol {
+class UserProfileViewModel {
     var name: String? {
         didSet {
             self.bindUserViewModelToController()
@@ -28,7 +28,7 @@ class UserProfileViewModel: UserProfileViewModelProfileProtocol {
     var customerEmail = SharedDataRepository.instance.customerEmail
     var bindAllOrders: (() -> ()) = {}
     var bindUserViewModelToController: (() -> ()) = {}
-    private let networkService = NetworkServiceAuthentication()
+    private let networkService = NetworkServiceAuthentication.instance
 
     
     init(){

@@ -15,7 +15,7 @@ class NewAddressViewModel {
     var customerId: String = ""
     var addresses: [Address] = []
     var onError: ((Error) -> Void)?
-    private let networkService: NetworkServiceAuthenticationProtocol
+    private let networkService = NetworkServiceAuthentication.instance
     
     var egyptGovernorates = [
         "Cairo", "Alexandria", "Giza", "Port Said", "Suez", "Luxor", "Aswan", "Asyut",
@@ -24,8 +24,8 @@ class NewAddressViewModel {
         "Qalyubia", "Qena", "Red Sea", "Sharqia", "Sohag", "South Sinai"
     ]
     
-    init(networkService: NetworkServiceAuthenticationProtocol = NetworkServiceAuthentication()) {
-        self.networkService = networkService
+    init() {
+     
     }
     
     func isAddressValid() -> Bool {

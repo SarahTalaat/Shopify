@@ -1,9 +1,7 @@
 import Foundation
 
-class SignUpViewModel: SignUpViewModelProtocol {
-    private let authServiceProtocol: AuthServiceProtocol
-    private let networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol
-    
+class SignUpViewModel {
+
     var user: UserModel? {
         didSet {
             print("vm User model updated: \(String(describing: user))")
@@ -21,9 +19,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
     var bindUserViewModelToController: (() -> ()) = {}
     var bindErrorViewModelToController: (() -> ()) = {}
     
-    init(authServiceProtocol: AuthServiceProtocol, networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol) {
-        self.authServiceProtocol = authServiceProtocol
-        self.networkServiceAuthenticationProtocol = networkServiceAuthenticationProtocol
+    init(){
     }
     
     func signUp(email: String, password: String, firstName: String) {
@@ -38,7 +34,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
             return
         }
 
-        authServiceProtocol.isEmailTaken(email: email) { [weak self] isTaken in
+        FirebaseAuthService.instance.isEmailTaken(email: email) { [weak self] isTaken in
             guard !isTaken else {
                 self?.errorMessage = "This email is already in use. Please choose a different email address."
                 return
@@ -51,7 +47,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
                 return
             }
 
-            self?.authServiceProtocol.signUp(email: email, password: password) { [weak self] result in
+           FirebaseAuthService.instance.signUp(email: email, password: password) { [weak self] result in
                 switch result {
                 case .success(let user):
                     print("vm Sign up successful with user: \(user)")
@@ -118,12 +114,12 @@ class SignUpViewModel: SignUpViewModelProtocol {
     }
 
     func postNewCustomer(urlString: String, parameters: [String:Any], name: String , email: String) {
-        self.networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<CustomerResponse, Error>) in
+        NetworkServiceAuthentication.instance.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<CustomerResponse, Error>) in
             switch result {
             case .success(let response):
                 print("vm Customer data posted successfully: \(response)")
 
-                self?.authServiceProtocol.saveCustomerId(name: name, email: email, id: "\(response.customer.id)", favouriteId: "", shoppingCartId: "", productId: "-1", productTitle: "", productVendor: "" , productImage: "", isSignedIn: "\(false)")
+                FirebaseAuthService.instance.saveCustomerId(name: name, email: email, id: "\(response.customer.id)", favouriteId: "", shoppingCartId: "", productId: "-1", productTitle: "", productVendor: "" , productImage: "", isSignedIn: "\(false)")
             case .failure(let error):
                 print("vm Failed to post customer data: \(error.localizedDescription)")
             }

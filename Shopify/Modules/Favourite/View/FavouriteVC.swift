@@ -16,7 +16,7 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     let cellSpacingHeight: CGFloat = 30
     
 
-    var viewModel: FavouriteViewModelProtocol!
+    var viewModel: FavouriteViewModel!
     
     
     override func viewDidLoad() {

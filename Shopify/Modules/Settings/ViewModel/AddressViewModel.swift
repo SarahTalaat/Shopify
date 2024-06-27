@@ -13,7 +13,7 @@ class AddressViewModel {
     var onAddressesUpdated: (() -> Void)?
     var onError: ((Error) -> Void)?
     
-    private let networkService = NetworkServiceAuthentication()
+    private let networkService = NetworkServiceAuthentication.instance
     
     func fetchAddresses() {
         let urlString = APIConfig.customers.urlForAddresses(customerId: customerId)

@@ -15,7 +15,7 @@ class OrdersViewModel{
     }
     
     var bindAllOrders: (() -> ()) = {}
-    private let networkService = NetworkServiceAuthentication()
+    private let networkService = NetworkServiceAuthentication.instance
 
     init() {
         getOrders()

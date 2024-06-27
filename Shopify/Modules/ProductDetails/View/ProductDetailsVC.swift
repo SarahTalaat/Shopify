@@ -62,7 +62,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     var isDropdownVisible2 = false
     var isFavourite = false
     
-    var viewModel: ProductDetailsViewModelProtocol!
+    var viewModel: ProductDetailsViewModel!
     var activityIndicator: UIActivityIndicatorView!
     
     // Default label with a default value

@@ -7,14 +7,11 @@
 
 import Foundation
 
-class FavouriteViewModel: FavouriteViewModelProtocol {
+class FavouriteViewModel {
     
    
-    var authServiceProtocol: AuthServiceProtocol!
-    
-    init(authServiceProtocol: AuthServiceProtocol){
-        self.authServiceProtocol = authServiceProtocol
-
+    init(){
+        
     }
     
     
@@ -27,7 +24,8 @@ class FavouriteViewModel: FavouriteViewModelProtocol {
     var bindProducts:(()->()) = {}
     
     func retriveProducts(){
-        authServiceProtocol.retrieveAllProductsFromEncodedEmail(email: SharedDataRepository.instance.customerEmail ?? "No email"){ [weak self] products in
+        FirebaseAuthService.instance
+    .retrieveAllProductsFromEncodedEmail(email: SharedDataRepository.instance.customerEmail ?? "No email"){ [weak self] products in
             print("aaa products: \(products)")
             self?.products = products
             
@@ -50,7 +48,8 @@ class FavouriteViewModel: FavouriteViewModelProtocol {
         let productId = retrieveStringFromUserDefaults(forKey: Constants.productId) ?? "No productId"
         
         print("mmm productId: \(productId)")
-        authServiceProtocol.deleteProductFromEncodedEmail(encodedEmail: encodedEmail, productId: productId)
+        FirebaseAuthService.instance
+    .deleteProductFromEncodedEmail(encodedEmail: encodedEmail, productId: productId)
     }
     
     func retrieveStringFromUserDefaults(forKey key: String) -> String? {

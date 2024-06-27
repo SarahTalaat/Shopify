@@ -7,11 +7,11 @@ enum AuthErrorCode: Error {
     case emailNotVerified
 }
 
-class SignInViewModel: SignInViewModelProtocol {
+class SignInViewModel {
     static let sharedDataUpdateQueue = DispatchQueue(label: "com.Shopify.sharedDataUpdateQueue")
 
-    let authServiceProtocol: AuthServiceProtocol
-    let networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol
+   
+   
     var name: String?
     var email: String?
     var favId: String?
@@ -45,13 +45,11 @@ class SignInViewModel: SignInViewModelProtocol {
     var bindUserViewModelToController: (() -> ()) = {}
     var bindErrorViewModelToController: (() -> ()) = {}
 
-    init(authServiceProtocol: AuthServiceProtocol, networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol) {
-        self.authServiceProtocol = authServiceProtocol
-        self.networkServiceAuthenticationProtocol = networkServiceAuthenticationProtocol
+    init(){
     }
 
     func signIn(email: String, password: String) {
-        authServiceProtocol.signIn(email: email, password: password) { [weak self] result in
+        FirebaseAuthService.instance.signIn(email: email, password: password) { [weak self] result in
             guard let strongSelf = self else {
                 print("kkk self is nil in signIn completion")
                 return
@@ -84,7 +82,7 @@ class SignInViewModel: SignInViewModelProtocol {
     }
 
     func updateSignInStatus(email: String) {
-        authServiceProtocol.updateSignInStatus(email: email, isSignedIn: "\(true)") { success in
+        FirebaseAuthService.instance.updateSignInStatus(email: email, isSignedIn: "\(true)") { success in
             if success {
                 print("Sign-in status updated successfully.")
             } else {
@@ -94,7 +92,7 @@ class SignInViewModel: SignInViewModelProtocol {
     }
 
     func checkEmailSignInStatus(email: String) {
-        authServiceProtocol.checkEmailSignInStatus(email: email) { [self] isSignedIn in
+        FirebaseAuthService.instance.checkEmailSignInStatus(email: email) { [self] isSignedIn in
             
             guard self != nil else {
                 print("kkk self is nil in checkEmailSignInStatus completion")
@@ -141,7 +139,7 @@ class SignInViewModel: SignInViewModelProtocol {
     
 
     func postDraftOrderForShoppingCart(urlString: String, parameters: [String: Any], name: String, email: String, completion: @escaping (OneDraftOrderResponse?) -> Void) {
-        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters) { (result: Result<OneDraftOrderResponse, Error>) in
+        NetworkServiceAuthentication.instance.requestFunction(urlString: urlString, method: .post, model: parameters) { (result: Result<OneDraftOrderResponse, Error>) in
             switch result {
             case .success(let response):
                 print("kkk Response ID: \(response.draftOrder?.id)")
@@ -159,7 +157,7 @@ class SignInViewModel: SignInViewModelProtocol {
             return
         }
 
-        authServiceProtocol.fetchCustomerDataFromRealTimeDatabase(forEmail: email) { [self] customerDataModel in
+        FirebaseAuthService.instance.fetchCustomerDataFromRealTimeDatabase(forEmail: email) { [self] customerDataModel in
             // Here we use [self] to capture self strongly
 
             // Ensure self is not nil
@@ -220,7 +218,7 @@ class SignInViewModel: SignInViewModelProtocol {
     }
 
     func setDraftOrderId(email: String, shoppingCartID: String) {
-        authServiceProtocol.setShoppingCartId(email: email, shoppingCartId: shoppingCartID) { error in
+        FirebaseAuthService.instance.setShoppingCartId(email: email, shoppingCartId: shoppingCartID) { error in
             if let error = error {
                 print("Failed to set shopping cart ID: \(error.localizedDescription)")
             } else {
@@ -230,7 +228,7 @@ class SignInViewModel: SignInViewModelProtocol {
     }
 
     func getDraftOrderID(email: String) {
-        authServiceProtocol.getShoppingCartId(email: email) { shoppingCartId, error in
+        FirebaseAuthService.instance.getShoppingCartId(email: email) { shoppingCartId, error in
             if let error = error {
                 print("kkk Failed to retrieve shopping cart ID: \(error.localizedDescription)")
             } else if let shoppingCartId = shoppingCartId {

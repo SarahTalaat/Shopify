@@ -6,7 +6,7 @@ class SignInVC: UIViewController {
     @IBOutlet var emailCustomTextField: CustomTextField!
     @IBOutlet var passwordCustomTextField: CustomTextField!
     
-    var viewModel: SignInViewModelProtocol!
+    var viewModel: SignInViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()

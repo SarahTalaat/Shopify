@@ -10,9 +10,10 @@ import FirebaseAuth
 import FirebaseDatabase
 
 
-class FirebaseAuthService: AuthServiceProtocol {
+class FirebaseAuthService {
     
-
+    static let instance = FirebaseAuthService()
+    private init() {}
 
     func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
