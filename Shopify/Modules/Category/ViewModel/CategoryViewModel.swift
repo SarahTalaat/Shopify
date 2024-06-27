@@ -167,7 +167,10 @@ extension CategoryViewModel {
         return UserDefaults.standard.string(forKey: key)
     }
     
-
+    func isGuest()->Bool? {
+      return  SharedDataRepository.instance.isSignedIn
+       
+    }
 
 }
 

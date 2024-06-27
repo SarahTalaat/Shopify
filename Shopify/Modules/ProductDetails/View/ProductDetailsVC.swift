@@ -7,9 +7,11 @@
 
 import UIKit
 import Kingfisher
+import Cosmos
 
-class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource , ShoppingCartDeletionDeletegate {
+class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource , ShoppingCartDeletionDeletegate , deleteProductDelegate {
     
+    @IBOutlet weak var ratingView: CosmosView!
     @IBOutlet weak var inventroyQuantityLabel: UILabel!
     
     var cartCell = CartTableViewCell()
@@ -28,8 +30,6 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         if SharedDataRepository.instance.customerEmail == nil {
             showGuestAlert()
         }else{
-            //             viewModel.isDataBound = true
-            //             viewModel.addToCart()
             if addToCartUI.isAddedToCart {
                 removeFromCart()
             } else {
@@ -39,7 +39,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     }
     @IBOutlet weak var brandNameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var ratingView: UIView!
+ 
     @IBOutlet weak var brandTitleLabel: UILabel!
     
     @IBOutlet weak var reviewTextView2: UITextView!
@@ -75,7 +75,27 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateFavoriteButton()
+        viewModel.getUserDraftOrderId()
+        viewModel.getProductDetails()
+        viewModel.getCartId()
         viewModel.fetchExchangeRates()
+        bindViewModel()
+        
+    }
+    
+    private func configureRatingView() {
+        ratingView.settings.fillMode = .half
+        ratingView.isUserInteractionEnabled = false
+        ratingView.didFinishTouchingCosmos = { rating in
+            // Handle the rating value here
+            print("User rated: \(rating)")
+            // Optionally save the rating or perform other actions
+        }
+    }
+    
+    private func updateRating() {
+        let rating = viewModel.getRating()
+        ratingView.rating = Double(rating)
     }
     
     override func viewDidLoad() {
@@ -88,8 +108,17 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         viewModel.loadFavoriteProducts()
         viewModel.getCustomerIdFromFirebase()
         
-        bindViewModel()
         
+        if viewModel.isGuest() == false {
+            let imageName =  "heart"
+            favouriteButton.tintColor = .lightGray
+            let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
+            favouriteButton.setImage(image, for: .normal)
+        }
+        
+        bindViewModel()
+        configureRatingView()
+        updateRating()
         
         addToCartUI.isAddedToCart = false
         viewModel.saveButtonTitleState(addToCartUI:addToCartUI)
@@ -160,20 +189,29 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
     @IBAction func favouriteButtonTapped(_ sender: UIButton) {
         
-        viewModel.toggleFavorite()
-        updateFavoriteButton()
-        
-
+       
+        if viewModel.isGuest() == false {
+            showGuestAlert()
+        }else{
+            viewModel.toggleFavorite()
+            updateFavoriteButton()
+            
+        }
         
     }
     
     func updateFavoriteButton() {
-        let isFavorited = viewModel.checkIfFavorited()
-        let imageName = isFavorited ? "heart.fill" : "heart"
+        
+             let isFavorited = viewModel.checkIfFavorited()
+             let imageName = isFavorited ? "heart.fill" : "heart"
 
-        favouriteButton.tintColor = isFavorited ? .red : .lightGray
-        let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
-        favouriteButton.setImage(image, for: .normal)
+             favouriteButton.tintColor = isFavorited ? .red : .lightGray
+             let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
+             favouriteButton.setImage(image, for: .normal)
+        
+        
+        
+
     }
 
     
@@ -246,6 +284,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
                 ///
                 self?.priceCurrency(priceLabel: (self?.priceLabel ?? self?.defaultPriceLabel) ?? UILabel() )
                 self?.descriptionLabel.text = self?.viewModel.product?.product?.body_html
+                
                 
                 self?.inventroyQuantityLabel.text = self?.viewModel.inventoryQuantityLabel()
                 self?.setupDropdownButtons()
@@ -368,7 +407,9 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     }
     
     
-    
+    func deleteProuct(isAddedToCart: Bool) {
+        addToCartUI.isAddedToCart = isAddedToCart
+    }
 
     
 
@@ -392,3 +433,6 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
 
 
+protocol deleteProductDelegate {
+    func deleteProuct(isAddedToCart: Bool)
+}

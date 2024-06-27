@@ -10,6 +10,7 @@ import UIKit
 
 class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
+
     
 
     var exchangeRates: [String: Double] = [:]
@@ -312,13 +313,42 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             UserDefaults.standard.synchronize()
             return "Out of stock"
         }else{
-            UserDefaults.standard.removeObject(forKey: Constants.inventoryQuantity)
-            UserDefaults.standard.synchronize()
-            return "in stock"
+            
+            return "Quantity: \(inventoryQuantity)"
         }
     }
-
     
+    func getRating() -> Int{
+        if let productId = UserDefaults.standard.string(forKey: Constants.productId){
+            var rating = self.transformLastDigit(of: Int(productId) ?? 2)
+            return rating
+        }
+        return 2
+       
+    }
+
+    func transformLastDigit(of number: Int) -> Int {
+        let lastDigit = number % 10
+        
+        switch lastDigit {
+        case 0, 1, 2, 3, 4, 5:
+            return lastDigit
+        case 6:
+            return 1
+        case 7:
+            return 2
+        case 8:
+            return 3
+        case 9:
+            return 4
+        default:
+            return 0
+        }
+    }
+    
+    func isGuest()->Bool? {
+      return  SharedDataRepository.instance.isSignedIn
+    }
     
     func draftOrder() -> [String:Any] {
         var variantLineItemId = UserDefaults.standard.string(forKey: Constants.variantId)

@@ -15,7 +15,7 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var window: UIWindow?
     let cellSpacingHeight: CGFloat = 30
     
-    @IBOutlet weak var imageView: UIImageView!
+
     var viewModel: FavouriteViewModelProtocol!
     
     
@@ -49,10 +49,10 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func updatePlaceholder() {
         if let products = viewModel.products, !products.isEmpty {
             favouriteTableView.isHidden = false
-            imageView.isHidden = true
+        
         } else {
             favouriteTableView.isHidden = true
-            imageView.isHidden = false
+          
         }
     }
     
@@ -82,7 +82,27 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
 
         cell.vendorLabel.text = viewModel.products?[indexPath.row].productVendor
-        cell.titleLabel.text = viewModel.products?[indexPath.row].productTitle
+        
+        if let range = viewModel.products?[indexPath.row].productTitle.range(of: "|") {
+            var truncatedString = String(viewModel.products?[indexPath.row].productTitle[range.upperBound...] ?? "" ).trimmingCharacters(in: .whitespaces)
+            if let nextRange = truncatedString.range(of: "|") {
+                truncatedString = String(truncatedString[..<nextRange.lowerBound]).trimmingCharacters(in: .whitespaces)
+                cell.titleLabel.text = truncatedString
+                cell.titleLabel.numberOfLines = 0
+                cell.titleLabel.lineBreakMode = .byWordWrapping
+            }
+            cell.titleLabel.text = truncatedString
+            cell.titleLabel.numberOfLines = 0
+            cell.titleLabel.lineBreakMode = .byWordWrapping
+        }
+        
+//
+//         cell.titleLabel.numberOfLines = 1
+//         cell.titleLabel.adjustsFontSizeToFitWidth = true
+////         cell.titleLabel.minimumScaleFactor = 0.5
+//
+//         cell.titleLabel.lineBreakMode = .byTruncatingTail
+      //  cell.titleLabel.text = viewModel.products?[indexPath.row].productTitle
         
         if let imageUrl = URL(string:viewModel.products?[indexPath.row].productImage ?? "https://m.media-amazon.com/images/I/81H0Mn0kaNL._AC_SL1500_.jpg" ) {
             cell.favImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "placeholderImage"))
@@ -98,10 +118,14 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     // Set the height for each row
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 110
+//
+//    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 250
+        
+        return 110
     }
-
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
@@ -114,36 +138,36 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }
     }
 
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-            // Reset the background color for every cell
-            cell.contentView.backgroundColor = UIColor.systemGray6
-            
-            // Remove existing custom views if any (to avoid multiple overlays)
-            for subview in cell.contentView.subviews where subview.tag == 1001 || subview.tag == 1002 {
-                subview.removeFromSuperview()
-            }
-            
-            // Add the custom white rounded corner view
-            let whiteRoundedCornerView = UIView(frame: CGRect(x: 10, y: 10, width: cell.contentView.frame.width - 20, height: cell.contentView.frame.height - 40))
-            whiteRoundedCornerView.backgroundColor = UIColor.white
-            whiteRoundedCornerView.layer.masksToBounds = false
-            whiteRoundedCornerView.layer.cornerRadius = 10
-            whiteRoundedCornerView.layer.shadowOffset = CGSize(width: -1, height: 1)
-            whiteRoundedCornerView.layer.shadowOpacity = 0.5
-            whiteRoundedCornerView.tag = 1001 // Add a tag to identify the custom view
-
-            // Add the whiteRoundedCornerView to the cell's content view
-            cell.contentView.addSubview(whiteRoundedCornerView)
-            cell.contentView.sendSubviewToBack(whiteRoundedCornerView)
-            
-            // Add extra spacing at the bottom of each cell except the last one
-            if indexPath.row < tableView.numberOfRows(inSection: indexPath.section) - 1 {
-                let spacerView = UIView(frame: CGRect(x: 0, y: cell.contentView.frame.height - 10, width: cell.contentView.frame.width, height: 30))
-                spacerView.backgroundColor = UIColor.clear
-                spacerView.tag = 1002
-                cell.contentView.addSubview(spacerView)
-            }
-        }
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//            // Reset the background color for every cell
+//            cell.contentView.backgroundColor = UIColor.systemGray6
+//
+//            // Remove existing custom views if any (to avoid multiple overlays)
+//            for subview in cell.contentView.subviews where subview.tag == 1001 || subview.tag == 1002 {
+//                subview.removeFromSuperview()
+//            }
+//
+//            // Add the custom white rounded corner view
+//            let whiteRoundedCornerView = UIView(frame: CGRect(x: 10, y: 10, width: cell.contentView.frame.width - 20, height: cell.contentView.frame.height - 40))
+//            whiteRoundedCornerView.backgroundColor = UIColor.white
+//            whiteRoundedCornerView.layer.masksToBounds = false
+//            whiteRoundedCornerView.layer.cornerRadius = 10
+//            whiteRoundedCornerView.layer.shadowOffset = CGSize(width: -1, height: 1)
+//            whiteRoundedCornerView.layer.shadowOpacity = 0.5
+//            whiteRoundedCornerView.tag = 1001 // Add a tag to identify the custom view
+//
+//            // Add the whiteRoundedCornerView to the cell's content view
+//            cell.contentView.addSubview(whiteRoundedCornerView)
+//            cell.contentView.sendSubviewToBack(whiteRoundedCornerView)
+//
+//            // Add extra spacing at the bottom of each cell except the last one
+//            if indexPath.row < tableView.numberOfRows(inSection: indexPath.section) - 1 {
+//                let spacerView = UIView(frame: CGRect(x: 0, y: cell.contentView.frame.height - 10, width: cell.contentView.frame.width, height: 30))
+//                spacerView.backgroundColor = UIColor.clear
+//                spacerView.tag = 1002
+//                cell.contentView.addSubview(spacerView)
+//            }
+//        }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.getproductId(index: indexPath.row)
