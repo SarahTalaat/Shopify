@@ -11,7 +11,12 @@ class SignInViewModel {
     static let sharedDataUpdateQueue = DispatchQueue(label: "com.Shopify.sharedDataUpdateQueue")
 
    
-   
+    var authService: FirebaseAuthService!
+
+    init(authService: FirebaseAuthService = FirebaseAuthService.instance) {
+        self.authService = authService
+    }
+    
     var name: String?
     var email: String?
     var favId: String?
@@ -46,9 +51,6 @@ class SignInViewModel {
     var bindErrorViewModelToController: (() -> ()) = {}
 
 
-    init() {
-
-        }
 
     func signIn(email: String, password: String) {
         FirebaseAuthService.instance.signIn(email: email, password: password) { [weak self] result in
