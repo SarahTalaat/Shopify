@@ -14,7 +14,7 @@ class FavouriteViewModel {
         
     }
     
-    
+
     var products: [ProductFromFirebase]?{
         didSet{
             self.bindProducts()

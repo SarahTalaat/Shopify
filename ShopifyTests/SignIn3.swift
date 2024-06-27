@@ -88,6 +88,30 @@ class SignInViewModelTests: XCTestCase {
 
         waitForExpectations(timeout: 30.0, handler: nil)
     }
+    
+    func testSignIn_Failure() {
+        // Arrange
+        let expectation = self.expectation(description: "Sign in expectation")
+        let mockAuthService = MockFirebaseAuthService3(forTesting: true)
+        viewModel.authService = mockAuthService // Inject mock service
+        let email = "shopifyapp.test7@gmail.com"
+        let password = "@A1234567"
+        mockAuthService.signInResult = .failure(NSError(domain: "MockAuthService", code: 500, userInfo: nil)) // Set mock result
+
+        // Act
+        viewModel.signIn(email: email, password: password)
+
+        // Assert
+        DispatchQueue.main.asyncAfter(deadline: .now() + 30.0) {
+            // Perform assertions based on expected behavior
+            XCTAssertNil(self.viewModel.user)
+            XCTAssertNotNil(self.viewModel.errorMessage)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 30.0, handler: nil)
+    }
+    
 
     // Example test case for postDraftOrderForShoppingCart method
 //    func testPostDraftOrderForShoppingCart_Success() {
@@ -107,7 +131,7 @@ class SignInViewModelTests: XCTestCase {
 //        }
 //
 //        waitForExpectations(timeout: 2.0, handler: nil)
-//    }
+//    } 
 
     // Add more test cases for other methods in SignInViewModel as needed
 }
