@@ -19,15 +19,17 @@ class UserProfileViewModel: UserProfileViewModelProfileProtocol {
         }
     }
 
-    
     var orders: [Orders] = [] {
         didSet {
             bindAllOrders()
         }
     }
     
+    var customerEmail = SharedDataRepository.instance.customerEmail
     var bindAllOrders: (() -> ()) = {}
     var bindUserViewModelToController: (() -> ()) = {}
+    private let networkService = NetworkServiceAuthentication()
+
     
     init(){
         getOrders()
@@ -57,20 +59,21 @@ class UserProfileViewModel: UserProfileViewModelProfileProtocol {
     
 
     func getOrders() {
-            guard let email = SharedDataRepository.instance.customerEmail else {
-                print("Customer email is nil")
-                return
-            }
-            
-            NetworkUtilities.fetchData(responseType: OrdersResponse.self, endpoint: "orders.json") { item in
-                if let allOrders = item?.orders {
-                    self.orders = allOrders.filter { $0.email == email }
-                } else {
-                    self.orders = []
-                }
-                print(self.orders)
-            }
-        }
-    
-    
+           guard let email = SharedDataRepository.instance.customerEmail else {
+               print("Customer email is nil")
+               return
+           }
+           
+           let urlString = APIConfig.endPoint("orders").url
+           networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<OrdersResponse, Error>) in
+               switch result {
+               case .success(let response):
+                   self.orders = response.orders.filter { $0.email == email }
+               case .failure(let error):
+                   print("Failed to fetch orders: \(error.localizedDescription)")
+                   self.orders = []
+               }
+               print(self.orders)
+           }
+       }
 }

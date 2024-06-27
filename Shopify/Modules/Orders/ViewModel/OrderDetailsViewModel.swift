@@ -6,7 +6,7 @@
 //
 
 import Foundation
-class OrderDetailsViewModel{
+class OrderDetailsViewModel {
     
     var id: Int = 0 {
         didSet {
@@ -14,59 +14,43 @@ class OrderDetailsViewModel{
         }
     }
     
-    var currency: String = "USD"{
+    var currency: String = "USD" {
         didSet {
             bindCurrency()
         }
     }
+    
     var orders: [LineItem] = [] {
         didSet {
-            getProducts()
-        }
-    }
-
-    var products: [Products] = []  {
-        didSet{
-            filterProductsByLineItems()
+            bindFilteredProducts()
         }
     }
     
-    var filteredProducts: [Products] = [] {
-         didSet {
-             bindOrders()
-         }
-     }
+    var products: [Products] = [] {
+        didSet {
+            bindFilteredProducts()
+        }
+    }
     
+    private let networkService = NetworkServiceAuthentication()
+    var bindOrders: (() -> Void) = {}
+    var bindCurrency: (() -> Void) = {}
+    var bindFilteredProducts: (() -> Void) = {}
     
-    var bindOrders: (() -> ()) = {}
-    var bindCurrency: (() -> ()) = {}
-    var bindFilteredProducts: (() -> ()) = {}
-
     init() {
         getOrderById()
     }
- 
-    func getOrderById(){
-        NetworkUtilities.fetchData(responseType: OrdersSend.self, endpoint: "orders/\(id).json"){ order in
+    
+    func getOrderById() {
+        NetworkUtilities.fetchData(responseType: OrdersSend.self, endpoint: "orders/\(id).json") { order in
             self.orders = order?.order.line_items ?? []
-            
-        }
-        print(id)
-    }
-    
-    func getProducts() {
-        NetworkUtilities.fetchData(responseType: ProductResponse.self, endpoint: "products.json") { product in
-            self.products = product?.products ?? []
+            self.bindOrders()
         }
     }
     
-    func filterProductsByLineItems() {
-        let lineItemTitles = orders.map { $0.title }
-        filteredProducts = products.filter { product in
-            return lineItemTitles.contains(product.title)
+    func getProducts(productId: Int, completion: @escaping (Products?) -> Void) {
+        NetworkUtilities.fetchData(responseType: SingleProduct.self, endpoint: "products/\(productId).json") { SingleProduct in
+            completion(SingleProduct?.product)
         }
-        print(filteredProducts)
     }
-    
-   
 }

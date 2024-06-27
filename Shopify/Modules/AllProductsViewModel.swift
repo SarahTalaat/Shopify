@@ -22,6 +22,8 @@ class AllProductsViewModel {
     
     var exchangeRates: [String: Double] = [:]
     var bindAllProducts: (() -> ()) = {}
+    private let networkService = NetworkServiceAuthentication()
+
     
     init() {
         getProducts()
@@ -30,11 +32,20 @@ class AllProductsViewModel {
     }
     
     func getProducts() {
-        NetworkUtilities.fetchData(responseType: ProductResponse.self, endpoint: "products.json") { product in
-            self.products = product?.products ?? []
-            self.filteredProducts = self.products // Initialize filteredProducts
-        }
-    }// self?.bindAllProducts()
+          let urlString = APIConfig.endPoint("products").url
+          networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<ProductResponse, Error>) in
+              switch result {
+              case .success(let response):
+                  self.products = response.products
+                  self.filteredProducts = self.products
+              case .failure(let error):
+                  self.products = []
+                  print("Failed to fetch products: \(error.localizedDescription)")
+              }
+          }
+      }
+      
+
     
     func fetchExchangeRates() {
             
@@ -60,6 +71,7 @@ class AllProductsViewModel {
         bindAllProducts()
     }
 }
+
 extension AllProductsViewModel {
     
     func isGuest()->Bool? {

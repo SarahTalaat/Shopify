@@ -25,6 +25,7 @@ struct Orders: Encodable, Decodable {
     let total_discounts: String?
     let total_tax: String?
     let line_items: [LineItem]
+    let inventory_behaviour :String?
 }
 
 

@@ -26,9 +26,7 @@ class ProductsCollectionViewCell: UICollectionViewCell {
     var viewModel: ProductViewModel = ProductViewModel()
     
     @IBAction func addToFav(_ sender: UIButton) {
-        
         if viewModel.isGuest() == true {
- 
             if let indexPath = indexPath {
                 delegate?.didTapFavoriteButton(index: indexPath.row)
                 print("fff addToFavButton index: \(indexPath.row)")

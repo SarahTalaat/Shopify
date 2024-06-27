@@ -8,11 +8,11 @@
 import Foundation
 
 
-struct CategoryResponse : Decodable {
+struct CategoryResponse : Decodable,Encodable {
     let products : [Product]
 }
 
-struct Product : Decodable{
+struct Product : Decodable,Encodable{
     let id : Int
     let title : String
     let body_html : String
@@ -22,7 +22,7 @@ struct Product : Decodable{
     let status : String
 }
 
-struct ImageOf: Decodable{
+struct ImageOf: Decodable,Encodable{
     let id : Int
     let product_id : Int
     let src : String

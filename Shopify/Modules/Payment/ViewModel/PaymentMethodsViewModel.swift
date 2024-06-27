@@ -15,6 +15,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         case applePay
     }
     private let networkService = NetworkServiceAuthentication()
+
     var selectedPaymentMethod: PaymentMethod?
     private var lineItem: LineItem?
     private var order: Orders?
@@ -126,17 +127,18 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         print(email)
         print(defCurrency)
         print(unwrappedLineItems)
-        
+        print(totalAmount)
         order = Orders(
             id: nil,
             order_number: nil,
             created_at: nil,
             currency: defCurrency,
             email: email,
-            total_price: nil,
+            total_price:totalAmount,
             total_discounts: nil,
             total_tax: nil,
-            line_items: unwrappedLineItems
+            line_items: unwrappedLineItems,
+            inventory_behaviour: "decrement_obeying_policy"
         )
         
         ordersSend = OrdersSend(order: order!)
@@ -205,6 +207,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
                 return
             }
             
+
         let urlString = APIConfig.customers.urlForAddresses(customerId: customerId)
             
             networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { [weak self] (result: Result<AddressListResponse, Error>) in

@@ -73,10 +73,14 @@ class OrderDetailsViewController: UIViewController {
             cell.numOfUnit.text = "Quantity:\(item.quantity)"
             cell.unitPrice.text = "\(item.price) \(viewModel.currency)"
             cell.productName.text = item.title
-            
-            let url = viewModel.filteredProducts[indexPath.row].images[0].src
-            let imageURL = URL(string: url)
-            cell.productImage.kf.setImage(with: imageURL)
+            var url = ""
+                   viewModel.getProducts(productId: viewModel.orders[indexPath.row].productId ?? 0) { product in
+                       url = product?.images.first?.src ?? ""
+                       let imageURL = URL(string: url)
+                       DispatchQueue.main.async {
+                           cell.productImage.kf.setImage(with: imageURL)
+                       }
+                   }
       
             return cell
         }

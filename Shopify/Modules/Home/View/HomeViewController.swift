@@ -8,16 +8,17 @@
 import UIKit
 import Kingfisher
 
-
 class HomeViewController: UIViewController {
-    
     var sharedMethods: SharedMethods?
     var viewModel  = HomeViewModel()
     var vm = ProductViewModel()
-    
+
     @IBOutlet weak var adsCollectionView: UICollectionView!
     @IBOutlet weak var brandsCollectionView: UICollectionView!
     
+    var adsLoadingIndicator = UIActivityIndicatorView(style: .large)
+    var brandsLoadingIndicator = UIActivityIndicatorView(style: .large)
+    var pageControl = UIPageControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,10 +26,10 @@ class HomeViewController: UIViewController {
         brandsCollectionView.collectionViewLayout = brandsCollectionViewLayout()
         
         //Brands View Borders
-        brandsCollectionView.layer.cornerRadius = 10
-        brandsCollectionView.layer.borderWidth = 1.0
-        brandsCollectionView.layer.borderColor = UIColor.black.cgColor
-        brandsCollectionView.clipsToBounds = true
+//        brandsCollectionView.layer.cornerRadius = 10
+//        brandsCollectionView.layer.borderWidth = 1.0
+//        brandsCollectionView.layer.borderColor = UIColor.black.cgColor
+//        brandsCollectionView.clipsToBounds = true
         
         sharedMethods = SharedMethods(viewController: self)
       
@@ -36,27 +37,75 @@ class HomeViewController: UIViewController {
         let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
         let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchBtn))
         
-        navigationItem.rightBarButtonItems = [firstButton, secondButton]
+        navigationItem.rightBarButtonItems = [ secondButton,firstButton]
         navigationItem.leftBarButtonItems = [searchButton]
         
         viewModel.bindBrandsData = {
             self.updateCollection()
+            self.pageControl.numberOfPages = 3
+
         }
+        viewModel.networkStatusChanged = { isReachable in
+                  if !isReachable {
+                      self.showAlerts(title: "No Internet Connection", message: "Please check your WiFi connection.")
+                  }
+              }
+            
+        setupLoadingIndicators()
+        setupPageControl()
+        
+         adsLoadingIndicator.startAnimating()
+         brandsLoadingIndicator.startAnimating()
     }
     
     func updateCollection(){
             DispatchQueue.main.async { [weak self] in
                 self?.brandsCollectionView.reloadData()
                 self?.adsCollectionView.reloadData()
+                
+                self?.adsLoadingIndicator.stopAnimating()
+                self?.brandsLoadingIndicator.stopAnimating()
             }
         }
     
-       
-    // MARK: - Navigation Bar Items 
+    // MARK: - Setups
+
+    func setupLoadingIndicators() {
+        adsCollectionView.addSubview(adsLoadingIndicator)
+        brandsCollectionView.addSubview(brandsLoadingIndicator)
+        
+        adsLoadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        brandsLoadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            adsLoadingIndicator.centerXAnchor.constraint(equalTo: adsCollectionView.centerXAnchor),
+            adsLoadingIndicator.centerYAnchor.constraint(equalTo: adsCollectionView.centerYAnchor),
+            brandsLoadingIndicator.centerXAnchor.constraint(equalTo: brandsCollectionView.centerXAnchor),
+            brandsLoadingIndicator.centerYAnchor.constraint(equalTo: brandsCollectionView.centerYAnchor)
+        ])
+    }
+    
+    func setupPageControl() {
+           pageControl.currentPageIndicatorTintColor = .black
+           pageControl.pageIndicatorTintColor = .lightGray
+           pageControl.numberOfPages = 3
+           pageControl.currentPage = 0
+           pageControl.translatesAutoresizingMaskIntoConstraints = false
+           pageControl.addTarget(self, action: #selector(pageControlTapped(_:)), for: .valueChanged)
+
+           view.addSubview(pageControl)
+           
+           NSLayoutConstraint.activate([
+               pageControl.centerXAnchor.constraint(equalTo: brandsCollectionView.centerXAnchor),
+               pageControl.topAnchor.constraint(equalTo: brandsCollectionView.bottomAnchor, constant: 10)
+           ])
+       }
+    
+    // MARK: - Navigation Bar Items
     
     @objc func navToCart(){
-        if SharedDataRepository.instance.customerEmail == nil{
-            showGuestAlert()
+        if viewModel.customerEmail == nil{
+            showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
         }else{
             print("Cart ")
             
@@ -68,8 +117,8 @@ class HomeViewController: UIViewController {
     }
     
     @objc func navToFav(){
-        if SharedDataRepository.instance.customerEmail == nil {
-            showGuestAlert()
+        if viewModel.customerEmail == nil {
+            showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
         }else{
             print("Favourite ")
             
@@ -85,6 +134,14 @@ class HomeViewController: UIViewController {
         let brandsViewController = storyboard.instantiateViewController(withIdentifier: "AllProductsViewController") as! AllProductsViewController
         navigationController?.pushViewController(brandsViewController, animated: true)
         
+    }
+    // MARK: - Page Control Tap Action
+    
+    @objc func pageControlTapped(_ sender: UIPageControl) {
+        let currentPage = sender.currentPage
+        let pageWidth = brandsCollectionView.frame.width
+        let offset = CGPoint(x: pageWidth * CGFloat(currentPage), y: 0)
+        brandsCollectionView.setContentOffset(offset, animated: true)
     }
     
     
@@ -110,23 +167,23 @@ class HomeViewController: UIViewController {
     
     func brandsCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.6),
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(180))
+                                                   heightDimension: .absolute(185))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
             group.interItemSpacing = .fixed(10)
             
             let nestedGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                         heightDimension: .absolute(410)) // Adjusted height for two rows
+                                                         heightDimension: .absolute(410))
             let nestedGroup = NSCollectionLayoutGroup.vertical(layoutSize: nestedGroupSize, subitems: [group, group])
             nestedGroup.interItemSpacing = .fixed(10)
             
             let section = NSCollectionLayoutSection(group: nestedGroup)
-            section.interGroupSpacing = 10
-            section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+            section.interGroupSpacing = 5
+            section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 4, bottom: 5, trailing: 4)
             section.orthogonalScrollingBehavior = .continuous
             
             return section
@@ -135,15 +192,9 @@ class HomeViewController: UIViewController {
 
 }
 
-
-
-
-
-
-
 // MARK: - UICollectionView Methods
 
-extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -155,30 +206,27 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         default:
             return viewModel.coupons.count
         }
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        
         switch collectionView {
         case brandsCollectionView:
             let item = viewModel.brands[indexPath.row]
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrandsCollectionViewCell", for: indexPath) as! BrandsCollectionViewCell
             
             let imageURL = URL(string: item.image.src)
-            cell.brandImage.kf.setImage(with: imageURL)
+            cell.brandImage.kf.setImage(
+                with: imageURL,
+                placeholder: UIImage(named: "load.jpg")
+            )
             
             cell.brandLabel.text = item.title
             return cell
-            
-            
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AdsCollectionViewCell", for: indexPath) as! AdsCollectionViewCell
-            let images = ["withsale.jpg","ss.jpg"]
+            let images = ["adstwo.png","withsale.jpg"]
             cell.adsImage.image = UIImage(named: images[indexPath.row])
             return cell
-            
         }
     }
     
@@ -191,13 +239,12 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             brandsViewController.viewModel = vm
             print(vm.brandID)
             navigationController?.pushViewController(brandsViewController, animated: true)
-            
         default:
-            if SharedDataRepository.instance.customerEmail == nil {
-                showGuestAlert()
-            }else{
-            let item = indexPath.row
-            let couponId = viewModel.coupons[item].id
+            if viewModel.customerEmail == nil {
+                showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
+            } else {
+                let item = indexPath.row
+                let couponId = viewModel.coupons[item].id
                 viewModel.getDiscountCode(id: couponId) { discountCode in
                     guard let discountCode = discountCode else {
                         print("Failed to fetch discount code")
@@ -209,6 +256,30 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                     self.showAlertWithTextField(title: "Congratulations!", message: discountMessage, discountCode: discountCode)
                 }
             }
+        }
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == brandsCollectionView {
+            let pageWidth = scrollView.frame.width
+            let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
+            pageControl.currentPage = currentPage
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if scrollView == brandsCollectionView {
+            let pageWidth = scrollView.frame.width
+            let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
+            pageControl.currentPage = currentPage
+        }
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView == brandsCollectionView && !decelerate {
+            let pageWidth = scrollView.frame.width
+            let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
+            pageControl.currentPage = currentPage
         }
     }
 }
@@ -238,8 +309,8 @@ extension UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-     func showGuestAlert() {
-           let alert = UIAlertController(title: "Guest Access Restricted", message: "Please sign in to access this feature.", preferredStyle: .alert)
+    func showAlerts(title:String,message:String) {
+           let alert = UIAlertController(title: title, message:message , preferredStyle: .alert)
            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
            alert.addAction(okAction)
            

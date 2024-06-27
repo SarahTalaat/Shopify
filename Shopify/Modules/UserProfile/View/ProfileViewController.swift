@@ -33,13 +33,9 @@ class ProfileViewController: UIViewController {
         ordersCollectionView.collectionViewLayout = ordersCollectionViewLayout()
         wishlistCollectionView.collectionViewLayout = wishlistCollectionViewLayout()
         sharedMethods = SharedMethods(viewController: self)
-        
-
-        
-
+     
         wishlistCollectionView.reloadData()
        
-
         print("Profile View Controller ViewDidLoad")
         userProfileViewModel = DependencyProvider.userProfileViewModel
         favouriteViewModel = DependencyProvider.favouriteViewModel
@@ -51,13 +47,14 @@ class ProfileViewController: UIViewController {
         print("Profile: test name : \(userProfileViewModel.name)")
         print("Profile: test email : \(userProfileViewModel.email)")
 
-        
-        
+        func bindViewModel(){
+            favouriteViewModel.bindProducts = { [weak self] in
+                DispatchQueue.main.async {
+                    self?.wishlistCollectionView.reloadData()
+                }
+            }
+        }
 
-        
-
-        
-        
         let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
 
         let secondButton = UIBarButtonItem(image: UIImage(systemName: "cart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToCart))
@@ -113,16 +110,14 @@ class ProfileViewController: UIViewController {
                 self?.ordersLabel.text = "You have \(self?.viewModel.orders.count ?? 5) order"
             }
         }
-    
- 
-    
+        
     private func bindViewModel2() {
         userProfileViewModel.bindUserViewModelToController = { [weak self] in
             DispatchQueue.main.async {
                 self?.welcomeLabel.text = "Welcome \(self?.userProfileViewModel?.name ?? "No value for name!")"
                 print("Profile: View: name: \(self?.userProfileViewModel?.name ?? "there is no value for name!!")")
                 
-                if SharedDataRepository.instance.customerEmail == nil {
+                if self?.viewModel.customerEmail == nil {
                     self?.usernameLabel.text  = "Join us to enjoy exclusive features!"
                     
                     self?.gmailLabel.text = "View your orders,create a personalized wishlist and receive discounts"
@@ -136,7 +131,7 @@ class ProfileViewController: UIViewController {
         }
     }
     func guestMode(){
-        if SharedDataRepository.instance.customerEmail == nil{
+        if viewModel.customerEmail == nil{
             login.isHidden = false
             register.isHidden = false
             ordersCollectionView.isHidden = true

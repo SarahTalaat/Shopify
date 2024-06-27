@@ -19,7 +19,8 @@ class ShoppingCartViewModel {
     var isVariantExcluded: Bool = false
     var draftOrder: OneDraftOrderResponse? {
         didSet {
-          // filterLineItems()
+          //  filterLineItems()
+
             updateTotalAmount()
         }
     }
@@ -76,7 +77,6 @@ class ShoppingCartViewModel {
         }
     }
     func updateTotalAmount() {
-
            guard let draftOrder = draftOrder else { return }
            totalAmount = draftOrder.draftOrder?.totalPrice ?? "total price"
            onTotalAmountUpdated?()
@@ -240,6 +240,7 @@ class ShoppingCartViewModel {
 //            self.draftOrder?.draftOrder?.lineItems = lineItems
 //        }
 //    }
+
     
 }
 extension OneDraftOrderResponseDetails {
