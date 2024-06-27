@@ -109,7 +109,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         viewModel.loadFavoriteProducts()
         viewModel.getCustomerIdFromFirebase()
         
-        
+       // hideAddToCartButton()
         if viewModel.isGuest() == false {
             let imageName =  "heart"
             favouriteButton.tintColor = .lightGray
@@ -280,6 +280,15 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
     }
 
+    func hideAddToCartButton(){
+        if self.viewModel.inventoryQuantityLabel() == "Out of stock" {
+            addToCartUI.isHidden = true
+        }else{
+            addToCartUI.isHidden = false
+        }
+    }
+    
+    
     func bindViewModel() {
         viewModel.bindProductDetailsViewModelToController = { [weak self] in
             DispatchQueue.main.async {

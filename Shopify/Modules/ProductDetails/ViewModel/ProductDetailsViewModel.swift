@@ -57,9 +57,11 @@ class ProductDetailsViewModel {
     
     func saveAddedToCartState(_ added: Bool) {
         var productID = Int(UserDefaults.standard.string(forKey: Constants.productId) ?? "")
+        
         var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
         
-        UserDefaults.standard.set(added, forKey: "isAddedToCart"+"\(productID)"+"\(customerID)")
+        UserDefaults.standard.set(added, forKey: "isAddedToCart"+"\(productID)"+"\(SharedDataRepository.instance.customerEmail)")
+        print("")
        
     }
     
@@ -68,7 +70,9 @@ class ProductDetailsViewModel {
         var productID = Int(UserDefaults.standard.string(forKey: Constants.productId) ?? "")
         var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
         
-        if let isAdded = UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(customerID)") as? Bool {
+        print("WWW customer id \(customerID)")
+        
+        if let isAdded = UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(SharedDataRepository.instance.customerEmail)") as? Bool {
             addToCartUI.isAddedToCart = isAdded
         } else {
             addToCartUI.isAddedToCart = false // Default value if not previously set
@@ -78,8 +82,8 @@ class ProductDetailsViewModel {
     func saveButtonTitleStateShoppingCart(addToCartUI:CustomButton , productId:Int){
         var productID = productId
         var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
-        print("ddd Title: \(UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(customerID)"))")
-        if let isAdded = UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(customerID)") as? Bool {
+        print("ddd Title: \(UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(SharedDataRepository.instance.customerEmail)"))")
+        if let isAdded = UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(SharedDataRepository.instance.customerEmail)") as? Bool {
             addToCartUI.isAddedToCart = isAdded
             print("ddd title isAdded: \(isAdded)")
         } else {
@@ -91,9 +95,9 @@ class ProductDetailsViewModel {
     func saveAddedToCartStateShoppingCart(_ added: Bool , productId:Int) {
         var productID = productId
         var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
-        print("ddd addToCart: \("isAddedToCart"+"\(productID)"+"\(customerID)")")
+        print("ddd addToCart: \("isAddedToCart"+"\(productID)"+"\(SharedDataRepository.instance.customerEmail)")")
         
-        UserDefaults.standard.set(added, forKey: "isAddedToCart"+"\(productID)"+"\(customerID)")
+        UserDefaults.standard.set(added, forKey: "isAddedToCart"+"\(productID)"+"\(SharedDataRepository.instance.customerEmail)")
        
     }
     
