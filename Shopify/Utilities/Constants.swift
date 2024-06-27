@@ -49,6 +49,7 @@ enum APIConfig {
     static let apiKey2 = "b1b362324215ea59af2d3263"
     static let baseUrl2 = "https://v6.exchangerate-api.com/v6/"
     
+
     
     case draft_orders
     case customers
@@ -70,18 +71,25 @@ enum APIConfig {
         case .addresses(let customerId):
             return "customers/\(customerId)/addresses"
         case .endPoint(let customResource):
-            return customResource
-        }
-    }
+                   return customResource
+               }
+           }
+
     
     var url: String {
         return "https://\(APIConfig.apiKey):\(APIConfig.password)@\(APIConfig.hostName)/admin/api/\(APIConfig.version)/\(self.resource).json"
     }
+
+    func urlForAddresses(customerId: String) -> String {
+           return "https://\(APIConfig.apiKey):\(APIConfig.password)@\(APIConfig.hostName)/admin/api/\(APIConfig.version)/customers/\(customerId)/addresses.json?limit"
+       }
+  
     
     var url2: String {
         return "\(APIConfig.baseUrl2)\(APIConfig.apiKey2)/latest/\(self.resource)"
     }
     
+
     var credentials: String {
         return "\(APIConfig.apiKey):\(APIConfig.password)"
     }

@@ -16,7 +16,7 @@ class ProductViewModel {
     var userFavorites: [String: Bool] = [:]
     
     
-    
+    let network = NetworkServiceAuthentication()
     var exchangeRates: [String: Double] = [:]
     
     var brandID: Int = 0 {
@@ -135,7 +135,9 @@ class ProductViewModel {
             }
         }
     }
+ 
     
+
     
     func isGuest()->Bool? {
       return  SharedDataRepository.instance.isSignedIn
@@ -152,10 +154,10 @@ class ProductViewModel {
                 self?.applyFilters()
             case .failure(let error):
                 print("Error fetching exchange rates: \(error)")
+
             }
-            self?.bindFilteredProducts()
+            
         }
-    }
 }
 extension ProductViewModel {
     

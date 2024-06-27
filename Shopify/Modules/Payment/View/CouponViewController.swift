@@ -29,11 +29,8 @@ class CouponViewController: UIViewController {
             discount.text = "$0.00"
             grandTotal.text = subTotal.text
             
-            viewModel.fetchExchangeRates { [weak self] in
-                DispatchQueue.main.async {
-                    self?.updateUIWithCurrency()
-                }
-            }
+            viewModel.fetchExchangeRates()
+            updateUIWithCurrency()
         }
        
 

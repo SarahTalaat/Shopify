@@ -15,7 +15,7 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
     weak var selectionDelegate: AddressSelectionDelegate?
 
         var viewModel = AddressViewModel()
-        var addresses: [Address] = []
+      //  var addresses: [Address] = []
         var selectedDefaultAddressId: Int?
     
     @IBAction func addNewAddress(_ sender: UIButton) {
