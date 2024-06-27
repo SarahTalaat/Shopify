@@ -114,7 +114,7 @@ class PaymentMethodsViewModelTests: XCTestCase {
 
         // When
         let expectation = XCTestExpectation(description: "Get draft order ID")
-        FirebaseAuthService().getShoppingCartId(email: email) { shoppingCartId, error in
+        FirebaseAuthService.instance.getShoppingCartId(email: email) { shoppingCartId, error in
             if let error = error {
                 XCTFail("Failed to retrieve shopping cart ID: \(error.localizedDescription)")
             } else if let shoppingCartId = shoppingCartId {

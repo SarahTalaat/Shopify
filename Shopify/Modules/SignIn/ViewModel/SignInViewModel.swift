@@ -151,7 +151,7 @@ class SignInViewModel {
         }
     }
 
-    private func fetchCustomerID() {
+     func fetchCustomerID() {
         guard let email = user?.email else {
             print("User email is nil")
             return

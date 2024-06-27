@@ -160,6 +160,8 @@
 		B64B0F172C1F7C5C00B90C60 /* ProductFromFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64B0F162C1F7C5C00B90C60 /* ProductFromFirebase.swift */; };
 		B64B0F1B2C20978D00B90C60 /* ProductsCollectionViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64B0F1A2C20978D00B90C60 /* ProductsCollectionViewCellDelegate.swift */; };
 		B65016F32C2C615C00C4BE3E /* SignInViewModelNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65016F22C2C615C00C4BE3E /* SignInViewModelNew.swift */; };
+		B682B1D32C2D2D20000C5911 /* MockFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682B1D22C2D2D20000C5911 /* MockFirebase.swift */; };
+		B682B1D52C2D302E000C5911 /* MockFirebaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682B1D42C2D302E000C5911 /* MockFirebaseTest.swift */; };
 		B68E72FE2C0D402900BC2D90 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68E72FD2C0D402900BC2D90 /* CustomCollectionViewCell.swift */; };
 		B68E73002C0D42F700BC2D90 /* ProductDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68E72FF2C0D42F700BC2D90 /* ProductDetailsVC.swift */; };
 		B68E73052C0DB84200BC2D90 /* CustomDropDownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68E73032C0DB84200BC2D90 /* CustomDropDownViewController.swift */; };
@@ -348,6 +350,8 @@
 		B64B0F162C1F7C5C00B90C60 /* ProductFromFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductFromFirebase.swift; sourceTree = "<group>"; };
 		B64B0F1A2C20978D00B90C60 /* ProductsCollectionViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsCollectionViewCellDelegate.swift; sourceTree = "<group>"; };
 		B65016F22C2C615C00C4BE3E /* SignInViewModelNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModelNew.swift; sourceTree = "<group>"; };
+		B682B1D22C2D2D20000C5911 /* MockFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFirebase.swift; sourceTree = "<group>"; };
+		B682B1D42C2D302E000C5911 /* MockFirebaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFirebaseTest.swift; sourceTree = "<group>"; };
 		B68E72FD2C0D402900BC2D90 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		B68E72FF2C0D42F700BC2D90 /* ProductDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsVC.swift; sourceTree = "<group>"; };
 		B68E73032C0DB84200BC2D90 /* CustomDropDownViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDropDownViewController.swift; sourceTree = "<group>"; };
@@ -1045,6 +1049,23 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		B682B1D02C2D2CBF000C5911 /* Old */ = {
+			isa = PBXGroup;
+			children = (
+				B6186B212C2AF7A000AA6D15 /* FirebaseClass */,
+				B6186B032C298FBE00AA6D15 /* ServicesTest */,
+				B6186B002C298EA400AA6D15 /* SignInViewModel */,
+			);
+			path = Old;
+			sourceTree = "<group>";
+		};
+		B682B1D12C2D2D07000C5911 /* MockFirebaseModule */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MockFirebaseModule;
+			sourceTree = "<group>";
+		};
 		B68E734F2C0E593600BC2D90 /* OrderDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -1143,6 +1164,10 @@
 		B69FA1832C09F050009D43B7 /* ShopifyTests */ = {
 			isa = PBXGroup;
 			children = (
+				B682B1D42C2D302E000C5911 /* MockFirebaseTest.swift */,
+				B682B1D22C2D2D20000C5911 /* MockFirebase.swift */,
+				B682B1D02C2D2CBF000C5911 /* Old */,
+				B682B1D12C2D2D07000C5911 /* MockFirebaseModule */,
 				229530342C2C43DE0041C78C /* Payment */,
 				229530312C2C17430041C78C /* Category */,
 				2295302E2C2BE8BD0041C78C /* Products */,
@@ -1150,9 +1175,6 @@
 				2291F97B2C2B653C00E657DB /* AllProducts */,
 				22D8CE432C2B0EAC0000917D /* Mock */,
 				22D8CE402C2AF3740000917D /* Home */,
-				B6186B212C2AF7A000AA6D15 /* FirebaseClass */,
-				B6186B032C298FBE00AA6D15 /* ServicesTest */,
-				B6186B002C298EA400AA6D15 /* SignInViewModel */,
 				B69FA1842C09F050009D43B7 /* ShopifyTests.swift */,
 			);
 			path = ShopifyTests;
@@ -1628,6 +1650,7 @@
 				22D8CE452C2B0F070000917D /* MockNetwork.swift in Sources */,
 				2291F97D2C2B65A600E657DB /* AllProductsTest.swift in Sources */,
 				229530362C2C44610041C78C /* PaymentTest.swift in Sources */,
+				B682B1D32C2D2D20000C5911 /* MockFirebase.swift in Sources */,
 				229530332C2C17BF0041C78C /* CategoryTest.swift in Sources */,
 				22D8CE422C2AF4210000917D /* HomeTest.swift in Sources */,
 				229530302C2BE98C0041C78C /* ProductsTest.swift in Sources */,
@@ -1636,6 +1659,7 @@
 				B6186B112C2A55CB00AA6D15 /* MockAuthTestWorking.swift in Sources */,
 				B6186B202C2AF05000AA6D15 /* MockAuthTest.swift in Sources */,
 				B6186B172C2AA4FA00AA6D15 /* FirebaseAuthentication.swift in Sources */,
+				B682B1D52C2D302E000C5911 /* MockFirebaseTest.swift in Sources */,
 				B6186B1E2C2AE36100AA6D15 /* MockAuth.swift in Sources */,
 				B69FA1852C09F050009D43B7 /* ShopifyTests.swift in Sources */,
 				2295302D2C2B92330041C78C /* OrdersTest.swift in Sources */,

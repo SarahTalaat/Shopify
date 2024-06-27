@@ -13,7 +13,7 @@
 import Foundation
 import Alamofire
 
-enum Result<Success, Failure: Error> {
+public enum Result<Success, Failure: Error> {
     case success(Success)
     case failure(Failure)
 }
