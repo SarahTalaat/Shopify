@@ -8,7 +8,7 @@
 import Foundation
 class CouponsViewModel {
     
-    let network = NetworkServiceAuthentication()
+    var network = NetworkServiceAuthentication()
     private(set) var discountCodes: [String] = []
     var exchangeRates: [String: Double] = [:]
 
@@ -22,18 +22,20 @@ class CouponsViewModel {
         }
     }
 
-    func fetchExchangeRates(completion: @escaping () -> Void) {
-        let exchangeRateApiService = ExchangeRateApiService()
-        exchangeRateApiService.getLatestRates { [weak self] result in
-            switch result {
-            case .success(let response):
-                self?.exchangeRates = response.conversion_rates
-            case .failure(let error):
-                print("Error fetching exchange rates: \(error)")
+    func fetchExchangeRates() {
+            
+            network.requestFunction(urlString: APIConfig.usd.url3, method: .get, model: [:]){ (result: Result<ExchangeRatesResponse, Error>) in
+                switch result {
+                case .success(let response):
+                    print("PD Exchange Rates Response\(response)")
+                    self.exchangeRates = response.conversion_rates
+                case .failure(let error):
+                    print(error)
+                }
+              
             }
-            completion()
+            
         }
-    }
 
     func getConvertedValue(for amount: Double, in currency: String) -> Double {
         let exchangeRate = exchangeRates[currency] ?? 1.0

@@ -13,7 +13,7 @@ class CategoryViewModel{
     
     var userFavorites: [String: Bool] = [:]
     var productsFromFirebase: [ProductFromFirebase] = []
-
+    var network = NetworkServiceAuthentication()
     var category: [Product] = [] {
          didSet {
              applyFilters()
@@ -88,18 +88,21 @@ class CategoryViewModel{
         filteredProducts = filtered
     }
     
-      func fetchExchangeRates() {
-            let exchangeRateApiService = ExchangeRateApiService()
-            exchangeRateApiService.getLatestRates { [weak self] result in
+    func fetchExchangeRates() {
+            
+            network.requestFunction(urlString: APIConfig.usd.url3, method: .get, model: [:]){ (result: Result<ExchangeRatesResponse, Error>) in
                 switch result {
                 case .success(let response):
-                    self?.exchangeRates = response.conversion_rates
+                    print("PD Exchange Rates Response\(response)")
+                    self.exchangeRates = response.conversion_rates
                 case .failure(let error):
-                    print("Error fetching exchange rates: \(error)")
+                    print(error)
                 }
-                self?.bindCategory()
+              
             }
+            
         }
+
     
  
 }

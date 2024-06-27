@@ -14,12 +14,12 @@ import Cosmos
 class ShoppingCartViewModel {
     private let networkService = NetworkServiceAuthentication()
     private let disposeBag = DisposeBag()
-    private let exchangeRateApiService = ExchangeRateApiService()
+  
     var exchangeRates: [String: Double] = [:]
     var isVariantExcluded: Bool = false
     var draftOrder: OneDraftOrderResponse? {
         didSet {
-            filterLineItems()
+          // filterLineItems()
             updateTotalAmount()
         }
     }
@@ -76,20 +76,10 @@ class ShoppingCartViewModel {
         }
     }
     func updateTotalAmount() {
-        guard let draftOrder = draftOrder else { return }
-        let totalPrice = draftOrder.draftOrder?.lineItems.reduce(0.0) { result, lineItem in
-            if lineItem.variantId != excludedVariantId {
-                let price = (lineItem.price as NSString).doubleValue
-                let quantity = Double(lineItem.quantity)
-                return result + (price * quantity)
-            } else {
-                return result
-            }
-        } ?? 0.0
-        
-        totalAmount = String(format: "%.2f", totalPrice)
-        onTotalAmountUpdated?()
-    }
+           guard let draftOrder = draftOrder else { return }
+           totalAmount = draftOrder.draftOrder?.totalPrice ?? "total price"
+           onTotalAmountUpdated?()
+       }
     
     func incrementQuantity(at index: Int) {
         guard let lineItem = draftOrder?.draftOrder?.lineItems[index],
@@ -141,32 +131,32 @@ class ShoppingCartViewModel {
     }
     
     func updateDraftOrder() {
-        guard let draftOrderIdString = UserDefaults.standard.string(forKey: Constants.userDraftId),
-              let draftOrderId = Int(draftOrderIdString),
-              let draftOrder = draftOrder else {
-            return
+            guard let draftOrderIdString = UserDefaults.standard.string(forKey: Constants.userDraftId),
+                  let draftOrderId = Int(draftOrderIdString),
+                  let draftOrder = draftOrder else {
+                return
+            }
+
+            print("SC: draftOrderId fetchDraftOrders: \(draftOrderId)")
+
+            let urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
+            guard let draftOrderDetails = draftOrder.draftOrder else {
+                print("Draft order details are nil")
+                return
+            }
+
+            let draftOrderDictionary = draftOrderDetails.toDraftOrderDictionary()
+
+            networkService.requestFunction(urlString: urlString, method: .put, model: ["draft_order": draftOrderDictionary]) { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
+                switch result {
+                case .success(let updatedDraftOrder):
+                    self?.draftOrder = updatedDraftOrder
+                    self?.onDraftOrderUpdated?()
+                case .failure(let error):
+                    print("Failed to update draft order: \(error.localizedDescription)")
+                }
+            }
         }
-        print("SC: draftOrderId fetchDraftOrders: \(draftOrderId)")
-
-        let urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
-
-        // Convert draft order to dictionary representation
-        guard let draftOrderDetails = draftOrder.draftOrder else {
-            print("Draft order details are nil")
-            return
-        }
-        let draftOrderDictionary: [String: Any] = ["draft_order": draftOrderDetails.toDictionary()]
-
-//        networkService.requestFunction(urlString: urlString, method: .put, model: draftOrderDictionary) { [weak self] (result: Result<OneDraftOrderResponseDe, Error>) in
-//            switch result {
-//            case .success(let updatedDraftOrder):
-//                self?.draftOrder = updatedDraftOrder.draftOrder
-//                self?.onDraftOrderUpdated?()
-//            case .failure(let error):
-//                print("Failed to update draft order: \(error.localizedDescription)")
-//            }
-//        }
-    }
     func formatPriceWithCurrency(price: String) -> String {
         let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
         let exchangeRate = exchangeRates[selectedCurrency] ?? 1.0
@@ -179,16 +169,20 @@ class ShoppingCartViewModel {
     }
     
     func fetchExchangeRates() {
-        exchangeRateApiService.getLatestRates { [weak self] result in
-            switch result {
-            case .success(let response):
-                self?.exchangeRates = response.conversion_rates
-                self?.onDraftOrderUpdated?()  // Notify that exchange rates are updated
-            case .failure(let error):
-                print("Error fetching exchange rates: \(error)")
+            
+            networkService.requestFunction(urlString: APIConfig.usd.url3, method: .get, model: [:]){ (result: Result<ExchangeRatesResponse, Error>) in
+                switch result {
+                case .success(let response):
+                    print("PD Exchange Rates Response\(response)")
+                    self.exchangeRates = response.conversion_rates
+                    self.onDraftOrderUpdated?()
+                case .failure(let error):
+                    print(error)
+                }
+              
             }
+            
         }
-    }
 
     func getDraftOrderID(email: String) {
         FirebaseAuthService().getShoppingCartId(email: email) { shoppingCartId, error in
@@ -213,12 +207,83 @@ class ShoppingCartViewModel {
         }
     }
 
-    private func filterLineItems() {
-        guard let draftOrder = draftOrder, var lineItems = draftOrder.draftOrder?.lineItems else { return }
-        if let index = lineItems.firstIndex(where: { $0.variantId == 44382096457889 }) {
-            lineItems.remove(at: index)
-            self.draftOrder?.draftOrder?.lineItems = lineItems
-        }
-    }
+//    private func filterLineItems() {
+//        guard let draftOrder = draftOrder, var lineItems = draftOrder.draftOrder?.lineItems else { return }
+//        if let index = lineItems.firstIndex(where: { $0.variantId == 44382096457889 }) {
+//            lineItems.remove(at: index)
+//            self.draftOrder?.draftOrder?.lineItems = lineItems
+//        }
+//    }
     
+}
+extension OneDraftOrderResponseDetails {
+    func toDraftOrderDictionary() -> [String: Any] {
+        var dictionary: [String: Any] = [
+            "id": id as Any,
+            "note": note as Any,
+            "email": email as Any,
+            "taxes_included": taxesIncluded as Any,
+            "currency": currency as Any,
+            "invoice_sent_at": invoiceSentAt as Any,
+            "created_at": createdAt as Any,
+            "updated_at": updatedAt as Any,
+            "tax_exempt": taxExempt as Any,
+            "completed_at": completedAt as Any,
+            "name": name as Any,
+            "status": status as Any,
+            "line_items": lineItems.map { $0.toLineItemDictionary() },
+            "shipping_address": shippingAddress as Any,
+            "billing_address": billingAddress as Any,
+            "invoice_url": invoiceUrl as Any,
+            "applied_discount": appliedDiscount as Any,
+            "order_id": orderId as Any,
+            "shipping_line": shippingLine as Any,
+            "tax_lines": taxLines?.map { $0.toTaxLineDictionary() } as Any,
+            "tags": tags as Any,
+            "note_attributes": noteAttributes as Any,
+            "total_price": totalPrice,
+            "subtotal_price": subtotalPrice,
+            "total_tax": totalTax as Any,
+            "payment_terms": paymentTerms as Any,
+            "admin_graphql_api_id": adminGraphqlApiId as Any
+        ]
+        return dictionary
+    }
+}
+
+extension LineItem {
+    func toLineItemDictionary() -> [String: Any] {
+        return [
+            "id": id as Any,
+            "variant_id": variantId as Any,
+            "product_id": productId as Any,
+            "title": title,
+            "variant_title": variantTitle as Any,
+            "sku": sku as Any,
+            "vendor": vendor as Any,
+            "quantity": quantity,
+            "requires_shipping": requiresShipping as Any,
+            "taxable": taxable as Any,
+            "gift_card": giftCard as Any,
+            "fulfillment_service": fulfillmentService as Any,
+            "grams": grams as Any,
+            "tax_lines": taxLines?.map { $0.toTaxLineDictionary() } as Any,
+            "applied_discount": appliedDiscount as Any,
+            "name": name as Any,
+            "properties": properties as Any,
+            "custom": custom as Any,
+            "price": price,
+            "admin_graphql_api_id": adminGraphqlApiId as Any
+        ]
+    }
+}
+
+extension TaxLine {
+    func toTaxLineDictionary() -> [String: Any] {
+        return [
+            "rate": rate as Any,
+            "title": title as Any,
+            "price": price as Any
+        ]
+    }
 }

@@ -16,7 +16,7 @@ class ProductViewModel {
     var userFavorites: [String: Bool] = [:]
     
     
-    
+    let network = NetworkServiceAuthentication()
     var exchangeRates: [String: Double] = [:]
     
     var brandID: Int = 0 {
@@ -135,20 +135,23 @@ class ProductViewModel {
             }
         }
     }
+ 
     
-    private func fetchExchangeRates() {
-        let exchangeRateApiService = ExchangeRateApiService()
-        exchangeRateApiService.getLatestRates { [weak self] result in
-            switch result {
-            case .success(let response):
-                self?.exchangeRates = response.conversion_rates
-                self?.applyFilters()
-            case .failure(let error):
-                print("Error fetching exchange rates: \(error)")
+    func fetchExchangeRates() {
+            
+            network.requestFunction(urlString: APIConfig.usd.url3, method: .get, model: [:]){ (result: Result<ExchangeRatesResponse, Error>) in
+                switch result {
+                case .success(let response):
+                    print("PD Exchange Rates Response\(response)")
+                    self.exchangeRates = response.conversion_rates
+                    self.applyFilters()
+                case .failure(let error):
+                    print(error)
+                }
+              
             }
-            self?.bindFilteredProducts()
+            
         }
-    }
 }
 extension ProductViewModel {
     

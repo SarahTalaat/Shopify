@@ -27,9 +27,9 @@ class NewAddressViewModelTests: XCTestCase {
     
     func testIsAddressValid() {
         // Given
-        viewModel.fullName = "John Doe"
+        viewModel.fullName = "Marim"
         viewModel.newAddress = "123 Street"
-        viewModel.city = "Cairo"
+        viewModel.city = "Alex"
         viewModel.state = "Egypt"
         viewModel.zipCode = "12345"
         
@@ -57,21 +57,29 @@ class NewAddressViewModelTests: XCTestCase {
     
     func testPostNewAddressSuccess() {
         // Given
-        viewModel.fullName = "John Doe"
+        viewModel.fullName = "Marim"
         viewModel.newAddress = "123 Street"
-        viewModel.city = "Cairo"
+        viewModel.city = "Alex"
         viewModel.state = "Egypt"
         viewModel.zipCode = "12345"
         viewModel.customerId = "123"
+        
+        // Mock successful response
+        let mockAddress = Address(id: nil, first_name: "Marim", address1: "123 Street", city: "Alex", country: "Egypt", zip: "12345", `default`: false)
+        let mockResponse = AddressResponse(customer_address: mockAddress)
+        networkService.result = .success(mockResponse)
+        
+        print("Network service result: \(networkService.result)") // Add this line to print the result
         
         let expectation = self.expectation(description: "Success")
         
         // When
         viewModel.postNewAddress { result in
+            print("Result: \(result)") // Add this line to print the result
             switch result {
             case .success(let address):
-                XCTAssertEqual(address.first_name, "John Doe")
-                XCTAssertEqual(address.city, "Cairo")
+                XCTAssertEqual(address.first_name, "Marim")
+                XCTAssertEqual(address.city, "Alex")
                 XCTAssertEqual(address.country, "Egypt")
                 expectation.fulfill()
             case .failure(let error):
@@ -82,12 +90,11 @@ class NewAddressViewModelTests: XCTestCase {
         // Then
         waitForExpectations(timeout: 5.0, handler: nil)
     }
-    
     func testPostNewAddressFailure() {
         // Given
-        viewModel.fullName = "John Doe"
+        viewModel.fullName = "Marim"
         viewModel.newAddress = "123 Street"
-        viewModel.city = "Cairo"
+        viewModel.city = "Alex"
         viewModel.state = "Egypt"
         viewModel.zipCode = "12345"
         viewModel.customerId = "123"

@@ -79,15 +79,12 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     }
     
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
-          postOrder { success in
-              if success {
-                  self.processInvoicePosting()
-                  completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
-              } else {
-                  completion(PKPaymentAuthorizationResult(status: .failure, errors: nil))
-              }
-          }
-      }
+            // Call your method to update UI or perform any actions after payment authorization
+        //    updateAfterPaymentAuthorization()
+
+            // Complete the payment authorization with success
+            completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
+        }
     
     
     func setupOrder(lineItem: [LineItem]) {
@@ -264,4 +261,30 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             self.postInvoice(draftOrderId: draftOrderId)
         }
     }
+//    private func updateAfterPaymentAuthorization() {
+//           postOrder { success in
+//               DispatchQueue.main.async {
+//                   let title: String
+//                   let message: String
+//                   if success {
+//                       title = "Order Placed"
+//                       message = "Your order has been successfully placed."
+//                       
+//                       // Assuming HomeViewController is your home screen
+//                       if let homeViewController = self.navigationController?.viewControllers.first(where: { $0 is HomeViewController }) {
+//                           self.navigationController?.popToViewController(homeViewController, animated: true)
+//                       }
+//                   } else {
+//                       title = "Error"
+//                       message = "Failed to place order. Please try again."
+//                   }
+//                   
+//                   let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//                   alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//                   // You should ideally present this alert from your view controller
+//                   // For now, I'm printing it
+//                   print(alert)
+//               }
+//           }
+//       }
 }
