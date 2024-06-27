@@ -11,7 +11,7 @@ import FirebaseAuth
 @testable import Shopify
 
 
-class MockAuthService: AuthServiceProtocol {
+class MockAuthService {
     var currentUserUID: String? // Simulated current user UID
     
     func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
