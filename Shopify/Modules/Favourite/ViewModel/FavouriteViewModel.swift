@@ -61,5 +61,12 @@ class FavouriteViewModel: FavouriteViewModelProtocol {
         let productId = products?[index].productId
         addValueToUserDefaults(value: productId, forKey: Constants.productId)
     }
+    func isProductsEmpty() -> Bool {
+        if products?.count == 0 {
+            return true
+        }else{
+            return false
+        }
+    }
     
 }

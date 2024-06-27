@@ -19,12 +19,18 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     var productId: String?
     var delegate: ProductsTableViewCellDelegate?
     var indexPath: IndexPath?
+    var viewModel: CategoryViewModel = CategoryViewModel()
     
     @IBAction func addToFav(_ sender: UIButton) {
-        if let indexPath = indexPath {
-            delegate?.didTapFavoriteButton(index: indexPath.row)
-            print("kjkj addToFavButton index: \(indexPath.row)")
+        
+        if viewModel.isGuest() == false {
+            if let indexPath = indexPath {
+                delegate?.didTapFavoriteButton(index: indexPath.row)
+                print("kjkj addToFavButton index: \(indexPath.row)")
+            }
         }
+        
+
     }
     
     private let bottomBorder = UIView()
@@ -61,17 +67,24 @@ class CategoryCollectionViewCell: UICollectionViewCell {
        }
         
     func configure(with productId: String, isFavorite: Bool, index: Int) {
-        self.productId = productId
-        updateFavoriteUI(isFavorite: isFavorite)
+       if viewModel.isGuest() == true {
+            self.productId = productId
+            updateFavoriteUI(isFavorite: isFavorite)
+        }
+
     }
 
     func updateFavoriteUI(isFavorite: Bool) {
-        let imageName = isFavorite ? "heart.fill" : "heart"
-        let image = UIImage(systemName: imageName)
-        favBtn.tintColor = isFavorite ? .red : .lightGray
-        favBtn.setImage(image, for: .normal)
+        
+       if  viewModel.isGuest() == true {
+            let imageName = isFavorite ? "heart.fill" : "heart"
+            let image = UIImage(systemName: imageName)
+            favBtn.tintColor = isFavorite ? .red : .lightGray
+            favBtn.setImage(image, for: .normal)
+        }
+        
+
     }
-    
     
     @objc private func toggleFavorite() {
         guard let productId = productId else { return }

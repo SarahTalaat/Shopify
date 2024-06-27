@@ -28,10 +28,25 @@ class SignInVC: UIViewController {
     
     
     @IBAction func signInButton(_ sender: UIButton) {
-        guard let email = emailCustomTextField.text, let password = passwordCustomTextField.text else { return }
+
+            guard let email = emailCustomTextField.text, !email.isEmpty,
+                  let password = passwordCustomTextField.text, !password.isEmpty else {
+                // Show alert if any field is empty
+                showSignSuccessfulAlert(title: "Error", message: "All fields are required.", button1Title: "Ok"){
+                    print("Alert dismissed")
+                }
+                return
+            }
+        
         viewModel.signIn(email: email, password: password)
-        
-        
+    }
+    
+    private func showSignSuccessfulAlert(title: String, message: String, button1Title: String, completion: @escaping () -> Void) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: button1Title, style: .cancel) { _ in
+            completion()
+        })
+        present(alert, animated: true, completion: nil)
     }
     
     func setUpSignInScreenUI() {
@@ -49,7 +64,7 @@ class SignInVC: UIViewController {
         viewModel.bindErrorViewModelToController = { [weak self] in
             DispatchQueue.main.async {
                 if let errorMessage = self?.viewModel.errorMessage {
-                    self?.showSignInErrorAlert(title: "Error", message: errorMessage, button1Title: "OK", button2Title: "Sign Up")
+                    self?.showSignInErrorAlert(title: "Error", message: "\(errorMessage) If you don't have an account you can sign up", button1Title: "OK", button2Title: "Sign Up")
                 }
             }
         }

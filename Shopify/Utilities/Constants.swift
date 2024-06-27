@@ -53,9 +53,9 @@ enum APIConfig {
     
     case draft_orders
     case customers
+    case usd
     case addresses(customerId: String)
     case endPoint(String)
-    case usd
     case all
     
     var resource: String {
@@ -64,13 +64,12 @@ enum APIConfig {
             return "draft_orders"
         case .customers:
             return "customers"
+        case .usd:
+            return "USD"
+        case .all:
+            return "ALL"
         case .addresses(let customerId):
             return "customers/\(customerId)/addresses"
-        case .usd:
-                   return "USD"
-        case .all:
-                   return "ALL"
-
         case .endPoint(let customResource):
                    return customResource
                }
@@ -80,13 +79,17 @@ enum APIConfig {
     var url: String {
         return "https://\(APIConfig.apiKey):\(APIConfig.password)@\(APIConfig.hostName)/admin/api/\(APIConfig.version)/\(self.resource).json"
     }
+
     func urlForAddresses(customerId: String) -> String {
            return "https://\(APIConfig.apiKey):\(APIConfig.password)@\(APIConfig.hostName)/admin/api/\(APIConfig.version)/customers/\(customerId)/addresses.json?limit"
        }
-    var url3: String {
+  
+    
+    var url2: String {
         return "\(APIConfig.baseUrl2)\(APIConfig.apiKey2)/latest/\(self.resource)"
-
     }
+    
+
     var credentials: String {
         return "\(APIConfig.apiKey):\(APIConfig.password)"
     }

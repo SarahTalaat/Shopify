@@ -109,6 +109,7 @@ class CategoryViewModel{
 
 extension CategoryViewModel {
     
+    
     func toggleFavorite(productId: String, completion: @escaping (Error?) -> Void) {
         let isFavorite = isProductFavorite(productId: productId)
         
@@ -132,7 +133,7 @@ extension CategoryViewModel {
         
         FirebaseAuthService().fetchFavorites(email: email) { [weak self] favorites in
             self?.userFavorites = favorites
-      
+            self?.applyFilters()
         }
     }
     
@@ -152,8 +153,10 @@ extension CategoryViewModel {
     }
     
     func getproductId(index: Int){
-        var productId = category[index].id
+        var productId = filteredProducts[index].id
         addValueToUserDefaults(value: productId, forKey: Constants.productId)
+        print("fff getProductId")
+        print("fff productID \(productId)")
     }
     
     func retrieveAllProductsFromEncodedEmail(email: String, completion: @escaping ([ProductFromFirebase]) -> Void) {
@@ -167,9 +170,10 @@ extension CategoryViewModel {
         return UserDefaults.standard.string(forKey: key)
     }
     
-
-    
-
+    func isGuest()->Bool? {
+      return  SharedDataRepository.instance.isSignedIn
+       
+    }
 
 }
 

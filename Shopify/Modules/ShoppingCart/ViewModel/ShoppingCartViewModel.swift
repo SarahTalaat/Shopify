@@ -76,10 +76,27 @@ class ShoppingCartViewModel {
         }
     }
     func updateTotalAmount() {
+
            guard let draftOrder = draftOrder else { return }
            totalAmount = draftOrder.draftOrder?.totalPrice ?? "total price"
            onTotalAmountUpdated?()
        }
+
+//         guard let draftOrder = draftOrder else { return }
+//         let totalPrice = draftOrder.draftOrder?.lineItems.reduce(0.0) { result, lineItem in
+//             if lineItem.variantId != excludedVariantId {
+//                 let price = (lineItem.price as NSString).doubleValue
+//                 let quantity = Double(lineItem.quantity)
+//                 return (result ?? 0.0) + (price * quantity)
+//             } else {
+//                 return result
+//             }
+//         } ?? 0.0
+        
+//         totalAmount = String(format: "%.2f", totalPrice)
+//         onTotalAmountUpdated?()
+//     }
+  
     
     func incrementQuantity(at index: Int) {
         guard let lineItem = draftOrder?.draftOrder?.lineItems[index],
@@ -139,11 +156,20 @@ class ShoppingCartViewModel {
 
             print("SC: draftOrderId fetchDraftOrders: \(draftOrderId)")
 
+
             let urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
             guard let draftOrderDetails = draftOrder.draftOrder else {
                 print("Draft order details are nil")
                 return
             }
+
+        // Convert draft order to dictionary representation
+        guard let draftOrderDetails = draftOrder.draftOrder else {
+            print("Draft order details are nil")
+            return
+        }
+//        let draftOrderDictionary: [String: Any] = ["draft_order": draftOrderDetails.toDictionary()]
+
 
             let draftOrderDictionary = draftOrderDetails.toDraftOrderDictionary()
 

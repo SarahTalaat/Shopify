@@ -10,9 +10,11 @@ import UIKit
 
 class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
+
     
 
-
+    var exchangeRates: [String: Double] = [:]
+ 
     var networkServiceAuthenticationProtocol:NetworkServiceAuthenticationProtocol!
     var authServiceProtocol: AuthServiceProtocol!
     
@@ -43,6 +45,8 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         }
     }
     
+    
+    
     // Fetch user's favorite products from Firebase
     func fetchUserFavorites() {
         let email = SharedDataRepository.instance.customerEmail ?? "NoOo Email"
@@ -63,6 +67,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
        
     }
     
+    
     func saveButtonTitleState(addToCartUI:CustomButton){
         var productID = Int(UserDefaults.standard.string(forKey: Constants.productId) ?? "")
         var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
@@ -73,6 +78,30 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             addToCartUI.isAddedToCart = false // Default value if not previously set
         }
     }
+    
+    func saveButtonTitleStateShoppingCart(addToCartUI:CustomButton , productId:Int){
+        var productID = productId
+        var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
+        print("ddd Title: \(UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(customerID)"))")
+        if let isAdded = UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(customerID)") as? Bool {
+            addToCartUI.isAddedToCart = isAdded
+            print("ddd title isAdded: \(isAdded)")
+        } else {
+            addToCartUI.isAddedToCart = false // Default value if not previously set
+           
+        }
+  
+    }
+    func saveAddedToCartStateShoppingCart(_ added: Bool , productId:Int) {
+        var productID = productId
+        var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
+        print("ddd addToCart: \("isAddedToCart"+"\(productID)"+"\(customerID)")")
+        
+        UserDefaults.standard.set(added, forKey: "isAddedToCart"+"\(productID)"+"\(customerID)")
+       
+    }
+    
+    
     func toggleFavorite() {
         guard let productIdString = retrieveStringFromUserDefaults(forKey: Constants.productId),
               let productIdInt = Int(productIdString),
@@ -165,6 +194,41 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     }
 
 
+//     func fetchExchangeRates() {
+//        let exchangeRateApiService = ExchangeRateApiService()
+//        exchangeRateApiService.getLatestRates { [weak self] result in
+//            switch result {
+//            case .success(let response):
+//                self?.exchangeRates = response.conversion_rates
+//                self?.getProductDetails()
+//            case .failure(let error):
+//                print("Error fetching exchange rates: \(error)")
+//            }
+//            self?.bindProductDetailsViewModelToController()
+//        }
+//         
+//    }
+    
+    func fetchExchangeRates() {
+        
+        networkServiceAuthenticationProtocol.requestFunction(urlString: APIConfig.usd.url2, method: .get, model: [:]){ (result: Result<ExchangeRatesResponse, Error>) in
+            switch result {
+            case .success(let response):
+                // Handle successful response
+                print("PD Exchange Rates Response\(response)")
+                self.exchangeRates = response.conversion_rates
+                self.getProductDetails()
+            case .failure(let error):
+                // Handle error
+                print(error) // Replace with your error handling code
+            }
+            self.bindProductDetailsViewModelToController()
+        }
+        
+    }
+    
+    
+    
 
     func getProductDetails() {
         
@@ -185,7 +249,10 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
                 print("PD product title response: \(String(describing: productResponse.product?.title))")
                 self.product = productResponse
                 
-                
+                print("ddd inv qnt: \(productResponse.product?.variants?.first?.inventory_quantity)")
+                UserDefaults.standard.removeObject(forKey: Constants.inventoryQuantity)
+                UserDefaults.standard.synchronize()
+                self.addValueToUserDefaults(value: productResponse.product?.variants?.first?.inventory_quantity, forKey: Constants.inventoryQuantity)
                 self.addValueToUserDefaults(value: productResponse.product?.images?.first?.src, forKey: Constants.productImage)
                 self.addValueToUserDefaults(value: productResponse.product?.title, forKey: Constants.productTitle)
                 self.addValueToUserDefaults(value: productResponse.product?.vendor, forKey: Constants.productVendor)
@@ -229,10 +296,59 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         }
 
     }
+    
+    func deleteProductFromShoppingCart(productId:Int){
+        if let draftOrderId = UserDefaults.standard.string(forKey: Constants.userDraftId) {
+            var urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
+            deleteLineItemFromDraftOrder(urlString: urlString, productId: productId )
+        }
+    }
    
     
-
+    func inventoryQuantityLabel() -> String {
+        var inventoryQuantity = UserDefaults.standard.integer(forKey: Constants.inventoryQuantity)
+        print("ddd inventory quantity: \(inventoryQuantity)")
+        if inventoryQuantity == 0 {
+            UserDefaults.standard.removeObject(forKey: Constants.inventoryQuantity)
+            UserDefaults.standard.synchronize()
+            return "Out of stock"
+        }else{
+            
+            return "Quantity: \(inventoryQuantity)"
+        }
+    }
     
+    func getRating() -> Int{
+        if let productId = UserDefaults.standard.string(forKey: Constants.productId){
+            var rating = self.transformLastDigit(of: Int(productId) ?? 2)
+            return rating
+        }
+        return 2
+       
+    }
+
+    func transformLastDigit(of number: Int) -> Int {
+        let lastDigit = number % 10
+        
+        switch lastDigit {
+        case 0, 1, 2, 3, 4, 5:
+            return lastDigit
+        case 6:
+            return 1
+        case 7:
+            return 2
+        case 8:
+            return 3
+        case 9:
+            return 4
+        default:
+            return 0
+        }
+    }
+    
+    func isGuest()->Bool? {
+      return  SharedDataRepository.instance.isSignedIn
+    }
     
     func draftOrder() -> [String:Any] {
         var variantLineItemId = UserDefaults.standard.string(forKey: Constants.variantId)
