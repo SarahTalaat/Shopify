@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 import Cosmos
 
-class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource , ShoppingCartDeletionDeletegate {
+class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource , ShoppingCartDeletionDeletegate , deleteProductDelegate {
     
     @IBOutlet weak var ratingView: CosmosView!
     @IBOutlet weak var inventroyQuantityLabel: UILabel!
@@ -407,7 +407,9 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     }
     
     
-    
+    func deleteProuct(isAddedToCart: Bool) {
+        addToCartUI.isAddedToCart = isAddedToCart
+    }
 
     
 
@@ -431,3 +433,6 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
 
 
+protocol deleteProductDelegate {
+    func deleteProuct(isAddedToCart: Bool)
+}

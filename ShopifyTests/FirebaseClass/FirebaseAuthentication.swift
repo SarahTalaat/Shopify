@@ -51,7 +51,7 @@ class FirebaseAuthService {
             }
         }
     }
-//
+
     func signOut(completion: @escaping (Result<Void, Error>) -> Void) {
         do {
             try Auth.auth().signOut()

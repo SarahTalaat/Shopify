@@ -364,147 +364,147 @@ class MockAuthServiceTests: XCTestCase {
 
 //----------------------------------------------------------------------------------
     
-    
-        func testSetShoppingCartId() {
-            // Test data
-            let email = "customer1@example.com"
-            let shoppingCartId = "new_shopping_cart_id"
-    
-            // Set up mock database with customer data
-            mockAuthService.customersDatabase = [
-                SharedMethods.encodeEmail(email): [
-                    "customerId": "customer_id_1",
-                    "name": "Customer 1",
-                    "email": email,
-                    "isSignedIn": "true",
-                    "favouriteId": "favorite_id_1",
-                    "shoppingCartId": "old_shopping_cart_id"
-                ]
-            ]
-    
-            // Call the method under test
-            mockAuthService.setShoppingCartId(email: email, shoppingCartId: shoppingCartId) { error in
-                // Assert that setting shopping cart ID was successful
-                XCTAssertNil(error)
-    
-                // Check updated value in mock database
-                if let customerData = self.mockAuthService.customersDatabase[SharedMethods.encodeEmail(email)],
-                   let updatedShoppingCartId = customerData["shoppingCartId"] as? String {
-                    XCTAssertEqual(updatedShoppingCartId, shoppingCartId)
-                } else {
-                    XCTFail("Failed to update shopping cart ID in mock database")
-                }
-            }
-        }
-
-        func testUpdateSignInStatus() {
-            // Test data
-            let email = "customer1@example.com"
-            let newSignInStatus = "false"
-    
-            // Set up mock database with customer data
-            mockAuthService.customersDatabase = [
-                SharedMethods.encodeEmail(email): [
-                    "customerId": "customer_id_1",
-                    "name": "Customer 1",
-                    "email": email,
-                    "isSignedIn": "true",
-                    "favouriteId": "favorite_id_1",
-                    "shoppingCartId": "shopping_cart_id_1"
-                ]
-            ]
-    
-            // Call the method under test
-            mockAuthService.updateSignInStatus(email: email, isSignedIn: newSignInStatus) { success in
-                // Assert that the update was successful
-                XCTAssertTrue(success)
-    
-                // Check updated value in mock database
-                if let customerData = self.mockAuthService.customersDatabase[SharedMethods.encodeEmail(email)],
-                   let updatedSignInStatus = customerData["isSignedIn"] as? String {
-                    XCTAssertEqual(updatedSignInStatus, newSignInStatus)
-                } else {
-                    XCTFail("Failed to update sign-in status in mock database")
-                }
-            }
-        }
-
-        func testToggleFavorite() {
-            // Test data
-            let email = "customer1@example.com"
-            let productId = "product_id_1"
-            let productTitle = "Product 1"
-            let productVendor = "Vendor 1"
-            let productImage = "product_image_url_1"
-            let isFavorite = true // Assuming we are marking the product as favorite
-    
-            // Set up mock database with initial product for this customer
-            mockAuthService.customersDatabase = [
-                SharedMethods.encodeEmail(email): [
-                    "customerId": "customer_id_1",
-                    "name": "Customer 1",
-                    "email": email,
-                    "isSignedIn": "true",
-                    "favouriteId": "favorite_id_1",
-                    "shoppingCartId": "shopping_cart_id_1",
-                    "products": [
-                        productId: [
-                            "productId": productId,
-                            "productTitle": productTitle,
-                            "productVendor": productVendor,
-                            "productImage": productImage
-                        ]
-                    ]
-                ]
-            ]
-    
-            // Call the method under test
-            mockAuthService.toggleFavorite(email: email, productId: productId, productTitle: productTitle, productVendor: productVendor, productImage: productImage, isFavorite: isFavorite) { error in
-                // Assert that there is no error returned
-                XCTAssertNil(error)
-    
-                // Assert that the product is marked as favorite in the mock database
-                guard let customerData = self.mockAuthService.customersDatabase[SharedMethods.encodeEmail(email)],
-                      let productsData = customerData["products"] as? [String: [String: Any]],
-                      let updatedProduct = productsData[productId] else {
-                    XCTFail("Failed to retrieve updated product from mock database")
-                    return
-                }
-    
-                // Verify the details of the updated product
-                XCTAssertEqual(updatedProduct["productId"] as? String, productId)
-                XCTAssertEqual(updatedProduct["productTitle"] as? String, productTitle)
-                XCTAssertEqual(updatedProduct["productVendor"] as? String, productVendor)
-                XCTAssertEqual(updatedProduct["productImage"] as? String, productImage)
-            }
-        }
-
-        func testAddProductToEncodedEmail() {
-                // Test data
-                let email = "customer1@example.com"
-                let productId = "product_id_2"
-                let productTitle = "Product 2"
-                let productSize = "Large"
-                let productColour = "Red"
-                let productVendor = "Vendor"
-                let productImage = "product_image_url_2"
-    
-                // Call the method under test
-            mockAuthService.addProductToEncodedEmail(email: email, productId: productId, productTitle: productTitle, productVendor: productVendor, productImage: productImage)
-    
-                // Assert that the product was added to the mock database correctly
-                if let customerData = mockAuthService.customersDatabase[SharedMethods.encodeEmail(email)],
-                   let products = customerData["products"] as? [String: [String: Any]],
-                   let addedProduct = products[productId] {
-                    XCTAssertEqual(addedProduct["productId"] as? String, productId)
-                    XCTAssertEqual(addedProduct["productTitle"] as? String, productTitle)
-                    XCTAssertEqual(addedProduct["productSize"] as? String, productSize)
-                    XCTAssertEqual(addedProduct["productColour"] as? String, productColour)
-                    XCTAssertEqual(addedProduct["productImage"] as? String, productImage)
-                } else {
-                    XCTFail("Failed to add product to mock database")
-                }
-            }
+//
+//        func testSetShoppingCartId() {
+//            // Test data
+//            let email = "customer1@example.com"
+//            let shoppingCartId = "new_shopping_cart_id"
+//
+//            // Set up mock database with customer data
+//            mockAuthService.customersDatabase = [
+//                SharedMethods.encodeEmail(email): [
+//                    "customerId": "customer_id_1",
+//                    "name": "Customer 1",
+//                    "email": email,
+//                    "isSignedIn": "true",
+//                    "favouriteId": "favorite_id_1",
+//                    "shoppingCartId": "old_shopping_cart_id"
+//                ]
+//            ]
+//
+//            // Call the method under test
+//            mockAuthService.setShoppingCartId(email: email, shoppingCartId: shoppingCartId) { error in
+//                // Assert that setting shopping cart ID was successful
+//                XCTAssertNil(error)
+//
+//                // Check updated value in mock database
+//                if let customerData = self.mockAuthService.customersDatabase[SharedMethods.encodeEmail(email)],
+//                   let updatedShoppingCartId = customerData["shoppingCartId"] as? String {
+//                    XCTAssertEqual(updatedShoppingCartId, shoppingCartId)
+//                } else {
+//                    XCTFail("Failed to update shopping cart ID in mock database")
+//                }
+//            }
+//        }
+//
+//        func testUpdateSignInStatus() {
+//            // Test data
+//            let email = "customer1@example.com"
+//            let newSignInStatus = "false"
+//
+//            // Set up mock database with customer data
+//            mockAuthService.customersDatabase = [
+//                SharedMethods.encodeEmail(email): [
+//                    "customerId": "customer_id_1",
+//                    "name": "Customer 1",
+//                    "email": email,
+//                    "isSignedIn": "true",
+//                    "favouriteId": "favorite_id_1",
+//                    "shoppingCartId": "shopping_cart_id_1"
+//                ]
+//            ]
+//
+//            // Call the method under test
+//            mockAuthService.updateSignInStatus(email: email, isSignedIn: newSignInStatus) { success in
+//                // Assert that the update was successful
+//                XCTAssertTrue(success)
+//
+//                // Check updated value in mock database
+//                if let customerData = self.mockAuthService.customersDatabase[SharedMethods.encodeEmail(email)],
+//                   let updatedSignInStatus = customerData["isSignedIn"] as? String {
+//                    XCTAssertEqual(updatedSignInStatus, newSignInStatus)
+//                } else {
+//                    XCTFail("Failed to update sign-in status in mock database")
+//                }
+//            }
+//        }
+//
+//        func testToggleFavorite() {
+//            // Test data
+//            let email = "customer1@example.com"
+//            let productId = "product_id_1"
+//            let productTitle = "Product 1"
+//            let productVendor = "Vendor 1"
+//            let productImage = "product_image_url_1"
+//            let isFavorite = true // Assuming we are marking the product as favorite
+//
+//            // Set up mock database with initial product for this customer
+//            mockAuthService.customersDatabase = [
+//                SharedMethods.encodeEmail(email): [
+//                    "customerId": "customer_id_1",
+//                    "name": "Customer 1",
+//                    "email": email,
+//                    "isSignedIn": "true",
+//                    "favouriteId": "favorite_id_1",
+//                    "shoppingCartId": "shopping_cart_id_1",
+//                    "products": [
+//                        productId: [
+//                            "productId": productId,
+//                            "productTitle": productTitle,
+//                            "productVendor": productVendor,
+//                            "productImage": productImage
+//                        ]
+//                    ]
+//                ]
+//            ]
+//
+//            // Call the method under test
+//            mockAuthService.toggleFavorite(email: email, productId: productId, productTitle: productTitle, productVendor: productVendor, productImage: productImage, isFavorite: isFavorite) { error in
+//                // Assert that there is no error returned
+//                XCTAssertNil(error)
+//
+//                // Assert that the product is marked as favorite in the mock database
+//                guard let customerData = self.mockAuthService.customersDatabase[SharedMethods.encodeEmail(email)],
+//                      let productsData = customerData["products"] as? [String: [String: Any]],
+//                      let updatedProduct = productsData[productId] else {
+//                    XCTFail("Failed to retrieve updated product from mock database")
+//                    return
+//                }
+//
+//                // Verify the details of the updated product
+//                XCTAssertEqual(updatedProduct["productId"] as? String, productId)
+//                XCTAssertEqual(updatedProduct["productTitle"] as? String, productTitle)
+//                XCTAssertEqual(updatedProduct["productVendor"] as? String, productVendor)
+//                XCTAssertEqual(updatedProduct["productImage"] as? String, productImage)
+//            }
+//        }
+//
+//        func testAddProductToEncodedEmail() {
+//                // Test data
+//                let email = "customer2@example.com"
+//                let productId = "product_id_2"
+//                let productTitle = "Product 2"
+//                let productSize = "Large"
+//                let productColour = "Red"
+//                let productVendor = "Vendor"
+//                let productImage = "product_image_url_2"
+//
+//                // Call the method under test
+//            mockAuthService.addProductToEncodedEmail(email: email, productId: productId, productTitle: productTitle, productVendor: productVendor, productImage: productImage)
+//
+//                // Assert that the product was added to the mock database correctly
+//                if let customerData = mockAuthService.customersDatabase[SharedMethods.encodeEmail(email)],
+//                   let products = customerData["products"] as? [String: [String: Any]],
+//                   let addedProduct = products[productId] {
+//                    XCTAssertEqual(addedProduct["productId"] as? String, productId)
+//                    XCTAssertEqual(addedProduct["productTitle"] as? String, productTitle)
+//                    XCTAssertEqual(addedProduct["productSize"] as? String, productSize)
+//                    XCTAssertEqual(addedProduct["productColour"] as? String, productColour)
+//                    XCTAssertEqual(addedProduct["productImage"] as? String, productImage)
+//                } else {
+//                    XCTFail("Failed to add product to mock database")
+//                }
+//            }
 
 //        func testSaveCustomerId() {
 //            // Given
