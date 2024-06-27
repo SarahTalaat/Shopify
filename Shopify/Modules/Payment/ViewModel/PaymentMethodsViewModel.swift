@@ -26,6 +26,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     var defCurrency: String = "EGP"
     var totalAmount: String?
     private var addresses: [Address] = []
+    var displayedLineItems: [LineItem] = []
     private var viewModel = ShoppingCartViewModel()
     
     func selectPaymentMethod(_ method: PaymentMethod) {
@@ -100,30 +101,30 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             return
         }
         
-        let unwrappedLineItems = lineItem.map { lineItem in
-            LineItem(
-                id: lineItem.id,
-                variantId: lineItem.variantId,
-                productId: lineItem.productId,
-                title: lineItem.title,
-                variantTitle: lineItem.variantTitle ?? "",
-                sku: lineItem.sku ?? "",
-                vendor: lineItem.vendor ?? "",
-                quantity: lineItem.quantity,
-                requiresShipping: lineItem.requiresShipping ?? false,
-                taxable: lineItem.taxable ?? false,
-                giftCard: lineItem.giftCard ?? false,
-                fulfillmentService: lineItem.fulfillmentService ?? "",
-                grams: lineItem.grams ?? 0,
-                taxLines: lineItem.taxLines ?? [],
-                appliedDiscount: lineItem.appliedDiscount ?? "",
-                name: lineItem.name ?? "",
-                properties: lineItem.properties ?? [],
-                custom: lineItem.custom ?? false,
-                price: lineItem.price,
-                adminGraphqlApiId: lineItem.adminGraphqlApiId ?? ""
-            )
-        }
+        let unwrappedLineItems = displayedLineItems.map { lineItem in
+                   LineItem(
+                       id: lineItem.id,
+                       variantId: lineItem.variantId,
+                       productId: lineItem.productId,
+                       title: lineItem.title,
+                       variantTitle: lineItem.variantTitle ?? "",
+                       sku: lineItem.sku ?? "",
+                       vendor: lineItem.vendor ?? "",
+                       quantity: lineItem.quantity,
+                       requiresShipping: lineItem.requiresShipping ?? false,
+                       taxable: lineItem.taxable ?? false,
+                       giftCard: lineItem.giftCard ?? false,
+                       fulfillmentService: lineItem.fulfillmentService ?? "",
+                       grams: lineItem.grams ?? 0,
+                       taxLines: lineItem.taxLines ?? [],
+                       appliedDiscount: lineItem.appliedDiscount ?? "",
+                       name: lineItem.name ?? "",
+                       properties: lineItem.properties ?? [],
+                       custom: lineItem.custom ?? false,
+                       price: lineItem.price,
+                       adminGraphqlApiId: lineItem.adminGraphqlApiId ?? ""
+                   )
+               }
         print(email)
         print(defCurrency)
         print(unwrappedLineItems)

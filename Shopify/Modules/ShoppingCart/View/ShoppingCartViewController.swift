@@ -176,7 +176,6 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
         cell.productAmount.text = "\(lineItem.quantity)"
         cell.productPrice.text = viewModel.formatPriceWithCurrency(price: lineItem.price)
 
-        // Fetch product details asynchronously
         viewModel.fetchProductDetails(for: lineItem.productId ?? 0) { [weak self] result in
             switch result {
             case .success(let product):
@@ -217,11 +216,12 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
        @IBAction func processedToPaymentBtn(_ sender: UIButton) {
            let storyboard = UIStoryboard(name: "Third", bundle: nil)
              if let paymentVC = storyboard.instantiateViewController(withIdentifier: "PaymentVC") as? PaymentViewController {
-                 paymentVC.totalAmount = totalAmount.text // Directly use the updated amount
-                 if let firstLineItem = viewModel.draftOrder?.draftOrder?.lineItems {
-                     paymentVC.lineItems = firstLineItem
-                 }
-                 navigationController?.pushViewController(paymentVC, animated: true)
+                 paymentVC.totalAmount = totalAmount.text
+                 paymentVC.lineItems = viewModel.displayedLineItems
+                         let paymentViewModel = PaymentMethodsViewModel()
+                         paymentViewModel.displayedLineItems = viewModel.displayedLineItems 
+
+                         navigationController?.pushViewController(paymentVC, animated: true)
              }
        }
     func didTapPlusButton(on cell: CartTableViewCell) {
