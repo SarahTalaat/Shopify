@@ -12,9 +12,11 @@ class SignInViewModel {
 
    
     var authService: FirebaseAuthService!
+    var networkService: NetworkServiceAuthentication
 
-    init(authService: FirebaseAuthService = FirebaseAuthService.instance) {
+    init(authService: FirebaseAuthService = FirebaseAuthService.instance , networkService:NetworkServiceAuthentication = NetworkServiceAuthentication.instance) {
         self.authService = authService
+        self.networkService = networkService
     }
     
     var name: String?
