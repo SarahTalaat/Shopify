@@ -246,11 +246,12 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
          }
 
 extension ProductViewController: ProductsCollectionViewCellDelegate{
+
     
     func didTapFavoriteButton(index: Int) {
         
         if viewModel.isGuest() == false {
-            showGuestAlert()
+            showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
         }else{
             guard index < viewModel.filteredProducts.count else { return }
             let productId = "\(viewModel.filteredProducts[index].id)"
@@ -333,27 +334,27 @@ extension ProductViewController: ProductsCollectionViewCellDelegate{
         }
     
     
-         func productsCollectionViewCellDidToggleFavorite(at index: Int) {
-             guard index < viewModel.filteredProducts.count else { return }
-             
-             if viewModel.isGuest() == false {
-                 showGuestAlert()
-             }else{
-                 viewModel.toggleFavorite(productId:  "\(viewModel.filteredProducts[index].id)") { error in
-                     if let error = error {
-                         print("Error toggling favorite status: \(error.localizedDescription)")
-                         // Handle error if needed
-                     } else {
-                         // Update UI or perform any post-toggle actions
-                         DispatchQueue.main.async {
-                             self.collectionView.reloadData()
-                         }
-                     }
-                 }
-             }
-             
-
-         }
+//         func productsCollectionViewCellDidToggleFavorite(at index: Int) {
+//             guard index < viewModel.filteredProducts.count else { return }
+//
+//             if viewModel.isGuest() == false {
+//                 showGuestAlert()
+//             }else{
+//                 viewModel.toggleFavorite(productId:  "\(viewModel.filteredProducts[index].id)") { error in
+//                     if let error = error {
+//                         print("Error toggling favorite status: \(error.localizedDescription)")
+//                         // Handle error if needed
+//                     } else {
+//                         // Update UI or perform any post-toggle actions
+//                         DispatchQueue.main.async {
+//                             self.collectionView.reloadData()
+//                         }
+//                     }
+//                 }
+//             }
+//
+//
+//         }
     
     
      }

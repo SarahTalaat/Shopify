@@ -234,12 +234,13 @@ extension CategoryViewController : UICollectionViewDelegate,UICollectionViewData
 
 extension CategoryViewController: ProductsTableViewCellDelegate{
 
-    
+
+
     func didTapFavoriteButton(index: Int) {
         guard index < viewModel.filteredProducts.count else { return }
         
         if viewModel.isGuest() == false {
-            showGuestAlert()
+            showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
         }else{
             let productId = "\(viewModel.filteredProducts[index].id)"
             viewModel.toggleFavorite(productId: productId) { error in
@@ -260,7 +261,7 @@ extension CategoryViewController: ProductsTableViewCellDelegate{
          guard index < viewModel.filteredProducts.count else { return }
          
          if viewModel.isGuest() == false {
-             showGuestAlert()
+             showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
          } else{
              viewModel.toggleFavorite(productId:  "\(viewModel.filteredProducts[index].id)") { error in
                  if let error = error {

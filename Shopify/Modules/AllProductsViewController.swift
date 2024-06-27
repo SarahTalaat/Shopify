@@ -145,7 +145,7 @@ extension AllProductsViewController: ProductsCollectionViewCellDelegate{
     func didTapFavoriteButton(index: Int) {
         
         if viewModel.isGuest() == false {
-          showGuestAlert()
+           
         }else{
             guard index < viewModel.filteredProducts.count else { return }
             let productId = "\(viewModel.filteredProducts[index].id)"
@@ -163,13 +163,14 @@ extension AllProductsViewController: ProductsCollectionViewCellDelegate{
 
     }
 
-         
-         
+
+    
+
          func productsCollectionViewCellDidToggleFavorite(at index: Int) {
              guard index < viewModel.filteredProducts.count else { return }
              
              if viewModel.isGuest() == false {
-                 showGuestAlert()
+                 showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
              }else{
                  viewModel.toggleFavorite(productId:  "\(viewModel.filteredProducts[index].id)") { error in
                      if let error = error {

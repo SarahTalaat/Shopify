@@ -190,9 +190,18 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
     @IBAction func favouriteButtonTapped(_ sender: UIButton) {
         
-       
+        func showAlerts(title:String,message:String) {
+               let alert = UIAlertController(title: title, message:message , preferredStyle: .alert)
+               let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+               alert.addAction(okAction)
+               
+               self.present(alert, animated: true, completion: nil)
+           }
+
+
+        
         if viewModel.isGuest() == false {
-            showGuestAlert()
+            showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
         }else{
             viewModel.toggleFavorite()
             updateFavoriteButton()

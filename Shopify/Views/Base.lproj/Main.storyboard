@@ -578,7 +578,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oL7-YE-7Z8" customClass="AnimationView" customModule="Lottie">
-                                <rect key="frame" x="45" y="104" width="320" height="684"/>
+                                <rect key="frame" x="45" y="104" width="320" height="0.0"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="Tda-BC-ujV"/>
@@ -765,10 +765,10 @@
     </designables>
     <resources>
         <image name="Sale" width="1200" height="675"/>
-        <image name="arrow.right" catalog="system" width="32" height="32"/>
-        <image name="cart.badge.plus.fill" catalog="system" width="32" height="32"/>
-        <image name="chevron.down" catalog="system" width="32" height="32"/>
-        <image name="heart" catalog="system" width="32" height="32"/>
+        <image name="arrow.right" catalog="system" width="128" height="98"/>
+        <image name="cart.badge.plus.fill" catalog="system" width="128" height="106"/>
+        <image name="chevron.down" catalog="system" width="128" height="72"/>
+        <image name="heart" catalog="system" width="128" height="109"/>
         <image name="logo" width="816" height="816"/>
         <image name="shop" width="3000" height="2000"/>
         <systemColor name="labelColor">

@@ -82,7 +82,7 @@ class SharedMethods{
             .replacingOccurrences(of: ",", with: ".")
     }
     
-    private func showGuestAlert() {
+    func showGuestAlert() {
            guard let viewController = viewController else { return }
            
            let alert = UIAlertController(title: "Guest Access Restricted", message: "Please sign up to access this feature.", preferredStyle: .alert)
