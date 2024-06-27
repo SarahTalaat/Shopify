@@ -12,6 +12,8 @@ import FirebaseDatabase
 @testable import Shopify
 
 class MockFirebaseAuthService {
+    
+
     var signInResult: Result<UserModel, Error>?
     var signOutResult: Result<Void, Error>?
     var signUpResult: Result<UserModel, Error>?
@@ -30,26 +32,30 @@ class MockFirebaseAuthService {
     var isEmailTakenResult: Result<Bool, Error>?
     var setShoppingCartIdResult: Result<Void, Error>?
     var getShoppingCartIdResult: Result<String?, Error>?
+    var fetchCustomerDataFromRealTimeDatabaseCompletionHandler: ((String) -> CustomerData?)?
 
-    func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+
+
+    
+     func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
         if let signInResult = signInResult {
             completion(signInResult)
         }
     }
         
-    func signOut(completion: @escaping (Result<Void, Error>) -> Void) {
+     func signOut(completion: @escaping (Result<Void, Error>) -> Void) {
         if let signOutResult = signOutResult {
             completion(signOutResult)
         }
     }
 
-    func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+     func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
         if let signUpResult = signUpResult {
             completion(signUpResult)
         }
     }
 
-    func checkEmailVerification(for user: User, completion: @escaping (Bool, Error?) -> Void) {
+     func checkEmailVerification(for user: User, completion: @escaping (Bool, Error?) -> Void) {
         if let result = checkEmailVerificationResult {
             completion(result.0, result.1)
         }
@@ -67,7 +73,7 @@ class MockFirebaseAuthService {
         }
     }
 
-    func fetchCustomerId(encodedEmail: String, completion: @escaping (String?) -> Void) {
+     func fetchCustomerId(encodedEmail: String, completion: @escaping (String?) -> Void) {
         if let fetchCustomerIdResult = fetchCustomerIdResult {
             switch fetchCustomerIdResult {
             case.success(let value):
@@ -85,7 +91,7 @@ class MockFirebaseAuthService {
         }
     }
 
-    func retrieveAllProductsFromEncodedEmail(email: String, completion: @escaping ([ProductFromFirebase]) -> Void) {
+     func retrieveAllProductsFromEncodedEmail(email: String, completion: @escaping ([ProductFromFirebase]) -> Void) {
         if let retrieveAllProductsFromEncodedEmailResult = retrieveAllProductsFromEncodedEmailResult {
             switch retrieveAllProductsFromEncodedEmailResult {
             case .success(let value):
@@ -97,7 +103,7 @@ class MockFirebaseAuthService {
         }
     }
 
-    func toggleFavorite(email: String, productId: String, productTitle: String, productVendor: String, productImage: String, isFavorite: Bool, completion: @escaping (Error?) -> Void) {
+     func toggleFavorite(email: String, productId: String, productTitle: String, productVendor: String, productImage: String, isFavorite: Bool, completion: @escaping (Error?) -> Void) {
         if let toggleFavoriteResult = toggleFavoriteResult {
             switch toggleFavoriteResult {
             case.success:
@@ -108,7 +114,7 @@ class MockFirebaseAuthService {
         }
     }
 
-    func fetchFavorites(email: String, completion: @escaping ([String: Bool]) -> Void) {
+     func fetchFavorites(email: String, completion: @escaping ([String: Bool]) -> Void) {
         if let fetchFavoritesResult = fetchFavoritesResult {
             switch fetchFavoritesResult {
             case.success(let value):
@@ -120,19 +126,19 @@ class MockFirebaseAuthService {
         }
     }
 
-    func checkProductExists(email: String, productId: String, completion: @escaping (Bool, Error?) -> Void) {
+     func checkProductExists(email: String, productId: String, completion: @escaping (Bool, Error?) -> Void) {
         if let checkProductExistsResult = checkProductExistsResult {
             completion(checkProductExistsResult.0, checkProductExistsResult.1)
         }
     }
 
-    func checkEmailSignInStatus(email: String, completion: @escaping (Bool?) -> Void) {
+     func checkEmailSignInStatus(email: String, completion: @escaping (Bool?) -> Void) {
         if let checkEmailSignInStatusResult = checkEmailSignInStatusResult {
             completion(checkEmailSignInStatusResult.0)
         }
     }
 
-    func updateSignInStatus(email: String, isSignedIn: String, completion: @escaping (Bool) -> Void) {
+     func updateSignInStatus(email: String, isSignedIn: String, completion: @escaping (Bool) -> Void) {
         if let updateSignInStatusResult = updateSignInStatusResult {
             switch updateSignInStatusResult {
             case.success:
@@ -144,19 +150,21 @@ class MockFirebaseAuthService {
         }
     }
 
-    func fetchCustomerDataFromRealTimeDatabase(forEmail email: String, completion: @escaping (CustomerData?) -> Void) {
-        if let fetchCustomerDataFromRealTimeDatabaseResult = fetchCustomerDataFromRealTimeDatabaseResult {
-            switch fetchCustomerDataFromRealTimeDatabaseResult {
-            case .success(let value):
-                completion(value)
-            case .failure(let error):
-                completion(nil)
-                // You can also handle the error here if needed
+     func fetchCustomerDataFromRealTimeDatabase(forEmail email: String, completion: @escaping (CustomerData?) -> Void) {
+            if let handler = fetchCustomerDataFromRealTimeDatabaseCompletionHandler {
+                completion(handler(email))
+            } else if let fetchCustomerDataFromRealTimeDatabaseResult = fetchCustomerDataFromRealTimeDatabaseResult {
+                switch fetchCustomerDataFromRealTimeDatabaseResult {
+                case .success(let value):
+                    completion(value)
+                case .failure(let error):
+                    completion(nil)
+                    // You can also handle the error here if needed
+                }
             }
         }
-    }
 
-    func isEmailTaken(email: String, completion: @escaping (Bool) -> Void) {
+     func isEmailTaken(email: String, completion: @escaping (Bool) -> Void) {
         if let isEmailTakenResult = isEmailTakenResult {
             switch isEmailTakenResult {
             case.success(let value):
@@ -168,7 +176,7 @@ class MockFirebaseAuthService {
         }
     }
 
-    func setShoppingCartId(email: String, shoppingCartId: String, completion: @escaping (Error?) -> Void) {
+     func setShoppingCartId(email: String, shoppingCartId: String, completion: @escaping (Error?) -> Void) {
         if let setShoppingCartIdResult = setShoppingCartIdResult {
             switch setShoppingCartIdResult {
             case.success:
@@ -179,7 +187,7 @@ class MockFirebaseAuthService {
         }
     }
 
-    func getShoppingCartId(email: String, completion: @escaping (String?, Error?) -> Void) {
+     func getShoppingCartId(email: String, completion: @escaping (String?, Error?) -> Void) {
         if let getShoppingCartIdResult = getShoppingCartIdResult {
             switch getShoppingCartIdResult {
             case.success(let value):

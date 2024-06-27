@@ -162,6 +162,9 @@
 		B65016F32C2C615C00C4BE3E /* SignInViewModelNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65016F22C2C615C00C4BE3E /* SignInViewModelNew.swift */; };
 		B682B1D32C2D2D20000C5911 /* MockFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682B1D22C2D2D20000C5911 /* MockFirebase.swift */; };
 		B682B1D52C2D302E000C5911 /* MockFirebaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682B1D42C2D302E000C5911 /* MockFirebaseTest.swift */; };
+		B682B1D72C2D45B2000C5911 /* SignInViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682B1D62C2D45B2000C5911 /* SignInViewModelTest.swift */; };
+		B682B1D92C2D6AEA000C5911 /* SignUpViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682B1D82C2D6AEA000C5911 /* SignUpViewModelTest.swift */; };
+		B682B1DB2C2D76B4000C5911 /* SignInVMTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682B1DA2C2D76B4000C5911 /* SignInVMTest.swift */; };
 		B68E72FE2C0D402900BC2D90 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68E72FD2C0D402900BC2D90 /* CustomCollectionViewCell.swift */; };
 		B68E73002C0D42F700BC2D90 /* ProductDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68E72FF2C0D42F700BC2D90 /* ProductDetailsVC.swift */; };
 		B68E73052C0DB84200BC2D90 /* CustomDropDownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68E73032C0DB84200BC2D90 /* CustomDropDownViewController.swift */; };
@@ -352,6 +355,9 @@
 		B65016F22C2C615C00C4BE3E /* SignInViewModelNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModelNew.swift; sourceTree = "<group>"; };
 		B682B1D22C2D2D20000C5911 /* MockFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFirebase.swift; sourceTree = "<group>"; };
 		B682B1D42C2D302E000C5911 /* MockFirebaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFirebaseTest.swift; sourceTree = "<group>"; };
+		B682B1D62C2D45B2000C5911 /* SignInViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModelTest.swift; sourceTree = "<group>"; };
+		B682B1D82C2D6AEA000C5911 /* SignUpViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModelTest.swift; sourceTree = "<group>"; };
+		B682B1DA2C2D76B4000C5911 /* SignInVMTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVMTest.swift; sourceTree = "<group>"; };
 		B68E72FD2C0D402900BC2D90 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		B68E72FF2C0D42F700BC2D90 /* ProductDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsVC.swift; sourceTree = "<group>"; };
 		B68E73032C0DB84200BC2D90 /* CustomDropDownViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDropDownViewController.swift; sourceTree = "<group>"; };
@@ -1176,6 +1182,9 @@
 				22D8CE432C2B0EAC0000917D /* Mock */,
 				22D8CE402C2AF3740000917D /* Home */,
 				B69FA1842C09F050009D43B7 /* ShopifyTests.swift */,
+				B682B1D62C2D45B2000C5911 /* SignInViewModelTest.swift */,
+				B682B1D82C2D6AEA000C5911 /* SignUpViewModelTest.swift */,
+				B682B1DA2C2D76B4000C5911 /* SignInVMTest.swift */,
 			);
 			path = ShopifyTests;
 			sourceTree = "<group>";
@@ -1653,9 +1662,12 @@
 				B682B1D32C2D2D20000C5911 /* MockFirebase.swift in Sources */,
 				229530332C2C17BF0041C78C /* CategoryTest.swift in Sources */,
 				22D8CE422C2AF4210000917D /* HomeTest.swift in Sources */,
+				B682B1D92C2D6AEA000C5911 /* SignUpViewModelTest.swift in Sources */,
+				B682B1DB2C2D76B4000C5911 /* SignInVMTest.swift in Sources */,
 				229530302C2BE98C0041C78C /* ProductsTest.swift in Sources */,
 				B6186B072C29902C00AA6D15 /* NetworkServiceMockTest.swift in Sources */,
 				B65016F32C2C615C00C4BE3E /* SignInViewModelNew.swift in Sources */,
+				B682B1D72C2D45B2000C5911 /* SignInViewModelTest.swift in Sources */,
 				B6186B112C2A55CB00AA6D15 /* MockAuthTestWorking.swift in Sources */,
 				B6186B202C2AF05000AA6D15 /* MockAuthTest.swift in Sources */,
 				B6186B172C2AA4FA00AA6D15 /* FirebaseAuthentication.swift in Sources */,

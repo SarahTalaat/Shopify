@@ -128,12 +128,12 @@ class SignUpViewModel {
     
 
 
-    private func isEmailFormatValid(_ email: String) -> Bool {
+     func isEmailFormatValid(_ email: String) -> Bool {
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         return NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: email)
     }
 
-    private func handleSignUpError(_ error: Error) {
+     func handleSignUpError(_ error: Error) {
         errorMessage = error.localizedDescription
     }
     

@@ -34,6 +34,10 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        favouriteTableView.reloadData()
+    }
     
     
 

@@ -29,7 +29,7 @@ enum HTTPMethod: String {
 
 class NetworkServiceAuthentication {
     
-    static let instance = NetworkServiceAuthentication()
+    static var instance = NetworkServiceAuthentication()
     private init() {}
     
     

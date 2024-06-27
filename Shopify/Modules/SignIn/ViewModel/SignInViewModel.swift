@@ -45,8 +45,10 @@ class SignInViewModel {
     var bindUserViewModelToController: (() -> ()) = {}
     var bindErrorViewModelToController: (() -> ()) = {}
 
-    init(){
-    }
+
+    init() {
+
+        }
 
     func signIn(email: String, password: String) {
         FirebaseAuthService.instance.signIn(email: email, password: password) { [weak self] result in
@@ -64,6 +66,7 @@ class SignInViewModel {
                 strongSelf.checkEmailSignInStatus(email: email)
                 print("ddd 2.")
                 print("ddd 3.")
+              
             case .failure(let error):
                 if let authError = error as? AuthErrorCode {
                     switch authError {
@@ -77,6 +80,8 @@ class SignInViewModel {
                 } else {
                     strongSelf.errorMessage = "An error occurred. Please try again later."
                 }
+                
+                
             }
         }
     }

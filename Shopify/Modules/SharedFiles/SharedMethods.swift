@@ -14,6 +14,9 @@ class SharedMethods{
         
     var sharedMethods: SharedMethods?
     
+    
+    
+    
     init(viewController: UIViewController) {
             self.viewController = viewController
     }
