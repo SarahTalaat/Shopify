@@ -17,9 +17,7 @@ class PaymentViewController: UIViewController {
     private var reachability: Reachability?
     @IBOutlet weak var appleButton: UIButton!
     
-    @IBOutlet weak var paymentView: UIView!
-    
-    @IBOutlet weak var billingView: UIView!
+  
     var totalAmount: String? {
             didSet {
                 if isViewLoaded {
@@ -33,7 +31,7 @@ class PaymentViewController: UIViewController {
             setupReachability()
             setupUI()
             setupGestures()
-            self.title = "Choose Payment Method"
+            self.title = "Payment"
             fetchDefaultAddress()
             if let lineItems = lineItems {
                 viewModel.setupOrder(lineItem: lineItems)
@@ -90,17 +88,6 @@ class PaymentViewController: UIViewController {
                 view?.layer.shadowOpacity = 0.5
             }
             
-            paymentView.layer.cornerRadius = 10.0
-            paymentView.layer.shadowColor = UIColor.black.cgColor
-            paymentView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-            paymentView.layer.shadowRadius = 4.0
-            paymentView.layer.shadowOpacity = 0.5
-
-            billingView.layer.cornerRadius = 10.0
-            billingView.layer.shadowColor = UIColor.black.cgColor
-            billingView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-            billingView.layer.shadowRadius = 4.0
-            billingView.layer.shadowOpacity = 0.5
             
             appleButton.addTarget(self, action: #selector(tapForPay), for: .touchUpInside)
         }

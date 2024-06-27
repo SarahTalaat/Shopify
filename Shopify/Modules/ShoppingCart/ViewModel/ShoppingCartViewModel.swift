@@ -14,17 +14,17 @@ import Cosmos
 class ShoppingCartViewModel {
     private let networkService = NetworkServiceAuthentication()
     private let disposeBag = DisposeBag()
-  
+
     var exchangeRates: [String: Double] = [:]
     var isVariantExcluded: Bool = false
     var draftOrder: OneDraftOrderResponse? {
         didSet {
-          //  filterLineItems()
-
+            updateDisplayedLineItems()
             updateTotalAmount()
         }
     }
     var totalAmount: String = ""
+    var displayedLineItems: [LineItem] = []
     var excludedVariantId: Int = 44382096457889
     var onDraftOrderUpdated: (() -> Void)?
     var onTotalAmountUpdated: (() -> Void)?
@@ -46,7 +46,6 @@ class ShoppingCartViewModel {
     func saveChanges() {
         saveChangesSubject.onNext(())
     }
-    
     func fetchDraftOrders() {
             guard let draftOrderIdString = UserDefaults.standard.string(forKey: Constants.userDraftId),
                   let draftOrderId = Int(draftOrderIdString) else {
@@ -77,49 +76,32 @@ class ShoppingCartViewModel {
         }
     }
     func updateTotalAmount() {
-           guard let draftOrder = draftOrder else { return }
-           totalAmount = draftOrder.draftOrder?.totalPrice ?? "total price"
-           onTotalAmountUpdated?()
-       }
-
-//         guard let draftOrder = draftOrder else { return }
-//         let totalPrice = draftOrder.draftOrder?.lineItems.reduce(0.0) { result, lineItem in
-//             if lineItem.variantId != excludedVariantId {
-//                 let price = (lineItem.price as NSString).doubleValue
-//                 let quantity = Double(lineItem.quantity)
-//                 return (result ?? 0.0) + (price * quantity)
-//             } else {
-//                 return result
-//             }
-//         } ?? 0.0
-        
-//         totalAmount = String(format: "%.2f", totalPrice)
-//         onTotalAmountUpdated?()
-//     }
-  
-    
-    func incrementQuantity(at index: Int) {
-        guard let lineItem = draftOrder?.draftOrder?.lineItems[index],
-              let productId = lineItem.productId else {
-            return
+        let total = displayedLineItems.reduce(0) { result, lineItem in
+            result + (Double(lineItem.price) ?? 0) * Double(lineItem.quantity)
         }
+        totalAmount = String(format: "%.2f", total)
+        onTotalAmountUpdated?()
+    }
         
+
+    func incrementQuantity(at index: Int) {
+        guard index < displayedLineItems.count else { return }
+        var lineItem = displayedLineItems[index]
+        guard let productId = lineItem.productId else { return }
+
         let urlString = APIConfig.endPoint("products/\(productId)").url
-        
         networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { [weak self] (result: Result<OneProductResponse, Error>) in
             switch result {
             case .success(let productResponse):
                 let inventoryQuantity = productResponse.product.variants.first?.inventory_quantity ?? 0
                 let maxQuantity = inventoryQuantity <= 5 ? inventoryQuantity : inventoryQuantity / 2
-                
+
                 if lineItem.quantity + 1 > maxQuantity {
                     self?.onAlertMessage?("You cannot add more of this item. Maximum allowed quantity is \(maxQuantity).")
                 } else {
-                    var updatedLineItem = lineItem
-                    updatedLineItem.quantity += 1
-                    self?.updateLineItem(at: index, with: updatedLineItem)
+                    lineItem.quantity += 1
+                    self?.updateLineItem(at: index, with: lineItem)
                 }
-                
             case .failure(let error):
                 print("Failed to fetch product: \(error.localizedDescription)")
                 DispatchQueue.main.async {
@@ -128,61 +110,86 @@ class ShoppingCartViewModel {
             }
         }
     }
+    func updateDisplayedLineItems() {
+           guard let draftOrder = draftOrder else {
+               displayedLineItems = []
+               return
+           }
+           
+           displayedLineItems = draftOrder.draftOrder?.lineItems.filter { $0.variantId != excludedVariantId } ?? []
+       }
 
     func decrementQuantity(at index: Int) {
-        guard var lineItem = draftOrder?.draftOrder?.lineItems[index], lineItem.quantity > 1 else { return }
+        guard index < displayedLineItems.count else { return }
+        var lineItem = displayedLineItems[index]
+
+        guard lineItem.quantity > 1 else { return }
+
         lineItem.quantity -= 1
         updateLineItem(at: index, with: lineItem)
     }
-    
+
     func deleteItem(at index: Int) {
-        draftOrder?.draftOrder?.lineItems.remove(at: index)
-        updateDraftOrder()
+        guard index < displayedLineItems.count else { return }
+        
+        let removedItemId = displayedLineItems.remove(at: index).id
+
+        guard var lineItems = draftOrder?.draftOrder?.lineItems else { return }
+        lineItems.removeAll { $0.id == removedItemId }
+        draftOrder?.draftOrder?.lineItems = lineItems
+
+        updateTotalAmount()
         onDraftOrderUpdated?()
+        saveChanges()
     }
-    
+
     private func updateLineItem(at index: Int, with lineItem: LineItem) {
-        draftOrder?.draftOrder?.lineItems[index] = lineItem
+        guard index < displayedLineItems.count else { return }
+
+        displayedLineItems[index] = lineItem
+
+        guard var lineItems = draftOrder?.draftOrder?.lineItems else { return }
+        if let originalIndex = lineItems.firstIndex(where: { $0.id == lineItem.id }) {
+            lineItems[originalIndex] = lineItem
+        }
+        draftOrder?.draftOrder?.lineItems = lineItems
+
         onDraftOrderUpdated?()
         saveChanges()
     }
     
     func updateDraftOrder() {
-            guard let draftOrderIdString = UserDefaults.standard.string(forKey: Constants.userDraftId),
-                  let draftOrderId = Int(draftOrderIdString),
-                  let draftOrder = draftOrder else {
-                return
-            }
+        guard let draftOrderIdString = UserDefaults.standard.string(forKey: Constants.userDraftId),
+              let draftOrderId = Int(draftOrderIdString),
+              let draftOrder = draftOrder else {
+            print("Failed to fetch draftOrderId or draftOrder is nil")
+            return
+        }
 
-            print("SC: draftOrderId fetchDraftOrders: \(draftOrderId)")
+        print("SC: draftOrderId fetchDraftOrders: \(draftOrderId)")
 
-
-            let urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
-            guard let draftOrderDetails = draftOrder.draftOrder else {
-                print("Draft order details are nil")
-                return
-            }
-
-        // Convert draft order to dictionary representation
+        let urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
         guard let draftOrderDetails = draftOrder.draftOrder else {
             print("Draft order details are nil")
             return
         }
-//        let draftOrderDictionary: [String: Any] = ["draft_order": draftOrderDetails.toDictionary()]
 
+        let draftOrderDictionary = draftOrderDetails.toDraftOrderDictionary()
+        print("Draft order dictionary: \(draftOrderDictionary)")
 
-            let draftOrderDictionary = draftOrderDetails.toDraftOrderDictionary()
-
-            networkService.requestFunction(urlString: urlString, method: .put, model: ["draft_order": draftOrderDictionary]) { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
-                switch result {
-                case .success(let updatedDraftOrder):
-                    self?.draftOrder = updatedDraftOrder
-                    self?.onDraftOrderUpdated?()
-                case .failure(let error):
-                    print("Failed to update draft order: \(error.localizedDescription)")
-                }
+        networkService.requestFunction(urlString: urlString, method: .put, model: ["draft_order": draftOrderDictionary]) { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
+            switch result {
+            case .success(let updatedDraftOrder):
+                self?.draftOrder = updatedDraftOrder
+                self?.onDraftOrderUpdated?()
+                self?.updateDisplayedLineItems() // Ensure displayed line items are updated
+                self?.updateTotalAmount() // Ensure total amount is updated
+                print("Draft order updated successfully")
+            case .failure(let error):
+                print("Failed to update draft order: \(error.localizedDescription)")
             }
         }
+    }
     func formatPriceWithCurrency(price: String) -> String {
         let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
         let exchangeRate = exchangeRates[selectedCurrency] ?? 1.0
@@ -233,15 +240,6 @@ class ShoppingCartViewModel {
         }
     }
 
-//    private func filterLineItems() {
-//        guard let draftOrder = draftOrder, var lineItems = draftOrder.draftOrder?.lineItems else { return }
-//        if let index = lineItems.firstIndex(where: { $0.variantId == 44382096457889 }) {
-//            lineItems.remove(at: index)
-//            self.draftOrder?.draftOrder?.lineItems = lineItems
-//        }
-//    }
-
-    
 }
 extension OneDraftOrderResponseDetails {
     func toDraftOrderDictionary() -> [String: Any] {
