@@ -155,6 +155,53 @@ class SignInViewModelTests: XCTestCase {
     }
     
     
+    func testPostDraftOrderForShoppingCart() {
+            let expectation = self.expectation(description: "Post draft order for shopping cart expectation")
+            let mockNetworkService = MockNetworkServiceAuthentication3(forTesting: true)
+            viewModel.networkService = mockNetworkService
+            let urlString = APIConfig.draft_orders.url
+            let parameters = viewModel.draftOrderDummyModel1()
+                let response = OneDraftOrderResponse(draftOrder: OneDraftOrderResponseDetails(
+                    id: 1037010698401,
+                    note: nil,
+                    email: nil,
+                    taxesIncluded: nil,
+                    currency: nil,
+                    invoiceSentAt: nil,
+                    createdAt: nil,
+                    updatedAt: nil,
+                    taxExempt: nil,
+                    completedAt: nil,
+                    name: nil,
+                    status: nil,
+                    lineItems: [],
+                    shippingAddress: nil,
+                    billingAddress: nil,
+                    invoiceUrl: nil,
+                    appliedDiscount: nil,
+                    orderId: nil,
+                    shippingLine: nil,
+                    taxLines: nil,
+                    tags: nil,
+                    noteAttributes: nil,
+                    totalPrice: "",
+                    subtotalPrice: "",
+                    totalTax: nil,
+                    paymentTerms: nil,
+                    adminGraphqlApiId: nil
+                ))
+            mockNetworkService.requestFunctionResult = .success(response)
+
+            viewModel.postDraftOrderForShoppingCart(urlString: urlString, parameters: parameters, name: "Sarah", email: "shopifyapp.test7@gmail.com") { draftOrderResponse in
+                XCTAssertNotNil(draftOrderResponse?.draftOrder?.id)
+                expectation.fulfill()
+            }
+
+            waitForExpectations(timeout: 30.0, handler: nil)
+        }
+
+    
+    
 //
 //    func testUpdateSignInStatus() {
 //        // Arrange
