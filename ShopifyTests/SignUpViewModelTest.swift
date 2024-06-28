@@ -81,7 +81,7 @@ class SignUpViewModelTests: XCTestCase {
         let email = "test@example.com"
         let password = "password123"
         mockAuthService.signUpResult = .failure(NSError(domain: "MockFirebaseAuthService", code: 500, userInfo: nil)) // Set mock result
-
+ 
         // Act
         viewModel.signUp(email: email, password: password, firstName: "John")
 
