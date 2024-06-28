@@ -16,7 +16,7 @@ class NewAddressViewModelTest: XCTestCase {
     override func setUp() {
         super.setUp()
         networkService = CustomNetworkServiceMock()
-        viewModel = NewAddressViewModel(networkService: networkService as! NetworkServiceAuthenticationProtocol)
+        viewModel = NewAddressViewModel()
     }
     
     override func tearDown() {

@@ -47,13 +47,16 @@ class ProfileViewController: UIViewController {
         print("Profile: test name : \(userProfileViewModel.name)")
         print("Profile: test email : \(userProfileViewModel.email)")
 
-        func bindViewModel(){
-            favouriteViewModel.bindProducts = { [weak self] in
-                DispatchQueue.main.async {
-                    self?.wishlistCollectionView.reloadData()
-                }
-            }
-        }
+        
+        bindViewModel()
+        
+//        func bindViewModel(){
+//            favouriteViewModel.bindProducts = { [weak self] in
+//                DispatchQueue.main.async {
+//                    self?.wishlistCollectionView.reloadData()
+//                }
+//            }
+//        }
 
         let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
 
