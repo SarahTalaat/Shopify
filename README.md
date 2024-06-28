@@ -15,17 +15,16 @@
 
 
 ## Features
-• Signup login with email verification.
-• View brands.
-• View products of each brand.
-• View ProductDetails including: product images,ratings,description,reviews,etc.
-• Add or remove product from favorite or shoppingcart. 
-• Addshippingaddressandpaymentmethod.
-• Placeorders.
-• Searchinspecificcategoryorbrand.
-• Filterproductsbypriceorsubcategory.
-• View orders and .
-• Changecurrency.
+* Signup login with email verification.
+* View brands.
+* View products of each brand.
+* View ProductDetails including: product images,ratings,description,reviews,etc.
+* Add or remove product from favorite or shoppingcart. 
+* Addshippingaddressandpaymentmethod.
+* Search in specific categor.
+* Filter products by price or subcategory.
+* View orders and .
+* Change currency.
 
 
 
