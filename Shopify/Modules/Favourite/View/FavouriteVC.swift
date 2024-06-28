@@ -65,8 +65,6 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         favouriteTableView.reloadData()
         
     }
-    
-    
 
     func bindViewModel(){
         viewModel.bindProducts = { [weak self] in

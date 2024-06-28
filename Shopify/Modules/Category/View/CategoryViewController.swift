@@ -119,6 +119,7 @@ class CategoryViewController: UIViewController, UISearchBarDelegate {
           viewModel.filterBySubCategory(subcategory: .all)
    
       }
+    
       // MARK: - Navigation Bar Item
 
     func setNavBarItems(){

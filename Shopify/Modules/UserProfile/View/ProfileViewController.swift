@@ -239,8 +239,8 @@ class ProfileViewController: UIViewController {
                 let datePart = date?.split(separator: "T").first.map(String.init)
                 cell.creationDate.text = "Created At: \(datePart ?? " ")"
                 
-                if let totalPrice = item.total_price {
-                    cell.orderPrice.text = "\(totalPrice) \(item.currency)"
+                if let totalPrice = item.total_outstanding {
+                    cell.orderPrice.text = "Total price: \(totalPrice) \(item.currency)"
                         } else {
                             cell.orderPrice.text = "0.00 USD"
                         }

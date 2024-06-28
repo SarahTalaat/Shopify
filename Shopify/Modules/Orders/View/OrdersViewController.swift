@@ -12,6 +12,7 @@ class OrdersViewController: UIViewController {
     @IBOutlet weak var ordersCollectionView: UICollectionView!
     let ordersViewModel = OrdersViewModel()
     var detailsModel = OrderDetailsViewModel()
+     var noOrdersImageView: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,14 +21,34 @@ class OrdersViewController: UIViewController {
         ordersViewModel.bindAllOrders = {
             self.updateCollection()
         }
+        setupNoOrdersImageView()
+        updateNoOrdersImageView()
     }
+ 
     
     func updateCollection(){
             DispatchQueue.main.async { [weak self] in
                 self?.ordersCollectionView.reloadData()
+                self?.updateNoOrdersImageView()
             }
         }
- 
+    func setupNoOrdersImageView() {
+         noOrdersImageView = UIImageView(image: UIImage(named: "noCart"))
+         noOrdersImageView.translatesAutoresizingMaskIntoConstraints = false
+         view.addSubview(noOrdersImageView)
+         
+         NSLayoutConstraint.activate([
+             noOrdersImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+             noOrdersImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+             noOrdersImageView.widthAnchor.constraint(equalToConstant: 200), // Set your desired width
+             noOrdersImageView.heightAnchor.constraint(equalToConstant: 200) // Set your desired height
+         ])
+     }
+
+      func updateNoOrdersImageView() {
+         let hasOrders = ordersViewModel.orders.count > 0
+         noOrdersImageView.isHidden = hasOrders
+     }
     
     // MARK: - Collection View Layout Drawing
 
@@ -73,8 +94,8 @@ class OrdersViewController: UIViewController {
                    let datePart = date?.split(separator: "T").first.map(String.init)
                    cell.creationDate.text = "Created At: \(datePart ?? " ")"
             
-                    if let totalPrice = item.total_price {
-                        cell.totalPrice.text = "\(totalPrice) \(item.currency)"
+                    if let totalPrice = item.total_outstanding {
+                        cell.totalPrice.text = "Total Price:\(totalPrice) \(item.currency)"
                     } else {
                         cell.totalPrice.text = "0.00$"
                     }

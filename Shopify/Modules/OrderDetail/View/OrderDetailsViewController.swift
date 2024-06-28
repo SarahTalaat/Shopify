@@ -27,7 +27,7 @@ class OrderDetailsViewController: UIViewController {
         }
 
     }
-    
+
     func updateCollection(){
             DispatchQueue.main.async { [weak self] in
                 self?.collectionView.reloadData()

@@ -24,13 +24,6 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         adsCollectionView.collectionViewLayout = adsCollectionViewLayout()
         brandsCollectionView.collectionViewLayout = brandsCollectionViewLayout()
-        
-        //Brands View Borders
-//        brandsCollectionView.layer.cornerRadius = 10
-//        brandsCollectionView.layer.borderWidth = 1.0
-//        brandsCollectionView.layer.borderColor = UIColor.black.cgColor
-//        brandsCollectionView.clipsToBounds = true
-        
         sharedMethods = SharedMethods(viewController: self)
       
         let firstButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: sharedMethods, action: #selector(SharedMethods.navToFav))
@@ -67,6 +60,7 @@ class HomeViewController: UIViewController {
                 self?.brandsLoadingIndicator.stopAnimating()
             }
         }
+
     
     // MARK: - Setups
 
@@ -153,7 +147,7 @@ class HomeViewController: UIViewController {
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(165))
+                                                   heightDimension: .absolute(160))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
@@ -172,7 +166,7 @@ class HomeViewController: UIViewController {
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(185))
+                                                   heightDimension: .absolute(180))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
             group.interItemSpacing = .fixed(10)
             
@@ -224,7 +218,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             return cell
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AdsCollectionViewCell", for: indexPath) as! AdsCollectionViewCell
-            let images = ["adstwo.png","withsale.jpg"]
+            let images = ["adstwo.png","Sale.jpeg"]
             cell.adsImage.image = UIImage(named: images[indexPath.row])
             return cell
         }

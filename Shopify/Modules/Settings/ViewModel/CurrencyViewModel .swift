@@ -7,12 +7,16 @@
 
 import Foundation
 class CurrencyViewModel {
-    private let exchangeRateApiService = ExchangeRateApiService()
-    
+    private var exchangeRateApiService: ExchangeRateApiService
+
     var currencies: [String] = []
     var filteredCurrencies: [String] = []
     var selectedCurrency: String?
     
+    init(exchangeRateApiService: ExchangeRateApiService = ExchangeRateApiService()) {
+           self.exchangeRateApiService = exchangeRateApiService
+       }
+
     func fetchCurrencies(completion: @escaping () -> Void) {
         exchangeRateApiService.getLatestRates { result in
             switch result {

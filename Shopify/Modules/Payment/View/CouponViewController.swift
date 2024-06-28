@@ -74,6 +74,11 @@ class CouponViewController: UIViewController {
                             
                             self.delegate?.updateGrandTotal(with: totals.grandTotal)
                             self.delegate?.updateGrandTotalFromCoupon(with: totals.grandTotal)
+                            
+                            // Set the discount in the PaymentMethodsViewModel
+                                       let paymentMethodsViewModel = PaymentMethodsViewModel()
+                                       paymentMethodsViewModel.totalDiscounts = totals.discount
+                                       paymentMethodsViewModel.setTotalAmount(totals.grandTotal)
                         }
                         self.viewModel.saveCouponCode(couponCode, for: customerId)
                     } else {

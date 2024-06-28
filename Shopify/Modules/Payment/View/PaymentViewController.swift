@@ -7,19 +7,17 @@
 
 import UIKit
 import PassKit
-import Reachability
+
 class PaymentViewController: UIViewController {
     
     private var viewModel = PaymentMethodsViewModel()
-    
+    var shoppingViewModel = ShoppingCartViewModel()
     var defaultAddress: Address?
     var lineItems: [LineItem]?
-    private var reachability: Reachability?
+
     @IBOutlet weak var appleButton: UIButton!
     
-    @IBOutlet weak var paymentView: UIView!
-    
-    @IBOutlet weak var billingView: UIView!
+  
     var totalAmount: String? {
             didSet {
                 if isViewLoaded {
@@ -27,13 +25,13 @@ class PaymentViewController: UIViewController {
                 }
             }
         }
-
+    
         override func viewDidLoad() {
             super.viewDidLoad()
-            setupReachability()
+    
             setupUI()
             setupGestures()
-            self.title = "Choose Payment Method"
+            self.title = "Payment"
             fetchDefaultAddress()
             if let lineItems = lineItems {
                 viewModel.setupOrder(lineItem: lineItems)
@@ -41,34 +39,12 @@ class PaymentViewController: UIViewController {
             updateTotalAmountLabel()
         }
 
-        private func setupReachability() {
-            reachability = try? Reachability()
-            
-            reachability?.whenReachable = { reachability in
-                if reachability.connection == .wifi {
-                    print("Reachable via WiFi")
-                } else {
-                    print("Reachable via Cellular")
-                }
-            }
-            
-            reachability?.whenUnreachable = { _ in
-                self.showNoInternetAlert()
-            }
-            
-            do {
-                try reachability?.startNotifier()
-            } catch {
-                print("Unable to start notifier")
-            }
-        }
-
-        private func showNoInternetAlert() {
-            let alert = UIAlertController(title: "No Internet Connection", message: "Please check your internet connection and try again.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
-
+      
+    private func showNoInternetAlert() {
+           let alert = UIAlertController(title: "No Internet Connection", message: "Please check your internet connection and try again.", preferredStyle: .alert)
+           alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+           self.present(alert, animated: true, completion: nil)
+       }
         private func updateTotalAmountLabel() {
             if let totalAmount = totalAmount {
                 viewModel.setTotalAmount(totalAmount)
@@ -90,17 +66,6 @@ class PaymentViewController: UIViewController {
                 view?.layer.shadowOpacity = 0.5
             }
             
-            paymentView.layer.cornerRadius = 10.0
-            paymentView.layer.shadowColor = UIColor.black.cgColor
-            paymentView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-            paymentView.layer.shadowRadius = 4.0
-            paymentView.layer.shadowOpacity = 0.5
-
-            billingView.layer.cornerRadius = 10.0
-            billingView.layer.shadowColor = UIColor.black.cgColor
-            billingView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-            billingView.layer.shadowRadius = 4.0
-            billingView.layer.shadowOpacity = 0.5
             
             appleButton.addTarget(self, action: #selector(tapForPay), for: .touchUpInside)
         }
@@ -144,29 +109,48 @@ class PaymentViewController: UIViewController {
                     return
                 }
 
-                viewModel.postOrder { success in
-                    DispatchQueue.main.async {
-                        let title: String
-                        let message: String
-                        if success {
-                            title = "Order Placed"
-                            message = "Your order has been successfully placed."
-                            if let homeViewController = self.navigationController?.viewControllers.first(where: { $0 is HomeViewController }) {
-                                self.navigationController?.popToViewController(homeViewController, animated: true)
-                            }
-                        } else {
-                            title = "Error"
-                            message = "Failed to place order. Please try again."
-                        }
+        viewModel.postOrder { success in
+                 DispatchQueue.main.async {
+                     let title: String
+                     let message: String
+                     if success {
+                         title = "Order Placed"
+                         message = "Your order has been successfully placed."
+                         // Clear the cart and update the draft order
+                         //self.shoppingCartViewModel.clearDisplayedLineItems() // Add this line
+                         self.clearCartAndDraftOrder() // Add this line
+                         if let homeViewController = self.navigationController?.viewControllers.first(where: { $0 is HomeViewController }) {
+                             self.navigationController?.popToViewController(homeViewController, animated: true)
+                         }
+                     } else {
+                         title = "Error"
+                         message = "Failed to place order. Please try again."
+                     }
 
-                        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                    }
-                }
 
-                viewModel.processInvoicePosting()
+                     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                     self.present(alert, animated: true, completion: nil)
+                 }
+             }
+
+             viewModel.processInvoicePosting()
+         }
+    func clearCartAndDraftOrder() {
+        print("Clearing cart and draft order, keeping dummy line item")
+
+           // Clear the line items from the shopping cart view model, except for the dummy line item
+        shoppingViewModel.displayedLineItems.removeAll { $0.variantId != 44382096457889 }
+
+           // Update the draft order
+           if var draftOrder = shoppingViewModel.draftOrder?.draftOrder {
+               draftOrder.lineItems.removeAll { $0.variantId != 44382096457889 }
+               shoppingViewModel.draftOrder?.draftOrder = draftOrder
+               shoppingViewModel.updateDraftOrder()
+           }
     }
+        
+    
 
     @IBOutlet weak var cashView: UIView!
     
@@ -238,7 +222,7 @@ class PaymentViewController: UIViewController {
                            self.updateAddressLabel()
                        case .failure(let error):
                            print("Failed to fetch default address: \(error)")
-                           // Handle error scenario if needed
+                         
                        }
                    }
         }

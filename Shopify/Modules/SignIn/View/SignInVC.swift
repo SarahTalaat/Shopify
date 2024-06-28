@@ -28,6 +28,11 @@ class SignInVC: UIViewController {
           tapGesture.cancelsTouchesInView = false
           view.addGestureRecognizer(tapGesture)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+          super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+        }
 
     @objc func dismissKeyboard() {
         view.endEditing(true)

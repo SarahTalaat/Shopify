@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 import Cosmos
 
-class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource , ShoppingCartDeletionDeletegate , deleteProductDelegate {
+class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectionViewDataSource , UITableViewDelegate , UITableViewDataSource , deleteProductDelegate {
     
     @IBOutlet weak var ratingView: CosmosView!
     @IBOutlet weak var inventroyQuantityLabel: UILabel!
@@ -139,7 +139,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         updateFavoriteButton()
       
         
-        cartCell.shoppingCartDeletionDeletegate = self
+       // cartCell.shoppingCartDeletionDeletegate = self
        
     
         
