@@ -218,9 +218,6 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
              if let paymentVC = storyboard.instantiateViewController(withIdentifier: "PaymentVC") as? PaymentViewController {
                  paymentVC.totalAmount = totalAmount.text
                  paymentVC.lineItems = viewModel.displayedLineItems
-                         let paymentViewModel = PaymentMethodsViewModel()
-                         paymentViewModel.displayedLineItems = viewModel.displayedLineItems 
-
                          navigationController?.pushViewController(paymentVC, animated: true)
              }
        }

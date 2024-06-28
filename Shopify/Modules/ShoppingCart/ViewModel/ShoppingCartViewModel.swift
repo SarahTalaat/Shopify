@@ -75,6 +75,7 @@ class ShoppingCartViewModel {
             }
         }
     }
+    
     func updateTotalAmount() {
         let total = displayedLineItems.reduce(0) { result, lineItem in
             result + (Double(lineItem.price) ?? 0) * Double(lineItem.quantity)
@@ -202,20 +203,17 @@ class ShoppingCartViewModel {
     }
     
     func fetchExchangeRates() {
-            
-            networkService.requestFunction(urlString: APIConfig.usd.url2, method: .get, model: [:]){ (result: Result<ExchangeRatesResponse, Error>) in
-                switch result {
-                case .success(let response):
-                    print("PD Exchange Rates Response\(response)")
-                    self.exchangeRates = response.conversion_rates
-                    self.onDraftOrderUpdated?()
-                case .failure(let error):
-                    print(error)
+                let exchangeRateApiService = ExchangeRateApiService()
+                exchangeRateApiService.getLatestRates { [weak self] result in
+                    switch result {
+                    case .success(let response):
+                        self?.exchangeRates = response.conversion_rates
+                    case .failure(let error):
+                        print("Error fetching exchange rates: \(error)")
+                    }
+                   
                 }
-              
             }
-            
-        }
 
     func getDraftOrderID(email: String) {
         FirebaseAuthService().getShoppingCartId(email: email) { shoppingCartId, error in
@@ -238,6 +236,10 @@ class ShoppingCartViewModel {
             let email = SharedDataRepository.instance.customerEmail ?? "No email"
             self.getDraftOrderID(email: email)
         }
+    }
+    func clearDisplayedLineItems() {
+        displayedLineItems.removeAll()
+          updateDraftOrder()
     }
 
 }

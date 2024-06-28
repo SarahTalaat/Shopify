@@ -24,4 +24,8 @@ struct AddressListResponse: Codable {
 struct AddressResponse: Codable {
     let customer_address: Address
 }
-
+struct UpdateAddressResponse: Codable {
+   
+    let success: Bool?
+    let address: Address?
+}

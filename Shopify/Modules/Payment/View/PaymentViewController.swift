@@ -11,7 +11,7 @@ import Reachability
 class PaymentViewController: UIViewController {
     
     private var viewModel = PaymentMethodsViewModel()
-    
+    var shoppingViewModel = ShoppingCartViewModel()
     var defaultAddress: Address?
     var lineItems: [LineItem]?
     private var reachability: Reachability?
@@ -138,6 +138,7 @@ class PaymentViewController: UIViewController {
                         if success {
                             title = "Order Placed"
                             message = "Your order has been successfully placed."
+                            self.shoppingViewModel.clearDisplayedLineItems()
                             if let homeViewController = self.navigationController?.viewControllers.first(where: { $0 is HomeViewController }) {
                                 self.navigationController?.popToViewController(homeViewController, animated: true)
                             }
@@ -225,7 +226,7 @@ class PaymentViewController: UIViewController {
                            self.updateAddressLabel()
                        case .failure(let error):
                            print("Failed to fetch default address: \(error)")
-                           // Handle error scenario if needed
+                         
                        }
                    }
         }

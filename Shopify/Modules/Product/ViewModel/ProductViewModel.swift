@@ -18,7 +18,6 @@ class ProductViewModel {
     
     let network = NetworkServiceAuthentication()
     var exchangeRates: [String: Double] = [:]
-    
     var brandID: Int = 0 {
         didSet {
             getProducts()

@@ -18,9 +18,9 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
 
     var selectedPaymentMethod: PaymentMethod?
     private var lineItem: LineItem?
-    private var order: Orders?
+     var order: Orders?
     private var ordersSend: OrdersSend?
-    private var invoice: Invoice?
+     var invoice: Invoice?
     private var invoiceResponse: InvoiceResponse?
     private var draftOrderId: Int?
     var defCurrency: String = "EGP"
@@ -57,8 +57,8 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         request.supportedCountries = ["EG", "US"]
         request.merchantCapabilities = .capability3DS
         request.countryCode = "EG"
-        request.currencyCode = UserDefaults.standard.string(forKey: "Currency") == "EGP" ? "EGP" : "USD"
-        
+        request.currencyCode = defCurrency  // Use selected currency here
+
         if let totalAmount = totalAmount {
             let totalAmountString = totalAmount.replacingOccurrences(of: "[^0-9.]", with: "", options: .regularExpression)
             let amount = NSDecimalNumber(string: totalAmountString)
@@ -72,7 +72,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             let defaultAmount = NSDecimalNumber(string: "1200")
             request.paymentSummaryItems = [PKPaymentSummaryItem(label: "T-shirt", amount: defaultAmount)]
         }
-        
+
         return request
     }
     
@@ -81,13 +81,25 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     }
     
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
-            // Call your method to update UI or perform any actions after payment authorization
-        //    updateAfterPaymentAuthorization()
-
-            // Complete the payment authorization with success
-            completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
+        // Call your method to update UI or perform any actions after payment authorization
+        processPaymentAuthorization(payment: payment) { success in
+            if success {
+                // Complete the payment authorization with success
+                completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
+            } else {
+                // Complete the payment authorization with failure if necessary
+                completion(PKPaymentAuthorizationResult(status: .failure, errors: nil))
+            }
         }
-    
+    }
+
+    private func processPaymentAuthorization(payment: PKPayment, completion: @escaping (Bool) -> Void) {
+        // Perform any additional processing after payment authorization (e.g., posting order)
+        postOrder { success in
+            // Handle success or failure
+            completion(success)
+        }
+    }
     
     func setupOrder(lineItem: [LineItem]) {
         if let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") {
@@ -101,30 +113,30 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             return
         }
         
-        let unwrappedLineItems = displayedLineItems.map { lineItem in
-                   LineItem(
-                       id: lineItem.id,
-                       variantId: lineItem.variantId,
-                       productId: lineItem.productId,
-                       title: lineItem.title,
-                       variantTitle: lineItem.variantTitle ?? "",
-                       sku: lineItem.sku ?? "",
-                       vendor: lineItem.vendor ?? "",
-                       quantity: lineItem.quantity,
-                       requiresShipping: lineItem.requiresShipping ?? false,
-                       taxable: lineItem.taxable ?? false,
-                       giftCard: lineItem.giftCard ?? false,
-                       fulfillmentService: lineItem.fulfillmentService ?? "",
-                       grams: lineItem.grams ?? 0,
-                       taxLines: lineItem.taxLines ?? [],
-                       appliedDiscount: lineItem.appliedDiscount ?? "",
-                       name: lineItem.name ?? "",
-                       properties: lineItem.properties ?? [],
-                       custom: lineItem.custom ?? false,
-                       price: lineItem.price,
-                       adminGraphqlApiId: lineItem.adminGraphqlApiId ?? ""
-                   )
-               }
+        let unwrappedLineItems = lineItem.map { lineItem in
+            LineItem(
+                id: lineItem.id,
+                variantId: lineItem.variantId,
+                productId: lineItem.productId,
+                title: lineItem.title,
+                variantTitle: lineItem.variantTitle ?? "",
+                sku: lineItem.sku ?? "",
+                vendor: lineItem.vendor ?? "",
+                quantity: lineItem.quantity,
+                requiresShipping: lineItem.requiresShipping ?? false,
+                taxable: lineItem.taxable ?? false,
+                giftCard: lineItem.giftCard ?? false,
+                fulfillmentService: lineItem.fulfillmentService ?? "",
+                grams: lineItem.grams ?? 0,
+                taxLines: lineItem.taxLines ?? [],
+                appliedDiscount: lineItem.appliedDiscount ?? "",
+                name: lineItem.name ?? "",
+                properties: lineItem.properties ?? [],
+                custom: lineItem.custom ?? false,
+                price: lineItem.price,
+                adminGraphqlApiId: lineItem.adminGraphqlApiId ?? ""
+            )
+        }
         print(email)
         print(defCurrency)
         print(unwrappedLineItems)
