@@ -6,8 +6,6 @@
 
 ## Features
 
-#Shopify
-
 * MVVM 
 * SOLID
 * Unit Tests
