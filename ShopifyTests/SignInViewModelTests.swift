@@ -3,15 +3,15 @@ import XCTest
 
 class SignInViewModelTests: XCTestCase {
 
-    var viewModel: SignInViewModel!
+   
 
     override func setUp() {
         super.setUp()
-        viewModel = SignInViewModel()
+     
     }
 
     override func tearDown() {
-        viewModel = nil
+       
         super.tearDown()
     }
 
@@ -34,6 +34,7 @@ class SignInViewModelTests: XCTestCase {
         // Arrange
         let expectation = self.expectation(description: "Sign in expectation")
         let mockAuthService = MockFirebaseAuthService3(forTesting: true)
+        var  viewModel = SignInViewModel()
         viewModel.authService = mockAuthService // Inject mock service
         let email = "shopifyapp.test7@gmail.com"
         let id = "JfFRqCqJbaSSgNn9Nnm8xumPM1l1"
@@ -46,8 +47,8 @@ class SignInViewModelTests: XCTestCase {
         // Assert
         DispatchQueue.main.asyncAfter(deadline: .now() + 30.0) {
             // Perform assertions based on expected behavior
-            XCTAssertEqual(self.viewModel.user?.email, email)
-            XCTAssertNil(self.viewModel.errorMessage)
+            XCTAssertEqual(viewModel.user?.email, email)
+            XCTAssertNil(viewModel.errorMessage)
             expectation.fulfill()
         }
 
@@ -58,6 +59,7 @@ class SignInViewModelTests: XCTestCase {
         // Arrange
         let expectation = self.expectation(description: "Sign in expectation")
         let mockAuthService = MockFirebaseAuthService3(forTesting: true)
+        var  viewModel = SignInViewModel()
         viewModel.authService = mockAuthService // Inject mock service
         let email = "shopifyapp.test7@gmail.com"
         let password = "@A1234567"
@@ -69,8 +71,8 @@ class SignInViewModelTests: XCTestCase {
         // Assert
         DispatchQueue.main.asyncAfter(deadline: .now() + 30.0) {
             // Perform assertions based on expected behavior
-            XCTAssertNil(self.viewModel.user)
-            XCTAssertNotNil(self.viewModel.errorMessage)
+            XCTAssertNil(viewModel.user)
+            XCTAssertNotNil(viewModel.errorMessage)
             expectation.fulfill()
         }
 
@@ -80,6 +82,7 @@ class SignInViewModelTests: XCTestCase {
     func testFetchCustomerID() {
         let expectation = self.expectation(description: "Fetch customer ID expectation")
         let mockAuthService = MockFirebaseAuthService3(forTesting: true)
+        var  viewModel = SignInViewModel()
         viewModel.authService = mockAuthService
         let email = "shopifyapp.test7@gmail.com"
         let customerData = CustomerData(customerId: "7533489127585", name: "Sarah", email: email, favouriteId: "", shoppingCartId: "1036337250465")
@@ -103,6 +106,7 @@ class SignInViewModelTests: XCTestCase {
     func testPostDraftOrderForShoppingCart() {
             let expectation = self.expectation(description: "Post draft order for shopping cart expectation")
             let mockNetworkService = MockNetworkServiceAuthentication3(forTesting: true)
+            var  viewModel = SignInViewModel()
             viewModel.networkService = mockNetworkService
             let urlString = APIConfig.draft_orders.url
             let parameters = viewModel.draftOrderDummyModel1()
@@ -148,7 +152,7 @@ class SignInViewModelTests: XCTestCase {
     func testAddValueToUserDefaults() {
             let key = "TestKey"
             let value = "TestValue"
-
+            var  viewModel = SignInViewModel()
             viewModel.addValueToUserDefaults(value: value, forKey: key)
 
             XCTAssertEqual(UserDefaults.standard.string(forKey: key), value)
@@ -161,6 +165,7 @@ class SignInViewModelTests: XCTestCase {
     func testGetDraftOrderID() {
           let expectation = self.expectation(description: "Get draft order ID expectation")
           let mockAuthService = MockFirebaseAuthService3(forTesting: true)
+          var  viewModel = SignInViewModel()
           viewModel.authService = mockAuthService
           let email = "shopifyapp.test7@gmail.com"
           let shoppingCartID = "1036337250465"
@@ -180,6 +185,7 @@ class SignInViewModelTests: XCTestCase {
     func testGetUserDraftOrderId() {
         let expectation = self.expectation(description: "Get user draft order ID expectation")
         let mockAuthService = MockFirebaseAuthService3(forTesting: true)
+        var viewModel = SignInViewModel()
         viewModel.authService = mockAuthService
         let email = "shopifyapp.test7@gmail.com"
         SharedDataRepository.instance.customerEmail = email
