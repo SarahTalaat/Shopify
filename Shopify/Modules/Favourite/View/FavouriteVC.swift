@@ -15,9 +15,15 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var window: UIWindow?
     let cellSpacingHeight: CGFloat = 30
     
-
+    let emptyTableViewImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.isHidden = true
+        return imageView
+    }()
     var viewModel: FavouriteViewModel!
     
+    @IBOutlet weak var emptyTableViewLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +35,20 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         bindViewModel()
  
- 
+        emptyTableViewImage.image = UIImage(named: "NoFavourite.png")
+
+        
+        view.addSubview(emptyTableViewImage)
+        
+        // Set up constraints for the image view
+        emptyTableViewImage.translatesAutoresizingMaskIntoConstraints = false
+        emptyTableViewImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        emptyTableViewImage.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        emptyTableViewImage.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        emptyTableViewImage.heightAnchor.constraint(equalToConstant: 100).isActive = true
+
+        
+        
         favouriteTableView.reloadData()
         
     }
@@ -54,12 +73,14 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func updatePlaceholder() {
         if let products = viewModel.products, !products.isEmpty {
             favouriteTableView.isHidden = false
-        
+            emptyTableViewImage.isHidden = true
         } else {
             favouriteTableView.isHidden = true
-          
+            emptyTableViewImage.isHidden = false
         }
     }
+    
+    
     
     func settingUpFavouriteTableView(){
         // Register the custom cell
