@@ -109,30 +109,48 @@ class PaymentViewController: UIViewController {
                     return
                 }
 
-                viewModel.postOrder { success in
-                    DispatchQueue.main.async {
-                        let title: String
-                        let message: String
-                        if success {
-                            title = "Order Placed"
-                            message = "Your order has been successfully placed."
-                            self.shoppingViewModel.clearDisplayedLineItems()
-                            if let homeViewController = self.navigationController?.viewControllers.first(where: { $0 is HomeViewController }) {
-                                self.navigationController?.popToViewController(homeViewController, animated: true)
-                            }
-                        } else {
-                            title = "Error"
-                            message = "Failed to place order. Please try again."
-                        }
+        viewModel.postOrder { success in
+                 DispatchQueue.main.async {
+                     let title: String
+                     let message: String
+                     if success {
+                         title = "Order Placed"
+                         message = "Your order has been successfully placed."
+                         // Clear the cart and update the draft order
+                         //self.shoppingCartViewModel.clearDisplayedLineItems() // Add this line
+                         self.clearCartAndDraftOrder() // Add this line
+                         if let homeViewController = self.navigationController?.viewControllers.first(where: { $0 is HomeViewController }) {
+                             self.navigationController?.popToViewController(homeViewController, animated: true)
+                         }
+                     } else {
+                         title = "Error"
+                         message = "Failed to place order. Please try again."
+                     }
 
-                        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                    }
-                }
 
-                viewModel.processInvoicePosting()
+                     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                     self.present(alert, animated: true, completion: nil)
+                 }
+             }
+
+             viewModel.processInvoicePosting()
+         }
+    func clearCartAndDraftOrder() {
+        print("Clearing cart and draft order, keeping dummy line item")
+
+           // Clear the line items from the shopping cart view model, except for the dummy line item
+           shoppingCartViewModel.displayedLineItems.removeAll { $0.variantId != 44382096457889 }
+
+           // Update the draft order
+           if var draftOrder = shoppingCartViewModel.draftOrder?.draftOrder {
+               draftOrder.lineItems.removeAll { $0.variantId != 44382096457889 }
+               shoppingCartViewModel.draftOrder?.draftOrder = draftOrder
+               shoppingCartViewModel.updateDraftOrder()
+           }
     }
+        
+    
 
     @IBOutlet weak var cashView: UIView!
     

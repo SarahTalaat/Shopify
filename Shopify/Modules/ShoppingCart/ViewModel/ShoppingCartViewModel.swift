@@ -14,7 +14,7 @@ import Cosmos
 class ShoppingCartViewModel {
     private let networkService = NetworkServiceAuthentication()
     private let disposeBag = DisposeBag()
-
+ 
     var exchangeRates: [String: Double] = [:]
     var isVariantExcluded: Bool = false
     var draftOrder: OneDraftOrderResponse? {
@@ -84,19 +84,19 @@ class ShoppingCartViewModel {
         onTotalAmountUpdated?()
     }
         
-
+ 
     func incrementQuantity(at index: Int) {
         guard index < displayedLineItems.count else { return }
         var lineItem = displayedLineItems[index]
         guard let productId = lineItem.productId else { return }
-
+ 
         let urlString = APIConfig.endPoint("products/\(productId)").url
         networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { [weak self] (result: Result<OneProductResponse, Error>) in
             switch result {
             case .success(let productResponse):
                 let inventoryQuantity = productResponse.product.variants.first?.inventory_quantity ?? 0
                 let maxQuantity = inventoryQuantity <= 5 ? inventoryQuantity : inventoryQuantity / 2
-
+ 
                 if lineItem.quantity + 1 > maxQuantity {
                     self?.onAlertMessage?("You cannot add more of this item. Maximum allowed quantity is \(maxQuantity).")
                 } else {
@@ -119,42 +119,42 @@ class ShoppingCartViewModel {
            
            displayedLineItems = draftOrder.draftOrder?.lineItems.filter { $0.variantId != excludedVariantId } ?? []
        }
-
+ 
     func decrementQuantity(at index: Int) {
         guard index < displayedLineItems.count else { return }
         var lineItem = displayedLineItems[index]
-
+ 
         guard lineItem.quantity > 1 else { return }
-
+ 
         lineItem.quantity -= 1
         updateLineItem(at: index, with: lineItem)
     }
-
+ 
     func deleteItem(at index: Int) {
         guard index < displayedLineItems.count else { return }
         
         let removedItemId = displayedLineItems.remove(at: index).id
-
+ 
         guard var lineItems = draftOrder?.draftOrder?.lineItems else { return }
         lineItems.removeAll { $0.id == removedItemId }
         draftOrder?.draftOrder?.lineItems = lineItems
-
+ 
         updateTotalAmount()
         onDraftOrderUpdated?()
         saveChanges()
     }
-
+ 
     private func updateLineItem(at index: Int, with lineItem: LineItem) {
         guard index < displayedLineItems.count else { return }
-
+ 
         displayedLineItems[index] = lineItem
-
+ 
         guard var lineItems = draftOrder?.draftOrder?.lineItems else { return }
         if let originalIndex = lineItems.firstIndex(where: { $0.id == lineItem.id }) {
             lineItems[originalIndex] = lineItem
         }
         draftOrder?.draftOrder?.lineItems = lineItems
-
+ 
         onDraftOrderUpdated?()
         saveChanges()
     }
@@ -166,18 +166,18 @@ class ShoppingCartViewModel {
             print("Failed to fetch draftOrderId or draftOrder is nil")
             return
         }
-
+ 
         print("SC: draftOrderId fetchDraftOrders: \(draftOrderId)")
-
+ 
         let urlString = APIConfig.endPoint("draft_orders/\(draftOrderId)").url
         guard let draftOrderDetails = draftOrder.draftOrder else {
             print("Draft order details are nil")
             return
         }
-
+ 
         let draftOrderDictionary = draftOrderDetails.toDraftOrderDictionary()
         print("Draft order dictionary: \(draftOrderDictionary)")
-
+ 
         networkService.requestFunction(urlString: urlString, method: .put, model: ["draft_order": draftOrderDictionary]) { [weak self] (result: Result<OneDraftOrderResponse, Error>) in
             switch result {
             case .success(let updatedDraftOrder):
@@ -214,7 +214,7 @@ class ShoppingCartViewModel {
                    
                 }
             }
-
+ 
     func getDraftOrderID(email: String) {
         FirebaseAuthService().getShoppingCartId(email: email) { shoppingCartId, error in
             if let error = error {
@@ -241,7 +241,7 @@ class ShoppingCartViewModel {
         displayedLineItems.removeAll()
           updateDraftOrder()
     }
-
+ 
 }
 extension OneDraftOrderResponseDetails {
     func toDraftOrderDictionary() -> [String: Any] {
@@ -277,7 +277,7 @@ extension OneDraftOrderResponseDetails {
         return dictionary
     }
 }
-
+ 
 extension LineItem {
     func toLineItemDictionary() -> [String: Any] {
         return [
@@ -304,7 +304,7 @@ extension LineItem {
         ]
     }
 }
-
+ 
 extension TaxLine {
     func toTaxLineDictionary() -> [String: Any] {
         return [
