@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '9.0'
+platform :ios, '10.0'
 
 target 'Shopify' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -8,6 +8,9 @@ target 'Shopify' do
   pod 'lottie-ios'
   pod 'Kingfisher'
   pod 'Alamofire'
+  pod 'RxSwift', '6.5.0'
+  pod 'RxCocoa', '6.5.0'
+  pod 'Cosmos'
 
   # Pods for Shopify
 

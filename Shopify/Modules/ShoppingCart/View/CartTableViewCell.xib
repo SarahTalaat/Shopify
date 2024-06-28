@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="121" id="KGk-i7-Jjw" customClass="CartTableViewCell" customModule="Shopify" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="344" height="121"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="344" height="121"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" image="loading 1" translatesAutoresizingMaskIntoConstraints="NO" id="sni-Hf-Zl9">
+                        <rect key="frame" x="0.0" y="0.0" width="108" height="121"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="752" text="Pullover" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d9S-Vi-gKU">
+                        <rect key="frame" x="130" y="6" width="58" height="21.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" text="Color:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HD3-Jf-Aij">
+                        <rect key="frame" x="130" y="29" width="34" height="14"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Black" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZNp-Nz-EwC">
+                        <rect key="frame" x="166" y="30" width="31" height="13.5"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="oGa-DV-9qb">
+                        <rect key="frame" x="128" y="65" width="32" height="23"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" image="minus.circle" catalog="system">
+                            <color key="baseForegroundColor" systemColor="labelColor"/>
+                        </buttonConfiguration>
+                        <connections>
+                            <action selector="minus:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="81Q-9f-cCc"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jtx-s5-RNA">
+                        <rect key="frame" x="168" y="67" width="17" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="3Jj-Ye-lxG">
+                        <rect key="frame" x="193" y="63" width="32" height="28"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" image="plus.circle" catalog="system">
+                            <color key="baseForegroundColor" systemColor="labelColor"/>
+                        </buttonConfiguration>
+                        <connections>
+                            <action selector="plus:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="5gT-cH-EJ5"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1$" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Pja-xS-PbI">
+                        <rect key="frame" x="242" y="61" width="102" height="30"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zfj-1z-WK0">
+                        <rect key="frame" x="279" y="29" width="48" height="27"/>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" image="trash" catalog="system">
+                            <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </buttonConfiguration>
+                        <connections>
+                            <action selector="deleteBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="cBm-r4-GBh"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Zfj-1z-WK0" firstAttribute="leading" secondItem="ZNp-Nz-EwC" secondAttribute="trailing" constant="82" id="0cU-AG-XHu"/>
+                    <constraint firstAttribute="trailing" secondItem="Zfj-1z-WK0" secondAttribute="trailing" constant="17" id="18b-AM-DYT"/>
+                    <constraint firstItem="d9S-Vi-gKU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="5FD-cc-3t2"/>
+                    <constraint firstItem="ZNp-Nz-EwC" firstAttribute="top" secondItem="d9S-Vi-gKU" secondAttribute="bottom" constant="2.3300000000000001" id="7t5-dR-k8e"/>
+                    <constraint firstItem="HD3-Jf-Aij" firstAttribute="leading" secondItem="sni-Hf-Zl9" secondAttribute="trailing" constant="22" id="Byb-HH-h7C"/>
+                    <constraint firstItem="sni-Hf-Zl9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="DRz-M8-tJH"/>
+                    <constraint firstItem="HD3-Jf-Aij" firstAttribute="top" secondItem="d9S-Vi-gKU" secondAttribute="bottom" constant="1.6699999999999999" id="Drs-cz-OBC"/>
+                    <constraint firstItem="ZNp-Nz-EwC" firstAttribute="leading" secondItem="HD3-Jf-Aij" secondAttribute="trailing" constant="2" id="KKl-uX-nMf"/>
+                    <constraint firstItem="ZNp-Nz-EwC" firstAttribute="leading" secondItem="HD3-Jf-Aij" secondAttribute="trailing" constant="2" id="T2z-Mg-fGc"/>
+                    <constraint firstItem="Zfj-1z-WK0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="29" id="TXo-ec-vPp"/>
+                    <constraint firstItem="jtx-s5-RNA" firstAttribute="top" secondItem="ZNp-Nz-EwC" secondAttribute="bottom" constant="23.670000000000002" id="Veg-MY-hme"/>
+                    <constraint firstItem="oGa-DV-9qb" firstAttribute="leading" secondItem="sni-Hf-Zl9" secondAttribute="trailing" constant="20" id="YqD-oH-QXo"/>
+                    <constraint firstItem="sni-Hf-Zl9" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="bEU-8b-MQ0"/>
+                    <constraint firstAttribute="bottom" secondItem="sni-Hf-Zl9" secondAttribute="bottom" id="gyo-NM-zOF"/>
+                    <constraint firstItem="Pja-xS-PbI" firstAttribute="top" secondItem="Zfj-1z-WK0" secondAttribute="bottom" constant="5" id="kHu-eZ-7Ht"/>
+                    <constraint firstItem="d9S-Vi-gKU" firstAttribute="leading" secondItem="sni-Hf-Zl9" secondAttribute="trailing" constant="22" id="mUK-nm-xFy"/>
+                    <constraint firstItem="Pja-xS-PbI" firstAttribute="leading" secondItem="sni-Hf-Zl9" secondAttribute="trailing" constant="189" id="nI9-bo-S90"/>
+                    <constraint firstItem="3Jj-Ye-lxG" firstAttribute="top" secondItem="ZNp-Nz-EwC" secondAttribute="bottom" constant="18.670000000000002" id="utV-au-VYs"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="productAmount" destination="jtx-s5-RNA" id="8Yq-dc-7c3"/>
+                <outlet property="productColor" destination="ZNp-Nz-EwC" id="4Ic-Ov-6nD"/>
+                <outlet property="productName" destination="d9S-Vi-gKU" id="Elx-tT-GUu"/>
+                <outlet property="productPrice" destination="Pja-xS-PbI" id="zmO-GP-KXf"/>
+                <outlet property="productimage" destination="sni-Hf-Zl9" id="KrB-Ra-m5B"/>
+            </connections>
+            <point key="canvasLocation" x="124.6376811594203" y="-27.120535714285712"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="loading 1" width="225" height="225"/>
+        <image name="minus.circle" catalog="system" width="128" height="123"/>
+        <image name="plus.circle" catalog="system" width="128" height="123"/>
+        <image name="trash" catalog="system" width="117" height="128"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
