@@ -13,6 +13,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     
     @IBOutlet weak var ratingView: CosmosView!
     @IBOutlet weak var inventroyQuantityLabel: UILabel!
+    var loadingIndicator = UIActivityIndicatorView(style: .large)
     
     var cartCell = CartTableViewCell()
     
@@ -109,6 +110,9 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         viewModel.loadFavoriteProducts()
         viewModel.getCustomerIdFromFirebase()
         
+        
+        loadingIndicator.startAnimating()
+        
        // hideAddToCartButton()
         if viewModel.isGuest() == false {
             let imageName =  "heart"
@@ -116,6 +120,14 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
             let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
             favouriteButton.setImage(image, for: .normal)
         }
+        
+        
+        
+        viewModel.networkStatusChanged = { isReachable in
+                  if !isReachable {
+                      self.showAlerts(title: "No Internet Connection", message: "Please check your WiFi connection.")
+                  }
+              }
         
         bindViewModel()
         configureRatingView()
@@ -290,7 +302,9 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     
     
     func bindViewModel() {
+        
         viewModel.bindProductDetailsViewModelToController = { [weak self] in
+            self?.loadingIndicator.stopAnimating()
             DispatchQueue.main.async {
                 self?.myCollectionView.reloadData()
                 self?.dropDowntableView1.reloadData()

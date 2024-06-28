@@ -7,16 +7,18 @@
 
 import Foundation
 import UIKit
+import Reachability
 
 class ProductDetailsViewModel {
 
 
-    
+    var reachability: Reachability?
     var productIdFromUD: String?
     var exchangeRates: [String: Double] = [:]
- 
+    var networkStatusChanged: ((Bool) -> Void)?
+    
     init(){
-
+        setupReachability()
         loadFavoriteProducts()
         fetchUserFavorites()
         productIdFromUD = UserDefaults.standard.string(forKey: Constants.productId)
@@ -100,6 +102,8 @@ class ProductDetailsViewModel {
         print("ddd addToCart: \("isAddedToCart"+"\(productID)"+"\(SharedDataRepository.instance.customerEmail)")")
         
         UserDefaults.standard.set(added, forKey: "isAddedToCart"+"\(productID)"+"\(SharedDataRepository.instance.customerEmail)")
+        
+        print("666 productid PD VM \(UserDefaults.standard.string(forKey: Constants.productId))")
        
     }
     
@@ -586,6 +590,23 @@ class ProductDetailsViewModel {
                 print("Failed to fetch customerId")
                 // Handle the case where customerId could not be fetched
             }
+        }
+    }
+    
+    func setupReachability() {
+        reachability = try? Reachability()
+        reachability?.whenReachable = { reachability in
+            self.networkStatusChanged?(reachability.connection == .wifi)
+            print("wifi connection")
+        }
+        reachability?.whenUnreachable = { _ in
+            self.networkStatusChanged?(false)
+        }
+
+        do {
+            try reachability?.startNotifier()
+        } catch {
+            print("Unable to start notifier")
         }
     }
 

@@ -36,6 +36,7 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.retriveProducts()
         favouriteTableView.reloadData()
     }
     
