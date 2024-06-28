@@ -7,7 +7,7 @@
 
 import Foundation
 import PassKit
-
+import Reachability
 
 class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDelegate {
     enum PaymentMethod {
@@ -15,7 +15,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         case applePay
     }
     private let networkService = NetworkServiceAuthentication()
-
+    private var reachability: Reachability?
     var selectedPaymentMethod: PaymentMethod?
     private var lineItem: LineItem?
      var order: Orders?
@@ -28,11 +28,44 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     private var addresses: [Address] = []
     var displayedLineItems: [LineItem] = []
     private var viewModel = ShoppingCartViewModel()
-    
+    var showAlertClosure: (() -> Void)?
     func selectPaymentMethod(_ method: PaymentMethod) {
         selectedPaymentMethod = method
     }
-    
+    override init() {
+            super.init()
+            setupReachability()
+        }
+        
+        deinit {
+            reachability?.stopNotifier()
+        }
+        
+        private func setupReachability() {
+            reachability = try? Reachability()
+            
+            reachability?.whenReachable = { reachability in
+                if reachability.connection == .wifi {
+                    print("Reachable via WiFi")
+                } else {
+                    print("Reachable via Cellular")
+                }
+            }
+            
+            reachability?.whenUnreachable = { _ in
+                self.showNoInternetAlert()
+            }
+            
+            do {
+                try reachability?.startNotifier()
+            } catch {
+                print("Unable to start notifier")
+            }
+        }
+        
+        private func showNoInternetAlert() {
+            self.showAlertClosure?()
+        }
     func formatPriceWithCurrency(price: String) -> String {
         guard let amount = Double(price) else { return "0.00" }
         let formatter = NumberFormatter()

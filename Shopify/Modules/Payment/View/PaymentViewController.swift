@@ -7,14 +7,14 @@
 
 import UIKit
 import PassKit
-import Reachability
+
 class PaymentViewController: UIViewController {
     
     private var viewModel = PaymentMethodsViewModel()
     var shoppingViewModel = ShoppingCartViewModel()
     var defaultAddress: Address?
     var lineItems: [LineItem]?
-    private var reachability: Reachability?
+
     @IBOutlet weak var appleButton: UIButton!
     
   
@@ -25,10 +25,10 @@ class PaymentViewController: UIViewController {
                 }
             }
         }
-
+    
         override func viewDidLoad() {
             super.viewDidLoad()
-            setupReachability()
+    
             setupUI()
             setupGestures()
             self.title = "Payment"
@@ -39,34 +39,12 @@ class PaymentViewController: UIViewController {
             updateTotalAmountLabel()
         }
 
-        private func setupReachability() {
-            reachability = try? Reachability()
-            
-            reachability?.whenReachable = { reachability in
-                if reachability.connection == .wifi {
-                    print("Reachable via WiFi")
-                } else {
-                    print("Reachable via Cellular")
-                }
-            }
-            
-            reachability?.whenUnreachable = { _ in
-                self.showNoInternetAlert()
-            }
-            
-            do {
-                try reachability?.startNotifier()
-            } catch {
-                print("Unable to start notifier")
-            }
-        }
-
-        private func showNoInternetAlert() {
-            let alert = UIAlertController(title: "No Internet Connection", message: "Please check your internet connection and try again.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
-
+      
+    private func showNoInternetAlert() {
+           let alert = UIAlertController(title: "No Internet Connection", message: "Please check your internet connection and try again.", preferredStyle: .alert)
+           alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+           self.present(alert, animated: true, completion: nil)
+       }
         private func updateTotalAmountLabel() {
             if let totalAmount = totalAmount {
                 viewModel.setTotalAmount(totalAmount)
