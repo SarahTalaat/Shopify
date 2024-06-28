@@ -44,8 +44,8 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         emptyTableViewImage.translatesAutoresizingMaskIntoConstraints = false
         emptyTableViewImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         emptyTableViewImage.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        emptyTableViewImage.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        emptyTableViewImage.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        emptyTableViewImage.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        emptyTableViewImage.heightAnchor.constraint(equalToConstant: 200).isActive = true
 
         
         
