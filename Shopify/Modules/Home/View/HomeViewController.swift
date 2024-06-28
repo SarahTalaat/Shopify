@@ -9,6 +9,7 @@ import UIKit
 import Kingfisher
 
 class HomeViewController: UIViewController {
+    let images = ["adstwo.png","Sale.jpeg"]
     var sharedMethods: SharedMethods?
     var viewModel  = HomeViewModel()
     var vm = ProductViewModel()
@@ -198,7 +199,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         case brandsCollectionView:
             return viewModel.brands.count
         default:
-            return viewModel.coupons.count
+            return images.count
         }
     }
     
@@ -218,7 +219,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             return cell
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AdsCollectionViewCell", for: indexPath) as! AdsCollectionViewCell
-            let images = ["adstwo.png","Sale.jpeg"]
             cell.adsImage.image = UIImage(named: images[indexPath.row])
             return cell
         }

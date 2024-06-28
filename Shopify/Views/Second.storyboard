@@ -689,13 +689,13 @@
                                 <rect key="frame" x="16" y="462" width="382" height="55"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wish List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rqO-dW-YQH">
-                                        <rect key="frame" x="8" y="8" width="83" height="24"/>
+                                        <rect key="frame" x="8" y="8" width="83" height="16"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have 10 wishList" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wLf-Cg-uLX">
-                                        <rect key="frame" x="8" y="32" width="134" height="17"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have 0 item in wishlist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wLf-Cg-uLX">
+                                        <rect key="frame" x="8" y="27" width="313" height="22"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -712,13 +712,14 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
+                                    <constraint firstItem="wLf-Cg-uLX" firstAttribute="top" secondItem="rqO-dW-YQH" secondAttribute="bottom" constant="3" id="F6U-R6-Z3O"/>
+                                    <constraint firstItem="wLf-Cg-uLX" firstAttribute="width" secondItem="VKp-2E-rID" secondAttribute="width" multiplier="0.819372" id="IKp-Fc-2uL"/>
                                     <constraint firstItem="rqO-dW-YQH" firstAttribute="leading" secondItem="VKp-2E-rID" secondAttribute="leading" constant="8" id="IOn-JR-tPf"/>
                                     <constraint firstItem="K1N-RU-WZc" firstAttribute="centerY" secondItem="VKp-2E-rID" secondAttribute="centerY" id="QQf-hq-qhe"/>
-                                    <constraint firstItem="wLf-Cg-uLX" firstAttribute="top" secondItem="rqO-dW-YQH" secondAttribute="bottom" id="Uyd-R6-zpR"/>
                                     <constraint firstAttribute="bottom" secondItem="wLf-Cg-uLX" secondAttribute="bottom" constant="6" id="ZkZ-lG-jSE"/>
                                     <constraint firstAttribute="height" constant="55" id="aRk-mj-lTE"/>
-                                    <constraint firstItem="wLf-Cg-uLX" firstAttribute="top" secondItem="rqO-dW-YQH" secondAttribute="bottom" id="bgc-nU-GZA"/>
                                     <constraint firstItem="rqO-dW-YQH" firstAttribute="top" secondItem="VKp-2E-rID" secondAttribute="top" constant="8" id="dVh-DD-Q32"/>
+                                    <constraint firstItem="wLf-Cg-uLX" firstAttribute="height" secondItem="VKp-2E-rID" secondAttribute="height" multiplier="0.4" id="eHU-Yr-mci"/>
                                     <constraint firstAttribute="trailing" secondItem="K1N-RU-WZc" secondAttribute="trailing" constant="6" id="iV1-LU-8Ps"/>
                                     <constraint firstItem="wLf-Cg-uLX" firstAttribute="leading" secondItem="VKp-2E-rID" secondAttribute="leading" constant="8" id="xza-Nh-L70"/>
                                 </constraints>
