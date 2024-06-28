@@ -166,7 +166,7 @@ class HomeViewController: UIViewController {
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .absolute(185))
+                                                   heightDimension: .absolute(180))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
             group.interItemSpacing = .fixed(10)
             
@@ -218,7 +218,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             return cell
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AdsCollectionViewCell", for: indexPath) as! AdsCollectionViewCell
-            let images = ["adstwo.png","withsale.jpg"]
+            let images = ["adstwo.png","Sale.jpeg"]
             cell.adsImage.image = UIImage(named: images[indexPath.row])
             return cell
         }

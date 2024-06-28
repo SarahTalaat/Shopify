@@ -17,12 +17,12 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     private let networkService = NetworkServiceAuthentication()
 
     var selectedPaymentMethod: PaymentMethod?
-    private var lineItem: LineItem?
-    private var order: Orders?
-    private var ordersSend: OrdersSend?
-    private var invoice: Invoice?
-    private var invoiceResponse: InvoiceResponse?
-    private var draftOrderId: Int?
+     var lineItem: LineItem?
+     var order: Orders?
+     var ordersSend: OrdersSend?
+     var invoice: Invoice?
+     var invoiceResponse: InvoiceResponse?
+     var draftOrderId: Int?
     var totalDiscounts : String?
     var defCurrency: String = "EGP"
     var totalAmount: String?

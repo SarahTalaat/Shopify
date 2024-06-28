@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		220397E52C2E58B400ECB828 /* userProfileTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220397E42C2E58B400ECB828 /* userProfileTest.swift */; };
+		220397E82C2E5D9C00ECB828 /* OrderDetailsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220397E72C2E5D9C00ECB828 /* OrderDetailsTest.swift */; };
 		220EB86C2C13369A00F2E269 /* NetworkUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220EB86B2C13369A00F2E269 /* NetworkUtilities.swift */; };
 		220EB86E2C133EB500F2E269 /* SmartCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220EB86D2C133EB500F2E269 /* SmartCollection.swift */; };
 		220EB8702C1340A600F2E269 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220EB86F2C1340A600F2E269 /* HomeViewModel.swift */; };
@@ -221,6 +223,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		220397E42C2E58B400ECB828 /* userProfileTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userProfileTest.swift; sourceTree = "<group>"; };
+		220397E72C2E5D9C00ECB828 /* OrderDetailsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailsTest.swift; sourceTree = "<group>"; };
 		220EB86B2C13369A00F2E269 /* NetworkUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkUtilities.swift; sourceTree = "<group>"; };
 		220EB86D2C133EB500F2E269 /* SmartCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCollection.swift; sourceTree = "<group>"; };
 		220EB86F2C1340A600F2E269 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -455,6 +459,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		220397E32C2E587F00ECB828 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				220397E42C2E58B400ECB828 /* userProfileTest.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		220397E62C2E5D4F00ECB828 /* OrderDetails */ = {
+			isa = PBXGroup;
+			children = (
+				220397E72C2E5D9C00ECB828 /* OrderDetailsTest.swift */,
+			);
+			path = OrderDetails;
+			sourceTree = "<group>";
+		};
 		2291F97B2C2B653C00E657DB /* AllProducts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1146,6 +1166,8 @@
 		B69FA1832C09F050009D43B7 /* ShopifyTests */ = {
 			isa = PBXGroup;
 			children = (
+				220397E62C2E5D4F00ECB828 /* OrderDetails */,
+				220397E32C2E587F00ECB828 /* Profile */,
 				229530342C2C43DE0041C78C /* Payment */,
 				229530312C2C17430041C78C /* Category */,
 				2295302E2C2BE8BD0041C78C /* Products */,
@@ -1632,7 +1654,9 @@
 				22D8CE452C2B0F070000917D /* MockNetwork.swift in Sources */,
 				2291F97D2C2B65A600E657DB /* AllProductsTest.swift in Sources */,
 				229530362C2C44610041C78C /* PaymentTest.swift in Sources */,
+				220397E82C2E5D9C00ECB828 /* OrderDetailsTest.swift in Sources */,
 				229530332C2C17BF0041C78C /* CategoryTest.swift in Sources */,
+				220397E52C2E58B400ECB828 /* userProfileTest.swift in Sources */,
 				22D8CE422C2AF4210000917D /* HomeTest.swift in Sources */,
 				229530302C2BE98C0041C78C /* ProductsTest.swift in Sources */,
 				B6186B072C29902C00AA6D15 /* NetworkServiceMockTest.swift in Sources */,
