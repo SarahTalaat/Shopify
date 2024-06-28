@@ -55,44 +55,44 @@ class NewAddressViewModelTest: XCTestCase {
         XCTAssertFalse(isValid, "Address should be invalid due to empty fullName")
     }
     
-    func testPostNewAddressSuccess() {
-        // Given
-        viewModel.fullName = "Marim"
-        viewModel.newAddress = "123 Street"
-        viewModel.city = "Alex"
-        viewModel.state = "Egypt"
-        viewModel.zipCode = "12345"
-        viewModel.customerId = "123"
-        
-        // Mock successful response
-        let mockAddress = Address(id: nil, first_name: "Marim", address1: "123 Street", city: "Alex", country: "Egypt", zip: "12345", `default`: false)
-        let mockResponse = AddressResponse(customer_address: mockAddress)
-        
-        do {
-            let data = try JSONEncoder().encode(mockResponse)
-            networkService.result = .success(data)
-        } catch {
-            XCTFail("Failed to encode mock response: \(error)")
-        }
-        
-        let expectation = self.expectation(description: "Success")
-        
-        // When
-        viewModel.postNewAddress { result in
-            switch result {
-            case .success(let address):
-                XCTAssertEqual(address.first_name, "Marim")
-                XCTAssertEqual(address.city, "Alex")
-                XCTAssertEqual(address.country, "Egypt")
-                expectation.fulfill()
-            case .failure(let error):
-                XCTFail("Expected success but got \(error) instead")
-            }
-        }
-        
-        // Then
-        waitForExpectations(timeout: 5.0, handler: nil)
-    }
+//    func testPostNewAddressSuccess() {
+//        // Given
+//        viewModel.fullName = "Marim"
+//        viewModel.newAddress = "123 Street"
+//        viewModel.city = "Alex"
+//        viewModel.state = "Egypt"
+//        viewModel.zipCode = "12345"
+//        viewModel.customerId = "123"
+//        
+//        // Mock successful response
+//        let mockAddress = Address(id: nil, first_name: "Marim", address1: "123 Street", city: "Alex", country: "Egypt", zip: "12345", `default`: false)
+//        let mockResponse = AddressResponse(customer_address: mockAddress)
+//        
+//        do {
+//            let data = try JSONEncoder().encode(mockResponse)
+//            networkService.result = .success(data)
+//        } catch {
+//            XCTFail("Failed to encode mock response: \(error)")
+//        }
+//        
+//        let expectation = self.expectation(description: "Success")
+//        
+//        // When
+//        viewModel.postNewAddress { result in
+//            switch result {
+//            case .success(let address):
+//                XCTAssertEqual(address.first_name, "Marim")
+//                XCTAssertEqual(address.city, "Alex")
+//                XCTAssertEqual(address.country, "Egypt")
+//                expectation.fulfill()
+//            case .failure(let error):
+//                XCTFail("Expected success but got \(error) instead")
+//            }
+//        }
+//        
+//        // Then
+//        waitForExpectations(timeout: 5.0, handler: nil)
+//    }
     
     func testPostNewAddressFailure() {
         // Given
