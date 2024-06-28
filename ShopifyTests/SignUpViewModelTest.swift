@@ -19,6 +19,18 @@ class SignUpViewModelTests: XCTestCase {
 
         var signUpResult: Result<UserModel, Error>?
         var isEmailTakenResult: Bool?
+        
+        var saveCustomerIdCalled = false
+        var savedName: String?
+        var savedEmail: String?
+        var savedId: String?
+
+        override func saveCustomerId(name: String, email: String, id: String, favouriteId: String, shoppingCartId: String, productId: String, productTitle: String, productVendor: String, productImage: String, isSignedIn: String) {
+            saveCustomerIdCalled = true
+            savedName = name
+            savedEmail = email
+            savedId = id
+        }
 
         override func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
             if let signUpResult = signUpResult {
@@ -246,48 +258,36 @@ class SignUpViewModelTests: XCTestCase {
         XCTAssertTrue(containsNumber)
     }
 
-//    func testPostNewCustomer_Success() {
-//        // Arrange
-//        let expectation = self.expectation(description: "Post new customer expectation")
-//        let mockNetworkService = MockNetworkServiceAuthentication4(forTesting: true)
-//        viewModel.networkService = mockNetworkService // Inject mock service
-//        let urlString = "https://example.com/customers"
-//        let parameters: [String: Any] = ["customer": ["first_name": "John", "email": "john@example.com"]]
-//        mockNetworkService.requestFunctionResult = .success(CustomerResponse(customer: Customer(id: 1, first_name: "John", email: "john@example.com")))
-//
-//        // Act
-//        viewModel.postNewCustomer(urlString: urlString, parameters: parameters, name: "John", email: "john@example.com")
-//
-//        // Assert
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 30.0) {
-//            // Perform assertions based on expected behavior
-//            expectation.fulfill()
-//        }
-//
-//        waitForExpectations(timeout: 30.0, handler: nil)
-//    }
-//
-//    func testPostNewCustomer_Failure() {
-//        // Arrange
-//        let expectation = self.expectation(description: "Post new customer expectation")
-//        let mockNetworkService = MockNetworkServiceAuthentication4(forTesting: true)
-//        viewModel.networkService = mockNetworkService // Inject mock service
-//        let urlString = "https://example.com/customers"
-//        let parameters: [String: Any] = ["customer": ["first_name": "John", "email": "john@example.com"]]
-//        mockNetworkService.requestFunctionResult = .failure(NSError(domain: "MockNetworkServiceAuthentication", code: 500, userInfo: nil))
-//
-//        // Act
-//        viewModel.postNewCustomer(urlString: urlString, parameters: parameters, name: "John", email: "john@example.com")
-//
-//        // Assert
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 30.0) {
-//            // Perform assertions based on expected behavior
-//            XCTAssertNil(FirebaseAuthService.instance.customerId)
-//            expectation.fulfill()
-//        }
-//
-//        waitForExpectations(timeout: 30.0, handler: nil)
-//    }
+    func testPostNewCustomer_Failure_EmailAlreadyTaken() {
+        // Arrange
+        let expectation = self.expectation(description: "Post new customer expectation")
+        let mockNetworkService = MockNetworkServiceAuthentication4(forTesting: true)
+        let viewModel = SignUpViewModel(networkService: mockNetworkService)
+        let urlString = APIConfig.customers.url
+        let parameters: [String: Any] =  [ "customer": [
+            "verified_email": true,
+            "email": "shopifyapp.test7@gmail.com",
+            "first_name": "Sarah"
+        ]]
+        let errorResponse: [String: Any] = ["errors": ["email": ["has already been taken"]]]
+        mockNetworkService.requestFunctionResult = .failure(NSError(domain: "Error Domain", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to post customer data", "errorResponse": errorResponse]))
+        let mockFirebaseAuthService = MockFirebaseAuthService4(forTesting: true)
+        viewModel.authService = mockFirebaseAuthService
+
+        // Act
+        viewModel.postNewCustomer(urlString: urlString, parameters: parameters, name: "Sarah", email: "shopifyapp.test7@gmail.com")
+
+        // Assert
+        DispatchQueue.main.asyncAfter(deadline:.now() + 30.0) {
+            // Perform assertions based on expected behavior
+            XCTAssertFalse(mockFirebaseAuthService.saveCustomerIdCalled)
+         //   XCTAssertEqual(viewModel.errorMessage, "has already been taken")
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 30.0, handler: nil)
+    }
+
 
     func testIsEmailFormatValid_InvalidEmail() {
         // Arrange
@@ -325,6 +325,67 @@ class SignUpViewModelTests: XCTestCase {
         XCTAssertNotNil(viewModel.errorMessage)
         XCTAssertEqual(viewModel.errorMessage, error.localizedDescription)
     }
+    
+    func testPostNewCustomer_Failure() {
+        // Arrange
+        let expectation = self.expectation(description: "Post new customer expectation")
+        let mockNetworkService = MockNetworkServiceAuthentication4(forTesting: true)
+        let viewModel = SignUpViewModel(networkService: mockNetworkService)
+        let urlString = APIConfig.customers.url
+        let parameters: [String: Any] =  [ "customer": [
+            "verified_email": true,
+            "email": "shopifyapp.test7@gmail.com",
+            "first_name": "Sarah"
+        ]]
+        let json: [String: Any] = [
+            "errors": [
+                "email": [
+                    "has already been taken"
+                ]
+            ]
+        ]
+        let errorResponse = NSError(domain: "Error Domain", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to post customer data"])
+        mockNetworkService.requestFunctionResult = .failure(errorResponse)
+        let mockFirebaseAuthService = MockFirebaseAuthService4(forTesting: true)
+        viewModel.authService = mockFirebaseAuthService
+
+        // Act
+        viewModel.postNewCustomer(urlString: urlString, parameters: parameters, name: "Sarah", email: "shopifyapp.test7@gmail.com")
+
+        // Assert
+        DispatchQueue.main.asyncAfter(deadline:.now() + 30.0) {
+            // Perform assertions based on expected behavior
+            XCTAssertFalse(mockFirebaseAuthService.saveCustomerIdCalled)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 30.0, handler: nil)
+    }
 
 
-} 
+}
+
+//    func testPostNewCustomer_Failure() {
+//        // Arrange
+//        let expectation = self.expectation(description: "Post new customer expectation")
+//        let mockNetworkService = MockNetworkServiceAuthentication4(forTesting: true)
+//        let viewModel = SignUpViewModel(networkService: mockNetworkService)
+//        let urlString = "https://example.com/customers"
+//        let parameters: [String: Any] = ["customer": ["first_name": "John", "email": "john@example.com"]]
+//        let error = NSError(domain: "Error Domain", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to post customer data"])
+//        mockNetworkService.requestFunctionResult = .failure(error)
+//        let mockFirebaseAuthService = MockFirebaseAuthService()
+//        viewModel.authService = mockFirebaseAuthService
+//
+//        // Act
+//        viewModel.postNewCustomer(urlString: urlString, parameters: parameters, name: "John", email: "john@example.com")
+//
+//        // Assert
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 30.0) {
+//            // Perform assertions based on expected behavior
+//            XCTAssertFalse(mockFirebaseAuthService.saveCustomerIdCalled)
+//            expectation.fulfill()
+//        }
+//
+//        waitForExpectations(timeout: 30.0, handler: nil)
+//    }
