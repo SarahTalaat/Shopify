@@ -122,29 +122,28 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
         ])
     }
     private func bindViewModel() {
-            viewModel.onDraftOrderUpdated = { [weak self] in
-                DispatchQueue.main.async {
-                    self?.shoppingCartTableView.reloadData()
-                    self?.toggleEmptyStateView()
-                }
+        viewModel.onDraftOrderUpdated = { [weak self] in
+            DispatchQueue.main.async {
+                self?.shoppingCartTableView.reloadData()
+//                self?.toggleEmptyStateView()
             }
-            
-            viewModel.onTotalAmountUpdated = { [weak self] in
-                DispatchQueue.main.async {
-                    self?.totalAmount.text = self?.viewModel.formatPriceWithCurrency(price: self?.viewModel.totalAmount ?? "")
-                    if let paymentVC = self?.navigationController?.viewControllers.last as? PaymentViewController {
-                        paymentVC.totalAmount = self?.viewModel.totalAmount
-                    }
-                }
-            }
-            
-            viewModel.onAlertMessage = { [weak self] message in
-                DispatchQueue.main.async {
-                    self?.showAlert(message: message)
+        }
+
+        viewModel.onTotalAmountUpdated = { [weak self] in
+            DispatchQueue.main.async {
+                self?.totalAmount.text = self?.viewModel.formatPriceWithCurrency(price: self?.viewModel.totalAmount ?? "")
+                if let paymentVC = self?.navigationController?.viewControllers.last as? PaymentViewController {
+                    paymentVC.totalAmount = self?.viewModel.totalAmount
                 }
             }
         }
-        
+
+        viewModel.onAlertMessage = { [weak self] message in
+            DispatchQueue.main.async {
+                self?.showAlert(message: message)
+            }
+        }
+    }
         private func toggleEmptyStateView() {
             if let draftOrder = viewModel.draftOrder, draftOrder.draftOrder?.lineItems.count ?? 0 > 0 {
                 // Hide empty state view if there are line items
@@ -156,78 +155,42 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
         }
              
           func numberOfSections(in tableView: UITableView) -> Int {
-              return viewModel.draftOrder == nil ? 0 : 1
+              return viewModel.displayedLineItems == nil ? 0 : 1
           }
              
           func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-              return viewModel.draftOrder?.draftOrder?.lineItems.count ?? 0
+              return viewModel.displayedLineItems.count ?? 0
           }
-          
-
-//        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
-
-//               if let lineItem = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row] {
-//                   let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
-//                   cell.productName.text = productName
-
-//                   let productColor = lineItem.variantTitle?.split(separator: "/").last?.trimmingCharacters(in: CharacterSet.whitespaces) ?? ""
-//                   cell.productColor.text = productColor
-
-//                   cell.productAmount.text = "\(lineItem.quantity)"
-//                   cell.productPrice.text = viewModel.formatPriceWithCurrency(price: lineItem.price)
-
-//                   draftOrderService.fetchProduct(productId: lineItem.productId ?? 0) { result in
-//                       switch result {
-//                       case .success(let product):
-//                           let imageUrl = product.image.src
-//                           if let url = URL(string: imageUrl) {
-//                               DispatchQueue.main.async {
-//                                   cell.productimage.kf.setImage(with: url)
-//                               }
-//                           }
-//                       case .failure(let error):
-//                           print("Failed to fetch product image: \(error.localizedDescription)")
-//                       }
-//                   }
-                  
-                 
-// //                   cell.productId = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row].id
-
-               
-//                   cell.delegate = self
-//               }
+        
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
 
-        if let lineItem = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row] {
-            let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: .whitespaces) ?? ""
-            cell.productName.text = productName
+        let lineItem = viewModel.displayedLineItems[indexPath.row]
+        let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: .whitespaces) ?? ""
+        cell.productName.text = productName
 
-            let productColor = lineItem.variantTitle?.split(separator: "/").last?.trimmingCharacters(in: .whitespaces) ?? ""
-            cell.productColor.text = productColor
+        let productColor = lineItem.variantTitle?.split(separator: "/").last?.trimmingCharacters(in: .whitespaces) ?? ""
+        cell.productColor.text = productColor
 
-            cell.productAmount.text = "\(lineItem.quantity)"
-            cell.productPrice.text = viewModel.formatPriceWithCurrency(price: lineItem.price)
+        cell.productAmount.text = "\(lineItem.quantity)"
+        cell.productPrice.text = viewModel.formatPriceWithCurrency(price: lineItem.price)
 
-            // Fetch product details asynchronously
-            viewModel.fetchProductDetails(for: lineItem.productId ?? 0) { [weak self] result in
-                switch result {
-                case .success(let product):
-                    let imageUrl = product.product.image.src
-                    if let url = URL(string: imageUrl) {
-                        DispatchQueue.main.async {
-                            cell.productimage.kf.setImage(with: url)
-                        }
+        viewModel.fetchProductDetails(for: lineItem.productId ?? 0) { [weak self] result in
+            switch result {
+            case .success(let product):
+                let imageUrl = product.product.image.src
+                if let url = URL(string: imageUrl) {
+                    DispatchQueue.main.async {
+                        cell.productimage.kf.setImage(with: url)
                     }
-                case .failure(let error):
-                    print("Failed to fetch product image: \(error.localizedDescription)")
                 }
+            case .failure(let error):
+                print("Failed to fetch product image: \(error.localizedDescription)")
             }
-            cell.productId = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row].id
-            cell.delegate = self
         }
+        cell.productId = lineItem.id
+        cell.delegate = self
 
         return cell
     }
@@ -253,11 +216,9 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
        @IBAction func processedToPaymentBtn(_ sender: UIButton) {
            let storyboard = UIStoryboard(name: "Third", bundle: nil)
              if let paymentVC = storyboard.instantiateViewController(withIdentifier: "PaymentVC") as? PaymentViewController {
-                 paymentVC.totalAmount = totalAmount.text // Directly use the updated amount
-                 if let firstLineItem = viewModel.draftOrder?.draftOrder?.lineItems {
-                     paymentVC.lineItems = firstLineItem
-                 }
-                 navigationController?.pushViewController(paymentVC, animated: true)
+                 paymentVC.totalAmount = totalAmount.text
+                 paymentVC.lineItems = viewModel.displayedLineItems
+                         navigationController?.pushViewController(paymentVC, animated: true)
              }
        }
     func didTapPlusButton(on cell: CartTableViewCell) {
@@ -269,18 +230,17 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
 
     func didTapMinusButton(on cell: CartTableViewCell) {
         guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
-        let currentQuantity = viewModel.draftOrder?.draftOrder?.lineItems[indexPath.row].quantity ?? 0
+        let currentQuantity = viewModel.displayedLineItems[indexPath.row].quantity
 
         if currentQuantity == 1 {
             let alert = UIAlertController(title: "Delete Item", message: "You will delete this item. Are you sure?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                self.viewModel.decrementQuantity(at: indexPath.row)
                 self.viewModel.deleteItem(at: indexPath.row)
                 self.shoppingCartTableView.deleteRows(at: [indexPath], with: .automatic)
                 self.updateTotalAmount()
                 self.viewModel.saveChanges()
-               
+              
             }))
             present(alert, animated: true, completion: nil)
         } else {
@@ -297,9 +257,10 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
             self.viewModel.deleteItem(at: indexPath.row)
-            self.shoppingCartTableView.reloadData()
+            self.shoppingCartTableView.deleteRows(at: [indexPath], with: .automatic)
             self.updateTotalAmount()
-
+            self.viewModel.saveChanges()
+    
         }))
         present(alert, animated: true, completion: nil)
     }
