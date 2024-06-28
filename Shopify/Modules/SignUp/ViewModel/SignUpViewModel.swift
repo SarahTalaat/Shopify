@@ -19,8 +19,15 @@ class SignUpViewModel {
     var bindUserViewModelToController: (() -> ()) = {}
     var bindErrorViewModelToController: (() -> ()) = {}
     
-    init(){
+    
+    var authService: FirebaseAuthService!
+    var networkService: NetworkServiceAuthentication!
+
+    init(authService: FirebaseAuthService = FirebaseAuthService.instance , networkService:NetworkServiceAuthentication = NetworkServiceAuthentication.instance) {
+        self.authService = authService
+        self.networkService = networkService
     }
+    
     
     func signUp(email: String, password: String, firstName: String) {
         print("vm Sign up called with email: \(email), firstName: \(firstName)")

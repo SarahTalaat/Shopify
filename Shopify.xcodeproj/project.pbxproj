@@ -1185,6 +1185,7 @@
 				B682B1D42C2D302E000C5911 /* MockFirebaseTest.swift */,
 				B682B1DC2C2DA76F000C5911 /* SignInViewModelTests.swift */,
 				B682B1D22C2D2D20000C5911 /* MockFirebase.swift */,
+				B682B1D82C2D6AEA000C5911 /* SignUpViewModelTest.swift */,
 				B682B1D02C2D2CBF000C5911 /* Old */,
 				B682B1D12C2D2D07000C5911 /* MockFirebaseModule */,
 				229530342C2C43DE0041C78C /* Payment */,
@@ -1196,7 +1197,6 @@
 				22D8CE402C2AF3740000917D /* Home */,
 				B69FA1842C09F050009D43B7 /* ShopifyTests.swift */,
 				B682B1D62C2D45B2000C5911 /* SignInViewModelTest.swift */,
-				B682B1D82C2D6AEA000C5911 /* SignUpViewModelTest.swift */,
 				B682B1DA2C2D76B4000C5911 /* SignInVMTest.swift */,
 				B682B1DE2C2DEB1B000C5911 /* SignIn4.swift */,
 			);
