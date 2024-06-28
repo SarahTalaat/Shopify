@@ -12,13 +12,15 @@ class ProductDetailsViewModel {
 
 
     
-
+    var productIdFromUD: String?
     var exchangeRates: [String: Double] = [:]
  
     init(){
 
         loadFavoriteProducts()
         fetchUserFavorites()
+        productIdFromUD = UserDefaults.standard.string(forKey: Constants.productId)
+        print("555 productIdFromUD = \(productIdFromUD)")
     }
     
     var favoriteProducts: Set<Int> = []
