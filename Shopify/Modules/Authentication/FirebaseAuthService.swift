@@ -52,7 +52,7 @@ class FirebaseAuthService: AuthServiceProtocol {
         }
     }
 
-//
+
 //    func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
 //        Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
 //            guard self != nil else { return }

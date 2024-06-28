@@ -7,20 +7,17 @@
 
 import UIKit
 import PassKit
-import Reachability
+
 class PaymentViewController: UIViewController {
     
     private var viewModel = PaymentMethodsViewModel()
-    private var shoppingCartViewModel = ShoppingCartViewModel()
-    
+    var shoppingViewModel = ShoppingCartViewModel()
     var defaultAddress: Address?
     var lineItems: [LineItem]?
-    private var reachability: Reachability?
+
     @IBOutlet weak var appleButton: UIButton!
     
-    @IBOutlet weak var paymentView: UIView!
-    
-    @IBOutlet weak var billingView: UIView!
+  
     var totalAmount: String? {
             didSet {
                 if isViewLoaded {
@@ -28,13 +25,13 @@ class PaymentViewController: UIViewController {
                 }
             }
         }
-
+    
         override func viewDidLoad() {
             super.viewDidLoad()
-            setupReachability()
+    
             setupUI()
             setupGestures()
-            self.title = "Choose Payment Method"
+            self.title = "Payment"
             fetchDefaultAddress()
             if let lineItems = lineItems {
                 viewModel.setupOrder(lineItem: lineItems)
@@ -42,34 +39,12 @@ class PaymentViewController: UIViewController {
             updateTotalAmountLabel()
         }
 
-        private func setupReachability() {
-            reachability = try? Reachability()
-            
-            reachability?.whenReachable = { reachability in
-                if reachability.connection == .wifi {
-                    print("Reachable via WiFi")
-                } else {
-                    print("Reachable via Cellular")
-                }
-            }
-            
-            reachability?.whenUnreachable = { _ in
-                self.showNoInternetAlert()
-            }
-            
-            do {
-                try reachability?.startNotifier()
-            } catch {
-                print("Unable to start notifier")
-            }
-        }
-
-        private func showNoInternetAlert() {
-            let alert = UIAlertController(title: "No Internet Connection", message: "Please check your internet connection and try again.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
-
+      
+    private func showNoInternetAlert() {
+           let alert = UIAlertController(title: "No Internet Connection", message: "Please check your internet connection and try again.", preferredStyle: .alert)
+           alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+           self.present(alert, animated: true, completion: nil)
+       }
         private func updateTotalAmountLabel() {
             if let totalAmount = totalAmount {
                 viewModel.setTotalAmount(totalAmount)
@@ -91,17 +66,6 @@ class PaymentViewController: UIViewController {
                 view?.layer.shadowOpacity = 0.5
             }
             
-            paymentView.layer.cornerRadius = 10.0
-            paymentView.layer.shadowColor = UIColor.black.cgColor
-            paymentView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-            paymentView.layer.shadowRadius = 4.0
-            paymentView.layer.shadowOpacity = 0.5
-
-            billingView.layer.cornerRadius = 10.0
-            billingView.layer.shadowColor = UIColor.black.cgColor
-            billingView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-            billingView.layer.shadowRadius = 4.0
-            billingView.layer.shadowOpacity = 0.5
             
             appleButton.addTarget(self, action: #selector(tapForPay), for: .touchUpInside)
         }
@@ -162,6 +126,7 @@ class PaymentViewController: UIViewController {
                          title = "Error"
                          message = "Failed to place order. Please try again."
                      }
+
 
                      let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                      alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -257,7 +222,7 @@ class PaymentViewController: UIViewController {
                            self.updateAddressLabel()
                        case .failure(let error):
                            print("Failed to fetch default address: \(error)")
-                           // Handle error scenario if needed
+                         
                        }
                    }
         }

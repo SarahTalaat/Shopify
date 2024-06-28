@@ -237,6 +237,11 @@ class ShoppingCartViewModel {
             self.getDraftOrderID(email: email)
         }
     }
+    func clearDisplayedLineItems() {
+        displayedLineItems.removeAll()
+          updateDraftOrder()
+    }
+ 
 }
 extension OneDraftOrderResponseDetails {
     func toDraftOrderDictionary() -> [String: Any] {

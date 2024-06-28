@@ -7,7 +7,7 @@
 
 import Foundation
 import PassKit
-
+import Reachability
 
 class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDelegate {
     enum PaymentMethod {
@@ -15,7 +15,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         case applePay
     }
     private let networkService = NetworkServiceAuthentication()
-
+    private var reachability: Reachability?
     var selectedPaymentMethod: PaymentMethod?
      var lineItem: LineItem?
      var order: Orders?
@@ -27,12 +27,46 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     var defCurrency: String = "EGP"
     var totalAmount: String?
     private var addresses: [Address] = []
+    var displayedLineItems: [LineItem] = []
     private var viewModel = ShoppingCartViewModel()
-    
+    var showAlertClosure: (() -> Void)?
     func selectPaymentMethod(_ method: PaymentMethod) {
         selectedPaymentMethod = method
     }
-    
+    override init() {
+            super.init()
+            setupReachability()
+        }
+        
+        deinit {
+            reachability?.stopNotifier()
+        }
+        
+        private func setupReachability() {
+            reachability = try? Reachability()
+            
+            reachability?.whenReachable = { reachability in
+                if reachability.connection == .wifi {
+                    print("Reachable via WiFi")
+                } else {
+                    print("Reachable via Cellular")
+                }
+            }
+            
+            reachability?.whenUnreachable = { _ in
+                self.showNoInternetAlert()
+            }
+            
+            do {
+                try reachability?.startNotifier()
+            } catch {
+                print("Unable to start notifier")
+            }
+        }
+        
+        private func showNoInternetAlert() {
+            self.showAlertClosure?()
+        }
     func formatPriceWithCurrency(price: String) -> String {
         guard let amount = Double(price) else { return "0.00" }
         let formatter = NumberFormatter()
@@ -57,8 +91,8 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         request.supportedCountries = ["EG", "US"]
         request.merchantCapabilities = .capability3DS
         request.countryCode = "EG"
-        request.currencyCode = UserDefaults.standard.string(forKey: "Currency") == "EGP" ? "EGP" : "USD"
-        
+        request.currencyCode = defCurrency  // Use selected currency here
+
         if let totalAmount = totalAmount {
             let totalAmountString = totalAmount.replacingOccurrences(of: "[^0-9.]", with: "", options: .regularExpression)
             let amount = NSDecimalNumber(string: totalAmountString)
@@ -72,7 +106,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             let defaultAmount = NSDecimalNumber(string: "1200")
             request.paymentSummaryItems = [PKPaymentSummaryItem(label: "T-shirt", amount: defaultAmount)]
         }
-        
+
         return request
     }
     
@@ -81,13 +115,25 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     }
     
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
-            // Call your method to update UI or perform any actions after payment authorization
-        //    updateAfterPaymentAuthorization()
-
-            // Complete the payment authorization with success
-            completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
+        // Call your method to update UI or perform any actions after payment authorization
+        processPaymentAuthorization(payment: payment) { success in
+            if success {
+                // Complete the payment authorization with success
+                completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
+            } else {
+                // Complete the payment authorization with failure if necessary
+                completion(PKPaymentAuthorizationResult(status: .failure, errors: nil))
+            }
         }
-    
+    }
+
+    private func processPaymentAuthorization(payment: PKPayment, completion: @escaping (Bool) -> Void) {
+        // Perform any additional processing after payment authorization (e.g., posting order)
+        postOrder { success in
+            // Handle success or failure
+            completion(success)
+        }
+    }
     
     func setupOrder(lineItem: [LineItem]) {
         if let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") {

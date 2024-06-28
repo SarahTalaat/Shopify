@@ -161,31 +161,31 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
               }
             
      
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
-     
-            let lineItem = viewModel.displayedLineItems[indexPath.row]
-            let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: .whitespaces) ?? ""
-            cell.productName.text = productName
-     
-            let productColor = lineItem.variantTitle?.split(separator: "/").last?.trimmingCharacters(in: .whitespaces) ?? ""
-            cell.productColor.text = productColor
-     
-            cell.productAmount.text = "\(lineItem.quantity)"
-            cell.productPrice.text = viewModel.formatPriceWithCurrency(price: lineItem.price)
-     
-            viewModel.fetchProductDetails(for: lineItem.productId ?? 0) { [weak self] result in
-                switch result {
-                case .success(let product):
-                    let imageUrl = product.product.image.src
-                    if let url = URL(string: imageUrl) {
-                        DispatchQueue.main.async {
-                            cell.productimage.kf.setImage(with: url)
-                        }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
+
+        let lineItem = viewModel.displayedLineItems[indexPath.row]
+        let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: .whitespaces) ?? ""
+        cell.productName.text = productName
+
+        let productColor = lineItem.variantTitle?.split(separator: "/").last?.trimmingCharacters(in: .whitespaces) ?? ""
+        cell.productColor.text = productColor
+
+        cell.productAmount.text = "\(lineItem.quantity)"
+        cell.productPrice.text = viewModel.formatPriceWithCurrency(price: lineItem.price)
+
+        viewModel.fetchProductDetails(for: lineItem.productId ?? 0) { [weak self] result in
+            switch result {
+            case .success(let product):
+                let imageUrl = product.product.image.src
+                if let url = URL(string: imageUrl) {
+                    DispatchQueue.main.async {
+                        cell.productimage.kf.setImage(with: url)
                     }
-                case .failure(let error):
-                    print("Failed to fetch product image: \(error.localizedDescription)")
                 }
+            case .failure(let error):
+                print("Failed to fetch product image: \(error.localizedDescription)")
             }
             cell.productId = lineItem.id
             cell.delegate = self
@@ -252,13 +252,13 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
         func didTapDeleteButton(on cell: CartTableViewCell) {
             guard let indexPath = shoppingCartTableView.indexPath(for: cell) else { return }
             let alert = UIAlertController(title: "Delete Item", message: "Are you sure you want to delete this item?", preferredStyle: .alert)
+
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
                 self.viewModel.deleteItem(at: indexPath.row)
                 self.shoppingCartTableView.deleteRows(at: [indexPath], with: .automatic)
                 self.updateTotalAmount()
                 self.viewModel.saveChanges()
-        
             }))
             present(alert, animated: true, completion: nil)
         }
@@ -267,6 +267,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
             totalAmount.text = viewModel.formatPriceWithCurrency(price: viewModel.totalAmount)
         }
     
+
     @IBAction func addCouponBtn(_ sender: UIButton) {
         let couponVC = UIStoryboard(name: "Third", bundle: nil).instantiateViewController(withIdentifier: "CouponViewController") as! CouponViewController
             couponVC.subtotal = viewModel.totalAmount
