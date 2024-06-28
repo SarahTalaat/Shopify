@@ -21,6 +21,7 @@ class OrdersViewController: UIViewController {
             self.updateCollection()
         }
     }
+ 
     
     func updateCollection(){
             DispatchQueue.main.async { [weak self] in
@@ -73,8 +74,8 @@ class OrdersViewController: UIViewController {
                    let datePart = date?.split(separator: "T").first.map(String.init)
                    cell.creationDate.text = "Created At: \(datePart ?? " ")"
             
-                    if let totalPrice = item.total_price {
-                        cell.totalPrice.text = "\(totalPrice) \(item.currency)"
+                    if let totalPrice = item.total_outstanding {
+                        cell.totalPrice.text = "Total Price:\(totalPrice) \(item.currency)"
                     } else {
                         cell.totalPrice.text = "0.00$"
                     }

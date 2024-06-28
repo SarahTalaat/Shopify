@@ -46,6 +46,8 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
            print("Total amount before navigating to PaymentVC: \(viewModel.totalAmount)")
            setupReachability()
        }
+    
+ 
     private func setupEmptyStateView() {
             // Configure empty state image view
             emptyStateImageView.image = UIImage(named: "noCart") // Replace with your image name

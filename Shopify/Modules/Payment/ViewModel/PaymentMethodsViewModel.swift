@@ -23,6 +23,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     private var invoice: Invoice?
     private var invoiceResponse: InvoiceResponse?
     private var draftOrderId: Int?
+    var totalDiscounts : String?
     var defCurrency: String = "EGP"
     var totalAmount: String?
     private var addresses: [Address] = []
@@ -124,21 +125,33 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
                 adminGraphqlApiId: lineItem.adminGraphqlApiId ?? ""
             )
         }
+        
+        // Ensure totalAmount is properly calculated and includes discounts
+        var totalPrice: Double = 0.0
+        if let totalAmount = totalAmount, let totalAmountValue = Double(totalAmount) {
+            totalPrice = totalAmountValue
+        }
+        
         print(email)
         print(defCurrency)
         print(unwrappedLineItems)
-        print(totalAmount)
+        print(totalPrice)
+        print(totalDiscounts)
+        
         order = Orders(
             id: nil,
             order_number: nil,
             created_at: nil,
             currency: defCurrency,
             email: email,
-            total_price:totalAmount,
-            total_discounts: nil,
+            total_price: String(totalPrice),
+            total_discounts: totalDiscounts ?? "0.00",
             total_tax: nil,
             line_items: unwrappedLineItems,
-            inventory_behaviour: "decrement_obeying_policy"
+            inventory_behaviour: "decrement_obeying_policy",
+             subtotal_price : nil,
+             total_outstanding: nil,
+             current_total_discounts : totalDiscounts ?? "0.00"
         )
         
         ordersSend = OrdersSend(order: order!)

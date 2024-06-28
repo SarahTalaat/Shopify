@@ -11,7 +11,7 @@ import FirebaseCore
 
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate , UITabBarControllerDelegate{
 
     var window: UIWindow?
 
@@ -33,11 +33,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
              UITabBar.appearance().unselectedItemTintColor = UIColor.gray
         
         FirebaseApp.configure()
-
+        
+        if let rootViewController = window?.rootViewController as? UITabBarController {
+                // Set the delegate of the UITabBarController to self
+                rootViewController.delegate = self
+            }
 
         return true
     }
-
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if let navigationController = viewController as? UINavigationController {
+            navigationController.popToRootViewController(animated: false)
+        }
+    }
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
