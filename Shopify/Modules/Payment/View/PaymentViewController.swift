@@ -140,13 +140,13 @@ class PaymentViewController: UIViewController {
         print("Clearing cart and draft order, keeping dummy line item")
 
            // Clear the line items from the shopping cart view model, except for the dummy line item
-           shoppingCartViewModel.displayedLineItems.removeAll { $0.variantId != 44382096457889 }
+        shoppingViewModel.displayedLineItems.removeAll { $0.variantId != 44382096457889 }
 
            // Update the draft order
-           if var draftOrder = shoppingCartViewModel.draftOrder?.draftOrder {
+           if var draftOrder = shoppingViewModel.draftOrder?.draftOrder {
                draftOrder.lineItems.removeAll { $0.variantId != 44382096457889 }
-               shoppingCartViewModel.draftOrder?.draftOrder = draftOrder
-               shoppingCartViewModel.updateDraftOrder()
+               shoppingViewModel.draftOrder?.draftOrder = draftOrder
+               shoppingViewModel.updateDraftOrder()
            }
     }
         

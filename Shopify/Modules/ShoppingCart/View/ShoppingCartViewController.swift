@@ -10,7 +10,6 @@ import Kingfisher
 import Reachability
 class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,CartTableViewCellDelegate{
   
-
     @IBOutlet weak var totalAmount: UILabel!
     @IBOutlet weak var shoppingCartTableView: UITableView!
 
@@ -45,6 +44,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
                     print("Total amount before navigating to PaymentVC: \(viewModel.totalAmount)")
                     setupReachability()
                 }
+    
              private func setupEmptyStateView() {
                      // Configure empty state image view
                      emptyStateImageView.image = UIImage(named: "noCart") // Replace with your image name
@@ -102,9 +102,11 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
+    
         deinit {
             reachability?.stopNotifier()
         }
+    
         func addBottomBorder(to tableView: UITableView) {
             let border = UIView()
             border.translatesAutoresizingMaskIntoConstraints = false
@@ -119,6 +121,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
                 border.bottomAnchor.constraint(equalTo: tableView.bottomAnchor)
             ])
         }
+    
         private func bindViewModel() {
             viewModel.onDraftOrderUpdated = { [weak self] in
                 DispatchQueue.main.async {
@@ -164,17 +167,17 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
-
+        
         let lineItem = viewModel.displayedLineItems[indexPath.row]
         let productName = lineItem.title.split(separator: "|").last?.trimmingCharacters(in: .whitespaces) ?? ""
         cell.productName.text = productName
-
+        
         let productColor = lineItem.variantTitle?.split(separator: "/").last?.trimmingCharacters(in: .whitespaces) ?? ""
         cell.productColor.text = productColor
-
+        
         cell.productAmount.text = "\(lineItem.quantity)"
         cell.productPrice.text = viewModel.formatPriceWithCurrency(price: lineItem.price)
-
+        
         viewModel.fetchProductDetails(for: lineItem.productId ?? 0) { [weak self] result in
             switch result {
             case .success(let product):
@@ -189,9 +192,11 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
             }
             cell.productId = lineItem.id
             cell.delegate = self
-     
-            return cell
+            
+            
         }
+        return cell
+    }
      
               func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
                   return 100
@@ -284,7 +289,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
     }
     
     @IBOutlet weak var couponView: UIView!
-    private func showAlert(message: String) {
+     func showAlert(message: String) {
             let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(alert, animated: true, completion: nil)
