@@ -3,15 +3,15 @@ import XCTest
 
 class SignUpViewModelTests: XCTestCase {
 
-    var viewModel: SignUpViewModel!
+
 
     override func setUp() {
         super.setUp()
-        viewModel = SignUpViewModel()
+    
     }
 
     override func tearDown() {
-        viewModel = nil
+       
         super.tearDown()
     }
 
@@ -66,6 +66,7 @@ class SignUpViewModelTests: XCTestCase {
         // Arrange
         let expectation = self.expectation(description: "Sign up expectation")
         let mockAuthService = MockFirebaseAuthService4(forTesting: true)
+        let viewModel = SignUpViewModel()
         viewModel.authService = mockAuthService // Inject mock service
         let email = "shopifyapp.test200@gmail.com"
         let password = "@A123456"
@@ -77,7 +78,7 @@ class SignUpViewModelTests: XCTestCase {
         // Assert
         DispatchQueue.main.asyncAfter(deadline:.now() + 30.0) {
             // Perform assertions based on expected behavior
-            XCTAssertNotNil(self.viewModel.errorMessage)
+            XCTAssertNotNil(viewModel.errorMessage)
             expectation.fulfill()
         }
 
@@ -87,6 +88,7 @@ class SignUpViewModelTests: XCTestCase {
     func testSignUp_Failure() {
         // Arrange
         let expectation = self.expectation(description: "Sign up expectation")
+        let viewModel = SignUpViewModel()
         let mockAuthService = MockFirebaseAuthService4(forTesting: true)
         viewModel.authService = mockAuthService // Inject mock service
         let email = "test@example.com"
@@ -99,8 +101,8 @@ class SignUpViewModelTests: XCTestCase {
         // Assert
         DispatchQueue.main.asyncAfter(deadline:.now() + 30.0) {
             // Perform assertions based on expected behavior
-            XCTAssertNil(self.viewModel.user)
-            XCTAssertNotNil(self.viewModel.errorMessage)
+            XCTAssertNil(viewModel.user)
+            XCTAssertNotNil(viewModel.errorMessage)
             expectation.fulfill()
         }
 
@@ -111,6 +113,7 @@ class SignUpViewModelTests: XCTestCase {
         // Arrange
         let expectation = self.expectation(description: "Sign up expectation")
         let mockAuthService = MockFirebaseAuthService4(forTesting: true)
+        let viewModel = SignUpViewModel()
         viewModel.authService = mockAuthService // Inject mock service
         let email = "shopifyapp.test7@example.com"
         let password = "@A1234567"
@@ -123,7 +126,7 @@ class SignUpViewModelTests: XCTestCase {
         DispatchQueue.main.asyncAfter(deadline:.now() + 30.0) {
             // Perform assertions based on expected behavior
           //  XCTAssertNil(self.viewModel.user)
-            XCTAssertNotNil(self.viewModel.errorMessage)
+            XCTAssertNotNil(viewModel.errorMessage)
             expectation.fulfill()
         }
 
