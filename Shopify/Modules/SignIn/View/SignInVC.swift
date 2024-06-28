@@ -12,6 +12,13 @@ class SignInVC: UIViewController {
         super.viewDidLoad()
         
         viewModel = DependencyProvider.signInViewModel
+        
+        viewModel.networkStatusChanged = { isReachable in
+                  if !isReachable {
+                      self.showAlerts(title: "No Internet Connection", message: "Please check your WiFi connection.")
+                  }
+              }
+        
         setUpSignInScreenUI()
         bindViewModel()
        
@@ -40,6 +47,10 @@ class SignInVC: UIViewController {
         
         viewModel.signIn(email: email, password: password)
     }
+    
+    
+    
+    
     
     private func showSignSuccessfulAlert(title: String, message: String, button1Title: String, completion: @escaping () -> Void) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

@@ -1,5 +1,6 @@
 import Foundation
 import FirebaseAuth
+import Reachability
 
 enum AuthErrorCode: Error {
     case wrongPassword
@@ -10,6 +11,8 @@ enum AuthErrorCode: Error {
 class SignInViewModel {
     static let sharedDataUpdateQueue = DispatchQueue(label: "com.Shopify.sharedDataUpdateQueue")
 
+    var reachability: Reachability?
+    var networkStatusChanged: ((Bool) -> Void)?
    
     var authService: FirebaseAuthService!
     var networkService: NetworkServiceAuthentication
@@ -97,6 +100,23 @@ class SignInViewModel {
             } else {
                 print("Failed to update sign-in status.")
             }
+        }
+    }
+
+    func setupReachability() {
+        reachability = try? Reachability()
+        reachability?.whenReachable = { reachability in
+            self.networkStatusChanged?(reachability.connection == .wifi)
+            print("wifi connection")
+        }
+        reachability?.whenUnreachable = { _ in
+            self.networkStatusChanged?(false)
+        }
+
+        do {
+            try reachability?.startNotifier()
+        } catch {
+            print("Unable to start notifier")
         }
     }
 

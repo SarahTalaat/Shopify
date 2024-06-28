@@ -1,4 +1,5 @@
 import Foundation
+import Reachability
 
 class SignUpViewModel {
 
@@ -26,6 +27,26 @@ class SignUpViewModel {
     init(authService: FirebaseAuthService = FirebaseAuthService.instance , networkService:NetworkServiceAuthentication = NetworkServiceAuthentication.instance) {
         self.authService = authService
         self.networkService = networkService
+    }
+    
+    var reachability: Reachability?
+    var networkStatusChanged: ((Bool) -> Void)?
+    
+    func setupReachability() {
+        reachability = try? Reachability()
+        reachability?.whenReachable = { reachability in
+            self.networkStatusChanged?(reachability.connection == .wifi)
+            print("wifi connection")
+        }
+        reachability?.whenUnreachable = { _ in
+            self.networkStatusChanged?(false)
+        }
+
+        do {
+            try reachability?.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
     }
     
     

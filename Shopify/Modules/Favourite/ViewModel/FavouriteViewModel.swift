@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Reachability
 
 class FavouriteViewModel {
     
@@ -29,6 +30,25 @@ class FavouriteViewModel {
             print("aaa products: \(products)")
             self?.products = products
             
+        }
+    }
+    
+    var reachability: Reachability?
+    var networkStatusChanged: ((Bool) -> Void)?
+    func setupReachability() {
+        reachability = try? Reachability()
+        reachability?.whenReachable = { reachability in
+            self.networkStatusChanged?(reachability.connection == .wifi)
+            print("wifi connection")
+        }
+        reachability?.whenUnreachable = { _ in
+            self.networkStatusChanged?(false)
+        }
+
+        do {
+            try reachability?.startNotifier()
+        } catch {
+            print("Unable to start notifier")
         }
     }
     

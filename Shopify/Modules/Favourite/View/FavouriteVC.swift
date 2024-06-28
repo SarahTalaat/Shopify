@@ -31,6 +31,12 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         settingUpFavouriteTableView()
         viewModel = DependencyProvider.favouriteViewModel
         
+        viewModel.networkStatusChanged = { isReachable in
+                  if !isReachable {
+                      self.showAlerts(title: "No Internet Connection", message: "Please check your WiFi connection.")
+                  }
+              }
+        
         viewModel.retriveProducts()
         
         bindViewModel()
@@ -57,6 +63,7 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         super.viewWillAppear(animated)
         viewModel.retriveProducts()
         favouriteTableView.reloadData()
+        
     }
     
     
