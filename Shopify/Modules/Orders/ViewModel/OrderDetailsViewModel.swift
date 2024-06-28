@@ -32,7 +32,7 @@ class OrderDetailsViewModel {
         }
     }
     
-    private let networkService = NetworkServiceAuthentication()
+    private let networkService = NetworkServiceAuthentication.instance
     var bindOrders: (() -> Void) = {}
     var bindCurrency: (() -> Void) = {}
     var bindFilteredProducts: (() -> Void) = {}

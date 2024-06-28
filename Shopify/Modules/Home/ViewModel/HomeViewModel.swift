@@ -9,8 +9,9 @@ import Foundation
 import Reachability
 
 class HomeViewModel {
-    private let networkService = NetworkServiceAuthentication()
+    private let networkService = NetworkServiceAuthentication.instance
     var reachability: Reachability?
+    
 
     var brands: [SmartCollection] = [] {
         didSet {

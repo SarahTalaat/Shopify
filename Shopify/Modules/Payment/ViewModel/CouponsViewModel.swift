@@ -8,7 +8,7 @@
 import Foundation
 class CouponsViewModel {
     
-    var network = NetworkServiceAuthentication()
+    var network = NetworkServiceAuthentication.instance
     private(set) var discountCodes: [String] = []
     var exchangeRates: [String: Double] = [:]
 

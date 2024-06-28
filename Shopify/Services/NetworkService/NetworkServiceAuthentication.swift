@@ -13,7 +13,7 @@
 import Foundation
 import Alamofire
 
-enum Result<Success, Failure: Error> {
+public enum Result<Success, Failure: Error> {
     case success(Success)
     case failure(Failure)
 }
@@ -27,7 +27,14 @@ enum HTTPMethod: String {
 
 
 
-class NetworkServiceAuthentication: NetworkServiceAuthenticationProtocol {
+class NetworkServiceAuthentication {
+    
+    static var instance = NetworkServiceAuthentication()
+    private init() {}
+    
+    init(forTesting: Bool) {
+        
+    }
     
     func requestFunction<T: Decodable>(urlString: String, method: HTTPMethod, model: [String: Any], completion: @escaping (Result<T, Error>) -> Void) {
         

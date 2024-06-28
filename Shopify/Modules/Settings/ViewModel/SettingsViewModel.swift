@@ -7,16 +7,15 @@
 
 import Foundation
 
-class SettingsViewModel: SettingsViewModelProtocol{
+class SettingsViewModel{
   
 
-    let authServiceProtocol: AuthServiceProtocol
-    
-    init(authServiceProtocol: AuthServiceProtocol) {
-        self.authServiceProtocol = authServiceProtocol
+
+    init() {
+      
     }
     private var addresses: [Address] = []
-    private let networkService = NetworkServiceAuthentication()
+    private let networkService = NetworkServiceAuthentication.instance
     var currentAddress: String {
         if let defaultAddress = addresses.first(where: { $0.default ?? false }) {
             return defaultAddress.city
@@ -44,7 +43,7 @@ class SettingsViewModel: SettingsViewModelProtocol{
  
     func signOut(isSignedOut: Bool) {
         print("print signOut")
-        authServiceProtocol.signOut { result in
+        FirebaseAuthService.instance.signOut { result in
             switch result {
             case .success:
                 print("User signed out successfully")

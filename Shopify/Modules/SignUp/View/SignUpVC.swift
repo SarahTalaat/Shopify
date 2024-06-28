@@ -110,13 +110,20 @@ class SignUpVC: UIViewController {
     @IBOutlet var alreadySignedInCustomButton: UIButton!
     @IBOutlet var emailCustomTextField: CustomTextField!
     @IBOutlet var firstNameCustomTextField: CustomTextField!
-    var viewModel: SignUpViewModelProtocol!
+    var viewModel: SignUpViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSignUpScreenUI()
         makeCircularImage()
         viewModel = DependencyProvider.signUpViewModel
+        
+        viewModel.networkStatusChanged = { isReachable in
+                  if !isReachable {
+                      self.showAlerts(title: "No Internet Connection", message: "Please check your WiFi connection.")
+                  }
+              }
+        
         bindViewModel()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
           tapGesture.cancelsTouchesInView = false
@@ -152,6 +159,8 @@ class SignUpVC: UIViewController {
         viewModel.signUp(email: email, password: password, firstName: firstName)
     }
         
+    
+
     
     
     private func bindViewModel() {

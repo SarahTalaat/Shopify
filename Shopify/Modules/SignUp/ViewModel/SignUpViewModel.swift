@@ -1,9 +1,8 @@
 import Foundation
+import Reachability
 
-class SignUpViewModel: SignUpViewModelProtocol {
-    private let authServiceProtocol: AuthServiceProtocol
-    private let networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol
-    
+class SignUpViewModel {
+
     var user: UserModel? {
         didSet {
             print("vm User model updated: \(String(describing: user))")
@@ -21,10 +20,35 @@ class SignUpViewModel: SignUpViewModelProtocol {
     var bindUserViewModelToController: (() -> ()) = {}
     var bindErrorViewModelToController: (() -> ()) = {}
     
-    init(authServiceProtocol: AuthServiceProtocol, networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol) {
-        self.authServiceProtocol = authServiceProtocol
-        self.networkServiceAuthenticationProtocol = networkServiceAuthenticationProtocol
+    
+    var authService: FirebaseAuthService!
+    var networkService: NetworkServiceAuthentication!
+
+    init(authService: FirebaseAuthService = FirebaseAuthService.instance , networkService:NetworkServiceAuthentication = NetworkServiceAuthentication.instance) {
+        self.authService = authService
+        self.networkService = networkService
     }
+    
+    var reachability: Reachability?
+    var networkStatusChanged: ((Bool) -> Void)?
+    
+    func setupReachability() {
+        reachability = try? Reachability()
+        reachability?.whenReachable = { reachability in
+            self.networkStatusChanged?(reachability.connection == .wifi)
+            print("wifi connection")
+        }
+        reachability?.whenUnreachable = { _ in
+            self.networkStatusChanged?(false)
+        }
+
+        do {
+            try reachability?.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
+    }
+    
     
     func signUp(email: String, password: String, firstName: String) {
         print("vm Sign up called with email: \(email), firstName: \(firstName)")
@@ -38,7 +62,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
             return
         }
 
-        authServiceProtocol.isEmailTaken(email: email) { [weak self] isTaken in
+        FirebaseAuthService.instance.isEmailTaken(email: email) { [weak self] isTaken in
             guard !isTaken else {
                 self?.errorMessage = "This email is already in use. Please choose a different email address."
                 return
@@ -51,7 +75,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
                 return
             }
 
-            self?.authServiceProtocol.signUp(email: email, password: password) { [weak self] result in
+           FirebaseAuthService.instance.signUp(email: email, password: password) { [weak self] result in
                 switch result {
                 case .success(let user):
                     print("vm Sign up successful with user: \(user)")
@@ -118,12 +142,12 @@ class SignUpViewModel: SignUpViewModelProtocol {
     }
 
     func postNewCustomer(urlString: String, parameters: [String:Any], name: String , email: String) {
-        self.networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<CustomerResponse, Error>) in
+        NetworkServiceAuthentication.instance.requestFunction(urlString: urlString, method: .post, model: parameters, completion: { [weak self] (result: Result<CustomerResponse, Error>) in
             switch result {
             case .success(let response):
                 print("vm Customer data posted successfully: \(response)")
 
-                self?.authServiceProtocol.saveCustomerId(name: name, email: email, id: "\(response.customer.id)", favouriteId: "", shoppingCartId: "", productId: "-1", productTitle: "", productVendor: "" , productImage: "", isSignedIn: "\(false)")
+                FirebaseAuthService.instance.saveCustomerId(name: name, email: email, id: "\(response.customer.id)", favouriteId: "", shoppingCartId: "", productId: "-1", productTitle: "", productVendor: "" , productImage: "", isSignedIn: "\(false)")
             case .failure(let error):
                 print("vm Failed to post customer data: \(error.localizedDescription)")
             }
@@ -132,12 +156,12 @@ class SignUpViewModel: SignUpViewModelProtocol {
     
 
 
-    private func isEmailFormatValid(_ email: String) -> Bool {
+     func isEmailFormatValid(_ email: String) -> Bool {
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         return NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: email)
     }
 
-    private func handleSignUpError(_ error: Error) {
+     func handleSignUpError(_ error: Error) {
         errorMessage = error.localizedDescription
     }
     

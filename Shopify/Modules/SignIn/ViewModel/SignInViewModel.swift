@@ -1,5 +1,6 @@
 import Foundation
 import FirebaseAuth
+import Reachability
 
 enum AuthErrorCode: Error {
     case wrongPassword
@@ -7,11 +8,20 @@ enum AuthErrorCode: Error {
     case emailNotVerified
 }
 
-class SignInViewModel: SignInViewModelProtocol {
+class SignInViewModel {
     static let sharedDataUpdateQueue = DispatchQueue(label: "com.Shopify.sharedDataUpdateQueue")
 
-    let authServiceProtocol: AuthServiceProtocol
-    let networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol
+    var reachability: Reachability?
+    var networkStatusChanged: ((Bool) -> Void)?
+   
+    var authService: FirebaseAuthService!
+    var networkService: NetworkServiceAuthentication
+
+    init(authService: FirebaseAuthService = FirebaseAuthService.instance , networkService:NetworkServiceAuthentication = NetworkServiceAuthentication.instance) {
+        self.authService = authService
+        self.networkService = networkService
+    }
+    
     var name: String?
     var email: String?
     var favId: String?
@@ -45,13 +55,10 @@ class SignInViewModel: SignInViewModelProtocol {
     var bindUserViewModelToController: (() -> ()) = {}
     var bindErrorViewModelToController: (() -> ()) = {}
 
-    init(authServiceProtocol: AuthServiceProtocol, networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol) {
-        self.authServiceProtocol = authServiceProtocol
-        self.networkServiceAuthenticationProtocol = networkServiceAuthenticationProtocol
-    }
+
 
     func signIn(email: String, password: String) {
-        authServiceProtocol.signIn(email: email, password: password) { [weak self] result in
+        FirebaseAuthService.instance.signIn(email: email, password: password) { [weak self] result in
             guard let strongSelf = self else {
                 print("kkk self is nil in signIn completion")
                 return
@@ -66,6 +73,7 @@ class SignInViewModel: SignInViewModelProtocol {
                 strongSelf.checkEmailSignInStatus(email: email)
                 print("ddd 2.")
                 print("ddd 3.")
+              
             case .failure(let error):
                 if let authError = error as? AuthErrorCode {
                     switch authError {
@@ -79,12 +87,14 @@ class SignInViewModel: SignInViewModelProtocol {
                 } else {
                     strongSelf.errorMessage = "An error occurred. Please try again later."
                 }
+                
+                
             }
         }
     }
 
     func updateSignInStatus(email: String) {
-        authServiceProtocol.updateSignInStatus(email: email, isSignedIn: "\(true)") { success in
+        FirebaseAuthService.instance.updateSignInStatus(email: email, isSignedIn: "\(true)") { success in
             if success {
                 print("Sign-in status updated successfully.")
             } else {
@@ -93,8 +103,25 @@ class SignInViewModel: SignInViewModelProtocol {
         }
     }
 
+    func setupReachability() {
+        reachability = try? Reachability()
+        reachability?.whenReachable = { reachability in
+            self.networkStatusChanged?(reachability.connection == .wifi)
+            print("wifi connection")
+        }
+        reachability?.whenUnreachable = { _ in
+            self.networkStatusChanged?(false)
+        }
+
+        do {
+            try reachability?.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
+    }
+
     func checkEmailSignInStatus(email: String) {
-        authServiceProtocol.checkEmailSignInStatus(email: email) { [self] isSignedIn in
+        FirebaseAuthService.instance.checkEmailSignInStatus(email: email) { [self] isSignedIn in
             
             guard self != nil else {
                 print("kkk self is nil in checkEmailSignInStatus completion")
@@ -141,7 +168,7 @@ class SignInViewModel: SignInViewModelProtocol {
     
 
     func postDraftOrderForShoppingCart(urlString: String, parameters: [String: Any], name: String, email: String, completion: @escaping (OneDraftOrderResponse?) -> Void) {
-        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .post, model: parameters) { (result: Result<OneDraftOrderResponse, Error>) in
+        NetworkServiceAuthentication.instance.requestFunction(urlString: urlString, method: .post, model: parameters) { (result: Result<OneDraftOrderResponse, Error>) in
             switch result {
             case .success(let response):
                 print("kkk Response ID: \(response.draftOrder?.id)")
@@ -153,13 +180,13 @@ class SignInViewModel: SignInViewModelProtocol {
         }
     }
 
-    private func fetchCustomerID() {
+     func fetchCustomerID() {
         guard let email = user?.email else {
             print("User email is nil")
             return
         }
 
-        authServiceProtocol.fetchCustomerDataFromRealTimeDatabase(forEmail: email) { [self] customerDataModel in
+        FirebaseAuthService.instance.fetchCustomerDataFromRealTimeDatabase(forEmail: email) { [self] customerDataModel in
             // Here we use [self] to capture self strongly
 
             // Ensure self is not nil
@@ -220,7 +247,7 @@ class SignInViewModel: SignInViewModelProtocol {
     }
 
     func setDraftOrderId(email: String, shoppingCartID: String) {
-        authServiceProtocol.setShoppingCartId(email: email, shoppingCartId: shoppingCartID) { error in
+        FirebaseAuthService.instance.setShoppingCartId(email: email, shoppingCartId: shoppingCartID) { error in
             if let error = error {
                 print("Failed to set shopping cart ID: \(error.localizedDescription)")
             } else {
@@ -230,7 +257,7 @@ class SignInViewModel: SignInViewModelProtocol {
     }
 
     func getDraftOrderID(email: String) {
-        authServiceProtocol.getShoppingCartId(email: email) { shoppingCartId, error in
+        FirebaseAuthService.instance.getShoppingCartId(email: email) { shoppingCartId, error in
             if let error = error {
                 print("kkk Failed to retrieve shopping cart ID: \(error.localizedDescription)")
             } else if let shoppingCartId = shoppingCartId {

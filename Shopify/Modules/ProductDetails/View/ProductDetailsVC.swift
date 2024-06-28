@@ -13,6 +13,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     
     @IBOutlet weak var ratingView: CosmosView!
     @IBOutlet weak var inventroyQuantityLabel: UILabel!
+    var loadingIndicator = UIActivityIndicatorView(style: .large)
     
     var cartCell = CartTableViewCell()
     
@@ -62,7 +63,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
     var isDropdownVisible2 = false
     var isFavourite = false
     
-    var viewModel: ProductDetailsViewModelProtocol!
+    var viewModel: ProductDetailsViewModel!
     var activityIndicator: UIActivityIndicatorView!
     
     // Default label with a default value
@@ -110,12 +111,23 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         viewModel.getCustomerIdFromFirebase()
         
         
+        loadingIndicator.startAnimating()
+        
+       // hideAddToCartButton()
         if viewModel.isGuest() == false {
             let imageName =  "heart"
             favouriteButton.tintColor = .lightGray
             let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
             favouriteButton.setImage(image, for: .normal)
         }
+        
+        
+        
+        viewModel.networkStatusChanged = { isReachable in
+                  if !isReachable {
+                      self.showAlerts(title: "No Internet Connection", message: "Please check your WiFi connection.")
+                  }
+              }
         
         bindViewModel()
         configureRatingView()
@@ -280,8 +292,19 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
 
     }
 
+    func hideAddToCartButton(){
+        if self.viewModel.inventoryQuantityLabel() == "Out of stock" {
+            addToCartUI.isHidden = true
+        }else{
+            addToCartUI.isHidden = false
+        }
+    }
+    
+    
     func bindViewModel() {
+        
         viewModel.bindProductDetailsViewModelToController = { [weak self] in
+            self?.loadingIndicator.stopAnimating()
             DispatchQueue.main.async {
                 self?.myCollectionView.reloadData()
                 self?.dropDowntableView1.reloadData()

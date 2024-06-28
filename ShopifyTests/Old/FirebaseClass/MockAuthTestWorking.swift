@@ -444,23 +444,23 @@
 ////        // Given
 ////        let mockDatabaseRef = MockDatabaseReference()
 ////        let authService = FirebaseAuthService(databaseRef: mockDatabaseRef)
-////        
+////
 ////        let email = "test@example.com"
 ////        let encodedEmail = SharedMethods.encodeEmail(email)
-////        
+////
 ////        // Simulate setting sign-in status to "true" in mock database
 ////        let customerRef = mockDatabaseRef.child("customers").child(encodedEmail)
 ////        let customerData: [String: Any] = [
 ////            "isSignedIn": "true"
 ////        ]
 ////        customerRef.setValue(customerData)
-////        
+////
 ////        // When checking sign-in status
 ////        var isSignedIn: Bool?
 ////        authService.checkEmailSignInStatus(email: email) { status in
 ////            isSignedIn = status
 ////        }
-////        
+////
 ////        // Then
 ////        XCTAssertNotNil(isSignedIn, "Sign-in status should not be nil")
 ////        XCTAssertTrue(isSignedIn ?? false, "User should be signed in")
@@ -562,9 +562,9 @@
 ////        let authService = FirebaseAuthService()
 ////        let mockDatabaseRef = MockDatabaseReference()
 ////        authService.databaseRef = mockDatabaseRef
-////        
+////
 ////        let email = "test@example.com"
-////        
+////
 ////        // When
 ////        var fetchedCartId: String?
 ////        var error: Error?
@@ -572,11 +572,11 @@
 ////            fetchedCartId = cartId
 ////            error = err
 ////        }
-////        
+////
 ////        // Then
 ////        XCTAssertNotNil(fetchedCartId, "Shopping cart ID should not be nil")
 ////        XCTAssertNil(error, "Error should be nil")
-////        
+////
 ////        // Additional assertions if needed to validate fetchedCartId
 ////    }
 //

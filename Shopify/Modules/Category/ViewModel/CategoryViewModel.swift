@@ -13,7 +13,7 @@ class CategoryViewModel{
     
     var userFavorites: [String: Bool] = [:]
     var productsFromFirebase: [ProductFromFirebase] = []
-    var network = NetworkServiceAuthentication()
+    var network = NetworkServiceAuthentication.instance
     var category: [Product] = [] {
          didSet {
              applyFilters()
@@ -41,7 +41,7 @@ class CategoryViewModel{
     
     var bindCategory : (()->()) = {}
     var exchangeRates: [String: Double] = [:]
-    private let networkService = NetworkServiceAuthentication()
+    private let networkService = NetworkServiceAuthentication.instance
 
     init(){
 
@@ -124,7 +124,7 @@ extension CategoryViewModel {
         var email = SharedDataRepository.instance.customerEmail ?? "No emaillllllll"
         
         if let product = filteredProducts.first(where: { "\($0.id)" == productId }) {
-            FirebaseAuthService().toggleFavorite(email: email, productId: productId, productTitle: product.title, productVendor: product.vendor, productImage: product.image.src ?? "", isFavorite: !isFavorite) { [weak self] error in
+            FirebaseAuthService.instance.toggleFavorite(email: email, productId: productId, productTitle: product.title, productVendor: product.vendor, productImage: product.image.src ?? "", isFavorite: !isFavorite) { [weak self] error in
                 if error == nil {
                     self?.userFavorites[productId] = !isFavorite
                     self?.updateFavoriteState(productId: productId, isFavorite: !isFavorite)
@@ -139,7 +139,7 @@ extension CategoryViewModel {
     func fetchUserFavorites() {
         guard let email = retrieveStringFromUserDefaults(forKey: Constants.customerEmail) else { return }
         
-        FirebaseAuthService().fetchFavorites(email: email) { [weak self] favorites in
+        FirebaseAuthService.instance.fetchFavorites(email: email) { [weak self] favorites in
             self?.userFavorites = favorites
             self?.applyFilters()
         }
@@ -168,7 +168,7 @@ extension CategoryViewModel {
     }
     
     func retrieveAllProductsFromEncodedEmail(email: String, completion: @escaping ([ProductFromFirebase]) -> Void) {
-        FirebaseAuthService().retrieveAllProductsFromEncodedEmail(email: email) { products in
+        FirebaseAuthService.instance.retrieveAllProductsFromEncodedEmail(email: email) { products in
             self.productsFromFirebase = products
             completion(products)
         }

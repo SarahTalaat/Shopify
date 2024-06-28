@@ -7,22 +7,22 @@
 
 import Foundation
 import UIKit
+import Reachability
 
-class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
+class ProductDetailsViewModel {
 
 
-    
-
+    var reachability: Reachability?
+    var productIdFromUD: String?
     var exchangeRates: [String: Double] = [:]
- 
-    var networkServiceAuthenticationProtocol:NetworkServiceAuthenticationProtocol!
-    var authServiceProtocol: AuthServiceProtocol!
+    var networkStatusChanged: ((Bool) -> Void)?
     
-    init(networkServiceAuthenticationProtocol: NetworkServiceAuthenticationProtocol,authServiceProtocol: AuthServiceProtocol){
-        self.networkServiceAuthenticationProtocol = networkServiceAuthenticationProtocol
-        self.authServiceProtocol = authServiceProtocol
+    init(){
+        setupReachability()
         loadFavoriteProducts()
         fetchUserFavorites()
+        productIdFromUD = UserDefaults.standard.string(forKey: Constants.productId)
+        print("555 productIdFromUD = \(productIdFromUD)")
     }
     
     var favoriteProducts: Set<Int> = []
@@ -52,7 +52,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         let email = SharedDataRepository.instance.customerEmail ?? "NoOo Email"
         let encodedEmail = SharedMethods.encodeEmail(email)
         
-        authServiceProtocol.fetchFavorites(email: encodedEmail) { [weak self] favorites in
+        FirebaseAuthService.instance.fetchFavorites(email: encodedEmail) { [weak self] favorites in
             self?.favoriteProducts = Set(favorites.keys.compactMap { Int($0) })
             self?.bindProductDetailsViewModelToController()
         }
@@ -61,9 +61,11 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     func saveAddedToCartState(_ added: Bool) {
         var productID = Int(UserDefaults.standard.string(forKey: Constants.productId) ?? "")
+        
         var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
         
-        UserDefaults.standard.set(added, forKey: "isAddedToCart"+"\(productID)"+"\(customerID)")
+        UserDefaults.standard.set(added, forKey: "isAddedToCart"+"\(productID)"+"\(SharedDataRepository.instance.customerEmail)")
+        print("")
        
     }
     
@@ -72,7 +74,9 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         var productID = Int(UserDefaults.standard.string(forKey: Constants.productId) ?? "")
         var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
         
-        if let isAdded = UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(customerID)") as? Bool {
+        print("WWW customer id \(customerID)")
+        
+        if let isAdded = UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(SharedDataRepository.instance.customerEmail)") as? Bool {
             addToCartUI.isAddedToCart = isAdded
         } else {
             addToCartUI.isAddedToCart = false // Default value if not previously set
@@ -82,8 +86,8 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     func saveButtonTitleStateShoppingCart(addToCartUI:CustomButton , productId:Int){
         var productID = productId
         var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
-        print("ddd Title: \(UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(customerID)"))")
-        if let isAdded = UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(customerID)") as? Bool {
+        print("ddd Title: \(UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(SharedDataRepository.instance.customerEmail)"))")
+        if let isAdded = UserDefaults.standard.object(forKey: "isAddedToCart"+"\(productID)"+"\(SharedDataRepository.instance.customerEmail)") as? Bool {
             addToCartUI.isAddedToCart = isAdded
             print("ddd title isAdded: \(isAdded)")
         } else {
@@ -95,9 +99,11 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     func saveAddedToCartStateShoppingCart(_ added: Bool , productId:Int) {
         var productID = productId
         var customerID = Int(UserDefaults.standard.string(forKey: Constants.customerId) ?? "")
-        print("ddd addToCart: \("isAddedToCart"+"\(productID)"+"\(customerID)")")
+        print("ddd addToCart: \("isAddedToCart"+"\(productID)"+"\(SharedDataRepository.instance.customerEmail)")")
         
-        UserDefaults.standard.set(added, forKey: "isAddedToCart"+"\(productID)"+"\(customerID)")
+        UserDefaults.standard.set(added, forKey: "isAddedToCart"+"\(productID)"+"\(SharedDataRepository.instance.customerEmail)")
+        
+        print("666 productid PD VM \(UserDefaults.standard.string(forKey: Constants.productId))")
        
     }
     
@@ -111,7 +117,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         
         if favoriteProducts.contains(productIdInt) {
             favoriteProducts.remove(productIdInt)
-            authServiceProtocol.deleteProductFromEncodedEmail(encodedEmail: encodedEmail, productId: "\(productIdInt)")
+            FirebaseAuthService.instance.deleteProductFromEncodedEmail(encodedEmail: encodedEmail, productId: "\(productIdInt)")
         } else {
             guard let productTitle = retrieveStringFromUserDefaults(forKey: Constants.productTitle),
                   let productId = retrieveStringFromUserDefaults(forKey: Constants.productId),
@@ -121,7 +127,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
             }
 
             favoriteProducts.insert(productIdInt)
-            authServiceProtocol.addProductToEncodedEmail(email: encodedEmail, productId: productId, productTitle: productTitle, productVendor: productVendor, productImage: productImage)
+            FirebaseAuthService.instance.addProductToEncodedEmail(email: encodedEmail, productId: productId, productTitle: productTitle, productVendor: productVendor, productImage: productImage)
         }
 
         saveFavoriteProducts()
@@ -211,7 +217,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     func fetchExchangeRates() {
         
-        networkServiceAuthenticationProtocol.requestFunction(urlString: APIConfig.usd.url2, method: .get, model: [:]){ (result: Result<ExchangeRatesResponse, Error>) in
+        NetworkServiceAuthentication.instance.requestFunction(urlString: APIConfig.usd.url2, method: .get, model: [:]){ (result: Result<ExchangeRatesResponse, Error>) in
             switch result {
             case .success(let response):
                 // Handle successful response
@@ -243,7 +249,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         
         let urlString = APIConfig.endPoint("products/\(productIdInt)").url
         
-        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<ProductResponseFromApi, Error>) in
+        NetworkServiceAuthentication.instance.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<ProductResponseFromApi, Error>) in
             switch result {
             case .success(let productResponse):
                 print("PD product title response: \(String(describing: productResponse.product?.title))")
@@ -398,7 +404,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
         print("xy productVendor: \(productVendor)")
         print("xy productImage: \(productImage)")
         
-        authServiceProtocol.addProductToEncodedEmail(email: encodedEmail ?? "NOOO Email", productId: productId ?? "NOO ProductId", productTitle: productTitle ?? "No ProductTitle", productVendor: productVendor ?? "NOOO ProductVendor", productImage: productImage ?? "NOOO ProductImage")
+        FirebaseAuthService.instance.addProductToEncodedEmail(email: encodedEmail ?? "NOOO Email", productId: productId ?? "NOO ProductId", productTitle: productTitle ?? "No ProductTitle", productVendor: productVendor ?? "NOOO ProductVendor", productImage: productImage ?? "NOOO ProductImage")
         
         
     }
@@ -406,7 +412,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     func deleteProductFromFirebase(){
         var encodedEmail =  SharedMethods.encodeEmail(SharedDataRepository.instance.customerEmail ?? "No email")
         var productId = retrieveStringFromUserDefaults(forKey: Constants.productId) ?? "No productId"
-        authServiceProtocol.deleteProductFromEncodedEmail(encodedEmail: encodedEmail, productId: productId)
+        FirebaseAuthService.instance.deleteProductFromEncodedEmail(encodedEmail: encodedEmail, productId: productId)
     }
     
     func addMultipleValuesToUserDefaults(productId: String, productTitle: String, productVendor:String, productImage: String){
@@ -438,7 +444,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     }
 
     func getDraftOrderID(email: String) {
-        authServiceProtocol.getShoppingCartId(email: email) { shoppingCartId, error in
+        FirebaseAuthService.instance.getShoppingCartId(email: email) { shoppingCartId, error in
             if let error = error {
                 print("kkk *Failed* to retrieve shopping cart ID: \(error.localizedDescription)")
             } else if let shoppingCartId = shoppingCartId {
@@ -460,7 +466,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
 
     func addNewLineItemToDraftOrder(urlString: String, variantId: Int, productId: Int, quantity: Int) {
           // Fetch the existing draft order details
-          networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<OneDraftOrderResponse, Error>) in
+          NetworkServiceAuthentication.instance.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<OneDraftOrderResponse, Error>) in
               switch result {
               case .success(let draftOrderResponse):
                   guard var draftOrder = draftOrderResponse.draftOrder else {
@@ -503,7 +509,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
                   ]
                   
                   // Make the PUT request to update the draft order
-                  self.networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .put, model: draftOrderDictionary) { (result: Result<DraftOrderResponsePUT, Error>) in
+                  NetworkServiceAuthentication.instance.requestFunction(urlString: urlString, method: .put, model: draftOrderDictionary) { (result: Result<DraftOrderResponsePUT, Error>) in
                       switch result {
                       case .success(let updatedDraftOrder):
                           print("Updated draft order after adding new line item: \(updatedDraftOrder)")
@@ -523,7 +529,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     
     func deleteLineItemFromDraftOrder(urlString: String, productId: Int) {
         // Fetch the existing draft order details
-        networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<OneDraftOrderResponse, Error>) in
+        NetworkServiceAuthentication.instance.requestFunction(urlString: urlString, method: .get, model: [:]) { (result: Result<OneDraftOrderResponse, Error>) in
             switch result {
             case .success(let draftOrderResponse):
                 guard var draftOrder = draftOrderResponse.draftOrder else {
@@ -556,7 +562,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
                 ]
                 
                 // Make the PUT request to update the draft order
-                self.networkServiceAuthenticationProtocol.requestFunction(urlString: urlString, method: .put, model: draftOrderDictionary) { (result: Result<DraftOrderResponsePUT, Error>) in
+                NetworkServiceAuthentication.instance.requestFunction(urlString: urlString, method: .put, model: draftOrderDictionary) { (result: Result<DraftOrderResponsePUT, Error>) in
                     switch result {
                     case .success(let updatedDraftOrder):
                         print("Updated draft order after deleting line item: \(updatedDraftOrder)")
@@ -575,7 +581,7 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
     func getCustomerIdFromFirebase(){
         var customerEmail = SharedDataRepository.instance.customerEmail ?? "No email"
         var encodedCustomerEmail = SharedMethods.encodeEmail(customerEmail)
-        authServiceProtocol.fetchCustomerId(encodedEmail: encodedCustomerEmail) { customerId in
+        FirebaseAuthService.instance.fetchCustomerId(encodedEmail: encodedCustomerEmail) { customerId in
             if let customerId = customerId {
                 print("Customer ID: \(customerId)")
                 // Use customerId as needed in your app
@@ -584,6 +590,23 @@ class ProductDetailsViewModel: ProductDetailsViewModelProtocol {
                 print("Failed to fetch customerId")
                 // Handle the case where customerId could not be fetched
             }
+        }
+    }
+    
+    func setupReachability() {
+        reachability = try? Reachability()
+        reachability?.whenReachable = { reachability in
+            self.networkStatusChanged?(reachability.connection == .wifi)
+            print("wifi connection")
+        }
+        reachability?.whenUnreachable = { _ in
+            self.networkStatusChanged?(false)
+        }
+
+        do {
+            try reachability?.startNotifier()
+        } catch {
+            print("Unable to start notifier")
         }
     }
 

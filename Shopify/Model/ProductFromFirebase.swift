@@ -7,9 +7,14 @@
 
 import Foundation
 
-struct ProductFromFirebase {
+struct ProductFromFirebase: Equatable {
     let productId: String
     let productTitle: String
     let productVendor: String
     let productImage: String
+    
+    static func == (lhs: ProductFromFirebase, rhs: ProductFromFirebase) -> Bool {
+        return lhs.productId == rhs.productId && lhs.productTitle == rhs.productTitle && lhs.productVendor == rhs.productVendor && lhs.productImage == rhs.productImage
+    }
 }
+

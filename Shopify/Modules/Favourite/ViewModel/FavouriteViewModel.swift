@@ -6,18 +6,16 @@
 //
 
 import Foundation
+import Reachability
 
-class FavouriteViewModel: FavouriteViewModelProtocol {
+class FavouriteViewModel {
     
    
-    var authServiceProtocol: AuthServiceProtocol!
-    
-    init(authServiceProtocol: AuthServiceProtocol){
-        self.authServiceProtocol = authServiceProtocol
-
+    init(){
+        
     }
     
-    
+
     var products: [ProductFromFirebase]?{
         didSet{
             self.bindProducts()
@@ -27,10 +25,30 @@ class FavouriteViewModel: FavouriteViewModelProtocol {
     var bindProducts:(()->()) = {}
     
     func retriveProducts(){
-        authServiceProtocol.retrieveAllProductsFromEncodedEmail(email: SharedDataRepository.instance.customerEmail ?? "No email"){ [weak self] products in
+        FirebaseAuthService.instance
+    .retrieveAllProductsFromEncodedEmail(email: SharedDataRepository.instance.customerEmail ?? "No email"){ [weak self] products in
             print("aaa products: \(products)")
             self?.products = products
             
+        }
+    }
+    
+    var reachability: Reachability?
+    var networkStatusChanged: ((Bool) -> Void)?
+    func setupReachability() {
+        reachability = try? Reachability()
+        reachability?.whenReachable = { reachability in
+            self.networkStatusChanged?(reachability.connection == .wifi)
+            print("wifi connection")
+        }
+        reachability?.whenUnreachable = { _ in
+            self.networkStatusChanged?(false)
+        }
+
+        do {
+            try reachability?.startNotifier()
+        } catch {
+            print("Unable to start notifier")
         }
     }
     
@@ -50,7 +68,8 @@ class FavouriteViewModel: FavouriteViewModelProtocol {
         let productId = retrieveStringFromUserDefaults(forKey: Constants.productId) ?? "No productId"
         
         print("mmm productId: \(productId)")
-        authServiceProtocol.deleteProductFromEncodedEmail(encodedEmail: encodedEmail, productId: productId)
+        FirebaseAuthService.instance
+    .deleteProductFromEncodedEmail(encodedEmail: encodedEmail, productId: productId)
     }
     
     func retrieveStringFromUserDefaults(forKey key: String) -> String? {

@@ -14,7 +14,8 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         case cash
         case applePay
     }
-    private let networkService = NetworkServiceAuthentication()
+    let networkService = NetworkServiceAuthentication.instance
+
     private var reachability: Reachability?
     var selectedPaymentMethod: PaymentMethod?
      var lineItem: LineItem?
@@ -23,6 +24,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
      var invoice: Invoice?
      var invoiceResponse: InvoiceResponse?
      var draftOrderId: Int?
+
     var totalDiscounts : String?
     var defCurrency: String = "EGP"
     var totalAmount: String?
@@ -288,7 +290,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             }
         }
     func getDraftOrderID(email: String, completion: @escaping (String?) -> Void) {
-        FirebaseAuthService().getShoppingCartId(email: email) { shoppingCartId, error in
+        FirebaseAuthService.instance.getShoppingCartId(email: email) { shoppingCartId, error in
             if let error = error {
                 print("kkk *Failed* to retrieve shopping cart ID: \(error.localizedDescription)")
                 completion(nil)
@@ -323,7 +325,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             self.postInvoice(draftOrderId: draftOrderId)
         }
     }
-//    private func updateAfterPaymentAuthorization() {
+//     func updateAfterPaymentAuthorization() {
 //           postOrder { success in
 //               DispatchQueue.main.async {
 //                   let title: String
