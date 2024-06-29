@@ -17,6 +17,13 @@ class CategoryViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var search: UISearchBar!
     @IBOutlet weak var women: UIButton!
 
+    @IBAction func backToHome(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Second", bundle: nil)
+            if let homeViewController = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController {
+                navigationController?.pushViewController(homeViewController, animated: true)
+            }
+        print("back")
+    }
     var shoesButtonCenter: CGPoint!
     var bagsButtonCenter: CGPoint!
     var clothButtonCenter: CGPoint!
@@ -29,8 +36,13 @@ class CategoryViewController: UIViewController, UISearchBarDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.fetchUserFavorites()
+        self.tabBarController?.tabBar.isHidden = true
     }
-    
+   
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
     override func viewDidLoad() {
             super.viewDidLoad()
             collectionView.collectionViewLayout = productCollectionViewLayout()

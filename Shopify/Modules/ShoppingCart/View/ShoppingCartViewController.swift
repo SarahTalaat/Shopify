@@ -76,6 +76,15 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
                          emptyStateView.bottomAnchor.constraint(equalTo: shoppingCartTableView.bottomAnchor)
                      ])
                  }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
     private func setupReachability() {
             reachability = try? Reachability()
      

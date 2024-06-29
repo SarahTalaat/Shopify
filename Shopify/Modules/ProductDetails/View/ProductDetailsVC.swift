@@ -73,6 +73,8 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         return label
     }()
     
+
+   
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -82,9 +84,12 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         viewModel.getCartId()
         viewModel.fetchExchangeRates()
         bindViewModel()
-        
+        self.tabBarController?.tabBar.isHidden = true
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
     private func configureRatingView() {
         ratingView.settings.fillMode = .half
         ratingView.isUserInteractionEnabled = false

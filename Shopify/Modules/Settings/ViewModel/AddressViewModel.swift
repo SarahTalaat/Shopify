@@ -41,7 +41,7 @@ class AddressViewModel {
         guard let addressId = address.id else { return }
 
    
-        if address.default {
+        if address.default ?? true {
             onDefaultAddressDeletionAttempt?()
             return
         }

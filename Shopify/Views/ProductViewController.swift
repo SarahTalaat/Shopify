@@ -65,7 +65,17 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
            tapGesture.cancelsTouchesInView = false
            view.addGestureRecognizer(tapGesture)
      }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+    
+    }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.fetchUserFavorites()
+        self.tabBarController?.tabBar.isHidden = false
+    }
      @objc func dismissKeyboard() {
          view.endEditing(true)
      }
@@ -88,11 +98,7 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
         ])
     }
         
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.fetchUserFavorites()
-    }
-    
+  
     
     
         // MARK: - Filter By Price

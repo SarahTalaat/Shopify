@@ -63,9 +63,14 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         super.viewWillAppear(animated)
         viewModel.retriveProducts()
         favouriteTableView.reloadData()
-        
+        self.tabBarController?.tabBar.isHidden = true
     }
+    
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
     func bindViewModel(){
         viewModel.bindProducts = { [weak self] in
             DispatchQueue.main.async {
