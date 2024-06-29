@@ -347,7 +347,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             }
             
             let lineItem: [String: Any] = [
-                "variant_id": 44382096457889,
+                "variant_id": 44465748574369,
                 "quantity": 1
             ]
             
@@ -360,7 +360,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             print("Draft Order Dictionary: \(draftOrderDictionary)")
             
             self.networkService.requestFunction(
-                urlString: "https://mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/\(draftOrderId).json",
+                urlString: "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/\(draftOrderId).json",
                 method: .put,
                 model: draftOrderDictionary
             ) { (result: Result<OneDraftOrderResponse, Error>) in

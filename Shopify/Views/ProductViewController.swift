@@ -103,19 +103,21 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
     
         // MARK: - Filter By Price
         
-     @objc func sliderValueChanged(_ sender: UISlider) {
-                priceLabel.text = String(format: "Price: %.2f", sender.value)
-                viewModel.currentMaxPrice = sender.value
-            }
+    @objc func sliderValueChanged(_ sender: UISlider) {
+        let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+        priceLabel.text = String(format: "Price: %.2f %@", sender.value, selectedCurrency)
+        viewModel.currentMaxPrice = sender.value
+    }
             
-         func updatePriceRange() {
-             DispatchQueue.main.async {
-                 self.priceSlider.minimumValue = self.viewModel.minPrice
-                 self.priceSlider.maximumValue = self.viewModel.maxPrice
-                 self.priceSlider.value = self.viewModel.currentMaxPrice
-                 self.priceLabel.text = String(format: "Price: %.2f %@", self.viewModel.currentMaxPrice, UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD")
-             }
-         }
+    func updatePriceRange() {
+        DispatchQueue.main.async {
+            self.priceSlider.minimumValue = self.viewModel.minPrice
+            self.priceSlider.maximumValue = self.viewModel.maxPrice
+            self.priceSlider.value = self.viewModel.currentMaxPrice
+            let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+            self.priceLabel.text = String(format: "Price: %.2f %@", self.viewModel.currentMaxPrice, selectedCurrency)
+        }
+    }
             // MARK: - Drop Down List
             
                 private func handleDropDownList() {

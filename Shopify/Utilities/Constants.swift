@@ -32,7 +32,7 @@ class Constants  {
     static let onboardingKey = "hasSeenOnboarding"
     static let inventoryQuantity = "inventoryQuantity"
     
-    let apiKeyExchangeRates = "06c00bd4a69805ca624c2e8d"
+    let apiKeyExchangeRates = "48dc0a49dc0ebd838d227d7d"
     let baseUrlExchangeRates = "https://v6.exchangerate-api.com/v6/"
     lazy var exchangeRatesUrl: String = {
         return "\(baseUrlExchangeRates)\(apiKeyExchangeRates)/latest/USD"
@@ -46,7 +46,7 @@ enum APIConfig {
     static let password = "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"
     static let hostName = "mad44-alex-ios-team4.myshopify.com"
     static let version = "2022-01"
-    static let apiKey2 = "06c00bd4a69805ca624c2e8d"
+    static let apiKey2 = "48dc0a49dc0ebd838d227d7d"
     static let baseUrl2 = "https://v6.exchangerate-api.com/v6/"
     
 
