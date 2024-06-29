@@ -964,7 +964,7 @@ We’ll be happy to help you</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Total Amount:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sCY-Zn-5aq">
-                                <rect key="frame" x="20" y="751" width="177" height="21"/>
+                                <rect key="frame" x="20" y="748" width="177" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="wE1-AG-P04"/>
                                     <constraint firstAttribute="width" constant="177" id="xxr-Nf-Ilu"/>
@@ -974,7 +974,7 @@ We’ll be happy to help you</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1hI-QL-hG1">
-                                <rect key="frame" x="16" y="623.5" width="378" height="63.5"/>
+                                <rect key="frame" x="16" y="670" width="378" height="63.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Save Your Order" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ta7-hj-zgw">
                                         <rect key="frame" x="0.0" y="23" width="148.5" height="24"/>
@@ -1005,7 +1005,7 @@ We’ll be happy to help you</string>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="5Bx-CU-pQ8">
-                                <rect key="frame" x="16" y="95" width="382" height="520.5"/>
+                                <rect key="frame" x="16" y="95" width="382" height="557"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CartTableViewCell" id="Zlu-ST-J0v" customClass="CartTableViewCell" customModule="Shopify" customModuleProvider="target">
@@ -1033,7 +1033,7 @@ We’ll be happy to help you</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a44-qf-9Po">
-                                <rect key="frame" x="18" y="806" width="378" height="56"/>
+                                <rect key="frame" x="18" y="793" width="378" height="56"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="378" id="ceZ-mS-1Z2"/>
                                     <constraint firstAttribute="height" constant="56" id="m1Y-mI-ewV"/>
@@ -1055,24 +1055,24 @@ We’ll be happy to help you</string>
                         <constraints>
                             <constraint firstItem="krh-2N-KKB" firstAttribute="leading" secondItem="sCY-Zn-5aq" secondAttribute="trailing" constant="73" id="8DY-cW-Xup"/>
                             <constraint firstItem="5Bx-CU-pQ8" firstAttribute="leading" secondItem="Tfd-X5-Hc3" secondAttribute="leading" constant="16" id="AzK-yu-1e2"/>
-                            <constraint firstItem="a44-qf-9Po" firstAttribute="top" secondItem="sCY-Zn-5aq" secondAttribute="bottom" constant="34" id="FYn-7b-miQ"/>
+                            <constraint firstItem="a44-qf-9Po" firstAttribute="top" secondItem="sCY-Zn-5aq" secondAttribute="bottom" constant="24" id="FYn-7b-miQ"/>
                             <constraint firstItem="Tfd-X5-Hc3" firstAttribute="trailing" secondItem="5Bx-CU-pQ8" secondAttribute="trailing" constant="16" id="Hmf-re-kGs"/>
-                            <constraint firstItem="krh-2N-KKB" firstAttribute="top" secondItem="1hI-QL-hG1" secondAttribute="bottom" constant="64" id="J8O-Bm-jSw"/>
-                            <constraint firstItem="a44-qf-9Po" firstAttribute="bottom" secondItem="Tfd-X5-Hc3" secondAttribute="bottom" id="LZA-QX-o1V"/>
-                            <constraint firstItem="sCY-Zn-5aq" firstAttribute="top" secondItem="1hI-QL-hG1" secondAttribute="bottom" constant="64" id="Lqp-nO-lnx"/>
+                            <constraint firstItem="krh-2N-KKB" firstAttribute="top" secondItem="1hI-QL-hG1" secondAttribute="bottom" constant="17.5" id="J8O-Bm-jSw"/>
+                            <constraint firstItem="a44-qf-9Po" firstAttribute="bottom" secondItem="Tfd-X5-Hc3" secondAttribute="bottom" constant="-13" id="LZA-QX-o1V"/>
+                            <constraint firstItem="sCY-Zn-5aq" firstAttribute="top" secondItem="1hI-QL-hG1" secondAttribute="bottom" constant="14.5" id="Lqp-nO-lnx"/>
                             <constraint firstItem="Tfd-X5-Hc3" firstAttribute="trailing" secondItem="krh-2N-KKB" secondAttribute="trailing" constant="31" id="R4C-vi-lDF"/>
                             <constraint firstItem="Tfd-X5-Hc3" firstAttribute="trailing" secondItem="1hI-QL-hG1" secondAttribute="trailing" constant="20" id="RBY-Hk-Msa"/>
                             <constraint firstItem="1hI-QL-hG1" firstAttribute="leading" secondItem="Tfd-X5-Hc3" secondAttribute="leading" constant="16" id="WWj-C6-jz5"/>
                             <constraint firstItem="5Bx-CU-pQ8" firstAttribute="top" secondItem="Tfd-X5-Hc3" secondAttribute="top" constant="7" id="bOA-9I-f4q"/>
                             <constraint firstItem="Tfd-X5-Hc3" firstAttribute="trailing" secondItem="a44-qf-9Po" secondAttribute="trailing" constant="18" id="cBK-7j-HQy"/>
-                            <constraint firstItem="a44-qf-9Po" firstAttribute="top" secondItem="krh-2N-KKB" secondAttribute="bottom" constant="34.5" id="eFT-lS-5gz"/>
+                            <constraint firstItem="a44-qf-9Po" firstAttribute="top" secondItem="krh-2N-KKB" secondAttribute="bottom" constant="21.5" id="eFT-lS-5gz"/>
                             <constraint firstItem="5Bx-CU-pQ8" firstAttribute="top" secondItem="Tfd-X5-Hc3" secondAttribute="top" constant="7" id="fLW-3y-zIZ"/>
                             <constraint firstItem="Tfd-X5-Hc3" firstAttribute="trailing" secondItem="5Bx-CU-pQ8" secondAttribute="trailing" constant="16" id="kIP-1q-xDe"/>
-                            <constraint firstItem="1hI-QL-hG1" firstAttribute="top" secondItem="5Bx-CU-pQ8" secondAttribute="bottom" constant="8" symbolic="YES" id="ppu-kV-Gr0"/>
+                            <constraint firstItem="1hI-QL-hG1" firstAttribute="top" secondItem="5Bx-CU-pQ8" secondAttribute="bottom" constant="18" id="ppu-kV-Gr0"/>
                             <constraint firstItem="5Bx-CU-pQ8" firstAttribute="leading" secondItem="Tfd-X5-Hc3" secondAttribute="leading" constant="16" id="qSE-4Y-6I2"/>
                             <constraint firstItem="a44-qf-9Po" firstAttribute="leading" secondItem="Tfd-X5-Hc3" secondAttribute="leading" constant="18" id="v4Z-Us-h3P"/>
                             <constraint firstItem="sCY-Zn-5aq" firstAttribute="leading" secondItem="Tfd-X5-Hc3" secondAttribute="leading" constant="20" id="vo8-QY-0lI"/>
-                            <constraint firstItem="1hI-QL-hG1" firstAttribute="top" secondItem="5Bx-CU-pQ8" secondAttribute="bottom" constant="8" symbolic="YES" id="wiB-0y-wtW"/>
+                            <constraint firstItem="1hI-QL-hG1" firstAttribute="top" secondItem="5Bx-CU-pQ8" secondAttribute="bottom" constant="18" id="wiB-0y-wtW"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="QD2-DO-CIx"/>
