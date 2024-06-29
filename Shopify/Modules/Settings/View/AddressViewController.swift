@@ -15,7 +15,6 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
     weak var selectionDelegate: AddressSelectionDelegate?
 
         var viewModel = AddressViewModel()
-      //  var addresses: [Address] = []
         var selectedDefaultAddressId: Int?
     
     @IBAction func addNewAddress(_ sender: UIButton) {
@@ -99,14 +98,24 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
         
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             let selectedAddress = viewModel.addresses[indexPath.row]
-            viewModel.setDefaultAddress(at: indexPath)
-            selectionDelegate?.didSelectAddress(selectedAddress) {
-                if let paymentViewController = self.navigationController?.viewControllers.first(where: { $0 is PaymentViewController }) as? PaymentViewController {
-                    paymentViewController.defaultAddress = selectedAddress
-                    paymentViewController.updateAddressLabel()
-                    self.navigationController?.popToViewController(paymentViewController, animated: true)
+                
+                // Set the address as default in the ViewModel
+                viewModel.setDefaultAddress(at: indexPath)
+                
+                // Update UI for the selected cell
+                if let cell = tableView.cellForRow(at: indexPath) as? addressTableViewCell {
+                    let isDefault = selectedAddress.id == viewModel.selectedDefaultAddressId
+                    cell.configure(with: selectedAddress, isDefault: isDefault) // Pass isDefault parameter
                 }
-            }
+                
+                // Optional: Notify delegate or perform other actions
+                selectionDelegate?.didSelectAddress(selectedAddress) {
+                    if let paymentViewController = self.navigationController?.viewControllers.first(where: { $0 is PaymentViewController }) as? PaymentViewController {
+                        paymentViewController.defaultAddress = selectedAddress
+                        paymentViewController.updateAddressLabel()
+                        self.navigationController?.popToViewController(paymentViewController, animated: true)
+                    }
+                }
         }
         
         func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

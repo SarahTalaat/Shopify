@@ -21,10 +21,10 @@ class AddressViewModel {
         
         networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { [weak self] (result: Result<AddressListResponse, Error>) in
             guard let self = self else { return }
-            
+
             switch result {
             case .success(let response):
-                print(response)
+                print(response.addresses) // Verify if addresses are correctly decoded
                 self.addresses = response.addresses
                 self.onAddressesUpdated?()
             case .failure(let error):
