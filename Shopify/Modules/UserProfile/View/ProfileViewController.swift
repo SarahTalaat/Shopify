@@ -34,7 +34,7 @@ class ProfileViewController: UIViewController {
         wishlistCollectionView.collectionViewLayout = wishlistCollectionViewLayout()
         sharedMethods = SharedMethods(viewController: self)
      
-        wishlistCollectionView.reloadData()
+ 
        
         print("Profile View Controller ViewDidLoad")
         userProfileViewModel = DependencyProvider.userProfileViewModel
@@ -78,6 +78,7 @@ class ProfileViewController: UIViewController {
         ordersLabel.text = "You have \(viewModel.orders.count) order"
 
         print(viewModel.orders.count)
+        wishlistCollectionView.reloadData()
     }
 
     
@@ -87,10 +88,12 @@ class ProfileViewController: UIViewController {
             DispatchQueue.main.async {
                 if self?.favouriteViewModel.products?.count == 0 {
                     self?.wishlistLabel.text = "You have 0 favourite products"
+                    self?.wishlistCollectionView.reloadData()
 
                 }else{
                     self?.wishlistCollectionView.reloadData()
                     self?.wishlistLabel.text = "You have \(self?.favouriteViewModel.products?.count ?? 0) favourite products"
+                    self?.wishlistCollectionView.reloadData() 
                 }
               
             }
@@ -103,6 +106,7 @@ class ProfileViewController: UIViewController {
           updateCollection()
         initializeButtonStyles()
         favouriteViewModel.retriveProducts()
+        wishlistCollectionView.reloadData()
         }
         
         func initializeButtonStyles() {
@@ -257,6 +261,13 @@ class ProfileViewController: UIViewController {
                 return cell
             } else {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WishlistCollectionViewCell", for: indexPath) as! WishlistCollectionViewCell
+                
+                if favouriteViewModel.products?[indexPath.row] == nil {
+                    cell.isHidden = true
+                }else{
+                    cell.isHidden = false
+                }
+                
                 
                 if favouriteViewModel.products?.count == 0 {
                     cell.isHidden = true

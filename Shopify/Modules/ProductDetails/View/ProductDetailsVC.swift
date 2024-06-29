@@ -83,6 +83,12 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         viewModel.fetchExchangeRates()
         bindViewModel()
         
+        let inventoryQuantityLabelText = viewModel.inventoryQuantityLabel()
+        if inventoryQuantityLabelText == "Out of stock" {
+            addToCartUI.isEnabled = false
+        }else{
+            addToCartUI.isEnabled = true
+        }
     }
     
     private func configureRatingView() {
@@ -109,6 +115,10 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         viewModel.getCartId()
         viewModel.loadFavoriteProducts()
         viewModel.getCustomerIdFromFirebase()
+        
+     
+        
+        
         
         
         loadingIndicator.startAnimating()
