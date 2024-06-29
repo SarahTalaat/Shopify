@@ -481,7 +481,7 @@
                                 <rect key="frame" x="20" y="165" width="372" height="129.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FQ5-1s-ECy">
-                                        <rect key="frame" x="137" y="26" width="199" height="82"/>
+                                        <rect key="frame" x="137" y="26" width="148" height="82"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Cash ">
                                             <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -499,9 +499,9 @@
                                 <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="FQ5-1s-ECy" firstAttribute="top" secondItem="3tu-3a-ziq" secondAttribute="top" constant="26" id="KBK-nm-zY7"/>
-                                    <constraint firstAttribute="bottom" secondItem="FQ5-1s-ECy" secondAttribute="bottom" constant="10" id="LK0-dR-CHT"/>
+                                    <constraint firstAttribute="bottom" secondItem="FQ5-1s-ECy" secondAttribute="bottom" constant="21.5" id="LK0-dR-CHT"/>
                                     <constraint firstItem="FQ5-1s-ECy" firstAttribute="height" secondItem="3tu-3a-ziq" secondAttribute="height" multiplier="0.632653" id="bvS-Ex-4xl"/>
-                                    <constraint firstItem="FQ5-1s-ECy" firstAttribute="width" secondItem="3tu-3a-ziq" secondAttribute="width" multiplier="0.534946" id="jAu-rV-ORI"/>
+                                    <constraint firstItem="FQ5-1s-ECy" firstAttribute="width" secondItem="3tu-3a-ziq" secondAttribute="width" multiplier="0.534946" constant="-50.999912000000023" id="jAu-rV-ORI"/>
                                     <constraint firstAttribute="bottom" secondItem="Ure-jc-Bgh" secondAttribute="bottom" id="nmE-xj-KQX"/>
                                     <constraint firstItem="Ure-jc-Bgh" firstAttribute="leading" secondItem="3tu-3a-ziq" secondAttribute="leading" constant="40" id="q1M-yE-px4"/>
                                     <constraint firstItem="FQ5-1s-ECy" firstAttribute="leading" secondItem="Ure-jc-Bgh" secondAttribute="trailing" constant="33" id="qEi-4P-TvJ"/>
@@ -525,7 +525,7 @@
                                         </buttonConfiguration>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gC5-mO-PaB">
-                                        <rect key="frame" x="141" y="40.5" width="211" height="42"/>
+                                        <rect key="frame" x="141" y="40.5" width="148" height="42"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Apple pay">
                                             <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -539,7 +539,7 @@
                                 <constraints>
                                     <constraint firstItem="aUL-Em-9kx" firstAttribute="leading" secondItem="6An-EP-kwm" secondAttribute="leading" constant="40" id="1d5-0G-lPE"/>
                                     <constraint firstItem="aUL-Em-9kx" firstAttribute="height" secondItem="6An-EP-kwm" secondAttribute="height" multiplier="0.760563" id="5kX-1h-ZSB"/>
-                                    <constraint firstItem="gC5-mO-PaB" firstAttribute="width" secondItem="6An-EP-kwm" secondAttribute="width" multiplier="0.567204" id="68T-cS-hdQ"/>
+                                    <constraint firstItem="gC5-mO-PaB" firstAttribute="width" secondItem="6An-EP-kwm" secondAttribute="width" multiplier="0.567204" constant="-62.999888000000027" id="68T-cS-hdQ"/>
                                     <constraint firstItem="aUL-Em-9kx" firstAttribute="top" secondItem="6An-EP-kwm" secondAttribute="top" constant="9" id="6Uu-Gf-7XI"/>
                                     <constraint firstItem="gC5-mO-PaB" firstAttribute="leading" secondItem="aUL-Em-9kx" secondAttribute="trailing" constant="37" id="6ln-lV-Crz"/>
                                     <constraint firstItem="gC5-mO-PaB" firstAttribute="centerY" secondItem="aUL-Em-9kx" secondAttribute="centerY" id="8OU-BI-ReX"/>
@@ -580,7 +580,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Billing Address" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vLP-zz-Yfc">
-                                <rect key="frame" x="36" y="493" width="343" height="53"/>
+                                <rect key="frame" x="20" y="493" width="343" height="53"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -611,6 +611,7 @@
                             <constraint firstItem="vLP-zz-Yfc" firstAttribute="width" secondItem="HY8-vj-dbv" secondAttribute="width" multiplier="0.495169" constant="138" id="9RF-yR-Cxm"/>
                             <constraint firstItem="3tu-3a-ziq" firstAttribute="trailing" secondItem="4jZ-k2-2sD" secondAttribute="trailing" constant="-22" id="BI5-IN-ntR"/>
                             <constraint firstItem="6An-EP-kwm" firstAttribute="top" secondItem="3tu-3a-ziq" secondAttribute="bottom" constant="20" id="Dll-q4-b2r"/>
+                            <constraint firstItem="vLP-zz-Yfc" firstAttribute="leading" secondItem="Rkd-Mg-JK9" secondAttribute="leading" id="GwY-Yy-8Ki"/>
                             <constraint firstAttribute="trailing" secondItem="3tu-3a-ziq" secondAttribute="trailing" constant="22" id="J13-3F-AlP"/>
                             <constraint firstItem="oTv-pA-al5" firstAttribute="width" secondItem="6An-EP-kwm" secondAttribute="width" multiplier="1.03495" constant="-13.00139999999999" id="KJA-sa-gYx"/>
                             <constraint firstItem="3tu-3a-ziq" firstAttribute="top" secondItem="Rkd-Mg-JK9" secondAttribute="bottom" constant="20" id="KYl-P8-1oh"/>
@@ -626,7 +627,6 @@
                             <constraint firstItem="57q-ce-eqO" firstAttribute="width" secondItem="HY8-vj-dbv" secondAttribute="width" multiplier="0.903382" id="l6q-9T-nDa"/>
                             <constraint firstItem="6An-EP-kwm" firstAttribute="leading" secondItem="3tu-3a-ziq" secondAttribute="leading" id="lHa-9e-CNr"/>
                             <constraint firstItem="3tu-3a-ziq" firstAttribute="leading" secondItem="4jZ-k2-2sD" secondAttribute="leading" constant="20" id="leQ-2Q-7Xa"/>
-                            <constraint firstItem="vLP-zz-Yfc" firstAttribute="leading" secondItem="4jZ-k2-2sD" secondAttribute="leading" constant="36" id="nST-a9-p0F"/>
                             <constraint firstItem="Rkd-Mg-JK9" firstAttribute="height" secondItem="HY8-vj-dbv" secondAttribute="height" multiplier="0.0301339" id="snK-rv-AYc"/>
                             <constraint firstItem="57q-ce-eqO" firstAttribute="height" secondItem="HY8-vj-dbv" secondAttribute="height" multiplier="0.0625" id="tmx-ea-zGj"/>
                             <constraint firstItem="oTv-pA-al5" firstAttribute="top" secondItem="6An-EP-kwm" secondAttribute="bottom" constant="110" id="y4B-33-tbs"/>
