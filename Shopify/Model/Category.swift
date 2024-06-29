@@ -30,10 +30,10 @@ struct ImageOf: Decodable,Encodable{
 
 
 enum CategoryID: String {
-    case men = "303081423009"
-    case women = "303081455777"
-    case kids = "303081488545"
-    case sale = "303081521313"
+    case men = "303897084065"
+    case women = "303897116833"
+    case kids = "303897149601"
+    case sale = "303897182369"
 }
 
 enum SubCategories : String {

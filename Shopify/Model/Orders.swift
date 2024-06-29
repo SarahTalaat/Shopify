@@ -30,6 +30,8 @@ struct Orders: Encodable, Decodable {
     let total_outstanding: String?
     let current_total_discounts : String?
 
+    
+    
 }
 
 

@@ -65,7 +65,17 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
            tapGesture.cancelsTouchesInView = false
            view.addGestureRecognizer(tapGesture)
      }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+    
+    }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.fetchUserFavorites()
+        self.tabBarController?.tabBar.isHidden = false
+    }
      @objc func dismissKeyboard() {
          view.endEditing(true)
      }
@@ -88,28 +98,26 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
         ])
     }
         
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.fetchUserFavorites()
-    }
-    
+  
     
     
         // MARK: - Filter By Price
         
-     @objc func sliderValueChanged(_ sender: UISlider) {
-                priceLabel.text = String(format: "Price: %.2f", sender.value)
-                viewModel.currentMaxPrice = sender.value
-            }
+    @objc func sliderValueChanged(_ sender: UISlider) {
+        let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+        priceLabel.text = String(format: "Price: %.2f %@", sender.value, selectedCurrency)
+        viewModel.currentMaxPrice = sender.value
+    }
             
-         func updatePriceRange() {
-             DispatchQueue.main.async {
-                 self.priceSlider.minimumValue = self.viewModel.minPrice
-                 self.priceSlider.maximumValue = self.viewModel.maxPrice
-                 self.priceSlider.value = self.viewModel.currentMaxPrice
-                 self.priceLabel.text = String(format: "Price: %.2f %@", self.viewModel.currentMaxPrice, UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD")
-             }
-         }
+    func updatePriceRange() {
+        DispatchQueue.main.async {
+            self.priceSlider.minimumValue = self.viewModel.minPrice
+            self.priceSlider.maximumValue = self.viewModel.maxPrice
+            self.priceSlider.value = self.viewModel.currentMaxPrice
+            let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+            self.priceLabel.text = String(format: "Price: %.2f %@", self.viewModel.currentMaxPrice, selectedCurrency)
+        }
+    }
             // MARK: - Drop Down List
             
                 private func handleDropDownList() {
@@ -284,55 +292,44 @@ extension ProductViewController: ProductsCollectionViewCellDelegate{
     }
 }
     
-    extension ProductViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+extension ProductViewController {
+    func showPickerView(title: String, items: [String], selectionHandler: @escaping (String) -> Void) {
+        let alert = UIAlertController(title: title, message: "\n\n\n\n\n\n\n\n\n\n", preferredStyle: .alert)
         
-        func showPickerView(title: String, items: [String], selectionHandler: @escaping (String) -> Void) {
-            let alertController = UIAlertController(title: title, message: "\n\n\n\n\n\n\n\n\n\n", preferredStyle: .actionSheet)
-            
-            let pickerView = UIPickerView()
-            pickerView.delegate = self
-            pickerView.dataSource = self
-            
-            pickerView.tag = 100
-            
-            alertController.view.addSubview(pickerView)
-            
-            let selectAction = UIAlertAction(title: "Select", style: .default) { _ in
-                let selectedItem = items[pickerView.selectedRow(inComponent: 0)]
-                selectionHandler(selectedItem)
-            }
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            alertController.addAction(selectAction)
-            alertController.addAction(cancelAction)
-            
-            self.present(alertController, animated: true, completion: nil)
+        let pickerFrame = CGRect(x: 5, y: 20, width: 250, height: 140)
+        let picker = UIPickerView(frame: pickerFrame)
+        picker.delegate = self
+        picker.dataSource = self
+        
+        alert.view.addSubview(picker)
+        
+        let selectAction = UIAlertAction(title: "Select", style: .default) { _ in
+            let selectedRow = picker.selectedRow(inComponent: 0)
+            let selectedItem = items[selectedRow]
+            selectionHandler(selectedItem)
         }
+        
+        alert.addAction(selectAction)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
+}
 
-
-        func numberOfComponents(in pickerView: UIPickerView) -> Int {
-            return 1
-        }
-        
-        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-            if pickerView.tag == 100 {
-                if let items = pickerViewItems {
-                    return items.count
-                }
-            }
-            return 0
-        }
-        
-        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-            if pickerView.tag == 100 {
-                if let items = pickerViewItems {
-                    return items[row]
-                }
-            }
-            return nil
-        }
+// MARK: - UIPickerView DataSource and Delegate
+extension ProductViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
     
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerViewItems?.count ?? 0
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerViewItems?[row]
+    }
+}
     
 //         func productsCollectionViewCellDidToggleFavorite(at index: Int) {
 //             guard index < viewModel.filteredProducts.count else { return }
@@ -357,4 +354,4 @@ extension ProductViewController: ProductsCollectionViewCellDelegate{
 //         }
     
     
-     }
+

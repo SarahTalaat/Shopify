@@ -12,7 +12,8 @@ class AddressViewModel {
     var customerId: String = ""
     var onAddressesUpdated: (() -> Void)?
     var onError: ((Error) -> Void)?
-    
+    var onDefaultAddressDeletionAttempt: (() -> Void)?
+
     private let networkService = NetworkServiceAuthentication.instance
     
     func fetchAddresses() {
@@ -20,10 +21,10 @@ class AddressViewModel {
         
         networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { [weak self] (result: Result<AddressListResponse, Error>) in
             guard let self = self else { return }
-            
+
             switch result {
             case .success(let response):
-                print(response)
+                print(response.addresses) // Verify if addresses are correctly decoded
                 self.addresses = response.addresses
                 self.onAddressesUpdated?()
             case .failure(let error):
@@ -38,6 +39,12 @@ class AddressViewModel {
         guard indexPath.row < addresses.count else { return }
         let address = addresses[indexPath.row]
         guard let addressId = address.id else { return }
+
+   
+        if address.default ?? true {
+            onDefaultAddressDeletionAttempt?()
+            return
+        }
 
         let urlString = APIConfig.endPoint("customers/\(customerId)/addresses/\(addressId)").url
 
