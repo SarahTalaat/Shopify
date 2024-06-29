@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,21 +16,15 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="138"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="User Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9gF-6I-mnc">
-                        <rect key="frame" x="126" y="16" width="85.5" height="20.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZF8-c5-Ogw">
-                        <rect key="frame" x="249" y="16" width="54.5" height="34"/>
+                        <rect key="frame" x="275" y="28" width="35" height="27"/>
                         <state key="normal" title="Button"/>
                         <buttonConfiguration key="configuration" style="plain" image="house.fill" catalog="system">
                             <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </buttonConfiguration>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S95-ji-Xj5">
-                        <rect key="frame" x="8" y="19" width="59" height="32"/>
+                        <rect key="frame" x="8" y="25" width="59" height="32"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -46,28 +39,37 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Address Details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sd3-FA-pmx">
-                        <rect key="frame" x="126" y="57" width="119" height="55.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Address Details" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sd3-FA-pmx">
+                        <rect key="frame" x="126" y="58.5" width="178" height="70"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="User Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9gF-6I-mnc">
+                        <rect key="frame" x="126" y="27.5" width="139" height="27"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="Sd3-FA-pmx" secondAttribute="bottom" constant="25.670000000000002" id="3Kg-Xf-WvX"/>
                     <constraint firstAttribute="bottom" secondItem="yo6-Sb-aUu" secondAttribute="bottom" constant="33" id="9f8-Cf-jf0"/>
+                    <constraint firstItem="yo6-Sb-aUu" firstAttribute="top" secondItem="S95-ji-Xj5" secondAttribute="bottom" constant="25" id="A8R-IX-g29"/>
+                    <constraint firstItem="9gF-6I-mnc" firstAttribute="centerY" secondItem="S95-ji-Xj5" secondAttribute="centerY" id="ANr-7j-uGo"/>
+                    <constraint firstItem="yo6-Sb-aUu" firstAttribute="leading" secondItem="S95-ji-Xj5" secondAttribute="leading" id="Ah7-sj-OQB"/>
                     <constraint firstItem="S95-ji-Xj5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="C1v-JL-ovm"/>
-                    <constraint firstItem="ZF8-c5-Ogw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="Ds2-Ph-dZN"/>
-                    <constraint firstItem="yo6-Sb-aUu" firstAttribute="top" secondItem="S95-ji-Xj5" secondAttribute="bottom" constant="31" id="Eh7-0T-UE7"/>
-                    <constraint firstItem="ZF8-c5-Ogw" firstAttribute="leading" secondItem="9gF-6I-mnc" secondAttribute="trailing" constant="37.670000000000002" id="G5Q-ca-kVv"/>
-                    <constraint firstItem="S95-ji-Xj5" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="19" id="ICM-S8-26E"/>
-                    <constraint firstAttribute="trailing" secondItem="Sd3-FA-pmx" secondAttribute="trailing" constant="75" id="Ryh-Ad-WwG"/>
-                    <constraint firstItem="9gF-6I-mnc" firstAttribute="leading" secondItem="S95-ji-Xj5" secondAttribute="trailing" constant="59" id="j15-jg-Yzp"/>
-                    <constraint firstAttribute="trailing" secondItem="ZF8-c5-Ogw" secondAttribute="trailing" constant="16.329999999999998" id="m7f-6G-KO0"/>
-                    <constraint firstItem="yo6-Sb-aUu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="ncX-J8-3RN"/>
-                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="top" secondItem="9gF-6I-mnc" secondAttribute="bottom" constant="20.670000000000002" id="o1g-iu-u7x"/>
+                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.507246" id="ChW-mO-zwf"/>
+                    <constraint firstItem="ZF8-c5-Ogw" firstAttribute="top" secondItem="9gF-6I-mnc" secondAttribute="bottom" constant="-26.5" id="CrN-9I-CEL"/>
+                    <constraint firstItem="ZF8-c5-Ogw" firstAttribute="leading" secondItem="9gF-6I-mnc" secondAttribute="trailing" constant="10" id="DpM-Qm-Fms"/>
+                    <constraint firstItem="S95-ji-Xj5" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="ICM-S8-26E"/>
+                    <constraint firstItem="9gF-6I-mnc" firstAttribute="leading" secondItem="S95-ji-Xj5" secondAttribute="trailing" constant="59" id="QnG-3m-Sic"/>
+                    <constraint firstItem="ZF8-c5-Ogw" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.195652" id="RlZ-Kz-jPG"/>
+                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.55625" id="Y57-sf-4Hx"/>
+                    <constraint firstItem="9gF-6I-mnc" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.434375" id="g54-gH-fpe"/>
+                    <constraint firstItem="Sd3-FA-pmx" firstAttribute="centerY" secondItem="yo6-Sb-aUu" secondAttribute="centerY" id="gZp-8V-aq1"/>
                     <constraint firstItem="Sd3-FA-pmx" firstAttribute="leading" secondItem="yo6-Sb-aUu" secondAttribute="trailing" constant="36" id="tnZ-0G-evu"/>
-                    <constraint firstItem="9gF-6I-mnc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="vrg-Q1-OeD"/>
+                    <constraint firstItem="ZF8-c5-Ogw" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.109375" id="xUp-F8-Cqg"/>
+                    <constraint firstItem="9gF-6I-mnc" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.195652" id="xbZ-vw-5o3"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -76,10 +78,10 @@
                 <outlet property="defaultButton" destination="ZF8-c5-Ogw" id="Kr2-U2-5I8"/>
                 <outlet property="userName" destination="9gF-6I-mnc" id="ek0-1Q-XwF"/>
             </connections>
-            <point key="canvasLocation" x="129.7709923664122" y="21.83098591549296"/>
+            <point key="canvasLocation" x="128.98550724637681" y="21.428571428571427"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="house.fill" catalog="system" width="128" height="104"/>
+        <image name="house.fill" catalog="system" width="128" height="106"/>
     </resources>
 </document>
