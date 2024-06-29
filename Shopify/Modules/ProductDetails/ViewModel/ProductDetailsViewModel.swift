@@ -328,7 +328,8 @@ class ProductDetailsViewModel {
 
         var inventoryQuantity = UserDefaults.standard.integer(forKey: "inventoryQuantity-\(productId)")
         print("ddd inventory quantity: \(inventoryQuantity)")
-        if inventoryQuantity == 0 {
+        print("PD inv int \(Int(inventoryQuantity))")
+        if Int(inventoryQuantity) == 0 {
             UserDefaults.standard.removeObject(forKey:"inventoryQuantity-\(productId)")
             UserDefaults.standard.synchronize()
             return "Out of stock"
