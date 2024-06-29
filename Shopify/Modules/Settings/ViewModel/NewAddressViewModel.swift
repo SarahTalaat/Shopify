@@ -24,9 +24,8 @@ class NewAddressViewModel {
         "Qalyubia", "Qena", "Red Sea", "Sharqia", "Sohag", "South Sinai"
     ]
     
-    init() {
-     
-    }
+    init(networkService: NetworkServiceAuthentication = NetworkServiceAuthentication.instance) {
+            self.networkService = networkService
     
     func isAddressValid() -> Bool {
         return !fullName.isEmpty &&
