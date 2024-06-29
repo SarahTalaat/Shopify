@@ -198,6 +198,34 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         textView.layer.masksToBounds = true
     }
 
+    func showFavouriteAlerts(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        // Create action for "Yes" button
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { action in
+            // Handle Yes action if needed
+            self.viewModel.toggleFavorite()
+            self.updateFavoriteButton()
+            print("Yes button tapped")
+        }
+        
+        // Create action for "Cancel" button
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+            // Handle Cancel action if needed
+            print("Cancel button tapped")
+        }
+        
+        // Set text color for "Yes" button to red
+        yesAction.setValue(UIColor.red, forKey: "titleTextColor")
+        
+        // Add actions to the alert controller
+        alert.addAction(yesAction)
+        alert.addAction(cancelAction)
+        
+        // Present the alert controller
+        self.present(alert, animated: true, completion: nil)
+    }
+
 
 
     @IBAction func favouriteButtonTapped(_ sender: UIButton) {
@@ -215,8 +243,13 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         if viewModel.isGuest() == false {
             showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
         }else{
-            viewModel.toggleFavorite()
-            updateFavoriteButton()
+            var isFavourited = viewModel.checkIfProductFavourited()
+            if isFavourited == true{
+                showFavouriteAlerts(title: "Alert!", message: "Are you sure you want to delete this product from favourites?")
+            }else{
+                viewModel.toggleFavorite()
+                updateFavoriteButton()
+            }
             
         }
         

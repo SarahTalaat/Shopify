@@ -107,6 +107,19 @@ class ProductDetailsViewModel {
        
     }
     
+    func checkIfProductFavourited()-> Bool{
+        let productIdString = retrieveStringFromUserDefaults(forKey: Constants.productId) ?? "No product"
+        let productIdInt = Int(productIdString) ?? 0
+        let email = retrieveStringFromUserDefaults(forKey: Constants.customerEmail) ?? "No email"
+       let encodedEmail = SharedMethods.encodeEmail(email)
+        
+        if favoriteProducts.contains(productIdInt) {
+            return true
+        }else{
+            return false
+        }
+    }
+    
     
     func toggleFavorite() {
         guard let productIdString = retrieveStringFromUserDefaults(forKey: Constants.productId),
