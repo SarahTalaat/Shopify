@@ -478,10 +478,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3tu-3a-ziq">
-                                <rect key="frame" x="20" y="185" width="372" height="120"/>
+                                <rect key="frame" x="20" y="165" width="372" height="129.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FQ5-1s-ECy">
-                                        <rect key="frame" x="137" y="26" width="199" height="76"/>
+                                        <rect key="frame" x="137" y="26" width="199" height="82"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Cash ">
                                             <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -491,7 +491,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ure-jc-Bgh">
-                                        <rect key="frame" x="40" y="17" width="64" height="103"/>
+                                        <rect key="frame" x="40" y="17" width="64" height="112.5"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="money"/>
                                     </button>
@@ -515,17 +515,17 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6An-EP-kwm">
-                                <rect key="frame" x="20" y="325" width="372" height="128"/>
+                                <rect key="frame" x="20" y="314.5" width="372" height="138.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aUL-Em-9kx">
-                                        <rect key="frame" x="40" y="9" width="64" height="97.5"/>
+                                        <rect key="frame" x="40" y="9" width="64" height="105.5"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="applelogo" catalog="system">
                                             <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gC5-mO-PaB">
-                                        <rect key="frame" x="141" y="38.5" width="211" height="38.5"/>
+                                        <rect key="frame" x="141" y="40.5" width="211" height="42"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Apple pay">
                                             <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -548,16 +548,16 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oTv-pA-al5">
-                                <rect key="frame" x="20" y="593.5" width="372" height="142.5"/>
+                                <rect key="frame" x="20" y="563" width="372" height="155"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address Details" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JvE-s1-tWw">
-                                        <rect key="frame" x="22" y="8" width="333" height="47"/>
+                                        <rect key="frame" x="22" y="8" width="333" height="52.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jzh-3F-PSb">
-                                        <rect key="frame" x="56" y="70" width="252" height="40"/>
+                                        <rect key="frame" x="56" y="75.5" width="252" height="42.5"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Change it ">
                                             <color key="baseForegroundColor" systemColor="systemRedColor"/>
@@ -586,7 +586,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="57q-ce-eqO">
-                                <rect key="frame" x="20" y="755.5" width="374" height="56"/>
+                                <rect key="frame" x="20" y="730.5" width="374" height="56"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Place Order" cornerStyle="large">
                                     <backgroundConfiguration key="background">
@@ -613,7 +613,7 @@
                             <constraint firstItem="6An-EP-kwm" firstAttribute="top" secondItem="3tu-3a-ziq" secondAttribute="bottom" constant="20" id="Dll-q4-b2r"/>
                             <constraint firstAttribute="trailing" secondItem="3tu-3a-ziq" secondAttribute="trailing" constant="22" id="J13-3F-AlP"/>
                             <constraint firstItem="oTv-pA-al5" firstAttribute="width" secondItem="6An-EP-kwm" secondAttribute="width" multiplier="1.03495" constant="-13.00139999999999" id="KJA-sa-gYx"/>
-                            <constraint firstItem="3tu-3a-ziq" firstAttribute="top" secondItem="Rkd-Mg-JK9" secondAttribute="bottom" constant="40" id="KYl-P8-1oh"/>
+                            <constraint firstItem="3tu-3a-ziq" firstAttribute="top" secondItem="Rkd-Mg-JK9" secondAttribute="bottom" constant="20" id="KYl-P8-1oh"/>
                             <constraint firstItem="vLP-zz-Yfc" firstAttribute="top" secondItem="6An-EP-kwm" secondAttribute="bottom" constant="40" id="MJU-aG-UK0"/>
                             <constraint firstItem="vLP-zz-Yfc" firstAttribute="height" secondItem="HY8-vj-dbv" secondAttribute="height" multiplier="0.0301339" constant="26.000025599999997" id="XEu-os-TLm"/>
                             <constraint firstItem="Rkd-Mg-JK9" firstAttribute="top" secondItem="4jZ-k2-2sD" secondAttribute="top" constant="30" id="Y2F-EB-AH5"/>
@@ -629,7 +629,7 @@
                             <constraint firstItem="vLP-zz-Yfc" firstAttribute="leading" secondItem="4jZ-k2-2sD" secondAttribute="leading" constant="36" id="nST-a9-p0F"/>
                             <constraint firstItem="Rkd-Mg-JK9" firstAttribute="height" secondItem="HY8-vj-dbv" secondAttribute="height" multiplier="0.0301339" id="snK-rv-AYc"/>
                             <constraint firstItem="57q-ce-eqO" firstAttribute="height" secondItem="HY8-vj-dbv" secondAttribute="height" multiplier="0.0625" id="tmx-ea-zGj"/>
-                            <constraint firstItem="oTv-pA-al5" firstAttribute="top" secondItem="6An-EP-kwm" secondAttribute="bottom" constant="140.5" id="y4B-33-tbs"/>
+                            <constraint firstItem="oTv-pA-al5" firstAttribute="top" secondItem="6An-EP-kwm" secondAttribute="bottom" constant="110" id="y4B-33-tbs"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="5dX-mM-8ay"/>
