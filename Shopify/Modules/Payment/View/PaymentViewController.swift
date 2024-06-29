@@ -170,8 +170,8 @@ class PaymentViewController: UIViewController {
            let numericAmount = totalAmount?.replacingOccurrences(of: "[^0-9.]", with: "", options: .regularExpression)
            
 
-           if let totalAmountDouble = Double(numericAmount ?? "0.0"), totalAmountDouble > 500 {
-               let alert = UIAlertController(title: "Payment Alert", message: "Total amount exceeds 500. Please choose another payment method.", preferredStyle: .alert)
+           if let totalAmountDouble = Double(numericAmount ?? "0.0"), totalAmountDouble > 3000 {
+               let alert = UIAlertController(title: "Payment Alert", message: "Sorry,you have exceeded the amount allowed for cash payment. Please choose another payment method.", preferredStyle: .alert)
                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                present(alert, animated: true, completion: nil)
            } else {

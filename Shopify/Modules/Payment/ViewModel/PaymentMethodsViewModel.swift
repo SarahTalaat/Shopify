@@ -11,13 +11,17 @@ import Reachability
 import Alamofire
 
 class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDelegate {
+
     enum PaymentMethod {
         case cash
         case applePay
     }
+    
     let networkService = NetworkServiceAuthentication.instance
     
+
     private var reachability: Reachability?
+    
     var selectedPaymentMethod: PaymentMethod?
     var lineItem: LineItem?
     var order: Orders?
@@ -26,24 +30,23 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     var invoiceResponse: InvoiceResponse?
     var draftOrderId: Int?
     var exchangeRates: [String: Double] = [:]
-    var totalDiscounts : String?
+    var totalDiscounts: String?
     var defCurrency: String = "EGP"
     var totalAmount: String?
     private var addresses: [Address] = []
     var displayedLineItems: [LineItem] = []
     private var viewModel = ShoppingCartViewModel()
     var showAlertClosure: (() -> Void)?
-    func selectPaymentMethod(_ method: PaymentMethod) {
-        selectedPaymentMethod = method
-    }
+    var showApplePayScreen: (() -> Void)?
+    
     override init() {
         super.init()
         setupReachability()
         fetchExchangeRates()
-        
     }
     
     deinit {
+        // Stopped reachability notifier
         reachability?.stopNotifier()
     }
     
@@ -72,6 +75,11 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     private func showNoInternetAlert() {
         self.showAlertClosure?()
     }
+    
+    func selectPaymentMethod(_ method: PaymentMethod) {
+        selectedPaymentMethod = method
+    }
+    
     func formatPriceWithCurrency(price: String) -> String {
         guard let amount = Double(price) else { return "0.00" }
         let formatter = NumberFormatter()
@@ -79,6 +87,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         formatter.currencySymbol = ""
         return formatter.string(from: NSNumber(value: amount)) ?? "0.00"
     }
+    
     func fetchExchangeRates() {
         let exchangeRateApiService = ExchangeRateApiService()
         exchangeRateApiService.getLatestRates { [weak self] result in
@@ -90,10 +99,12 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             }
         }
     }
+    
     func convertAmountToCurrency(amount: Double, currency: String) -> Double {
         guard let rate = exchangeRates[currency] else { return amount }
         return amount * rate
     }
+    
     func updatePaymentSummaryItems(totalAmount: String) {
         print("Updating payment summary items with total amount: \(totalAmount)")
         self.totalAmount = totalAmount
@@ -136,10 +147,8 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
         processPaymentAuthorization(payment: payment) { success in
             if success {
-                
                 completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
             } else {
-                
                 completion(PKPaymentAuthorizationResult(status: .failure, errors: nil))
             }
         }
@@ -150,6 +159,40 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             completion(success)
         }
     }
+    
+    func handleApplePayButtonTap() {
+        selectPaymentMethod(.applePay)
+        showApplePayScreen?()
+    }
+    
+    func startApplePayPayment() {
+        guard PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: paymentRequest.supportedNetworks) else {
+            print("Device cannot make Apple Pay payments.")
+            return
+        }
+        
+        let paymentController = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest)
+        paymentController?.delegate = self
+        if let controller = paymentController {
+            // Present the Apple Pay controller
+            UIApplication.shared.windows.first?.rootViewController?.present(controller, animated: true, completion: nil)
+        }
+    }
+    
+    func handlePlaceOrder() {
+        if selectedPaymentMethod == .applePay {
+            startApplePayPayment()
+        } else {
+            postOrder { success in
+                if success {
+                    print("Order placed successfully!")
+                } else {
+                    print("Failed to place order.")
+                }
+            }
+        }
+    }
+    
     
     func setupOrder(lineItem: [LineItem]) {
         if let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") {
@@ -187,8 +230,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
                 adminGraphqlApiId: lineItem.adminGraphqlApiId ?? ""
             )
         }
-        
-        // Ensure totalAmount is properly calculated and includes discounts
+   
         var totalPrice: Double = 0.0
         if let totalAmount = totalAmount, let totalAmountValue = Double(totalAmount) {
             totalPrice = totalAmountValue
