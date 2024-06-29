@@ -12,7 +12,8 @@ class AddressViewModel {
     var customerId: String = ""
     var onAddressesUpdated: (() -> Void)?
     var onError: ((Error) -> Void)?
-    
+    var onDefaultAddressDeletionAttempt: (() -> Void)?
+
     private let networkService = NetworkServiceAuthentication.instance
     
     func fetchAddresses() {
@@ -38,6 +39,12 @@ class AddressViewModel {
         guard indexPath.row < addresses.count else { return }
         let address = addresses[indexPath.row]
         guard let addressId = address.id else { return }
+
+   
+        if address.default {
+            onDefaultAddressDeletionAttempt?()
+            return
+        }
 
         let urlString = APIConfig.endPoint("customers/\(customerId)/addresses/\(addressId)").url
 

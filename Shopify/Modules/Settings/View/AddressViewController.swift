@@ -55,6 +55,9 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
             }
             
             fetchAddresses()
+        viewModel.onDefaultAddressDeletionAttempt = { [weak self] in
+                self?.showDefaultAddressDeletionAlert()
+            }
         }
         
         override func viewWillAppear(_ animated: Bool) {
@@ -125,4 +128,9 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
               viewModel.deleteAddress(at: indexPath)
           }
       }
+    func showDefaultAddressDeletionAlert() {
+        let alert = UIAlertController(title: "Cannot Delete Default Address", message: "The selected address is the default address and cannot be deleted.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
   }
