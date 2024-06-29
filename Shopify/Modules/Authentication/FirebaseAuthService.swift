@@ -50,7 +50,7 @@ class FirebaseAuthService {
 //    }
 
     
-    /*
+    
     func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
             if let error = error {
@@ -79,7 +79,7 @@ class FirebaseAuthService {
             }
         }
     }
-*/
+
     func signOut(completion: @escaping (Result<Void, Error>) -> Void) {
         do {
             try Auth.auth().signOut()
@@ -88,7 +88,7 @@ class FirebaseAuthService {
             completion(.failure(signOutError))
         }
     }
-/*
+
 
     func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
@@ -118,7 +118,7 @@ class FirebaseAuthService {
             completion(.success(userModel))
         }
     }
-*/
+
     
     private func handleAuthResult(result: AuthDataResult?, error: Error?, completion: @escaping (Result<UserModel, Error>) -> Void) {
         if let error = error {
@@ -461,19 +461,19 @@ class FirebaseAuthService {
             }
         }
     
-        func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
-            Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
-                self?.handleAuthResult(result: result, error: error, completion: completion)
-            }
-
-
-        }
-
-        func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
-            Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
-                self?.handleAuthResult(result: result, error: error, completion: completion)
-            }
-        }
+//        func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+//            Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
+//                self?.handleAuthResult(result: result, error: error, completion: completion)
+//            }
+//
+//
+//        }
+//
+//        func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
+//            Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
+//                self?.handleAuthResult(result: result, error: error, completion: completion)
+//            }
+//        }
 
 }
 
