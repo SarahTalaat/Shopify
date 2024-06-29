@@ -116,9 +116,7 @@ class PaymentViewController: UIViewController {
                      if success {
                          title = "Order Placed"
                          message = "Your order has been successfully placed."
-                         // Clear the cart and update the draft order
-                         //self.shoppingCartViewModel.clearDisplayedLineItems() // Add this line
-                         self.clearCartAndDraftOrder() // Add this line
+                         self.viewModel.putDraftOrder()
                          if let homeViewController = self.navigationController?.viewControllers.first(where: { $0 is HomeViewController }) {
                              self.navigationController?.popToViewController(homeViewController, animated: true)
                          }

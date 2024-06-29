@@ -290,55 +290,44 @@ extension ProductViewController: ProductsCollectionViewCellDelegate{
     }
 }
     
-    extension ProductViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+extension ProductViewController {
+    func showPickerView(title: String, items: [String], selectionHandler: @escaping (String) -> Void) {
+        let alert = UIAlertController(title: title, message: "\n\n\n\n\n\n\n\n\n\n", preferredStyle: .alert)
         
-        func showPickerView(title: String, items: [String], selectionHandler: @escaping (String) -> Void) {
-            let alertController = UIAlertController(title: title, message: "\n\n\n\n\n\n\n\n\n\n", preferredStyle: .actionSheet)
-            
-            let pickerView = UIPickerView()
-            pickerView.delegate = self
-            pickerView.dataSource = self
-            
-            pickerView.tag = 100
-            
-            alertController.view.addSubview(pickerView)
-            
-            let selectAction = UIAlertAction(title: "Select", style: .default) { _ in
-                let selectedItem = items[pickerView.selectedRow(inComponent: 0)]
-                selectionHandler(selectedItem)
-            }
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            alertController.addAction(selectAction)
-            alertController.addAction(cancelAction)
-            
-            self.present(alertController, animated: true, completion: nil)
+        let pickerFrame = CGRect(x: 5, y: 20, width: 250, height: 140)
+        let picker = UIPickerView(frame: pickerFrame)
+        picker.delegate = self
+        picker.dataSource = self
+        
+        alert.view.addSubview(picker)
+        
+        let selectAction = UIAlertAction(title: "Select", style: .default) { _ in
+            let selectedRow = picker.selectedRow(inComponent: 0)
+            let selectedItem = items[selectedRow]
+            selectionHandler(selectedItem)
         }
+        
+        alert.addAction(selectAction)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
+}
 
-
-        func numberOfComponents(in pickerView: UIPickerView) -> Int {
-            return 1
-        }
-        
-        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-            if pickerView.tag == 100 {
-                if let items = pickerViewItems {
-                    return items.count
-                }
-            }
-            return 0
-        }
-        
-        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-            if pickerView.tag == 100 {
-                if let items = pickerViewItems {
-                    return items[row]
-                }
-            }
-            return nil
-        }
+// MARK: - UIPickerView DataSource and Delegate
+extension ProductViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
     
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerViewItems?.count ?? 0
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerViewItems?[row]
+    }
+}
     
 //         func productsCollectionViewCellDidToggleFavorite(at index: Int) {
 //             guard index < viewModel.filteredProducts.count else { return }
@@ -363,4 +352,4 @@ extension ProductViewController: ProductsCollectionViewCellDelegate{
 //         }
     
     
-     }
+

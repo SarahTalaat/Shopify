@@ -62,13 +62,11 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
                          emptyStateImageView.heightAnchor.constraint(equalToConstant: 100)
                      ])
                      
-                     // Hide empty state view initially
+    
                      emptyStateView.isHidden = true
-                     
-                     // Add empty state view to table view
+
                      shoppingCartTableView.addSubview(emptyStateView)
-                     
-                     // Set constraints for empty state view to cover table view
+          
                      NSLayoutConstraint.activate([
                          emptyStateView.topAnchor.constraint(equalTo: shoppingCartTableView.topAnchor),
                          emptyStateView.leadingAnchor.constraint(equalTo: shoppingCartTableView.leadingAnchor),
