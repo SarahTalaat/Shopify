@@ -16,7 +16,8 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
 
         var viewModel = AddressViewModel()
         var selectedDefaultAddressId: Int?
-    
+    let emptyStateView = UIView()
+    let emptyStateImageView = UIImageView()
     @IBAction func addNewAddress(_ sender: UIButton) {
 
     }
@@ -57,8 +58,45 @@ class AddressViewController: UIViewController ,UITableViewDelegate, UITableViewD
         viewModel.onDefaultAddressDeletionAttempt = { [weak self] in
                 self?.showDefaultAddressDeletionAlert()
             }
+        setupEmptyStateView()
+        toggleEmptyStateView()
         }
+    private func setupEmptyStateView() {
+        // Configure empty state image view
+        emptyStateImageView.image = UIImage(named: "noCart") // Replace with your image name
+        emptyStateImageView.contentMode = .scaleAspectFit
         
+        // Configure empty state view
+        emptyStateView.addSubview(emptyStateImageView)
+        emptyStateView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Add constraints for image view within empty state view
+        NSLayoutConstraint.activate([
+            emptyStateImageView.centerXAnchor.constraint(equalTo: emptyStateView.centerXAnchor),
+            emptyStateImageView.centerYAnchor.constraint(equalTo: emptyStateView.centerYAnchor),
+            emptyStateImageView.widthAnchor.constraint(equalToConstant: 100), // Adjust size as needed
+            emptyStateImageView.heightAnchor.constraint(equalToConstant: 100)
+        ])
+        
+        emptyStateView.isHidden = true // Initially hide the empty state view
+        
+        addressTableView.addSubview(emptyStateView)
+        
+        NSLayoutConstraint.activate([
+            emptyStateView.topAnchor.constraint(equalTo: addressTableView.topAnchor),
+            emptyStateView.leadingAnchor.constraint(equalTo: addressTableView.leadingAnchor),
+            emptyStateView.trailingAnchor.constraint(equalTo: addressTableView.trailingAnchor),
+            emptyStateView.bottomAnchor.constraint(equalTo: addressTableView.bottomAnchor)
+        ])
+    }
+    private func toggleEmptyStateView() {
+        if viewModel.addresses.isEmpty {
+                emptyStateView.isHidden = false 
+                emptyStateImageView.image = UIImage(named: "NoAddressFound")
+            } else {
+                emptyStateView.isHidden = true
+            }
+    }
         override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
             fetchAddresses()

@@ -14,7 +14,7 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     let backButton = UIBarButtonItem()
     var window: UIWindow?
     let cellSpacingHeight: CGFloat = 30
-    
+    var loadingIndicator: UIActivityIndicatorView!
     let emptyTableViewImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -27,7 +27,14 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        loadingIndicator = UIActivityIndicatorView(style: .medium)
+               loadingIndicator.hidesWhenStopped = true
+               view.addSubview(loadingIndicator)
+               
+               // Constraints for loading indicator
+               loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+               loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+               loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         settingUpFavouriteTableView()
         viewModel = DependencyProvider.favouriteViewModel
         
@@ -72,13 +79,18 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         self.tabBarController?.tabBar.isHidden = false
     }
     func bindViewModel(){
-        viewModel.bindProducts = { [weak self] in
-            DispatchQueue.main.async {
-                self?.favouriteTableView.reloadData()
-                self?.updatePlaceholder()
+            viewModel.bindProducts = { [weak self] in
+                DispatchQueue.main.async {
+                    self?.favouriteTableView.reloadData()
+                    self?.updatePlaceholder()
+                    self?.loadingIndicator.stopAnimating()
+                }
             }
+            
+            // Start showing loading indicator when retrieving products
+            loadingIndicator.startAnimating()
         }
-    }
+        
     
     func updatePlaceholder() {
         if let products = viewModel.products, !products.isEmpty {

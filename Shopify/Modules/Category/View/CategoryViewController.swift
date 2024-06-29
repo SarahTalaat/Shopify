@@ -128,19 +128,7 @@ class CategoryViewController: UIViewController, UISearchBarDelegate {
       }
    
       @IBAction func allButton(_ sender: UIButton) {
-                 if isButtonMenuOpen {
-                     UIView.animate(withDuration: 0.3) {
-                         self.shoesBtn.center = self.allBtn.center
-                         self.bagsBtn.center = self.allBtn.center
-                         self.clothBtn.center = self.allBtn.center
-                         self.shoesBtn.alpha = 0
-                         self.bagsBtn.alpha = 0
-                         self.clothBtn.alpha = 0
-                     }
-                     self.isButtonMenuOpen = false
-                 } else {
-                     viewModel.filterBySubCategory(subcategory: .all)
-                 }
+          viewModel.filterBySubCategory(subcategory: .all)
              }
    
 

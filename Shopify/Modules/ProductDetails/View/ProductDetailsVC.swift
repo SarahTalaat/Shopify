@@ -117,7 +117,10 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         
         
         loadingIndicator.startAnimating()
-        
+        loadingIndicator = UIActivityIndicatorView(style: .large)
+                loadingIndicator.center = view.center
+                loadingIndicator.hidesWhenStopped = true
+                view.addSubview(loadingIndicator)
        // hideAddToCartButton()
         if viewModel.isGuest() == false {
             let imageName =  "heart"
