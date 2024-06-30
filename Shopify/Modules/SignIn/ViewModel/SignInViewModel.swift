@@ -231,7 +231,7 @@ class SignInViewModel {
             "draft_order": [
                 "line_items": [
                     [
-                        "variant_id": 44382094393505,
+                        "variant_id": 44465748574369,
                         "quantity": 1
                     ]
                 ]

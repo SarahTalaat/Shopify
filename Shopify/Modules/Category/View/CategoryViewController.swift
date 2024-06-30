@@ -268,6 +268,44 @@ extension CategoryViewController: ProductsTableViewCellDelegate{
             }
         }
     }
+    
+    func showFavouriteAlerts(title: String, message: String , index: Int) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        // Create action for "Yes" button
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { action in
+            // Handle Yes action if needed
+
+            print("Yes button tapped")
+            self.viewModel.toggleFavorite(productId:  "\(self.viewModel.filteredProducts[index].id)") { error in
+                if let error = error {
+                    print("Error toggling favorite status: \(error.localizedDescription)")
+                    // Handle error if needed
+                } else {
+                    // Update UI or perform any post-toggle actions
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
+                }
+            }
+        }
+        
+        // Create action for "Cancel" button
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+            // Handle Cancel action if needed
+            print("Cancel button tapped")
+        }
+        
+        // Set text color for "Yes" button to red
+        yesAction.setValue(UIColor.red, forKey: "titleTextColor")
+        
+        // Add actions to the alert controller
+        alert.addAction(yesAction)
+        alert.addAction(cancelAction)
+        
+        // Present the alert controller
+        self.present(alert, animated: true, completion: nil)
+    }
 
          
          
@@ -277,17 +315,25 @@ extension CategoryViewController: ProductsTableViewCellDelegate{
          if viewModel.isGuest() == false {
              showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
          } else{
-             viewModel.toggleFavorite(productId:  "\(viewModel.filteredProducts[index].id)") { error in
-                 if let error = error {
-                     print("Error toggling favorite status: \(error.localizedDescription)")
-                     // Handle error if needed
-                 } else {
-                     // Update UI or perform any post-toggle actions
-                     DispatchQueue.main.async {
-                         self.collectionView.reloadData()
+             
+             if viewModel.isProductFavorite(productId: "\(viewModel.filteredProducts[index].id)") == true{
+                 showFavouriteAlerts(title: "Alert!", message: "Are you sure you want to delete this product from favourites?", index: index)
+             }else{
+                 viewModel.toggleFavorite(productId:  "\(viewModel.filteredProducts[index].id)") { error in
+                     if let error = error {
+                         print("Error toggling favorite status: \(error.localizedDescription)")
+                         // Handle error if needed
+                     } else {
+                         // Update UI or perform any post-toggle actions
+                         DispatchQueue.main.async {
+                             self.collectionView.reloadData()
+                         }
                      }
                  }
              }
+             
+             
+
          }
          
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hd3-FA-xW9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ftg-1c-vdH">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
@@ -578,7 +578,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oL7-YE-7Z8" customClass="AnimationView" customModule="Lottie">
-                                <rect key="frame" x="45" y="104" width="320" height="0.0"/>
+                                <rect key="frame" x="45" y="104" width="320" height="684"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="Tda-BC-ujV"/>
@@ -741,19 +741,19 @@
             <size key="intrinsicContentSize" width="120" height="20"/>
         </designable>
         <designable name="Alf-15-BzH">
-            <size key="intrinsicContentSize" width="24" height="17"/>
+            <size key="intrinsicContentSize" width="4" height="17"/>
         </designable>
         <designable name="Cdy-VQ-kEt">
-            <size key="intrinsicContentSize" width="24" height="18.5"/>
+            <size key="intrinsicContentSize" width="4" height="18.5"/>
         </designable>
         <designable name="OPE-rW-ysb">
-            <size key="intrinsicContentSize" width="24" height="18.5"/>
+            <size key="intrinsicContentSize" width="4" height="18.5"/>
         </designable>
         <designable name="PvZ-G9-Gt1">
-            <size key="intrinsicContentSize" width="24" height="17"/>
+            <size key="intrinsicContentSize" width="4" height="17"/>
         </designable>
         <designable name="Yi8-RZ-ayL">
-            <size key="intrinsicContentSize" width="24" height="18.5"/>
+            <size key="intrinsicContentSize" width="4" height="18.5"/>
         </designable>
         <designable name="k9c-9i-JyH">
             <size key="intrinsicContentSize" width="170.5" height="39.5"/>

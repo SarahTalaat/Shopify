@@ -12,6 +12,25 @@ class CustomButton: UIButton {
     var isAddedToCart: Bool = false {
         didSet {
             updateButtonAppearance()
+     //       updateButtonInteraction()
+        }
+    }
+    override var isEnabled: Bool {
+        didSet {
+            updateButtonInteraction()
+        }
+    }
+    
+    private func updateButtonInteraction() {
+        // Adjust interaction based on both isEnabled and isAddedToCart
+        if isEnabled {
+            // Enable button interaction based on isAddedToCart
+            self.isUserInteractionEnabled = !isAddedToCart
+            alpha = 1.0 // Reset alpha to fully visible
+        } else {
+            // Disable interaction completely
+            self.isUserInteractionEnabled = false
+            alpha = 0.5 // Adjust alpha to indicate disabled state
         }
     }
     

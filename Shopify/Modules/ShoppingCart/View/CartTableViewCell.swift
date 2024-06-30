@@ -46,7 +46,7 @@ class CartTableViewCell: UITableViewCell {
     @IBAction func deleteBtn(_ sender: UIButton) {
         delegate?.didTapDeleteButton(on: self)
         print("ddd id cart cell : \(productId)")
-        UserDefaults.standard.set(false, forKey: "isAddedToCart"+"\(productId)"+"\(SharedDataRepository.instance.customerEmail)")
+      
         print("666 productid cell \(UserDefaults.standard.string(forKey: Constants.productId))")
         //self.shoppingCartDeletionDeletegate?.didDeleteProduct(id: productId ?? 0,cartCell:  self)
     }
