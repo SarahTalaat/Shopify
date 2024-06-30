@@ -14,7 +14,7 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     let backButton = UIBarButtonItem()
     var window: UIWindow?
     let cellSpacingHeight: CGFloat = 30
-    
+    var loadingIndicator: UIActivityIndicatorView!
     let emptyTableViewImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -27,7 +27,14 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        loadingIndicator = UIActivityIndicatorView(style: .medium)
+               loadingIndicator.hidesWhenStopped = true
+               view.addSubview(loadingIndicator)
+               
+               // Constraints for loading indicator
+               loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+               loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+               loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         settingUpFavouriteTableView()
         viewModel = DependencyProvider.favouriteViewModel
         
@@ -63,17 +70,27 @@ class FavouriteVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         super.viewWillAppear(animated)
         viewModel.retriveProducts()
         favouriteTableView.reloadData()
-        
+        self.tabBarController?.tabBar.isHidden = true
     }
+    
 
-    func bindViewModel(){
-        viewModel.bindProducts = { [weak self] in
-            DispatchQueue.main.async {
-                self?.favouriteTableView.reloadData()
-                self?.updatePlaceholder()
-            }
-        }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
     }
+    func bindViewModel(){
+            viewModel.bindProducts = { [weak self] in
+                DispatchQueue.main.async {
+                    self?.favouriteTableView.reloadData()
+                    self?.updatePlaceholder()
+                    self?.loadingIndicator.stopAnimating()
+                }
+            }
+            
+            // Start showing loading indicator when retrieving products
+            loadingIndicator.startAnimating()
+        }
+        
     
     func updatePlaceholder() {
         if let products = viewModel.products, !products.isEmpty {

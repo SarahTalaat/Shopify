@@ -703,8 +703,8 @@
 			isa = PBXGroup;
 			children = (
 				6C39A40B2C17478C00767E83 /* DraftOrderNetworkService.swift */,
-				B6365B842C0A18CD00277D31 /* NetworkService.swift */,
 				6CB508D22C1330CE0052E606 /* TryAddressNetworkService.swift */,
+				B6365B842C0A18CD00277D31 /* NetworkService.swift */,
 				B6F73F442C1478E700919A67 /* NetworkServiceAuthenticationProtocol.swift */,
 				B6F73F462C14791E00919A67 /* NetworkServiceAuthentication.swift */,
 				6CDDBE5E2C1CAC0F00D804D3 /* ExchangeRateApiService.swift */,

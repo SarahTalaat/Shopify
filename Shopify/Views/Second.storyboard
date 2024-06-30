@@ -271,6 +271,12 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Category" id="SkG-dI-Pwk">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="arrow.backward" catalog="system" id="sui-vS-aDC">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="backToHome:" destination="565-VT-EkS" id="NyY-KV-Per"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem style="plain" id="qyY-IA-WMZ">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="dbK-vm-GJp">
@@ -1303,6 +1309,7 @@
     <resources>
         <image name="adidas-logo-design-template-416e301e26d296a75536e1f323a013e0_screen" width="690" height="690"/>
         <image name="adsone" width="600" height="200"/>
+        <image name="arrow.backward" catalog="system" width="128" height="95"/>
         <image name="cart.fill" catalog="system" width="128" height="102"/>
         <image name="chevron.forward" catalog="system" width="97" height="128"/>
         <image name="gearshape" catalog="system" width="128" height="123"/>

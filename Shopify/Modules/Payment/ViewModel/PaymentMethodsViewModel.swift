@@ -8,67 +8,78 @@
 import Foundation
 import PassKit
 import Reachability
+import Alamofire
 
 class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDelegate {
+
     enum PaymentMethod {
         case cash
         case applePay
     }
+    
     let networkService = NetworkServiceAuthentication.instance
+    
 
     private var reachability: Reachability?
+    
     var selectedPaymentMethod: PaymentMethod?
-     var lineItem: LineItem?
-     var order: Orders?
-     var ordersSend: OrdersSend?
-     var invoice: Invoice?
-     var invoiceResponse: InvoiceResponse?
-     var draftOrderId: Int?
-
-    var totalDiscounts : String?
+    var lineItem: LineItem?
+    var order: Orders?
+    var ordersSend: OrdersSend?
+    var invoice: Invoice?
+    var invoiceResponse: InvoiceResponse?
+    var draftOrderId: Int?
+    var exchangeRates: [String: Double] = [:]
+    var totalDiscounts: String?
     var defCurrency: String = "EGP"
     var totalAmount: String?
     private var addresses: [Address] = []
     var displayedLineItems: [LineItem] = []
     private var viewModel = ShoppingCartViewModel()
     var showAlertClosure: (() -> Void)?
+    var showApplePayScreen: (() -> Void)?
+    
+    override init() {
+        super.init()
+        setupReachability()
+        fetchExchangeRates()
+    }
+    
+    deinit {
+        // Stopped reachability notifier
+        reachability?.stopNotifier()
+    }
+    
+    private func setupReachability() {
+        reachability = try? Reachability()
+        
+        reachability?.whenReachable = { reachability in
+            if reachability.connection == .wifi {
+                print("Reachable via WiFi")
+            } else {
+                print("Reachable via Cellular")
+            }
+        }
+        
+        reachability?.whenUnreachable = { _ in
+            self.showNoInternetAlert()
+        }
+        
+        do {
+            try reachability?.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
+    }
+    
+    private func showNoInternetAlert() {
+        self.showAlertClosure?()
+    }
+    
     func selectPaymentMethod(_ method: PaymentMethod) {
         selectedPaymentMethod = method
     }
-    override init() {
-            super.init()
-            setupReachability()
-        }
-        
-        deinit {
-            reachability?.stopNotifier()
-        }
-        
-        private func setupReachability() {
-            reachability = try? Reachability()
-            
-            reachability?.whenReachable = { reachability in
-                if reachability.connection == .wifi {
-                    print("Reachable via WiFi")
-                } else {
-                    print("Reachable via Cellular")
-                }
-            }
-            
-            reachability?.whenUnreachable = { _ in
-                self.showNoInternetAlert()
-            }
-            
-            do {
-                try reachability?.startNotifier()
-            } catch {
-                print("Unable to start notifier")
-            }
-        }
-        
-        private func showNoInternetAlert() {
-            self.showAlertClosure?()
-        }
+    
     func formatPriceWithCurrency(price: String) -> String {
         guard let amount = Double(price) else { return "0.00" }
         let formatter = NumberFormatter()
@@ -76,7 +87,24 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         formatter.currencySymbol = ""
         return formatter.string(from: NSNumber(value: amount)) ?? "0.00"
     }
-
+    
+    func fetchExchangeRates() {
+        let exchangeRateApiService = ExchangeRateApiService()
+        exchangeRateApiService.getLatestRates { [weak self] result in
+            switch result {
+            case .success(let response):
+                self?.exchangeRates = response.conversion_rates
+            case .failure(let error):
+                print("Error fetching exchange rates: \(error)")
+            }
+        }
+    }
+    
+    func convertAmountToCurrency(amount: Double, currency: String) -> Double {
+        guard let rate = exchangeRates[currency] else { return amount }
+        return amount * rate
+    }
+    
     func updatePaymentSummaryItems(totalAmount: String) {
         print("Updating payment summary items with total amount: \(totalAmount)")
         self.totalAmount = totalAmount
@@ -85,7 +113,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     func setTotalAmount(_ amount: String) {
         self.totalAmount = amount
     }
-
+    
     var paymentRequest: PKPaymentRequest {
         let request = PKPaymentRequest()
         request.merchantIdentifier = "merchant.com.pushpendra.pay"
@@ -94,7 +122,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         request.merchantCapabilities = .capability3DS
         request.countryCode = "EG"
         request.currencyCode = defCurrency  // Use selected currency here
-
+        
         if let totalAmount = totalAmount {
             let totalAmountString = totalAmount.replacingOccurrences(of: "[^0-9.]", with: "", options: .regularExpression)
             let amount = NSDecimalNumber(string: totalAmountString)
@@ -108,7 +136,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             let defaultAmount = NSDecimalNumber(string: "1200")
             request.paymentSummaryItems = [PKPaymentSummaryItem(label: "T-shirt", amount: defaultAmount)]
         }
-
+        
         return request
     }
     
@@ -117,25 +145,54 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     }
     
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
-        // Call your method to update UI or perform any actions after payment authorization
         processPaymentAuthorization(payment: payment) { success in
             if success {
-                // Complete the payment authorization with success
                 completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
             } else {
-                // Complete the payment authorization with failure if necessary
                 completion(PKPaymentAuthorizationResult(status: .failure, errors: nil))
             }
         }
     }
-
+    
     private func processPaymentAuthorization(payment: PKPayment, completion: @escaping (Bool) -> Void) {
-        // Perform any additional processing after payment authorization (e.g., posting order)
         postOrder { success in
-            // Handle success or failure
             completion(success)
         }
     }
+    
+    func handleApplePayButtonTap() {
+        selectPaymentMethod(.applePay)
+        showApplePayScreen?()
+    }
+    
+    func startApplePayPayment() {
+        guard PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: paymentRequest.supportedNetworks) else {
+            print("Device cannot make Apple Pay payments.")
+            return
+        }
+        
+        let paymentController = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest)
+        paymentController?.delegate = self
+        if let controller = paymentController {
+            // Present the Apple Pay controller
+            UIApplication.shared.windows.first?.rootViewController?.present(controller, animated: true, completion: nil)
+        }
+    }
+    
+    func handlePlaceOrder() {
+        if selectedPaymentMethod == .applePay {
+            startApplePayPayment()
+        } else {
+            postOrder { success in
+                if success {
+                    print("Order placed successfully!")
+                } else {
+                    print("Failed to place order.")
+                }
+            }
+        }
+    }
+    
     
     func setupOrder(lineItem: [LineItem]) {
         if let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") {
@@ -173,8 +230,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
                 adminGraphqlApiId: lineItem.adminGraphqlApiId ?? ""
             )
         }
-        
-        // Ensure totalAmount is properly calculated and includes discounts
+   
         var totalPrice: Double = 0.0
         if let totalAmount = totalAmount, let totalAmountValue = Double(totalAmount) {
             totalPrice = totalAmountValue
@@ -197,9 +253,9 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             total_tax: nil,
             line_items: unwrappedLineItems,
             inventory_behaviour: "decrement_obeying_policy",
-             subtotal_price : nil,
-             total_outstanding: nil,
-             current_total_discounts : totalDiscounts ?? "0.00"
+            subtotal_price : nil,
+            total_outstanding: nil,
+            current_total_discounts : totalDiscounts ?? "0.00"
         )
         
         ordersSend = OrdersSend(order: order!)
@@ -222,7 +278,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             }
         }
     }
-
+    
     func setupInvoice() {
         guard let email = SharedDataRepository.instance.customerEmail else {
             print("Customer email is nil")
@@ -262,33 +318,33 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         }
     }
     func fetchDefaultAddress(completion: @escaping (Result<Address, Error>) -> Void) {
-            guard let customerId = SharedDataRepository.instance.customerId else {
-                let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Customer ID is missing"])
-                completion(.failure(error))
-                return
-            }
-            
-
+        guard let customerId = SharedDataRepository.instance.customerId else {
+            let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Customer ID is missing"])
+            completion(.failure(error))
+            return
+        }
+        
+        
         let urlString = APIConfig.customers.urlForAddresses(customerId: customerId)
+        
+        networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { [weak self] (result: Result<AddressListResponse, Error>) in
+            guard let self = self else { return }
             
-            networkService.requestFunction(urlString: urlString, method: .get, model: [:]) { [weak self] (result: Result<AddressListResponse, Error>) in
-                guard let self = self else { return }
-                
-                switch result {
-                case .success(let response):
-                    if let defaultAddress = response.addresses.first(where: { $0.default == true }) {
-                        self.addresses = response.addresses
-                        completion(.success(defaultAddress))
-                    } else {
-                        let error = NSError(domain: "PaymentMethodsViewModel", code: 404, userInfo: [NSLocalizedDescriptionKey: "No default address found"])
-                        completion(.failure(error))
-                    }
-                case .failure(let error):
-                    print("Failed to fetch addresses: \(error)")
+            switch result {
+            case .success(let response):
+                if let defaultAddress = response.addresses.first(where: { $0.default == true }) {
+                    self.addresses = response.addresses
+                    completion(.success(defaultAddress))
+                } else {
+                    let error = NSError(domain: "PaymentMethodsViewModel", code: 404, userInfo: [NSLocalizedDescriptionKey: "No default address found"])
                     completion(.failure(error))
                 }
+            case .failure(let error):
+                print("Failed to fetch addresses: \(error)")
+                completion(.failure(error))
             }
         }
+    }
     func getDraftOrderID(email: String, completion: @escaping (String?) -> Void) {
         FirebaseAuthService.instance.getShoppingCartId(email: email) { shoppingCartId, error in
             if let error = error {
@@ -325,30 +381,45 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             self.postInvoice(draftOrderId: draftOrderId)
         }
     }
-//     func updateAfterPaymentAuthorization() {
-//           postOrder { success in
-//               DispatchQueue.main.async {
-//                   let title: String
-//                   let message: String
-//                   if success {
-//                       title = "Order Placed"
-//                       message = "Your order has been successfully placed."
-//                       
-//                       // Assuming HomeViewController is your home screen
-//                       if let homeViewController = self.navigationController?.viewControllers.first(where: { $0 is HomeViewController }) {
-//                           self.navigationController?.popToViewController(homeViewController, animated: true)
-//                       }
-//                   } else {
-//                       title = "Error"
-//                       message = "Failed to place order. Please try again."
-//                   }
-//                   
-//                   let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-//                   alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//                   // You should ideally present this alert from your view controller
-//                   // For now, I'm printing it
-//                   print(alert)
-//               }
-//           }
-//       }
+    func putDraftOrder() {
+        getUserDraftOrderId { draftOrderId in
+            guard let draftOrderId = draftOrderId else {
+                print("Failed to get draft order ID.")
+                return
+            }
+            
+            let lineItem: [String: Any] = [
+                "variant_id": 44465748574369,
+                "quantity": 1
+            ]
+            
+            let draftOrderDictionary: [String: Any] = [
+                "draft_order": [
+                    "line_items": [lineItem]
+                ]
+            ]
+            
+            print("Draft Order Dictionary: \(draftOrderDictionary)")
+            
+            self.networkService.requestFunction(
+                urlString: "https://b67adf5ce29253f64d89943674815b12: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@mad44-alex-ios-team4.myshopify.com/admin/api/2022-01/draft_orders/\(draftOrderId).json",
+                method: .put,
+                model: draftOrderDictionary
+            ) { (result: Result<OneDraftOrderResponse, Error>) in
+                switch result {
+                case .success:
+                    print("Line item added successfully!")
+                case .failure(let error):
+                    print("Failed to add line item: \(error.localizedDescription)")
+                    if let responseError = error as? AFError, case let .responseValidationFailed(reason: .unacceptableStatusCode(code: statusCode)) = responseError {
+                        print("Status code: \(statusCode)")
+                        // Handle specific status codes if needed
+                    }
+                    // Print the full error for additional debugging information
+                    print("Error details: \(error)")
+                }
+            }
+        }
+    }
+    
 }

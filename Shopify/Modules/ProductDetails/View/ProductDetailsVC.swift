@@ -73,6 +73,8 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         return label
     }()
     
+
+   
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -82,6 +84,7 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         viewModel.getCartId()
         viewModel.fetchExchangeRates()
         bindViewModel()
+
         
         let inventoryQuantityLabelText = viewModel.inventoryQuantityLabel()
         if inventoryQuantityLabelText == "Out of stock" {
@@ -89,8 +92,14 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         }else{
             addToCartUI.isEnabled = true
         }
+
+        self.tabBarController?.tabBar.isHidden = true
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+
+    }
     private func configureRatingView() {
         ratingView.settings.fillMode = .half
         ratingView.isUserInteractionEnabled = false
@@ -122,7 +131,10 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         
         
         loadingIndicator.startAnimating()
-        
+        loadingIndicator = UIActivityIndicatorView(style: .large)
+                loadingIndicator.center = view.center
+                loadingIndicator.hidesWhenStopped = true
+                view.addSubview(loadingIndicator)
        // hideAddToCartButton()
         if viewModel.isGuest() == false {
             let imageName =  "heart"
