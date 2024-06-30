@@ -49,6 +49,7 @@ struct Invoice : Encodable,Decodable{
    let `from` : String
    let subject: String
    let custom_message : String
+   let line_items: [LineItem]
 }
 
 

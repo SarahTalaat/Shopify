@@ -19,7 +19,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
     
     let networkService = NetworkServiceAuthentication.instance
     
-
+    let excludedVariantId = 44465748574369
     private var reachability: Reachability?
     
     var selectedPaymentMethod: PaymentMethod?
@@ -279,7 +279,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         }
     }
     
-    func setupInvoice() {
+    func setupInvoice(lineItem:[LineItem]) {
         guard let email = SharedDataRepository.instance.customerEmail else {
             print("Customer email is nil")
             return
@@ -288,14 +288,24 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             print("Customer name is nil")
             return
         }
-        
+
+        // Print all line items before filtering
+        print("All line items before filtering: \(displayedLineItems)")
+
+        // Filter out the specific line item with the excluded variant ID
+
+
+        // Print filtered line items
+     //   print("Filtered line items: \(filteredLineItems)")
+
+        // Prepare the invoice details, excluding the filtered line item
         let subject = "Invoice for Your Recent Purchase"
         let customMessage = """
         Dear \(customerName),
-        
+
         We have received your order and it is now being processed. Please find your invoice details below.
         Thank you for choosing Shoppingo!
-        
+
         Best regards,
         Shoppingo Team
         """
@@ -303,8 +313,13 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             to: email,
             from: "safiyafikry@gmail.com",
             subject: subject,
-            custom_message: customMessage
+            custom_message: customMessage,
+            line_items: lineItem // Use the filtered line items here
         )
+
+        // Print the prepared invoice
+        print("Prepared invoice: \(invoice)")
+
         invoiceResponse = InvoiceResponse(draft_order_invoice: invoice!)
     }
     
@@ -371,13 +386,13 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
         }
     }
     
-    func processInvoicePosting() {
+    func processInvoicePosting(lineItem: [LineItem]) {
         getUserDraftOrderId { draftOrderId in
             guard let draftOrderId = draftOrderId else {
                 print("Failed to get draft order ID.")
                 return
             }
-            self.setupInvoice()
+            self.setupInvoice(lineItem: lineItem)
             self.postInvoice(draftOrderId: draftOrderId)
         }
     }

@@ -184,7 +184,7 @@
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="hanger" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="plain" image="tshirt" catalog="system"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBound" value="YES"/>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -204,7 +204,7 @@
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="handbag.fill" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="plain" image="bag" catalog="system"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBound" value="YES"/>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -224,7 +224,7 @@
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="shoe.2.fill" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="plain" image="shoes"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBound" value="YES"/>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -1309,19 +1309,19 @@
         <image name="adidas-logo-design-template-416e301e26d296a75536e1f323a013e0_screen" width="690" height="690"/>
         <image name="adsone" width="600" height="200"/>
         <image name="arrow.backward" catalog="system" width="128" height="98"/>
+        <image name="bag" catalog="system" width="128" height="128"/>
         <image name="cart.fill" catalog="system" width="128" height="102"/>
         <image name="chevron.forward" catalog="system" width="96" height="128"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
-        <image name="handbag.fill" catalog="system" width="128" height="116"/>
-        <image name="hanger" catalog="system" width="128" height="99"/>
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="heart.fill" catalog="system" width="128" height="109"/>
         <image name="house" catalog="system" width="128" height="106"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="person.crop.circle.fill" catalog="system" width="128" height="121"/>
         <image name="plus" catalog="system" width="128" height="113"/>
-        <image name="shoe.2.fill" catalog="system" width="128" height="69"/>
+        <image name="shoes" width="30" height="30"/>
         <image name="square.grid.3x3.fill" catalog="system" width="128" height="112"/>
+        <image name="tshirt" catalog="system" width="128" height="99"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

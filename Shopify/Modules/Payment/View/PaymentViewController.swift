@@ -132,7 +132,7 @@ class PaymentViewController: UIViewController {
                  }
              }
 
-             viewModel.processInvoicePosting()
+        viewModel.processInvoicePosting(lineItem: lineItems)
          }
     func clearCartAndDraftOrder() {
         print("Clearing cart and draft order, keeping dummy line item")

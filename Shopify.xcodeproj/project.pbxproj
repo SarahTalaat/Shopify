@@ -392,6 +392,7 @@
 		B68E735D2C0FC96E00BC2D90 /* shoppingLottie.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = shoppingLottie.json; sourceTree = "<group>"; };
 		B68E73612C10AA1800BC2D90 /* OnboardingUIPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingUIPageViewController.swift; sourceTree = "<group>"; };
 		B68E73632C10AD6C00BC2D90 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
+		B69968672C30D17F00D31EEE /* Shopify.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Shopify.entitlements; sourceTree = "<group>"; };
 		B69FA1672C09F04D009D43B7 /* Shopify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shopify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B69FA16A2C09F04D009D43B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B69FA16C2C09F04D009D43B7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -1241,6 +1242,7 @@
 		B69FA1692C09F04D009D43B7 /* Shopify */ = {
 			isa = PBXGroup;
 			children = (
+				B69968672C30D17F00D31EEE /* Shopify.entitlements */,
 				B6FB35022C1225120030C595 /* Utilities */,
 				B6365B8A2C0A19AC00277D31 /* Json */,
 				B6365B802C0A186000277D31 /* Model */,
@@ -1953,6 +1955,7 @@
 			baseConfigurationReference = 5CA775E8FDF08C4CBA7142D6 /* Pods-Shopify.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Shopify/Shopify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZFU225CW3S;
@@ -2006,6 +2009,7 @@
 			baseConfigurationReference = EAE25E0A39138D2E1D41FD74 /* Pods-Shopify.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Shopify/Shopify.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZFU225CW3S;
