@@ -73,6 +73,8 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         return label
     }()
     
+
+   
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -82,9 +84,22 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         viewModel.getCartId()
         viewModel.fetchExchangeRates()
         bindViewModel()
+
         
+        let inventoryQuantityLabelText = viewModel.inventoryQuantityLabel()
+        if inventoryQuantityLabelText == "Out of stock" {
+            addToCartUI.isEnabled = false
+        }else{
+            addToCartUI.isEnabled = true
+        }
+
+        self.tabBarController?.tabBar.isHidden = true
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+
+    }
     private func configureRatingView() {
         ratingView.settings.fillMode = .half
         ratingView.isUserInteractionEnabled = false
@@ -110,9 +125,16 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         viewModel.loadFavoriteProducts()
         viewModel.getCustomerIdFromFirebase()
         
+     
+        
+        
+        
         
         loadingIndicator.startAnimating()
-        
+        loadingIndicator = UIActivityIndicatorView(style: .large)
+                loadingIndicator.center = view.center
+                loadingIndicator.hidesWhenStopped = true
+                view.addSubview(loadingIndicator)
        // hideAddToCartButton()
         if viewModel.isGuest() == false {
             let imageName =  "heart"
@@ -198,6 +220,34 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         textView.layer.masksToBounds = true
     }
 
+    func showFavouriteAlerts(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        // Create action for "Yes" button
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { action in
+            // Handle Yes action if needed
+            self.viewModel.toggleFavorite()
+            self.updateFavoriteButton()
+            print("Yes button tapped")
+        }
+        
+        // Create action for "Cancel" button
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+            // Handle Cancel action if needed
+            print("Cancel button tapped")
+        }
+        
+        // Set text color for "Yes" button to red
+        yesAction.setValue(UIColor.red, forKey: "titleTextColor")
+        
+        // Add actions to the alert controller
+        alert.addAction(yesAction)
+        alert.addAction(cancelAction)
+        
+        // Present the alert controller
+        self.present(alert, animated: true, completion: nil)
+    }
+
 
 
     @IBAction func favouriteButtonTapped(_ sender: UIButton) {
@@ -215,8 +265,13 @@ class ProductDetailsVC: UIViewController , UICollectionViewDelegate, UICollectio
         if viewModel.isGuest() == false {
             showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
         }else{
-            viewModel.toggleFavorite()
-            updateFavoriteButton()
+            var isFavourited = viewModel.checkIfProductFavourited()
+            if isFavourited == true{
+                showFavouriteAlerts(title: "Alert!", message: "Are you sure you want to delete this product from favourites?")
+            }else{
+                viewModel.toggleFavorite()
+                updateFavoriteButton()
+            }
             
         }
         

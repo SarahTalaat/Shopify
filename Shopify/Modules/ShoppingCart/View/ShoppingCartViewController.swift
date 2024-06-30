@@ -21,7 +21,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
 
     var reachability: Reachability?
     let emptyStateView = UIView()
-       let emptyStateImageView = UIImageView()
+    let emptyStateImageView = UIImageView()
 
        override func viewDidLoad() {
            super.viewDidLoad()
@@ -37,45 +37,76 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
                     shoppingCartTableView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
                     shoppingCartTableView.rowHeight = 100
                     shoppingCartTableView.sectionHeaderHeight = 16
-                 //   setupEmptyStateView()
-                 //   toggleEmptyStateView()
+                    setupEmptyStateView()
+                    toggleEmptyStateView()
                     bindViewModel()
-                //    viewModel.fetchDraftOrders()
                     print("Total amount before navigating to PaymentVC: \(viewModel.totalAmount)")
                     setupReachability()
                 }
     
-             private func setupEmptyStateView() {
-                     // Configure empty state image view
-                     emptyStateImageView.image = UIImage(named: "noCart") // Replace with your image name
-                     emptyStateImageView.contentMode = .scaleAspectFit
-                     
-                     // Configure empty state view
-                     emptyStateView.addSubview(emptyStateImageView)
-                     emptyStateView.translatesAutoresizingMaskIntoConstraints = false
-                     
-                     // Add constraints for image view within empty state view
-                     NSLayoutConstraint.activate([
-                         emptyStateImageView.centerXAnchor.constraint(equalTo: emptyStateView.centerXAnchor),
-                         emptyStateImageView.centerYAnchor.constraint(equalTo: emptyStateView.centerYAnchor),
-                         emptyStateImageView.widthAnchor.constraint(equalToConstant: 100), // Adjust size as needed
-                         emptyStateImageView.heightAnchor.constraint(equalToConstant: 100)
-                     ])
-                     
-                     // Hide empty state view initially
-                     emptyStateView.isHidden = true
-                     
-                     // Add empty state view to table view
-                     shoppingCartTableView.addSubview(emptyStateView)
-                     
-                     // Set constraints for empty state view to cover table view
-                     NSLayoutConstraint.activate([
-                         emptyStateView.topAnchor.constraint(equalTo: shoppingCartTableView.topAnchor),
-                         emptyStateView.leadingAnchor.constraint(equalTo: shoppingCartTableView.leadingAnchor),
-                         emptyStateView.trailingAnchor.constraint(equalTo: shoppingCartTableView.trailingAnchor),
-                         emptyStateView.bottomAnchor.constraint(equalTo: shoppingCartTableView.bottomAnchor)
-                     ])
-                 }
+    
+    private func setupEmptyStateView() {
+        // Configure empty state image view
+        emptyStateImageView.image = UIImage(named: "noCart") // Replace with your image name
+        emptyStateImageView.contentMode = .scaleAspectFit
+        
+        // Configure empty state view
+        emptyStateView.addSubview(emptyStateImageView)
+        emptyStateView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Add constraints for image view within empty state view
+        NSLayoutConstraint.activate([
+            emptyStateImageView.centerXAnchor.constraint(equalTo: emptyStateView.centerXAnchor),
+            emptyStateImageView.centerYAnchor.constraint(equalTo: emptyStateView.centerYAnchor),
+            emptyStateImageView.widthAnchor.constraint(equalToConstant: 100), // Adjust size as needed
+            emptyStateImageView.heightAnchor.constraint(equalToConstant: 100)
+        ])
+        
+        emptyStateView.isHidden = true // Initially hide the empty state view
+        
+        shoppingCartTableView.addSubview(emptyStateView)
+        
+        NSLayoutConstraint.activate([
+            emptyStateView.topAnchor.constraint(equalTo: shoppingCartTableView.topAnchor),
+            emptyStateView.leadingAnchor.constraint(equalTo: shoppingCartTableView.leadingAnchor),
+            emptyStateView.trailingAnchor.constraint(equalTo: shoppingCartTableView.trailingAnchor),
+            emptyStateView.bottomAnchor.constraint(equalTo: shoppingCartTableView.bottomAnchor)
+        ])
+    }
+    private let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = .gray // Adjust color as needed
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    private func showActivityIndicator() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.view.addSubview(self.activityIndicator)
+            NSLayoutConstraint.activate([
+                self.activityIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                self.activityIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+            ])
+            self.activityIndicator.startAnimating()
+        }
+    }
+
+    private func hideActivityIndicator() {
+        DispatchQueue.main.async { [weak self] in
+            self?.activityIndicator.stopAnimating()
+            self?.activityIndicator.removeFromSuperview()
+        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+        showActivityIndicator() // Show indicator when view appears
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
     private func setupReachability() {
             reachability = try? Reachability()
      
@@ -105,6 +136,8 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
     
         deinit {
             reachability?.stopNotifier()
+            activityIndicator.stopAnimating()
+              activityIndicator.removeFromSuperview()
         }
     
         func addBottomBorder(to tableView: UITableView) {
@@ -122,38 +155,38 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate,UITableV
             ])
         }
     
-        private func bindViewModel() {
-            viewModel.onDraftOrderUpdated = { [weak self] in
-                DispatchQueue.main.async {
-                    self?.shoppingCartTableView.reloadData()
-    //                self?.toggleEmptyStateView()
-                }
+    private func bindViewModel() {
+        viewModel.onDraftOrderUpdated = { [weak self] in
+            DispatchQueue.main.async {
+                self?.shoppingCartTableView.reloadData()
+                self?.toggleEmptyStateView()
+                self?.hideActivityIndicator()
             }
-     
-            viewModel.onTotalAmountUpdated = { [weak self] in
-                DispatchQueue.main.async {
-                    self?.totalAmount.text = self?.viewModel.formatPriceWithCurrency(price: self?.viewModel.totalAmount ?? "")
-                    if let paymentVC = self?.navigationController?.viewControllers.last as? PaymentViewController {
-                        paymentVC.totalAmount = self?.viewModel.totalAmount
-                    }
-                }
-            }
-     
-            viewModel.onAlertMessage = { [weak self] message in
-                DispatchQueue.main.async {
-                    self?.showAlert(message: message)
+        }
+
+        viewModel.onTotalAmountUpdated = { [weak self] in
+            DispatchQueue.main.async {
+                self?.totalAmount.text = self?.viewModel.formatPriceWithCurrency(price: self?.viewModel.totalAmount ?? "")
+                if let paymentVC = self?.navigationController?.viewControllers.last as? PaymentViewController {
+                    paymentVC.totalAmount = self?.viewModel.totalAmount
                 }
             }
         }
-            private func toggleEmptyStateView() {
-                if let draftOrder = viewModel.draftOrder, draftOrder.draftOrder?.lineItems.count ?? 0 > 0 {
-                    // Hide empty state view if there are line items
-                    emptyStateView.isHidden = true
-                } else {
-                    // Show empty state view if there are no line items
-                    emptyStateView.isHidden = false
-                }
+
+        viewModel.onAlertMessage = { [weak self] message in
+            DispatchQueue.main.async {
+                self?.showAlert(message: message)
             }
+        }
+    }
+    private func toggleEmptyStateView() {
+        if viewModel.displayedLineItems.isEmpty {
+               emptyStateView.isHidden = false
+               emptyStateImageView.image = UIImage(named: "noCart")
+           } else {
+               emptyStateView.isHidden = true
+           }
+    }
                  
               func numberOfSections(in tableView: UITableView) -> Int {
                   return viewModel.displayedLineItems == nil ? 0 : 1

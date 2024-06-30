@@ -65,7 +65,17 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
            tapGesture.cancelsTouchesInView = false
            view.addGestureRecognizer(tapGesture)
      }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+    
+    }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.fetchUserFavorites()
+        self.tabBarController?.tabBar.isHidden = false
+    }
      @objc func dismissKeyboard() {
          view.endEditing(true)
      }
@@ -88,28 +98,26 @@ class ProductViewController: UIViewController , UISearchBarDelegate {
         ])
     }
         
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.fetchUserFavorites()
-    }
-    
+  
     
     
         // MARK: - Filter By Price
         
-     @objc func sliderValueChanged(_ sender: UISlider) {
-                priceLabel.text = String(format: "Price: %.2f", sender.value)
-                viewModel.currentMaxPrice = sender.value
-            }
+    @objc func sliderValueChanged(_ sender: UISlider) {
+        let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+        priceLabel.text = String(format: "Price: %.2f %@", sender.value, selectedCurrency)
+        viewModel.currentMaxPrice = sender.value
+    }
             
-         func updatePriceRange() {
-             DispatchQueue.main.async {
-                 self.priceSlider.minimumValue = self.viewModel.minPrice
-                 self.priceSlider.maximumValue = self.viewModel.maxPrice
-                 self.priceSlider.value = self.viewModel.currentMaxPrice
-                 self.priceLabel.text = String(format: "Price: %.2f %@", self.viewModel.currentMaxPrice, UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD")
-             }
-         }
+    func updatePriceRange() {
+        DispatchQueue.main.async {
+            self.priceSlider.minimumValue = self.viewModel.minPrice
+            self.priceSlider.maximumValue = self.viewModel.maxPrice
+            self.priceSlider.value = self.viewModel.currentMaxPrice
+            let selectedCurrency = UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD"
+            self.priceLabel.text = String(format: "Price: %.2f %@", self.viewModel.currentMaxPrice, selectedCurrency)
+        }
+    }
             // MARK: - Drop Down List
             
                 private func handleDropDownList() {
@@ -249,16 +257,44 @@ extension ProductViewController: ProductsCollectionViewCellDelegate{
 
     
     func didTapFavoriteButton(index: Int) {
+        guard index < viewModel.filteredProducts.count else { return }
         
         if viewModel.isGuest() == false {
             showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
         }else{
-            guard index < viewModel.filteredProducts.count else { return }
-            let productId = "\(viewModel.filteredProducts[index].id)"
-            viewModel.toggleFavorite(productId: productId) { error in
+            
+            if viewModel.isProductFavorite(productId: "\(viewModel.filteredProducts[index].id)") == true{
+                showFavouriteAlerts(title: "Alert!", message: "Are you sure you want to delete this product from favourites?", index: index)
+            }else{
+                let productId = "\(viewModel.filteredProducts[index].id)"
+                viewModel.toggleFavorite(productId: productId) { error in
+                    if let error = error {
+                        print("Error toggling favorite status: \(error.localizedDescription)")
+                    } else {
+                        DispatchQueue.main.async {
+                            self.collectionView.reloadData()
+                        }
+                    }
+                }
+            }
+        
+        }
+    }
+    
+    func showFavouriteAlerts(title: String, message: String , index: Int) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        // Create action for "Yes" button
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { action in
+            // Handle Yes action if needed
+
+            print("Yes button tapped")
+            self.viewModel.toggleFavorite(productId:  "\(self.viewModel.filteredProducts[index].id)") { error in
                 if let error = error {
                     print("Error toggling favorite status: \(error.localizedDescription)")
+                    // Handle error if needed
                 } else {
+                    // Update UI or perform any post-toggle actions
                     DispatchQueue.main.async {
                         self.collectionView.reloadData()
                     }
@@ -266,73 +302,95 @@ extension ProductViewController: ProductsCollectionViewCellDelegate{
             }
         }
         
-
-    }
-    
-    func productsCollectionViewCellDidToggleFavorite(at index: Int) {
-        guard index < viewModel.filteredProducts.count else { return }
-        
-        viewModel.toggleFavorite(productId:  "\(viewModel.filteredProducts[index].id)") { error in
-            if let error = error {
-                print("Error toggling favorite status: \(error.localizedDescription)")
-            } else {
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-            }
+        // Create action for "Cancel" button
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+            // Handle Cancel action if needed
+            print("Cancel button tapped")
         }
+        
+        // Set text color for "Yes" button to red
+        yesAction.setValue(UIColor.red, forKey: "titleTextColor")
+        
+        // Add actions to the alert controller
+        alert.addAction(yesAction)
+        alert.addAction(cancelAction)
+        
+        // Present the alert controller
+        self.present(alert, animated: true, completion: nil)
     }
+
+         
+         
+     func productsCollectionViewCellDidToggleFavorite(at index: Int) {
+         guard index < viewModel.filteredProducts.count else { return }
+         
+         if viewModel.isGuest() == false {
+             showAlerts(title:"Guest Access Restricted",message:"Please sign in to access this feature.")
+         } else{
+             
+             if viewModel.isProductFavorite(productId: "\(viewModel.filteredProducts[index].id)") == true{
+                 showFavouriteAlerts(title: "Alert!", message: "Are you sure you want to delete this product from favourites?", index: index)
+             }else{
+                 viewModel.toggleFavorite(productId:  "\(viewModel.filteredProducts[index].id)") { error in
+                     if let error = error {
+                         print("Error toggling favorite status: \(error.localizedDescription)")
+                         // Handle error if needed
+                     } else {
+                         // Update UI or perform any post-toggle actions
+                         DispatchQueue.main.async {
+                             self.collectionView.reloadData()
+                         }
+                     }
+                 }
+             }
+             
+             
+
+         }
+         
+
+     }
+    
 }
     
-    extension ProductViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+extension ProductViewController {
+    func showPickerView(title: String, items: [String], selectionHandler: @escaping (String) -> Void) {
+        let alert = UIAlertController(title: title, message: "\n\n\n\n\n\n\n\n\n\n", preferredStyle: .alert)
         
-        func showPickerView(title: String, items: [String], selectionHandler: @escaping (String) -> Void) {
-            let alertController = UIAlertController(title: title, message: "\n\n\n\n\n\n\n\n\n\n", preferredStyle: .actionSheet)
-            
-            let pickerView = UIPickerView()
-            pickerView.delegate = self
-            pickerView.dataSource = self
-            
-            pickerView.tag = 100
-            
-            alertController.view.addSubview(pickerView)
-            
-            let selectAction = UIAlertAction(title: "Select", style: .default) { _ in
-                let selectedItem = items[pickerView.selectedRow(inComponent: 0)]
-                selectionHandler(selectedItem)
-            }
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            alertController.addAction(selectAction)
-            alertController.addAction(cancelAction)
-            
-            self.present(alertController, animated: true, completion: nil)
+        let pickerFrame = CGRect(x: 5, y: 20, width: 250, height: 140)
+        let picker = UIPickerView(frame: pickerFrame)
+        picker.delegate = self
+        picker.dataSource = self
+        
+        alert.view.addSubview(picker)
+        
+        let selectAction = UIAlertAction(title: "Select", style: .default) { _ in
+            let selectedRow = picker.selectedRow(inComponent: 0)
+            let selectedItem = items[selectedRow]
+            selectionHandler(selectedItem)
         }
+        
+        alert.addAction(selectAction)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
+}
 
-
-        func numberOfComponents(in pickerView: UIPickerView) -> Int {
-            return 1
-        }
-        
-        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-            if pickerView.tag == 100 {
-                if let items = pickerViewItems {
-                    return items.count
-                }
-            }
-            return 0
-        }
-        
-        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-            if pickerView.tag == 100 {
-                if let items = pickerViewItems {
-                    return items[row]
-                }
-            }
-            return nil
-        }
+// MARK: - UIPickerView DataSource and Delegate
+extension ProductViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
     
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerViewItems?.count ?? 0
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerViewItems?[row]
+    }
+}
     
 //         func productsCollectionViewCellDidToggleFavorite(at index: Int) {
 //             guard index < viewModel.filteredProducts.count else { return }
@@ -357,4 +415,4 @@ extension ProductViewController: ProductsCollectionViewCellDelegate{
 //         }
     
     
-     }
+

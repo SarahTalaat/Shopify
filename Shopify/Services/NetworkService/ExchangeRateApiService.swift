@@ -7,7 +7,7 @@
 
 import Foundation
 class ExchangeRateApiService {
-    private let apiKey = "06c00bd4a69805ca624c2e8d"
+    private let apiKey = "48dc0a49dc0ebd838d227d7d"
     private let baseUrl = "https://v6.exchangerate-api.com/v6/"
    
     func getLatestRates(completion: @escaping (Result<ExchangeRatesResponse, Error>) -> Void) {

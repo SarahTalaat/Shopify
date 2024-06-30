@@ -12,10 +12,10 @@ enum NetworkError: Error {
   
 }
 
-class CustomNetworkServiceMock: NetworkServiceAuthenticationProtocol {
+class CustomNetworkServiceMock: NetworkServiceAuthentication {
     var result: Result<Data, Error>?
 
-    func requestFunction<T>(urlString: String, method: HTTPMethod, model: [String: Any], completion: @escaping (Result<T, Error>) -> Void) where T: Decodable {
+    override func requestFunction<T>(urlString: String, method: HTTPMethod, model: [String: Any], completion: @escaping (Result<T, Error>) -> Void) where T: Decodable {
         guard let result = result else {
             completion(.failure(NetworkError.noData))
             return

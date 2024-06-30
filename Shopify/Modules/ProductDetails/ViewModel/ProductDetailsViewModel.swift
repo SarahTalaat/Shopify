@@ -107,6 +107,19 @@ class ProductDetailsViewModel {
        
     }
     
+    func checkIfProductFavourited()-> Bool{
+        let productIdString = retrieveStringFromUserDefaults(forKey: Constants.productId) ?? "No product"
+        let productIdInt = Int(productIdString) ?? 0
+        let email = retrieveStringFromUserDefaults(forKey: Constants.customerEmail) ?? "No email"
+       let encodedEmail = SharedMethods.encodeEmail(email)
+        
+        if favoriteProducts.contains(productIdInt) {
+            return true
+        }else{
+            return false
+        }
+    }
+    
     
     func toggleFavorite() {
         guard let productIdString = retrieveStringFromUserDefaults(forKey: Constants.productId),
@@ -256,9 +269,8 @@ class ProductDetailsViewModel {
                 self.product = productResponse
                 
                 print("ddd inv qnt: \(productResponse.product?.variants?.first?.inventory_quantity)")
-                UserDefaults.standard.removeObject(forKey: Constants.inventoryQuantity)
-                UserDefaults.standard.synchronize()
-                self.addValueToUserDefaults(value: productResponse.product?.variants?.first?.inventory_quantity, forKey: Constants.inventoryQuantity)
+                var productId = UserDefaults.standard.string(forKey: Constants.productId)
+                self.addValueToUserDefaults(value: productResponse.product?.variants?.first?.inventory_quantity, forKey: "inventoryQuantity-\(productId)")
                 self.addValueToUserDefaults(value: productResponse.product?.images?.first?.src, forKey: Constants.productImage)
                 self.addValueToUserDefaults(value: productResponse.product?.title, forKey: Constants.productTitle)
                 self.addValueToUserDefaults(value: productResponse.product?.vendor, forKey: Constants.productVendor)
@@ -312,10 +324,13 @@ class ProductDetailsViewModel {
    
     
     func inventoryQuantityLabel() -> String {
-        var inventoryQuantity = UserDefaults.standard.integer(forKey: Constants.inventoryQuantity)
+        var productId = UserDefaults.standard.string(forKey: Constants.productId)
+
+        var inventoryQuantity = UserDefaults.standard.integer(forKey: "inventoryQuantity-\(productId)")
         print("ddd inventory quantity: \(inventoryQuantity)")
-        if inventoryQuantity == 0 {
-            UserDefaults.standard.removeObject(forKey: Constants.inventoryQuantity)
+        print("PD inv int \(Int(inventoryQuantity))")
+        if Int(inventoryQuantity) == 0 {
+            UserDefaults.standard.removeObject(forKey:"inventoryQuantity-\(productId)")
             UserDefaults.standard.synchronize()
             return "Out of stock"
         }else{

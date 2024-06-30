@@ -25,7 +25,7 @@ class ShoppingCartViewModel {
     }
     var totalAmount: String = ""
     var displayedLineItems: [LineItem] = []
-    var excludedVariantId: Int = 44382096457889
+    var excludedVariantId: Int = 44465748574369
     var onDraftOrderUpdated: (() -> Void)?
     var onTotalAmountUpdated: (() -> Void)?
     var onAlertMessage: ((String) -> Void)?

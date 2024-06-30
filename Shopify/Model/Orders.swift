@@ -30,6 +30,8 @@ struct Orders: Encodable, Decodable {
     let total_outstanding: String?
     let current_total_discounts : String?
 
+    
+    
 }
 
 
@@ -47,6 +49,7 @@ struct Invoice : Encodable,Decodable{
    let `from` : String
    let subject: String
    let custom_message : String
+   let line_items: [LineItem]
 }
 
 

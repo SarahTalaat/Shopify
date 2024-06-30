@@ -15,7 +15,7 @@ class NewAddressViewModel {
     var customerId: String = ""
     var addresses: [Address] = []
     var onError: ((Error) -> Void)?
-    private let networkService = NetworkServiceAuthentication.instance
+    private var networkService = NetworkServiceAuthentication.instance
     
     var egyptGovernorates = [
         "Cairo", "Alexandria", "Giza", "Port Said", "Suez", "Luxor", "Aswan", "Asyut",
@@ -24,8 +24,8 @@ class NewAddressViewModel {
         "Qalyubia", "Qena", "Red Sea", "Sharqia", "Sohag", "South Sinai"
     ]
     
-    init() {
-     
+    init(networkService: NetworkServiceAuthentication = NetworkServiceAuthentication.instance) {
+        self.networkService = networkService
     }
     
     func isAddressValid() -> Bool {
@@ -39,7 +39,7 @@ class NewAddressViewModel {
     
     func postNewAddress(completion: @escaping (Result<Address, Error>) -> Void) {
         let address = Address(id: nil, first_name: fullName, address1: newAddress, city: city, country: state, zip: zipCode, `default`: false)
-          
+        
         let parameters: [String: Any] = [
             "address": [
                 "first_name": address.first_name,
