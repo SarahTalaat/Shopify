@@ -177,7 +177,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kMk-7p-7KY">
                                 <rect key="frame" x="340" y="595" width="50" height="50"/>
-                                <color key="backgroundColor" red="1" green="0.32833661019999999" blue="0.2354005324" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.92483812570000001" green="0.26809054609999999" blue="0.23478817939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="4u1-WN-Qr6"/>
                                     <constraint firstAttribute="height" constant="50" id="mSX-LG-pyb"/>
@@ -197,7 +197,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeA-Sf-b7D">
                                 <rect key="frame" x="340" y="535" width="50" height="50"/>
-                                <color key="backgroundColor" red="1" green="0.32833661019999999" blue="0.2354005324" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.92483812570000001" green="0.26809054609999999" blue="0.23478817939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="7av-bZ-44O"/>
                                     <constraint firstAttribute="width" constant="50" id="Q9D-Sx-myH"/>
@@ -217,14 +217,14 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BQe-Sf-F5M">
                                 <rect key="frame" x="340" y="475" width="50" height="50"/>
-                                <color key="backgroundColor" red="1" green="0.32833661019999999" blue="0.2354005324" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.93576186900000002" green="0.2745873928" blue="0.2604323328" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="WGt-5y-hlb"/>
                                     <constraint firstAttribute="width" constant="50" id="qjH-ay-EzY"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="shoes"/>
+                                <buttonConfiguration key="configuration" style="plain" image="shoesnew"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBound" value="YES"/>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -1319,7 +1319,7 @@
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="person.crop.circle.fill" catalog="system" width="128" height="121"/>
         <image name="plus" catalog="system" width="128" height="113"/>
-        <image name="shoes" width="30" height="30"/>
+        <image name="shoesnew" width="40" height="40"/>
         <image name="square.grid.3x3.fill" catalog="system" width="128" height="112"/>
         <image name="tshirt" catalog="system" width="128" height="99"/>
         <systemColor name="labelColor">
