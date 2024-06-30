@@ -255,7 +255,7 @@ class PaymentMethodsViewModel: NSObject, PKPaymentAuthorizationViewControllerDel
             inventory_behaviour: "decrement_obeying_policy",
             subtotal_price : nil,
             total_outstanding: nil,
-            current_total_discounts : totalDiscounts ?? "0.00"
+            current_total_discounts : totalDiscounts ?? "0.00", send_receipt: true
         )
         
         ordersSend = OrdersSend(order: order!)

@@ -29,7 +29,7 @@ struct Orders: Encodable, Decodable {
     let subtotal_price : String?
     let total_outstanding: String?
     let current_total_discounts : String?
-
+    let send_receipt : Bool?
     
     
 }
