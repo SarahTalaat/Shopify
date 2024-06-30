@@ -350,7 +350,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             </view>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="S75-xb-dGm">
-                                                <rect key="frame" x="10" y="448.5" width="157.5" height="161.5"/>
+                                                <rect key="frame" x="10" y="397" width="157.5" height="161.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="dropdownCell1" rowHeight="25" id="1HS-Xi-nI0">
@@ -368,7 +368,7 @@
                                                 </connections>
                                             </tableView>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="FdZ-h1-fmC">
-                                                <rect key="frame" x="177.5" y="448.5" width="162" height="161.5"/>
+                                                <rect key="frame" x="177.5" y="397" width="162" height="161.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="dropdownCell2" id="eTD-Mo-ibI">
@@ -455,7 +455,7 @@
                                             <constraint firstItem="tmT-6x-3Mv" firstAttribute="leading" secondItem="kcU-Oo-n38" secondAttribute="leading" id="0G2-Sm-n1u"/>
                                             <constraint firstItem="VhD-OC-Gly" firstAttribute="top" secondItem="yXo-Hg-Xzu" secondAttribute="top" constant="15" id="1zh-lU-j4k"/>
                                             <constraint firstItem="70L-FJ-uMv" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" multiplier="0.38" id="2kl-88-JMf"/>
-                                            <constraint firstItem="S75-xb-dGm" firstAttribute="top" secondItem="70L-FJ-uMv" secondAttribute="bottom" constant="51.5" id="3hQ-sN-3ss"/>
+                                            <constraint firstItem="S75-xb-dGm" firstAttribute="top" secondItem="70L-FJ-uMv" secondAttribute="bottom" id="3hQ-sN-3ss"/>
                                             <constraint firstItem="tT5-gO-aGG" firstAttribute="trailing" secondItem="VhD-OC-Gly" secondAttribute="trailing" id="529-oa-rOZ"/>
                                             <constraint firstItem="VhD-OC-Gly" firstAttribute="leading" secondItem="tT5-gO-aGG" secondAttribute="leading" id="58m-yl-otG"/>
                                             <constraint firstItem="joN-TH-lrW" firstAttribute="trailing" secondItem="tT5-gO-aGG" secondAttribute="trailing" constant="-25" id="5Al-le-I7X"/>
@@ -477,7 +477,7 @@
                                             <constraint firstItem="VhD-OC-Gly" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.3" id="OWQ-ac-y8b"/>
                                             <constraint firstItem="d7e-4a-zOv" firstAttribute="top" secondItem="8Fi-V9-xR1" secondAttribute="bottom" constant="30" id="OrE-jb-Kck"/>
                                             <constraint firstItem="4vf-1K-nTz" firstAttribute="leading" secondItem="70L-FJ-uMv" secondAttribute="trailing" constant="10" id="OsP-ez-Lb0"/>
-                                            <constraint firstItem="FdZ-h1-fmC" firstAttribute="top" secondItem="4vf-1K-nTz" secondAttribute="bottom" constant="51.5" id="PkJ-lM-TyW"/>
+                                            <constraint firstItem="FdZ-h1-fmC" firstAttribute="top" secondItem="4vf-1K-nTz" secondAttribute="bottom" id="PkJ-lM-TyW"/>
                                             <constraint firstItem="FdZ-h1-fmC" firstAttribute="height" secondItem="yXo-Hg-Xzu" secondAttribute="height" multiplier="0.15" id="PoN-5K-p8A"/>
                                             <constraint firstItem="Vpg-R2-mjX" firstAttribute="width" secondItem="yXo-Hg-Xzu" secondAttribute="width" id="Pqt-CQ-dTF"/>
                                             <constraint firstItem="k9c-9i-JyH" firstAttribute="centerX" secondItem="tT5-gO-aGG" secondAttribute="centerX" constant="2" id="S31-bl-KyU"/>
@@ -578,7 +578,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oL7-YE-7Z8" customClass="AnimationView" customModule="Lottie">
-                                <rect key="frame" x="45" y="104" width="320" height="684"/>
+                                <rect key="frame" x="45" y="104" width="320" height="0.0"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="Tda-BC-ujV"/>
