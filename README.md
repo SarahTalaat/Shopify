@@ -1,14 +1,14 @@
 # Shopify
 
 
-**Shopify** It is an m-Commerce Application that presents products from different vendors and enables the authenticated users to add/remove products to/from their shopping carts and complete the whole shopping cycle online through the app
+**Shopify** It is an E-Commerce Application that presents products from different vendors and enables the authenticated users to add/remove products to/from their shopping carts and complete the whole shopping cycle online through the app
  
 
 ## Technologies
 
 * MVVM 
 * SOLID Principles
-* Unit Tests
+* Unit Testing
 * Alamofire
 * kingfisher
 * reachability
